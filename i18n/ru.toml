@@ -1,0 +1,173 @@
+# vishine i18n — Русский
+[home]
+other = "Главная"
+[categories]
+other = "Категории"
+[tags]
+other = "Теги"
+[navigation]
+other = "Навигация"
+[search]
+other = "Поиск"
+[filter]
+other = "Фильтр"
+[view_all]
+other = "Все"
+[unit_articles]
+other = "записей"
+[unit_words]
+other = "слов"
+[reading_time]
+one = "{{ .Count }} мин"
+few = "{{ .Count }} мин"
+many = "{{ .Count }} мин"
+other = "{{ .Count }} мин"
+[read_time_label]
+one = "{{ .Count }} мин чтения"
+few = "{{ .Count }} мин чтения"
+many = "{{ .Count }} мин чтения"
+other = "{{ .Count }} мин чтения"
+[count_posts]
+one = "{{ .Count }} запись"
+few = "{{ .Count }} записи"
+many = "{{ .Count }} записей"
+other = "{{ .Count }} записи"
+[count_zones]
+one = "{{ .Count }} раздел"
+few = "{{ .Count }} раздела"
+many = "{{ .Count }} разделов"
+other = "{{ .Count }} раздела"
+[cover_alt]
+other = "обложка"
+[filter_clear]
+other = "Сбросить фильтры"
+[no_match_articles]
+other = "Нет подходящих записей. Попробуйте убрать часть фильтров."
+[load_more]
+other = "Загрузить ещё"
+[coming_soon]
+other = "Скоро"
+[site_stats]
+other = "Статистика сайта"
+[stat_blog_posts]
+other = "Записи блога"
+[stat_playbooks]
+other = "Руководства"
+[stat_categories]
+other = "Категории"
+[home_sections_title]
+other = "Разделы"
+[home_sections_desc]
+other = "Пять структурированных разделов · с цветовой маркировкой · в один клик"
+[view_all_content]
+other = "Смотреть весь контент"
+[section_enter]
+other = "Перейти в "
+[recent_updates]
+other = "Последние обновления"
+[top_categories]
+other = "Популярные категории"
+[top_tags]
+other = "Популярные теги"
+[breadcrumb]
+other = "Хлебные крошки"
+[share_this]
+other = "Поделиться"
+[copy_link]
+other = "Копировать ссылку"
+[continue_reading]
+other = "Читать далее"
+[related_articles]
+other = "Похожие записи"
+[prev_post]
+other = "Назад"
+[next_post]
+other = "Вперёд"
+[toc]
+other = "Содержание"
+[toc_title]
+other = "На этой странице"
+[toc_open]
+other = "Открыть содержание"
+[toc_close]
+other = "Закрыть содержание"
+[toc_article]
+other = "Содержание статьи"
+[toggle_read_width]
+other = "Переключить ширину чтения"
+[lightbox_close]
+other = "Закрыть"
+[lightbox_label]
+other = "Увеличенное изображение"
+[zoom_view]
+other = "Увеличить"
+[click_zoom]
+other = "Нажмите для увеличения"
+[main_nav]
+other = "Основная навигация"
+[open_menu]
+other = "Открыть меню"
+[search_aria]
+other = "Поиск, открыть палитру команд"
+[color_scheme]
+other = "Цветовая схема"
+[scheme_paper]
+other = "Бумага"
+[scheme_clean]
+other = "Светлая"
+[scheme_dark]
+other = "Тёмная"
+[footer_index_of]
+other = " — технический индекс. "
+[subscribe_rss]
+other = "Подписаться на RSS"
+[copy_rss_title]
+other = "Копировать URL RSS"
+[copy_address]
+other = "Копировать URL"
+[cmdk_panel]
+other = "Палитра команд"
+[cmdk_placeholder]
+other = "Поиск записей, руководств, категорий, тегов…"
+[search_results]
+other = "Результаты поиска"
+[cmdk_select]
+other = "Выбрать"
+[cmdk_open]
+other = "Открыть"
+[cmdk_close]
+other = "Закрыть"
+[nav_menu]
+other = "Меню навигации"
+[close_menu]
+other = "Закрыть меню"
+[back_to_top]
+other = "Наверх"
+[copy_code]
+other = "Копировать код"
+[copy]
+other = "Копировать"
+[copy_section_link]
+other = "Копировать ссылку на раздел"
+[taxonomy_overview]
+other = "<span>{{ .Terms }}</span> {{ .Singular }} · всего {{ .Total }} записей"
+[term_kicker_category]
+other = "Категория"
+[term_kicker_tag]
+other = "Тег"
+[term_post_count]
+one = "<b>{{ .Count }}</b> {{ if .IsCat }}связанная {{ end }}запись"
+few = "<b>{{ .Count }}</b> {{ if .IsCat }}связанные {{ end }}записи"
+many = "<b>{{ .Count }}</b> {{ if .IsCat }}связанных {{ end }}записей"
+other = "<b>{{ .Count }}</b> {{ if .IsCat }}связанных {{ end }}записи"
+[pagination]
+other = "Постраничная навигация"
+[prev_page]
+other = "Предыдущая страница"
+[next_page]
+other = "Следующая страница"
+[language]
+other = "Язык"
+
+[sponsor]
+other = "Спонсировать"

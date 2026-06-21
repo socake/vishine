@@ -1,0 +1,248 @@
+# vishine i18n — Bahasa Indonesia
+# Interface labels / interaction text only; not example content or site params.
+
+# ---- Common nouns ----
+[home]
+other = "Beranda"
+
+[categories]
+other = "Kategori"
+
+[tags]
+other = "Tag"
+
+[navigation]
+other = "Navigasi"
+
+[search]
+other = "Cari"
+
+[filter]
+other = "Filter"
+
+[view_all]
+other = "Semua"
+
+# ---- Units / counts ----
+[unit_articles]
+other = "tulisan"
+
+[unit_words]
+other = "kata"
+
+[reading_time]
+other = "{{ .Count }} mnt"
+
+[read_time_label]
+other = "Baca {{ .Count }} mnt"
+
+[count_posts]
+other = "{{ .Count }} tulisan"
+
+[count_zones]
+other = "{{ .Count }} zona"
+
+[cover_alt]
+other = "sampul"
+
+# ---- List / filtering ----
+[filter_clear]
+other = "Hapus filter"
+
+[no_match_articles]
+other = "Tidak ada tulisan yang cocok. Coba kurangi filter."
+
+[load_more]
+other = "Muat lebih banyak"
+
+[coming_soon]
+other = "Segera hadir"
+
+# ---- Home ----
+[site_stats]
+other = "Statistik situs"
+
+[stat_blog_posts]
+other = "Tulisan blog"
+
+[stat_playbooks]
+other = "Panduan"
+
+[stat_categories]
+other = "Kategori"
+
+[home_sections_title]
+other = "Bagian"
+
+[home_sections_desc]
+other = "Lima bagian terstruktur · berkode warna · satu klik"
+
+[view_all_content]
+other = "Lihat semua konten"
+
+[section_enter]
+other = "Masuk "
+
+[recent_updates]
+other = "Pembaruan terbaru"
+
+[top_categories]
+other = "Kategori teratas"
+
+[top_tags]
+other = "Tag teratas"
+
+# ---- Article page ----
+[breadcrumb]
+other = "Tautan navigasi"
+
+[share_this]
+other = "Bagikan"
+
+[copy_link]
+other = "Salin tautan"
+
+[continue_reading]
+other = "Lanjut membaca"
+
+[related_articles]
+other = "Tulisan terkait"
+
+[prev_post]
+other = "Sebelumnya"
+
+[next_post]
+other = "Berikutnya"
+
+# ---- Table of contents ----
+[toc]
+other = "Daftar isi"
+
+[toc_title]
+other = "Di halaman ini"
+
+[toc_open]
+other = "Buka daftar isi"
+
+[toc_close]
+other = "Tutup daftar isi"
+
+[toc_article]
+other = "Daftar isi artikel"
+
+[toggle_read_width]
+other = "Ubah lebar baca"
+
+# ---- Image lightbox ----
+[lightbox_close]
+other = "Tutup"
+
+[lightbox_label]
+other = "Gambar diperbesar"
+
+[zoom_view]
+other = "Perbesar"
+
+[click_zoom]
+other = "Klik untuk memperbesar"
+
+# ---- Header ----
+[main_nav]
+other = "Navigasi utama"
+
+[open_menu]
+other = "Buka menu"
+
+[search_aria]
+other = "Cari, buka palet perintah"
+
+[color_scheme]
+other = "Skema warna"
+
+[scheme_paper]
+other = "Kertas"
+
+[scheme_clean]
+other = "Terang"
+
+[scheme_dark]
+other = "Gelap"
+
+# ---- Footer ----
+[footer_index_of]
+other = " — indeks teknis. "
+
+[subscribe_rss]
+other = "Langganan RSS"
+
+[copy_rss_title]
+other = "Salin URL RSS"
+
+[copy_address]
+other = "Salin URL"
+
+# ---- Command palette / drawer / global ----
+[cmdk_panel]
+other = "Palet perintah"
+
+[cmdk_placeholder]
+other = "Cari tulisan, panduan, kategori, tag…"
+
+[search_results]
+other = "Hasil pencarian"
+
+[cmdk_select]
+other = "Pilih"
+
+[cmdk_open]
+other = "Buka"
+
+[cmdk_close]
+other = "Tutup"
+
+[nav_menu]
+other = "Menu navigasi"
+
+[close_menu]
+other = "Tutup menu"
+
+[back_to_top]
+other = "Kembali ke atas"
+
+# ---- Code block / heading anchor ----
+[copy_code]
+other = "Salin kode"
+
+[copy]
+other = "Salin"
+
+[copy_section_link]
+other = "Salin tautan bagian"
+
+# ---- Taxonomy overview & term pages ----
+[taxonomy_overview]
+other = "<span>{{ .Terms }}</span> {{ .Singular }} · total {{ .Total }} tulisan"
+
+[term_kicker_category]
+other = "Kategori"
+
+[term_kicker_tag]
+other = "Tag"
+
+[term_post_count]
+other = "<b>{{ .Count }}</b> tulisan {{ if .IsCat }}terkait{{ end }}"
+
+[pagination]
+other = "Penomoran halaman"
+
+[prev_page]
+other = "Halaman sebelumnya"
+
+[next_page]
+other = "Halaman berikutnya"
+
+[language]
+other = "Bahasa"
+
+[sponsor]
+other = "Dukung"

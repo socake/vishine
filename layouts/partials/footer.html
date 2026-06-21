@@ -40,6 +40,7 @@
     </div>
     <div class="foot-bottom">
       <span>© {{ site.Params.since }}–{{ now.Year }} {{ site.Params.author }}{{ with site.Params.authorEn }} · {{ . }}{{ end }}</span>
+      {{ with site.GetPage "/sponsor" }}<a class="foot-sponsor" href="{{ .RelPermalink }}">☕ {{ i18n "sponsor" }}</a>{{ end }}
       <span class="made">{{ site.Params.tagline }}</span>
     </div>
   </div>

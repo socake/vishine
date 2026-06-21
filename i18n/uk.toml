@@ -1,0 +1,253 @@
+# vishine i18n — Українська
+# Interface labels / interaction text only; not example content or site params.
+
+# ---- Common nouns ----
+[home]
+other = "Головна"
+
+[categories]
+other = "Категорії"
+
+[tags]
+other = "Теги"
+
+[navigation]
+other = "Навігація"
+
+[search]
+other = "Пошук"
+
+[filter]
+other = "Фільтр"
+
+[view_all]
+other = "Усі"
+
+# ---- Units / counts ----
+[unit_articles]
+other = "дописів"
+
+[unit_words]
+other = "слів"
+
+[reading_time]
+one = "{{ .Count }} хв"
+other = "{{ .Count }} хв"
+
+[read_time_label]
+one = "{{ .Count }} хв читання"
+other = "{{ .Count }} хв читання"
+
+[count_posts]
+one = "{{ .Count }} допис"
+other = "{{ .Count }} дописів"
+
+[count_zones]
+one = "{{ .Count }} зона"
+other = "{{ .Count }} зон"
+
+[cover_alt]
+other = "обкладинка"
+
+# ---- List / filtering ----
+[filter_clear]
+other = "Очистити фільтри"
+
+[no_match_articles]
+other = "Немає відповідних дописів. Спробуйте прибрати фільтри."
+
+[load_more]
+other = "Завантажити ще"
+
+[coming_soon]
+other = "Незабаром"
+
+# ---- Home ----
+[site_stats]
+other = "Статистика сайту"
+
+[stat_blog_posts]
+other = "Дописи блогу"
+
+[stat_playbooks]
+other = "Посібники"
+
+[stat_categories]
+other = "Категорії"
+
+[home_sections_title]
+other = "Розділи"
+
+[home_sections_desc]
+other = "П'ять структурованих розділів · кольорове кодування · один клік"
+
+[view_all_content]
+other = "Переглянути весь вміст"
+
+[section_enter]
+other = "Увійти "
+
+[recent_updates]
+other = "Останні оновлення"
+
+[top_categories]
+other = "Популярні категорії"
+
+[top_tags]
+other = "Популярні теги"
+
+# ---- Article page ----
+[breadcrumb]
+other = "Навігаційний шлях"
+
+[share_this]
+other = "Поділитися"
+
+[copy_link]
+other = "Копіювати посилання"
+
+[continue_reading]
+other = "Читати далі"
+
+[related_articles]
+other = "Схожі дописи"
+
+[prev_post]
+other = "Попередній"
+
+[next_post]
+other = "Наступний"
+
+# ---- Table of contents ----
+[toc]
+other = "Зміст"
+
+[toc_title]
+other = "На цій сторінці"
+
+[toc_open]
+other = "Відкрити зміст"
+
+[toc_close]
+other = "Закрити зміст"
+
+[toc_article]
+other = "Зміст статті"
+
+[toggle_read_width]
+other = "Змінити ширину читання"
+
+# ---- Image lightbox ----
+[lightbox_close]
+other = "Закрити"
+
+[lightbox_label]
+other = "Збільшене зображення"
+
+[zoom_view]
+other = "Збільшити"
+
+[click_zoom]
+other = "Натисніть, щоб збільшити"
+
+# ---- Header ----
+[main_nav]
+other = "Головна навігація"
+
+[open_menu]
+other = "Відкрити меню"
+
+[search_aria]
+other = "Пошук, відкрити палітру команд"
+
+[color_scheme]
+other = "Колірна схема"
+
+[scheme_paper]
+other = "Папір"
+
+[scheme_clean]
+other = "Світла"
+
+[scheme_dark]
+other = "Темна"
+
+# ---- Footer ----
+[footer_index_of]
+other = " — технічний індекс. "
+
+[subscribe_rss]
+other = "Підписатися на RSS"
+
+[copy_rss_title]
+other = "Копіювати URL RSS"
+
+[copy_address]
+other = "Копіювати URL"
+
+# ---- Command palette / drawer / global ----
+[cmdk_panel]
+other = "Палітра команд"
+
+[cmdk_placeholder]
+other = "Пошук дописів, посібників, категорій, тегів…"
+
+[search_results]
+other = "Результати пошуку"
+
+[cmdk_select]
+other = "Вибрати"
+
+[cmdk_open]
+other = "Відкрити"
+
+[cmdk_close]
+other = "Закрити"
+
+[nav_menu]
+other = "Меню навігації"
+
+[close_menu]
+other = "Закрити меню"
+
+[back_to_top]
+other = "Нагору"
+
+# ---- Code block / heading anchor ----
+[copy_code]
+other = "Копіювати код"
+
+[copy]
+other = "Копіювати"
+
+[copy_section_link]
+other = "Копіювати посилання на розділ"
+
+# ---- Taxonomy overview & term pages ----
+[taxonomy_overview]
+other = "<span>{{ .Terms }}</span> {{ .Singular }} · усього {{ .Total }} дописів"
+
+[term_kicker_category]
+other = "Категорія"
+
+[term_kicker_tag]
+other = "Тег"
+
+[term_post_count]
+one = "<b>{{ .Count }}</b> {{ if .IsCat }}пов'язаний {{ end }}допис"
+other = "<b>{{ .Count }}</b> {{ if .IsCat }}пов'язаних {{ end }}дописів"
+
+[pagination]
+other = "Нумерація сторінок"
+
+[prev_page]
+other = "Попередня сторінка"
+
+[next_page]
+other = "Наступна сторінка"
+
+[language]
+other = "Мова"
+
+[sponsor]
+other = "Підтримати"

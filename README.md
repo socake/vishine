@@ -28,8 +28,12 @@
 | 首页（bento 门户） | 文章页 + 目录树 | 左图右文列表 |
 | :---: | :---: | :---: |
 | ![首页](docs/images/screenshot-home.png) | ![文章](docs/images/screenshot-article.png) | ![列表](docs/images/screenshot-list.png) |
-| **⌘K 命令面板** | **暗色配色** | **移动端抽屉** |
-| ![命令面板](docs/images/screenshot-cmdk.png) | ![暗色](docs/images/screenshot-dark.png) | ![抽屉](docs/images/screenshot-mobile.png) |
+| **⌘K 命令面板** | **暗色配色** | **暖纸配色** |
+| ![命令面板](docs/images/screenshot-cmdk.png) | ![暗色](docs/images/screenshot-dark.png) | ![暖纸](docs/images/screenshot-paper.png) |
+| **Shortcodes 展示** | **自动封面（4 版式）** | **独立赞助页** |
+| ![shortcodes](docs/images/screenshot-shortcodes.png) | ![封面](docs/images/screenshot-covers.png) | ![赞助](docs/images/screenshot-sponsor.png) |
+| **教程文档站** | **移动端抽屉** | |
+| ![教程站](docs/images/screenshot-tutorial.png) | ![抽屉](docs/images/screenshot-mobile.png) | |
 
 ---
 
@@ -54,7 +58,7 @@
 - Mermaid 自托管：用 ` ```mermaid ` 围栏自动渲染，随配色翻色，**不依赖 CDN**，内网 / 离线可用。
 - Blowfish 兼容 shortcodes：`badge` / `lead` / `callout` / `typeit` / `timeline` / `sponsor`。
 - 代码块一键复制、图片自动 `figure` + 点击放大、超宽位图自动缩放。
-- 多语言 i18n：界面文案中英完整，可扩展更多语言。
+- 多语言 i18n：界面文案内置 **26 种语言**（中 / 英 / 日 / 韩 / 法 / 德 / 西 / 葡 / 俄 / 阿 / 繁中…），顶栏一键切换，可继续扩展。
 
 ---
 

@@ -466,3 +466,8 @@ summaryLength = 30
   desc   = "如果这个主题帮到了你，欢迎赞助支持～"
   wechat = "/img/sponsor/wechat.png"
   alipay = "/img/sponsor/alipay.jpg"
+
+  [[menu.main]]
+    name = "赞助"
+    pageRef = "/sponsor"
+    weight = 85

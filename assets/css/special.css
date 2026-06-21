@@ -193,4 +193,9 @@
 .sp-code{margin:0;text-align:center;background:var(--card);padding:10px;border-radius:10px;border:1px solid var(--line)}
 .sp-code img{display:block;width:200px;height:auto;border-radius:6px}
 .sp-code figcaption{margin-top:6px;font-size:12.5px;font-weight:600;color:var(--ink-2);font-family:var(--font-mono)}
+.sp-code{transition:transform .16s,border-color .16s}
+.sp-code:hover{border-color:var(--accent);transform:translateY(-2px)}
 @media(max-width:560px){.sp-code img{width:150px}}
+/* footer 赞助入口（药丸链接） */
+.foot-sponsor{display:inline-flex;align-items:center;gap:4px;font-size:13px;font-weight:600;color:var(--accent);text-decoration:none;padding:3px 13px;border:1px solid color-mix(in srgb,var(--accent) 30%,transparent);border-radius:20px;transition:.16s;white-space:nowrap}
+.foot-sponsor:hover{background:var(--accent-soft);border-color:var(--accent);transform:translateY(-1px)}

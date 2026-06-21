@@ -1,0 +1,173 @@
+# vishine i18n — Polski
+[home]
+other = "Strona główna"
+[categories]
+other = "Kategorie"
+[tags]
+other = "Tagi"
+[navigation]
+other = "Nawigacja"
+[search]
+other = "Szukaj"
+[filter]
+other = "Filtr"
+[view_all]
+other = "Wszystkie"
+[unit_articles]
+other = "wpisów"
+[unit_words]
+other = "słów"
+[reading_time]
+one = "{{ .Count }} min"
+few = "{{ .Count }} min"
+many = "{{ .Count }} min"
+other = "{{ .Count }} min"
+[read_time_label]
+one = "{{ .Count }} min czytania"
+few = "{{ .Count }} min czytania"
+many = "{{ .Count }} min czytania"
+other = "{{ .Count }} min czytania"
+[count_posts]
+one = "{{ .Count }} wpis"
+few = "{{ .Count }} wpisy"
+many = "{{ .Count }} wpisów"
+other = "{{ .Count }} wpisu"
+[count_zones]
+one = "{{ .Count }} strefa"
+few = "{{ .Count }} strefy"
+many = "{{ .Count }} stref"
+other = "{{ .Count }} strefy"
+[cover_alt]
+other = "okładka"
+[filter_clear]
+other = "Wyczyść filtry"
+[no_match_articles]
+other = "Brak pasujących wpisów. Spróbuj usunąć część filtrów."
+[load_more]
+other = "Załaduj więcej"
+[coming_soon]
+other = "Wkrótce"
+[site_stats]
+other = "Statystyki witryny"
+[stat_blog_posts]
+other = "Wpisy na blogu"
+[stat_playbooks]
+other = "Poradniki"
+[stat_categories]
+other = "Kategorie"
+[home_sections_title]
+other = "Sekcje"
+[home_sections_desc]
+other = "Pięć uporządkowanych sekcji · oznaczonych kolorami · w jednym kliknięciu"
+[view_all_content]
+other = "Zobacz całą treść"
+[section_enter]
+other = "Przejdź do "
+[recent_updates]
+other = "Ostatnie aktualizacje"
+[top_categories]
+other = "Najczęstsze kategorie"
+[top_tags]
+other = "Najczęstsze tagi"
+[breadcrumb]
+other = "Ścieżka nawigacji"
+[share_this]
+other = "Udostępnij"
+[copy_link]
+other = "Kopiuj link"
+[continue_reading]
+other = "Czytaj dalej"
+[related_articles]
+other = "Powiązane wpisy"
+[prev_post]
+other = "Poprzedni"
+[next_post]
+other = "Następny"
+[toc]
+other = "Spis treści"
+[toc_title]
+other = "Na tej stronie"
+[toc_open]
+other = "Otwórz spis treści"
+[toc_close]
+other = "Zamknij spis treści"
+[toc_article]
+other = "Spis treści artykułu"
+[toggle_read_width]
+other = "Przełącz szerokość czytania"
+[lightbox_close]
+other = "Zamknij"
+[lightbox_label]
+other = "Powiększony obraz"
+[zoom_view]
+other = "Powiększ"
+[click_zoom]
+other = "Kliknij, aby powiększyć"
+[main_nav]
+other = "Nawigacja główna"
+[open_menu]
+other = "Otwórz menu"
+[search_aria]
+other = "Szukaj, otwórz paletę poleceń"
+[color_scheme]
+other = "Schemat kolorów"
+[scheme_paper]
+other = "Papier"
+[scheme_clean]
+other = "Jasny"
+[scheme_dark]
+other = "Ciemny"
+[footer_index_of]
+other = " — indeks techniczny. "
+[subscribe_rss]
+other = "Subskrybuj RSS"
+[copy_rss_title]
+other = "Kopiuj adres RSS"
+[copy_address]
+other = "Kopiuj adres URL"
+[cmdk_panel]
+other = "Paleta poleceń"
+[cmdk_placeholder]
+other = "Szukaj wpisów, poradników, kategorii, tagów…"
+[search_results]
+other = "Wyniki wyszukiwania"
+[cmdk_select]
+other = "Wybierz"
+[cmdk_open]
+other = "Otwórz"
+[cmdk_close]
+other = "Zamknij"
+[nav_menu]
+other = "Menu nawigacji"
+[close_menu]
+other = "Zamknij menu"
+[back_to_top]
+other = "Do góry"
+[copy_code]
+other = "Kopiuj kod"
+[copy]
+other = "Kopiuj"
+[copy_section_link]
+other = "Kopiuj link do sekcji"
+[taxonomy_overview]
+other = "<span>{{ .Terms }}</span> {{ .Singular }} · łącznie {{ .Total }} wpisów"
+[term_kicker_category]
+other = "Kategoria"
+[term_kicker_tag]
+other = "Tag"
+[term_post_count]
+one = "<b>{{ .Count }}</b> {{ if .IsCat }}powiązany {{ end }}wpis"
+few = "<b>{{ .Count }}</b> {{ if .IsCat }}powiązane {{ end }}wpisy"
+many = "<b>{{ .Count }}</b> {{ if .IsCat }}powiązanych {{ end }}wpisów"
+other = "<b>{{ .Count }}</b> {{ if .IsCat }}powiązanego {{ end }}wpisu"
+[pagination]
+other = "Paginacja"
+[prev_page]
+other = "Poprzednia strona"
+[next_page]
+other = "Następna strona"
+[language]
+other = "Język"
+
+[sponsor]
+other = "Wesprzyj"

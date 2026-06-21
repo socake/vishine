@@ -1,0 +1,253 @@
+# vishine i18n — हिन्दी
+# Interface labels / interaction text only; not example content or site params.
+
+# ---- Common nouns ----
+[home]
+other = "होम"
+
+[categories]
+other = "श्रेणियाँ"
+
+[tags]
+other = "टैग"
+
+[navigation]
+other = "नेविगेशन"
+
+[search]
+other = "खोजें"
+
+[filter]
+other = "फ़िल्टर"
+
+[view_all]
+other = "सभी"
+
+# ---- Units / counts ----
+[unit_articles]
+other = "पोस्ट"
+
+[unit_words]
+other = "शब्द"
+
+[reading_time]
+one = "{{ .Count }} मिनट"
+other = "{{ .Count }} मिनट"
+
+[read_time_label]
+one = "{{ .Count }} मिनट पढ़ें"
+other = "{{ .Count }} मिनट पढ़ें"
+
+[count_posts]
+one = "{{ .Count }} पोस्ट"
+other = "{{ .Count }} पोस्ट"
+
+[count_zones]
+one = "{{ .Count }} ज़ोन"
+other = "{{ .Count }} ज़ोन"
+
+[cover_alt]
+other = "कवर"
+
+# ---- List / filtering ----
+[filter_clear]
+other = "फ़िल्टर हटाएँ"
+
+[no_match_articles]
+other = "कोई मिलती-जुलती पोस्ट नहीं। कुछ फ़िल्टर हटाकर देखें।"
+
+[load_more]
+other = "और लोड करें"
+
+[coming_soon]
+other = "जल्द आ रहा है"
+
+# ---- Home ----
+[site_stats]
+other = "साइट आँकड़े"
+
+[stat_blog_posts]
+other = "ब्लॉग पोस्ट"
+
+[stat_playbooks]
+other = "प्लेबुक"
+
+[stat_categories]
+other = "श्रेणियाँ"
+
+[home_sections_title]
+other = "अनुभाग"
+
+[home_sections_desc]
+other = "पाँच संरचित अनुभाग · रंग-कोडित · एक क्लिक दूर"
+
+[view_all_content]
+other = "सारी सामग्री देखें"
+
+[section_enter]
+other = "प्रवेश करें "
+
+[recent_updates]
+other = "हाल के अपडेट"
+
+[top_categories]
+other = "शीर्ष श्रेणियाँ"
+
+[top_tags]
+other = "शीर्ष टैग"
+
+# ---- Article page ----
+[breadcrumb]
+other = "ब्रेडक्रंब"
+
+[share_this]
+other = "साझा करें"
+
+[copy_link]
+other = "लिंक कॉपी करें"
+
+[continue_reading]
+other = "पढ़ना जारी रखें"
+
+[related_articles]
+other = "संबंधित पोस्ट"
+
+[prev_post]
+other = "पिछला"
+
+[next_post]
+other = "अगला"
+
+# ---- Table of contents ----
+[toc]
+other = "विषय-सूची"
+
+[toc_title]
+other = "इस पृष्ठ पर"
+
+[toc_open]
+other = "विषय-सूची खोलें"
+
+[toc_close]
+other = "विषय-सूची बंद करें"
+
+[toc_article]
+other = "लेख की विषय-सूची"
+
+[toggle_read_width]
+other = "पढ़ने की चौड़ाई बदलें"
+
+# ---- Image lightbox ----
+[lightbox_close]
+other = "बंद करें"
+
+[lightbox_label]
+other = "बड़ी की गई छवि"
+
+[zoom_view]
+other = "ज़ूम करें"
+
+[click_zoom]
+other = "ज़ूम के लिए क्लिक करें"
+
+# ---- Header ----
+[main_nav]
+other = "मुख्य नेविगेशन"
+
+[open_menu]
+other = "मेन्यू खोलें"
+
+[search_aria]
+other = "खोजें, कमांड पैलेट खोलें"
+
+[color_scheme]
+other = "रंग योजना"
+
+[scheme_paper]
+other = "पेपर"
+
+[scheme_clean]
+other = "उजला"
+
+[scheme_dark]
+other = "गहरा"
+
+# ---- Footer ----
+[footer_index_of]
+other = " — तकनीकी सूची। "
+
+[subscribe_rss]
+other = "RSS सब्सक्राइब करें"
+
+[copy_rss_title]
+other = "RSS URL कॉपी करें"
+
+[copy_address]
+other = "URL कॉपी करें"
+
+# ---- Command palette / drawer / global ----
+[cmdk_panel]
+other = "कमांड पैलेट"
+
+[cmdk_placeholder]
+other = "पोस्ट, प्लेबुक, श्रेणियाँ, टैग खोजें…"
+
+[search_results]
+other = "खोज परिणाम"
+
+[cmdk_select]
+other = "चुनें"
+
+[cmdk_open]
+other = "खोलें"
+
+[cmdk_close]
+other = "बंद करें"
+
+[nav_menu]
+other = "नेविगेशन मेन्यू"
+
+[close_menu]
+other = "मेन्यू बंद करें"
+
+[back_to_top]
+other = "ऊपर जाएँ"
+
+# ---- Code block / heading anchor ----
+[copy_code]
+other = "कोड कॉपी करें"
+
+[copy]
+other = "कॉपी करें"
+
+[copy_section_link]
+other = "अनुभाग का लिंक कॉपी करें"
+
+# ---- Taxonomy overview & term pages ----
+[taxonomy_overview]
+other = "<span>{{ .Terms }}</span> {{ .Singular }} · कुल {{ .Total }} पोस्ट"
+
+[term_kicker_category]
+other = "श्रेणी"
+
+[term_kicker_tag]
+other = "टैग"
+
+[term_post_count]
+one = "<b>{{ .Count }}</b> {{ if .IsCat }}संबंधित {{ end }}पोस्ट"
+other = "<b>{{ .Count }}</b> {{ if .IsCat }}संबंधित {{ end }}पोस्ट"
+
+[pagination]
+other = "पृष्ठ क्रमांकन"
+
+[prev_page]
+other = "पिछला पृष्ठ"
+
+[next_page]
+other = "अगला पृष्ठ"
+
+[language]
+other = "भाषा"
+
+[sponsor]
+other = "प्रायोजक"

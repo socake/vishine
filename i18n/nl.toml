@@ -1,0 +1,163 @@
+# vishine i18n — Nederlands
+[home]
+other = "Home"
+[categories]
+other = "Categorieën"
+[tags]
+other = "Tags"
+[navigation]
+other = "Navigatie"
+[search]
+other = "Zoeken"
+[filter]
+other = "Filteren"
+[view_all]
+other = "Alle"
+[unit_articles]
+other = "berichten"
+[unit_words]
+other = "woorden"
+[reading_time]
+one = "{{ .Count }} min"
+other = "{{ .Count }} min"
+[read_time_label]
+one = "{{ .Count }} min lezen"
+other = "{{ .Count }} min lezen"
+[count_posts]
+one = "{{ .Count }} bericht"
+other = "{{ .Count }} berichten"
+[count_zones]
+one = "{{ .Count }} zone"
+other = "{{ .Count }} zones"
+[cover_alt]
+other = "omslag"
+[filter_clear]
+other = "Filters wissen"
+[no_match_articles]
+other = "Geen overeenkomende berichten. Probeer enkele filters te verwijderen."
+[load_more]
+other = "Meer laden"
+[coming_soon]
+other = "Binnenkort"
+[site_stats]
+other = "Sitestatistieken"
+[stat_blog_posts]
+other = "Blogberichten"
+[stat_playbooks]
+other = "Handleidingen"
+[stat_categories]
+other = "Categorieën"
+[home_sections_title]
+other = "Secties"
+[home_sections_desc]
+other = "Vijf gestructureerde secties · met kleurcodes · één klik verwijderd"
+[view_all_content]
+other = "Alle inhoud bekijken"
+[section_enter]
+other = "Ga naar "
+[recent_updates]
+other = "Recente updates"
+[top_categories]
+other = "Topcategorieën"
+[top_tags]
+other = "Toptags"
+[breadcrumb]
+other = "Broodkruimelpad"
+[share_this]
+other = "Delen"
+[copy_link]
+other = "Link kopiëren"
+[continue_reading]
+other = "Verder lezen"
+[related_articles]
+other = "Gerelateerde berichten"
+[prev_post]
+other = "Vorige"
+[next_post]
+other = "Volgende"
+[toc]
+other = "Inhoud"
+[toc_title]
+other = "Op deze pagina"
+[toc_open]
+other = "Inhoud openen"
+[toc_close]
+other = "Inhoud sluiten"
+[toc_article]
+other = "Artikelinhoud"
+[toggle_read_width]
+other = "Leesbreedte wisselen"
+[lightbox_close]
+other = "Sluiten"
+[lightbox_label]
+other = "Vergrote afbeelding"
+[zoom_view]
+other = "Inzoomen"
+[click_zoom]
+other = "Klik om in te zoomen"
+[main_nav]
+other = "Hoofdnavigatie"
+[open_menu]
+other = "Menu openen"
+[search_aria]
+other = "Zoeken, opdrachtenpalet openen"
+[color_scheme]
+other = "Kleurenschema"
+[scheme_paper]
+other = "Papier"
+[scheme_clean]
+other = "Licht"
+[scheme_dark]
+other = "Donker"
+[footer_index_of]
+other = " technische index. "
+[subscribe_rss]
+other = "RSS abonneren"
+[copy_rss_title]
+other = "RSS-URL kopiëren"
+[copy_address]
+other = "URL kopiëren"
+[cmdk_panel]
+other = "Opdrachtenpalet"
+[cmdk_placeholder]
+other = "Zoek berichten, handleidingen, categorieën, tags…"
+[search_results]
+other = "Zoekresultaten"
+[cmdk_select]
+other = "Selecteren"
+[cmdk_open]
+other = "Openen"
+[cmdk_close]
+other = "Sluiten"
+[nav_menu]
+other = "Navigatiemenu"
+[close_menu]
+other = "Menu sluiten"
+[back_to_top]
+other = "Terug naar boven"
+[copy_code]
+other = "Code kopiëren"
+[copy]
+other = "Kopiëren"
+[copy_section_link]
+other = "Link naar sectie kopiëren"
+[taxonomy_overview]
+other = "<span>{{ .Terms }}</span> {{ .Singular }} · {{ .Total }} berichten in totaal"
+[term_kicker_category]
+other = "Categorie"
+[term_kicker_tag]
+other = "Tag"
+[term_post_count]
+one = "<b>{{ .Count }}</b> {{ if .IsCat }}gerelateerd {{ end }}bericht"
+other = "<b>{{ .Count }}</b> {{ if .IsCat }}gerelateerde {{ end }}berichten"
+[pagination]
+other = "Paginering"
+[prev_page]
+other = "Vorige pagina"
+[next_page]
+other = "Volgende pagina"
+[language]
+other = "Taal"
+
+[sponsor]
+other = "Sponsoren"

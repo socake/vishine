@@ -1,0 +1,163 @@
+# vishine i18n — Deutsch
+[home]
+other = "Startseite"
+[categories]
+other = "Kategorien"
+[tags]
+other = "Tags"
+[navigation]
+other = "Navigation"
+[search]
+other = "Suchen"
+[filter]
+other = "Filtern"
+[view_all]
+other = "Alle"
+[unit_articles]
+other = "Beiträge"
+[unit_words]
+other = "Wörter"
+[reading_time]
+one = "{{ .Count }} Min."
+other = "{{ .Count }} Min."
+[read_time_label]
+one = "{{ .Count }} Min. Lesezeit"
+other = "{{ .Count }} Min. Lesezeit"
+[count_posts]
+one = "{{ .Count }} Beitrag"
+other = "{{ .Count }} Beiträge"
+[count_zones]
+one = "{{ .Count }} Bereich"
+other = "{{ .Count }} Bereiche"
+[cover_alt]
+other = "Titelbild"
+[filter_clear]
+other = "Filter zurücksetzen"
+[no_match_articles]
+other = "Keine passenden Beiträge. Entfernen Sie einige Filter."
+[load_more]
+other = "Mehr laden"
+[coming_soon]
+other = "Demnächst"
+[site_stats]
+other = "Website-Statistik"
+[stat_blog_posts]
+other = "Blogbeiträge"
+[stat_playbooks]
+other = "Playbooks"
+[stat_categories]
+other = "Kategorien"
+[home_sections_title]
+other = "Bereiche"
+[home_sections_desc]
+other = "Fünf strukturierte Bereiche · farblich codiert · nur einen Klick entfernt"
+[view_all_content]
+other = "Alle Inhalte anzeigen"
+[section_enter]
+other = "Öffnen: "
+[recent_updates]
+other = "Neueste Updates"
+[top_categories]
+other = "Top-Kategorien"
+[top_tags]
+other = "Top-Tags"
+[breadcrumb]
+other = "Breadcrumb"
+[share_this]
+other = "Teilen"
+[copy_link]
+other = "Link kopieren"
+[continue_reading]
+other = "Weiterlesen"
+[related_articles]
+other = "Ähnliche Beiträge"
+[prev_post]
+other = "Zurück"
+[next_post]
+other = "Weiter"
+[toc]
+other = "Inhalt"
+[toc_title]
+other = "Auf dieser Seite"
+[toc_open]
+other = "Inhaltsverzeichnis öffnen"
+[toc_close]
+other = "Inhaltsverzeichnis schließen"
+[toc_article]
+other = "Inhaltsverzeichnis des Artikels"
+[toggle_read_width]
+other = "Lesebreite umschalten"
+[lightbox_close]
+other = "Schließen"
+[lightbox_label]
+other = "Vergrößertes Bild"
+[zoom_view]
+other = "Vergrößern"
+[click_zoom]
+other = "Zum Vergrößern klicken"
+[main_nav]
+other = "Hauptnavigation"
+[open_menu]
+other = "Menü öffnen"
+[search_aria]
+other = "Suchen, Befehlspalette öffnen"
+[color_scheme]
+other = "Farbschema"
+[scheme_paper]
+other = "Papier"
+[scheme_clean]
+other = "Hell"
+[scheme_dark]
+other = "Dunkel"
+[footer_index_of]
+other = " — technischer Index von "
+[subscribe_rss]
+other = "RSS abonnieren"
+[copy_rss_title]
+other = "RSS-URL kopieren"
+[copy_address]
+other = "URL kopieren"
+[cmdk_panel]
+other = "Befehlspalette"
+[cmdk_placeholder]
+other = "Beiträge, Playbooks, Kategorien, Tags suchen…"
+[search_results]
+other = "Suchergebnisse"
+[cmdk_select]
+other = "Auswählen"
+[cmdk_open]
+other = "Öffnen"
+[cmdk_close]
+other = "Schließen"
+[nav_menu]
+other = "Navigationsmenü"
+[close_menu]
+other = "Menü schließen"
+[back_to_top]
+other = "Nach oben"
+[copy_code]
+other = "Code kopieren"
+[copy]
+other = "Kopieren"
+[copy_section_link]
+other = "Link zum Abschnitt kopieren"
+[taxonomy_overview]
+other = "<span>{{ .Terms }}</span> {{ .Singular }} · insgesamt {{ .Total }} Beiträge"
+[term_kicker_category]
+other = "Kategorie"
+[term_kicker_tag]
+other = "Tag"
+[term_post_count]
+one = "<b>{{ .Count }}</b> {{ if .IsCat }}zugehöriger {{ end }}Beitrag"
+other = "<b>{{ .Count }}</b> {{ if .IsCat }}zugehörige {{ end }}Beiträge"
+[pagination]
+other = "Seitennummerierung"
+[prev_page]
+other = "Vorherige Seite"
+[next_page]
+other = "Nächste Seite"
+[language]
+other = "Sprache"
+
+[sponsor]
+other = "Sponsern"

@@ -1,0 +1,253 @@
+# vishine i18n — Română
+# Interface labels / interaction text only; not example content or site params.
+
+# ---- Common nouns ----
+[home]
+other = "Acasă"
+
+[categories]
+other = "Categorii"
+
+[tags]
+other = "Etichete"
+
+[navigation]
+other = "Navigare"
+
+[search]
+other = "Căutare"
+
+[filter]
+other = "Filtru"
+
+[view_all]
+other = "Toate"
+
+# ---- Units / counts ----
+[unit_articles]
+other = "articole"
+
+[unit_words]
+other = "cuvinte"
+
+[reading_time]
+one = "{{ .Count }} min"
+other = "{{ .Count }} min"
+
+[read_time_label]
+one = "{{ .Count }} min de citit"
+other = "{{ .Count }} min de citit"
+
+[count_posts]
+one = "{{ .Count }} articol"
+other = "{{ .Count }} articole"
+
+[count_zones]
+one = "{{ .Count }} zonă"
+other = "{{ .Count }} zone"
+
+[cover_alt]
+other = "copertă"
+
+# ---- List / filtering ----
+[filter_clear]
+other = "Șterge filtrele"
+
+[no_match_articles]
+other = "Niciun articol potrivit. Încearcă să elimini câteva filtre."
+
+[load_more]
+other = "Încarcă mai multe"
+
+[coming_soon]
+other = "În curând"
+
+# ---- Home ----
+[site_stats]
+other = "Statistici site"
+
+[stat_blog_posts]
+other = "Articole de blog"
+
+[stat_playbooks]
+other = "Ghiduri"
+
+[stat_categories]
+other = "Categorii"
+
+[home_sections_title]
+other = "Secțiuni"
+
+[home_sections_desc]
+other = "Cinci secțiuni structurate · codate pe culori · la un clic distanță"
+
+[view_all_content]
+other = "Vezi tot conținutul"
+
+[section_enter]
+other = "Intră în "
+
+[recent_updates]
+other = "Actualizări recente"
+
+[top_categories]
+other = "Categorii populare"
+
+[top_tags]
+other = "Etichete populare"
+
+# ---- Article page ----
+[breadcrumb]
+other = "Traseu de navigare"
+
+[share_this]
+other = "Distribuie"
+
+[copy_link]
+other = "Copiază linkul"
+
+[continue_reading]
+other = "Continuă lectura"
+
+[related_articles]
+other = "Articole similare"
+
+[prev_post]
+other = "Anterior"
+
+[next_post]
+other = "Următor"
+
+# ---- Table of contents ----
+[toc]
+other = "Cuprins"
+
+[toc_title]
+other = "Pe această pagină"
+
+[toc_open]
+other = "Deschide cuprinsul"
+
+[toc_close]
+other = "Închide cuprinsul"
+
+[toc_article]
+other = "Cuprinsul articolului"
+
+[toggle_read_width]
+other = "Comută lățimea de citire"
+
+# ---- Image lightbox ----
+[lightbox_close]
+other = "Închide"
+
+[lightbox_label]
+other = "Imagine mărită"
+
+[zoom_view]
+other = "Mărește"
+
+[click_zoom]
+other = "Clic pentru mărire"
+
+# ---- Header ----
+[main_nav]
+other = "Navigare principală"
+
+[open_menu]
+other = "Deschide meniul"
+
+[search_aria]
+other = "Căutare, deschide paleta de comenzi"
+
+[color_scheme]
+other = "Schemă de culori"
+
+[scheme_paper]
+other = "Hârtie"
+
+[scheme_clean]
+other = "Luminos"
+
+[scheme_dark]
+other = "Întunecat"
+
+# ---- Footer ----
+[footer_index_of]
+other = " — index tehnic. "
+
+[subscribe_rss]
+other = "Abonează-te la RSS"
+
+[copy_rss_title]
+other = "Copiază adresa RSS"
+
+[copy_address]
+other = "Copiază adresa"
+
+# ---- Command palette / drawer / global ----
+[cmdk_panel]
+other = "Paletă de comenzi"
+
+[cmdk_placeholder]
+other = "Caută articole, ghiduri, categorii, etichete…"
+
+[search_results]
+other = "Rezultatele căutării"
+
+[cmdk_select]
+other = "Selectează"
+
+[cmdk_open]
+other = "Deschide"
+
+[cmdk_close]
+other = "Închide"
+
+[nav_menu]
+other = "Meniu de navigare"
+
+[close_menu]
+other = "Închide meniul"
+
+[back_to_top]
+other = "Sus"
+
+# ---- Code block / heading anchor ----
+[copy_code]
+other = "Copiază codul"
+
+[copy]
+other = "Copiază"
+
+[copy_section_link]
+other = "Copiază linkul secțiunii"
+
+# ---- Taxonomy overview & term pages ----
+[taxonomy_overview]
+other = "<span>{{ .Terms }}</span> {{ .Singular }} · {{ .Total }} articole în total"
+
+[term_kicker_category]
+other = "Categorie"
+
+[term_kicker_tag]
+other = "Etichetă"
+
+[term_post_count]
+one = "<b>{{ .Count }}</b> articol {{ if .IsCat }}asociat{{ end }}"
+other = "<b>{{ .Count }}</b> articole {{ if .IsCat }}asociate{{ end }}"
+
+[pagination]
+other = "Paginare"
+
+[prev_page]
+other = "Pagina anterioară"
+
+[next_page]
+other = "Pagina următoare"
+
+[language]
+other = "Limbă"
+
+[sponsor]
+other = "Sponsorizează"

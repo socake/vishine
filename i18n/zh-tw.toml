@@ -1,0 +1,248 @@
+# vishine i18n — 繁體中文
+# 僅介面標籤/互動文字；範例內容、網站參數不在此處。
+
+# ---- 通用名詞 ----
+[home]
+other = "首頁"
+
+[categories]
+other = "分類"
+
+[tags]
+other = "標籤"
+
+[navigation]
+other = "導覽"
+
+[search]
+other = "搜尋"
+
+[filter]
+other = "篩選"
+
+[view_all]
+other = "全部"
+
+# ---- 計量單位 / 計數 ----
+[unit_articles]
+other = "篇"
+
+[unit_words]
+other = "字"
+
+[reading_time]
+other = "{{ .Count }} min"
+
+[read_time_label]
+other = "閱讀 {{ .Count }} min"
+
+[count_posts]
+other = "{{ .Count }} 篇"
+
+[count_zones]
+other = "{{ .Count }} 專區"
+
+[cover_alt]
+other = "封面"
+
+# ---- 列表 / 篩選 ----
+[filter_clear]
+other = "清除篩選"
+
+[no_match_articles]
+other = "沒有符合的文章，試試減少篩選條件。"
+
+[load_more]
+other = "載入更多"
+
+[coming_soon]
+other = "敬請期待"
+
+# ---- 首頁 ----
+[site_stats]
+other = "網站統計"
+
+[stat_blog_posts]
+other = "網誌文章"
+
+[stat_playbooks]
+other = "實戰手冊"
+
+[stat_categories]
+other = "內容分類"
+
+[home_sections_title]
+other = "版塊入口"
+
+[home_sections_desc]
+other = "五大結構化版塊 · 色彩編碼 · 一處直達"
+
+[view_all_content]
+other = "檢視全部內容"
+
+[section_enter]
+other = "進入"
+
+[recent_updates]
+other = "最近更新"
+
+[top_categories]
+other = "熱門分類"
+
+[top_tags]
+other = "熱門標籤"
+
+# ---- 文章頁 ----
+[breadcrumb]
+other = "麵包屑"
+
+[share_this]
+other = "分享這篇"
+
+[copy_link]
+other = "複製本文連結"
+
+[continue_reading]
+other = "繼續閱讀"
+
+[related_articles]
+other = "相關文章"
+
+[prev_post]
+other = "上一篇"
+
+[next_post]
+other = "下一篇"
+
+# ---- 目錄 TOC ----
+[toc]
+other = "目錄"
+
+[toc_title]
+other = "本頁目錄"
+
+[toc_open]
+other = "開啟目錄"
+
+[toc_close]
+other = "關閉目錄"
+
+[toc_article]
+other = "文章目錄"
+
+[toggle_read_width]
+other = "切換閱讀寬度"
+
+# ---- 圖片燈箱 ----
+[lightbox_close]
+other = "關閉放大"
+
+[lightbox_label]
+other = "放大的圖片"
+
+[zoom_view]
+other = "放大檢視"
+
+[click_zoom]
+other = "點擊放大"
+
+# ---- 頂欄 header ----
+[main_nav]
+other = "主導覽"
+
+[open_menu]
+other = "開啟導覽選單"
+
+[search_aria]
+other = "搜尋，開啟命令面板"
+
+[color_scheme]
+other = "配色方案"
+
+[scheme_paper]
+other = "暖紙"
+
+[scheme_clean]
+other = "純白"
+
+[scheme_dark]
+other = "暗色"
+
+# ---- 頁尾 footer ----
+[footer_index_of]
+other = "的技術索引。"
+
+[subscribe_rss]
+other = "訂閱 RSS"
+
+[copy_rss_title]
+other = "複製訂閱網址"
+
+[copy_address]
+other = "複製網址"
+
+# ---- 命令面板 / 抽屜 / 全域 ----
+[cmdk_panel]
+other = "命令搜尋面板"
+
+[cmdk_placeholder]
+other = "搜尋文章、手冊、分類、標籤…"
+
+[search_results]
+other = "搜尋結果"
+
+[cmdk_select]
+other = "選擇"
+
+[cmdk_open]
+other = "開啟"
+
+[cmdk_close]
+other = "關閉"
+
+[nav_menu]
+other = "導覽選單"
+
+[close_menu]
+other = "關閉選單"
+
+[back_to_top]
+other = "回到頂部"
+
+# ---- 程式碼區塊 / 標題錨點 ----
+[copy_code]
+other = "複製程式碼"
+
+[copy]
+other = "複製"
+
+[copy_section_link]
+other = "複製本節連結"
+
+# ---- 分類 / 標籤總覽與單頁 ----
+[taxonomy_overview]
+other = "<span>{{ .Terms }}</span> 個{{ .Singular }} · 共 {{ .Total }} 篇"
+
+[term_kicker_category]
+other = "分類 · category"
+
+[term_kicker_tag]
+other = "標籤 · tag"
+
+[term_post_count]
+other = "共 <b>{{ .Count }}</b> 篇{{ if .IsCat }}相關文章{{ end }}"
+
+[pagination]
+other = "分頁"
+
+[prev_page]
+other = "上一頁"
+
+[next_page]
+other = "下一頁"
+
+[language]
+other = "語言"
+
+[sponsor]
+other = "贊助"

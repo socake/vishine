@@ -1,0 +1,253 @@
+# vishine i18n — עברית
+# Interface labels / interaction text only; not example content or site params.
+
+# ---- Common nouns ----
+[home]
+other = "בית"
+
+[categories]
+other = "קטגוריות"
+
+[tags]
+other = "תגיות"
+
+[navigation]
+other = "ניווט"
+
+[search]
+other = "חיפוש"
+
+[filter]
+other = "סינון"
+
+[view_all]
+other = "הכול"
+
+# ---- Units / counts ----
+[unit_articles]
+other = "פוסטים"
+
+[unit_words]
+other = "מילים"
+
+[reading_time]
+one = "{{ .Count }} דק׳"
+other = "{{ .Count }} דק׳"
+
+[read_time_label]
+one = "{{ .Count }} דק׳ קריאה"
+other = "{{ .Count }} דק׳ קריאה"
+
+[count_posts]
+one = "{{ .Count }} פוסט"
+other = "{{ .Count }} פוסטים"
+
+[count_zones]
+one = "{{ .Count }} אזור"
+other = "{{ .Count }} אזורים"
+
+[cover_alt]
+other = "כריכה"
+
+# ---- List / filtering ----
+[filter_clear]
+other = "ניקוי סינון"
+
+[no_match_articles]
+other = "אין פוסטים תואמים. נסו להסיר חלק מהמסננים."
+
+[load_more]
+other = "טען עוד"
+
+[coming_soon]
+other = "בקרוב"
+
+# ---- Home ----
+[site_stats]
+other = "סטטיסטיקת האתר"
+
+[stat_blog_posts]
+other = "פוסטים בבלוג"
+
+[stat_playbooks]
+other = "מדריכים"
+
+[stat_categories]
+other = "קטגוריות"
+
+[home_sections_title]
+other = "מדורים"
+
+[home_sections_desc]
+other = "חמישה מדורים מובנים · מקודדים בצבע · במרחק קליק"
+
+[view_all_content]
+other = "הצג את כל התוכן"
+
+[section_enter]
+other = "כניסה ל"
+
+[recent_updates]
+other = "עדכונים אחרונים"
+
+[top_categories]
+other = "קטגוריות מובילות"
+
+[top_tags]
+other = "תגיות מובילות"
+
+# ---- Article page ----
+[breadcrumb]
+other = "נתיב ניווט"
+
+[share_this]
+other = "שיתוף"
+
+[copy_link]
+other = "העתק קישור"
+
+[continue_reading]
+other = "המשך קריאה"
+
+[related_articles]
+other = "פוסטים קשורים"
+
+[prev_post]
+other = "הקודם"
+
+[next_post]
+other = "הבא"
+
+# ---- Table of contents ----
+[toc]
+other = "תוכן עניינים"
+
+[toc_title]
+other = "בעמוד זה"
+
+[toc_open]
+other = "פתח תוכן עניינים"
+
+[toc_close]
+other = "סגור תוכן עניינים"
+
+[toc_article]
+other = "תוכן המאמר"
+
+[toggle_read_width]
+other = "החלף רוחב קריאה"
+
+# ---- Image lightbox ----
+[lightbox_close]
+other = "סגור"
+
+[lightbox_label]
+other = "תמונה מוגדלת"
+
+[zoom_view]
+other = "הגדל"
+
+[click_zoom]
+other = "לחץ להגדלה"
+
+# ---- Header ----
+[main_nav]
+other = "ניווט ראשי"
+
+[open_menu]
+other = "פתח תפריט"
+
+[search_aria]
+other = "חיפוש, פתיחת לוח פקודות"
+
+[color_scheme]
+other = "ערכת צבעים"
+
+[scheme_paper]
+other = "נייר"
+
+[scheme_clean]
+other = "בהיר"
+
+[scheme_dark]
+other = "כהה"
+
+# ---- Footer ----
+[footer_index_of]
+other = " — אינדקס טכני. "
+
+[subscribe_rss]
+other = "הירשם ל-RSS"
+
+[copy_rss_title]
+other = "העתק כתובת RSS"
+
+[copy_address]
+other = "העתק כתובת"
+
+# ---- Command palette / drawer / global ----
+[cmdk_panel]
+other = "לוח פקודות"
+
+[cmdk_placeholder]
+other = "חפש פוסטים, מדריכים, קטגוריות, תגיות…"
+
+[search_results]
+other = "תוצאות חיפוש"
+
+[cmdk_select]
+other = "בחר"
+
+[cmdk_open]
+other = "פתח"
+
+[cmdk_close]
+other = "סגור"
+
+[nav_menu]
+other = "תפריט ניווט"
+
+[close_menu]
+other = "סגור תפריט"
+
+[back_to_top]
+other = "חזרה למעלה"
+
+# ---- Code block / heading anchor ----
+[copy_code]
+other = "העתק קוד"
+
+[copy]
+other = "העתק"
+
+[copy_section_link]
+other = "העתק קישור למקטע"
+
+# ---- Taxonomy overview & term pages ----
+[taxonomy_overview]
+other = "<span>{{ .Terms }}</span> {{ .Singular }} · {{ .Total }} פוסטים בסך הכול"
+
+[term_kicker_category]
+other = "קטגוריה"
+
+[term_kicker_tag]
+other = "תגית"
+
+[term_post_count]
+one = "<b>{{ .Count }}</b> פוסט {{ if .IsCat }}קשור{{ end }}"
+other = "<b>{{ .Count }}</b> פוסטים {{ if .IsCat }}קשורים{{ end }}"
+
+[pagination]
+other = "עימוד"
+
+[prev_page]
+other = "העמוד הקודם"
+
+[next_page]
+other = "העמוד הבא"
+
+[language]
+other = "שפה"
+
+[sponsor]
+other = "תמיכה"

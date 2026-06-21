@@ -1,0 +1,253 @@
+# vishine i18n — Magyar
+# Interface labels / interaction text only; not example content or site params.
+
+# ---- Common nouns ----
+[home]
+other = "Kezdőlap"
+
+[categories]
+other = "Kategóriák"
+
+[tags]
+other = "Címkék"
+
+[navigation]
+other = "Navigáció"
+
+[search]
+other = "Keresés"
+
+[filter]
+other = "Szűrő"
+
+[view_all]
+other = "Összes"
+
+# ---- Units / counts ----
+[unit_articles]
+other = "bejegyzés"
+
+[unit_words]
+other = "szó"
+
+[reading_time]
+one = "{{ .Count }} perc"
+other = "{{ .Count }} perc"
+
+[read_time_label]
+one = "{{ .Count }} perc olvasás"
+other = "{{ .Count }} perc olvasás"
+
+[count_posts]
+one = "{{ .Count }} bejegyzés"
+other = "{{ .Count }} bejegyzés"
+
+[count_zones]
+one = "{{ .Count }} zóna"
+other = "{{ .Count }} zóna"
+
+[cover_alt]
+other = "borító"
+
+# ---- List / filtering ----
+[filter_clear]
+other = "Szűrők törlése"
+
+[no_match_articles]
+other = "Nincs találat. Próbálj meg eltávolítani néhány szűrőt."
+
+[load_more]
+other = "Több betöltése"
+
+[coming_soon]
+other = "Hamarosan"
+
+# ---- Home ----
+[site_stats]
+other = "Oldal statisztikái"
+
+[stat_blog_posts]
+other = "Blogbejegyzések"
+
+[stat_playbooks]
+other = "Kézikönyvek"
+
+[stat_categories]
+other = "Kategóriák"
+
+[home_sections_title]
+other = "Szekciók"
+
+[home_sections_desc]
+other = "Öt strukturált szekció · színkóddal · egy kattintásra"
+
+[view_all_content]
+other = "Összes tartalom megtekintése"
+
+[section_enter]
+other = "Belépés: "
+
+[recent_updates]
+other = "Legutóbbi frissítések"
+
+[top_categories]
+other = "Népszerű kategóriák"
+
+[top_tags]
+other = "Népszerű címkék"
+
+# ---- Article page ----
+[breadcrumb]
+other = "Morzsamenü"
+
+[share_this]
+other = "Megosztás"
+
+[copy_link]
+other = "Hivatkozás másolása"
+
+[continue_reading]
+other = "Tovább olvasom"
+
+[related_articles]
+other = "Kapcsolódó bejegyzések"
+
+[prev_post]
+other = "Előző"
+
+[next_post]
+other = "Következő"
+
+# ---- Table of contents ----
+[toc]
+other = "Tartalom"
+
+[toc_title]
+other = "Ezen az oldalon"
+
+[toc_open]
+other = "Tartalom megnyitása"
+
+[toc_close]
+other = "Tartalom bezárása"
+
+[toc_article]
+other = "Cikk tartalma"
+
+[toggle_read_width]
+other = "Olvasási szélesség váltása"
+
+# ---- Image lightbox ----
+[lightbox_close]
+other = "Bezárás"
+
+[lightbox_label]
+other = "Nagyított kép"
+
+[zoom_view]
+other = "Nagyítás"
+
+[click_zoom]
+other = "Kattints a nagyításhoz"
+
+# ---- Header ----
+[main_nav]
+other = "Fő navigáció"
+
+[open_menu]
+other = "Menü megnyitása"
+
+[search_aria]
+other = "Keresés, parancspaletta megnyitása"
+
+[color_scheme]
+other = "Színséma"
+
+[scheme_paper]
+other = "Papír"
+
+[scheme_clean]
+other = "Világos"
+
+[scheme_dark]
+other = "Sötét"
+
+# ---- Footer ----
+[footer_index_of]
+other = " technikai jegyzéke. "
+
+[subscribe_rss]
+other = "RSS feliratkozás"
+
+[copy_rss_title]
+other = "RSS-cím másolása"
+
+[copy_address]
+other = "Cím másolása"
+
+# ---- Command palette / drawer / global ----
+[cmdk_panel]
+other = "Parancspaletta"
+
+[cmdk_placeholder]
+other = "Bejegyzések, kézikönyvek, kategóriák, címkék keresése…"
+
+[search_results]
+other = "Találatok"
+
+[cmdk_select]
+other = "Kiválasztás"
+
+[cmdk_open]
+other = "Megnyitás"
+
+[cmdk_close]
+other = "Bezárás"
+
+[nav_menu]
+other = "Navigációs menü"
+
+[close_menu]
+other = "Menü bezárása"
+
+[back_to_top]
+other = "Vissza a tetejére"
+
+# ---- Code block / heading anchor ----
+[copy_code]
+other = "Kód másolása"
+
+[copy]
+other = "Másolás"
+
+[copy_section_link]
+other = "Szakaszhivatkozás másolása"
+
+# ---- Taxonomy overview & term pages ----
+[taxonomy_overview]
+other = "<span>{{ .Terms }}</span> {{ .Singular }} · összesen {{ .Total }} bejegyzés"
+
+[term_kicker_category]
+other = "Kategória"
+
+[term_kicker_tag]
+other = "Címke"
+
+[term_post_count]
+one = "<b>{{ .Count }}</b> {{ if .IsCat }}kapcsolódó {{ end }}bejegyzés"
+other = "<b>{{ .Count }}</b> {{ if .IsCat }}kapcsolódó {{ end }}bejegyzés"
+
+[pagination]
+other = "Lapozás"
+
+[prev_page]
+other = "Előző oldal"
+
+[next_page]
+other = "Következő oldal"
+
+[language]
+other = "Nyelv"
+
+[sponsor]
+other = "Támogatás"

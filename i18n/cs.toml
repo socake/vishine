@@ -1,0 +1,253 @@
+# vishine i18n — Čeština
+# Interface labels / interaction text only; not example content or site params.
+
+# ---- Common nouns ----
+[home]
+other = "Domů"
+
+[categories]
+other = "Kategorie"
+
+[tags]
+other = "Štítky"
+
+[navigation]
+other = "Navigace"
+
+[search]
+other = "Hledat"
+
+[filter]
+other = "Filtr"
+
+[view_all]
+other = "Vše"
+
+# ---- Units / counts ----
+[unit_articles]
+other = "příspěvků"
+
+[unit_words]
+other = "slov"
+
+[reading_time]
+one = "{{ .Count }} min"
+other = "{{ .Count }} min"
+
+[read_time_label]
+one = "{{ .Count }} min čtení"
+other = "{{ .Count }} min čtení"
+
+[count_posts]
+one = "{{ .Count }} příspěvek"
+other = "{{ .Count }} příspěvků"
+
+[count_zones]
+one = "{{ .Count }} zóna"
+other = "{{ .Count }} zón"
+
+[cover_alt]
+other = "obálka"
+
+# ---- List / filtering ----
+[filter_clear]
+other = "Zrušit filtry"
+
+[no_match_articles]
+other = "Žádné odpovídající příspěvky. Zkuste odebrat některé filtry."
+
+[load_more]
+other = "Načíst další"
+
+[coming_soon]
+other = "Již brzy"
+
+# ---- Home ----
+[site_stats]
+other = "Statistiky webu"
+
+[stat_blog_posts]
+other = "Příspěvky na blogu"
+
+[stat_playbooks]
+other = "Příručky"
+
+[stat_categories]
+other = "Kategorie"
+
+[home_sections_title]
+other = "Sekce"
+
+[home_sections_desc]
+other = "Pět strukturovaných sekcí · barevně odlišené · na jedno kliknutí"
+
+[view_all_content]
+other = "Zobrazit veškerý obsah"
+
+[section_enter]
+other = "Vstoupit do "
+
+[recent_updates]
+other = "Nedávné aktualizace"
+
+[top_categories]
+other = "Top kategorie"
+
+[top_tags]
+other = "Top štítky"
+
+# ---- Article page ----
+[breadcrumb]
+other = "Drobečková navigace"
+
+[share_this]
+other = "Sdílet"
+
+[copy_link]
+other = "Kopírovat odkaz"
+
+[continue_reading]
+other = "Číst dál"
+
+[related_articles]
+other = "Související příspěvky"
+
+[prev_post]
+other = "Předchozí"
+
+[next_post]
+other = "Další"
+
+# ---- Table of contents ----
+[toc]
+other = "Obsah"
+
+[toc_title]
+other = "Na této stránce"
+
+[toc_open]
+other = "Otevřít obsah"
+
+[toc_close]
+other = "Zavřít obsah"
+
+[toc_article]
+other = "Obsah článku"
+
+[toggle_read_width]
+other = "Přepnout šířku čtení"
+
+# ---- Image lightbox ----
+[lightbox_close]
+other = "Zavřít"
+
+[lightbox_label]
+other = "Zvětšený obrázek"
+
+[zoom_view]
+other = "Přiblížit"
+
+[click_zoom]
+other = "Kliknutím přiblížíte"
+
+# ---- Header ----
+[main_nav]
+other = "Hlavní navigace"
+
+[open_menu]
+other = "Otevřít menu"
+
+[search_aria]
+other = "Hledat, otevřít příkazovou paletu"
+
+[color_scheme]
+other = "Barevné schéma"
+
+[scheme_paper]
+other = "Papír"
+
+[scheme_clean]
+other = "Světlé"
+
+[scheme_dark]
+other = "Tmavé"
+
+# ---- Footer ----
+[footer_index_of]
+other = " — technický rejstřík. "
+
+[subscribe_rss]
+other = "Odebírat RSS"
+
+[copy_rss_title]
+other = "Kopírovat URL RSS"
+
+[copy_address]
+other = "Kopírovat URL"
+
+# ---- Command palette / drawer / global ----
+[cmdk_panel]
+other = "Příkazová paleta"
+
+[cmdk_placeholder]
+other = "Hledat příspěvky, příručky, kategorie, štítky…"
+
+[search_results]
+other = "Výsledky hledání"
+
+[cmdk_select]
+other = "Vybrat"
+
+[cmdk_open]
+other = "Otevřít"
+
+[cmdk_close]
+other = "Zavřít"
+
+[nav_menu]
+other = "Navigační menu"
+
+[close_menu]
+other = "Zavřít menu"
+
+[back_to_top]
+other = "Nahoru"
+
+# ---- Code block / heading anchor ----
+[copy_code]
+other = "Kopírovat kód"
+
+[copy]
+other = "Kopírovat"
+
+[copy_section_link]
+other = "Kopírovat odkaz na sekci"
+
+# ---- Taxonomy overview & term pages ----
+[taxonomy_overview]
+other = "<span>{{ .Terms }}</span> {{ .Singular }} · celkem {{ .Total }} příspěvků"
+
+[term_kicker_category]
+other = "Kategorie"
+
+[term_kicker_tag]
+other = "Štítek"
+
+[term_post_count]
+one = "<b>{{ .Count }}</b> {{ if .IsCat }}související {{ end }}příspěvek"
+other = "<b>{{ .Count }}</b> {{ if .IsCat }}souvisejících {{ end }}příspěvků"
+
+[pagination]
+other = "Stránkování"
+
+[prev_page]
+other = "Předchozí stránka"
+
+[next_page]
+other = "Další stránka"
+
+[language]
+other = "Jazyk"
+
+[sponsor]
+other = "Podpořit"

@@ -1,0 +1,163 @@
+# vishine i18n — العربية
+[home]
+other = "الرئيسية"
+[categories]
+other = "التصنيفات"
+[tags]
+other = "الوسوم"
+[navigation]
+other = "التنقل"
+[search]
+other = "بحث"
+[filter]
+other = "تصفية"
+[view_all]
+other = "الكل"
+[unit_articles]
+other = "مقالة"
+[unit_words]
+other = "كلمة"
+[reading_time]
+one = "دقيقة واحدة"
+other = "{{ .Count }} دقيقة"
+[read_time_label]
+one = "قراءة دقيقة واحدة"
+other = "قراءة {{ .Count }} دقيقة"
+[count_posts]
+one = "مقالة واحدة"
+other = "{{ .Count }} مقالة"
+[count_zones]
+one = "منطقة واحدة"
+other = "{{ .Count }} منطقة"
+[cover_alt]
+other = "صورة الغلاف"
+[filter_clear]
+other = "مسح عوامل التصفية"
+[no_match_articles]
+other = "لا توجد مقالات مطابقة. حاول إزالة بعض عوامل التصفية."
+[load_more]
+other = "تحميل المزيد"
+[coming_soon]
+other = "قريبًا"
+[site_stats]
+other = "إحصاءات الموقع"
+[stat_blog_posts]
+other = "مقالات المدونة"
+[stat_playbooks]
+other = "أدلة العمل"
+[stat_categories]
+other = "التصنيفات"
+[home_sections_title]
+other = "الأقسام"
+[home_sections_desc]
+other = "خمسة أقسام منظمة · مرمّزة بالألوان · على بُعد نقرة واحدة"
+[view_all_content]
+other = "عرض كل المحتوى"
+[section_enter]
+other = "الدخول إلى "
+[recent_updates]
+other = "آخر التحديثات"
+[top_categories]
+other = "أبرز التصنيفات"
+[top_tags]
+other = "أبرز الوسوم"
+[breadcrumb]
+other = "مسار التنقل"
+[share_this]
+other = "مشاركة"
+[copy_link]
+other = "نسخ الرابط"
+[continue_reading]
+other = "متابعة القراءة"
+[related_articles]
+other = "مقالات ذات صلة"
+[prev_post]
+other = "السابق"
+[next_post]
+other = "التالي"
+[toc]
+other = "المحتويات"
+[toc_title]
+other = "في هذه الصفحة"
+[toc_open]
+other = "فتح المحتويات"
+[toc_close]
+other = "إغلاق المحتويات"
+[toc_article]
+other = "محتويات المقالة"
+[toggle_read_width]
+other = "تبديل عرض القراءة"
+[lightbox_close]
+other = "إغلاق"
+[lightbox_label]
+other = "صورة مكبّرة"
+[zoom_view]
+other = "تكبير"
+[click_zoom]
+other = "انقر للتكبير"
+[main_nav]
+other = "التنقل الرئيسي"
+[open_menu]
+other = "فتح القائمة"
+[search_aria]
+other = "بحث، فتح لوحة الأوامر"
+[color_scheme]
+other = "نظام الألوان"
+[scheme_paper]
+other = "ورقي"
+[scheme_clean]
+other = "نظيف"
+[scheme_dark]
+other = "داكن"
+[footer_index_of]
+other = " الفهرس التقني. "
+[subscribe_rss]
+other = "الاشتراك في RSS"
+[copy_rss_title]
+other = "نسخ رابط RSS"
+[copy_address]
+other = "نسخ الرابط"
+[cmdk_panel]
+other = "لوحة الأوامر"
+[cmdk_placeholder]
+other = "ابحث في المقالات وأدلة العمل والتصنيفات والوسوم…"
+[search_results]
+other = "نتائج البحث"
+[cmdk_select]
+other = "تحديد"
+[cmdk_open]
+other = "فتح"
+[cmdk_close]
+other = "إغلاق"
+[nav_menu]
+other = "قائمة التنقل"
+[close_menu]
+other = "إغلاق القائمة"
+[back_to_top]
+other = "العودة إلى الأعلى"
+[copy_code]
+other = "نسخ الكود"
+[copy]
+other = "نسخ"
+[copy_section_link]
+other = "نسخ رابط القسم"
+[taxonomy_overview]
+other = "<span>{{ .Terms }}</span> {{ .Singular }} · {{ .Total }} مقالة إجمالًا"
+[term_kicker_category]
+other = "تصنيف"
+[term_kicker_tag]
+other = "وسم"
+[term_post_count]
+one = "مقالة {{ if .IsCat }}ذات صلة {{ end }}واحدة"
+other = "<b>{{ .Count }}</b> مقالة {{ if .IsCat }}ذات صلة {{ end }}"
+[pagination]
+other = "ترقيم الصفحات"
+[prev_page]
+other = "الصفحة السابقة"
+[next_page]
+other = "الصفحة التالية"
+[language]
+other = "اللغة"
+
+[sponsor]
+other = "ادعمنا"

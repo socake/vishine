@@ -1,0 +1,163 @@
+# vishine i18n — Italiano
+[home]
+other = "Home"
+[categories]
+other = "Categorie"
+[tags]
+other = "Tag"
+[navigation]
+other = "Navigazione"
+[search]
+other = "Cerca"
+[filter]
+other = "Filtra"
+[view_all]
+other = "Tutti"
+[unit_articles]
+other = "articoli"
+[unit_words]
+other = "parole"
+[reading_time]
+one = "{{ .Count }} min"
+other = "{{ .Count }} min"
+[read_time_label]
+one = "{{ .Count }} min di lettura"
+other = "{{ .Count }} min di lettura"
+[count_posts]
+one = "{{ .Count }} articolo"
+other = "{{ .Count }} articoli"
+[count_zones]
+one = "{{ .Count }} zona"
+other = "{{ .Count }} zone"
+[cover_alt]
+other = "copertina"
+[filter_clear]
+other = "Cancella filtri"
+[no_match_articles]
+other = "Nessun articolo corrispondente. Prova a rimuovere alcuni filtri."
+[load_more]
+other = "Carica altro"
+[coming_soon]
+other = "In arrivo"
+[site_stats]
+other = "Statistiche del sito"
+[stat_blog_posts]
+other = "Articoli del blog"
+[stat_playbooks]
+other = "Manuali"
+[stat_categories]
+other = "Categorie"
+[home_sections_title]
+other = "Sezioni"
+[home_sections_desc]
+other = "Cinque sezioni strutturate · con codici colore · a un clic"
+[view_all_content]
+other = "Vedi tutti i contenuti"
+[section_enter]
+other = "Entra in "
+[recent_updates]
+other = "Aggiornamenti recenti"
+[top_categories]
+other = "Categorie principali"
+[top_tags]
+other = "Tag principali"
+[breadcrumb]
+other = "Percorso di navigazione"
+[share_this]
+other = "Condividi"
+[copy_link]
+other = "Copia link"
+[continue_reading]
+other = "Continua a leggere"
+[related_articles]
+other = "Articoli correlati"
+[prev_post]
+other = "Precedente"
+[next_post]
+other = "Successivo"
+[toc]
+other = "Contenuti"
+[toc_title]
+other = "In questa pagina"
+[toc_open]
+other = "Apri contenuti"
+[toc_close]
+other = "Chiudi contenuti"
+[toc_article]
+other = "Contenuti dell'articolo"
+[toggle_read_width]
+other = "Cambia larghezza di lettura"
+[lightbox_close]
+other = "Chiudi"
+[lightbox_label]
+other = "Immagine ingrandita"
+[zoom_view]
+other = "Ingrandisci"
+[click_zoom]
+other = "Clicca per ingrandire"
+[main_nav]
+other = "Navigazione principale"
+[open_menu]
+other = "Apri menu"
+[search_aria]
+other = "Cerca, apri la palette dei comandi"
+[color_scheme]
+other = "Combinazione di colori"
+[scheme_paper]
+other = "Carta"
+[scheme_clean]
+other = "Chiaro"
+[scheme_dark]
+other = "Scuro"
+[footer_index_of]
+other = ", l'indice tecnico. "
+[subscribe_rss]
+other = "Iscriviti al RSS"
+[copy_rss_title]
+other = "Copia URL del RSS"
+[copy_address]
+other = "Copia URL"
+[cmdk_panel]
+other = "Palette dei comandi"
+[cmdk_placeholder]
+other = "Cerca articoli, manuali, categorie, tag…"
+[search_results]
+other = "Risultati della ricerca"
+[cmdk_select]
+other = "Seleziona"
+[cmdk_open]
+other = "Apri"
+[cmdk_close]
+other = "Chiudi"
+[nav_menu]
+other = "Menu di navigazione"
+[close_menu]
+other = "Chiudi menu"
+[back_to_top]
+other = "Torna su"
+[copy_code]
+other = "Copia codice"
+[copy]
+other = "Copia"
+[copy_section_link]
+other = "Copia link alla sezione"
+[taxonomy_overview]
+other = "<span>{{ .Terms }}</span> {{ .Singular }} · {{ .Total }} articoli in totale"
+[term_kicker_category]
+other = "Categoria"
+[term_kicker_tag]
+other = "Tag"
+[term_post_count]
+one = "<b>{{ .Count }}</b> articolo {{ if .IsCat }}correlato {{ end }}"
+other = "<b>{{ .Count }}</b> articoli {{ if .IsCat }}correlati {{ end }}"
+[pagination]
+other = "Paginazione"
+[prev_page]
+other = "Pagina precedente"
+[next_page]
+other = "Pagina successiva"
+[language]
+other = "Lingua"
+
+[sponsor]
+other = "Sostieni"

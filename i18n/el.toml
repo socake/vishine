@@ -1,0 +1,253 @@
+# vishine i18n — Ελληνικά
+# Interface labels / interaction text only; not example content or site params.
+
+# ---- Common nouns ----
+[home]
+other = "Αρχική"
+
+[categories]
+other = "Κατηγορίες"
+
+[tags]
+other = "Ετικέτες"
+
+[navigation]
+other = "Πλοήγηση"
+
+[search]
+other = "Αναζήτηση"
+
+[filter]
+other = "Φίλτρο"
+
+[view_all]
+other = "Όλα"
+
+# ---- Units / counts ----
+[unit_articles]
+other = "αναρτήσεις"
+
+[unit_words]
+other = "λέξεις"
+
+[reading_time]
+one = "{{ .Count }} λεπτό"
+other = "{{ .Count }} λεπτά"
+
+[read_time_label]
+one = "{{ .Count }} λεπτό ανάγνωσης"
+other = "{{ .Count }} λεπτά ανάγνωσης"
+
+[count_posts]
+one = "{{ .Count }} ανάρτηση"
+other = "{{ .Count }} αναρτήσεις"
+
+[count_zones]
+one = "{{ .Count }} ζώνη"
+other = "{{ .Count }} ζώνες"
+
+[cover_alt]
+other = "εξώφυλλο"
+
+# ---- List / filtering ----
+[filter_clear]
+other = "Καθαρισμός φίλτρων"
+
+[no_match_articles]
+other = "Δεν βρέθηκαν αναρτήσεις. Δοκιμάστε να αφαιρέσετε φίλτρα."
+
+[load_more]
+other = "Φόρτωση περισσότερων"
+
+[coming_soon]
+other = "Σύντομα κοντά σας"
+
+# ---- Home ----
+[site_stats]
+other = "Στατιστικά ιστότοπου"
+
+[stat_blog_posts]
+other = "Αναρτήσεις ιστολογίου"
+
+[stat_playbooks]
+other = "Οδηγοί"
+
+[stat_categories]
+other = "Κατηγορίες"
+
+[home_sections_title]
+other = "Ενότητες"
+
+[home_sections_desc]
+other = "Πέντε δομημένες ενότητες · χρωματική κωδικοποίηση · με ένα κλικ"
+
+[view_all_content]
+other = "Δείτε όλο το περιεχόμενο"
+
+[section_enter]
+other = "Είσοδος "
+
+[recent_updates]
+other = "Πρόσφατες ενημερώσεις"
+
+[top_categories]
+other = "Δημοφιλείς κατηγορίες"
+
+[top_tags]
+other = "Δημοφιλείς ετικέτες"
+
+# ---- Article page ----
+[breadcrumb]
+other = "Διαδρομή πλοήγησης"
+
+[share_this]
+other = "Κοινοποίηση"
+
+[copy_link]
+other = "Αντιγραφή συνδέσμου"
+
+[continue_reading]
+other = "Συνέχεια ανάγνωσης"
+
+[related_articles]
+other = "Σχετικές αναρτήσεις"
+
+[prev_post]
+other = "Προηγούμενο"
+
+[next_post]
+other = "Επόμενο"
+
+# ---- Table of contents ----
+[toc]
+other = "Περιεχόμενα"
+
+[toc_title]
+other = "Σε αυτή τη σελίδα"
+
+[toc_open]
+other = "Άνοιγμα περιεχομένων"
+
+[toc_close]
+other = "Κλείσιμο περιεχομένων"
+
+[toc_article]
+other = "Περιεχόμενα άρθρου"
+
+[toggle_read_width]
+other = "Εναλλαγή πλάτους ανάγνωσης"
+
+# ---- Image lightbox ----
+[lightbox_close]
+other = "Κλείσιμο"
+
+[lightbox_label]
+other = "Μεγεθυσμένη εικόνα"
+
+[zoom_view]
+other = "Μεγέθυνση"
+
+[click_zoom]
+other = "Κάντε κλικ για μεγέθυνση"
+
+# ---- Header ----
+[main_nav]
+other = "Κύρια πλοήγηση"
+
+[open_menu]
+other = "Άνοιγμα μενού"
+
+[search_aria]
+other = "Αναζήτηση, άνοιγμα παλέτας εντολών"
+
+[color_scheme]
+other = "Χρωματικό σχήμα"
+
+[scheme_paper]
+other = "Χαρτί"
+
+[scheme_clean]
+other = "Φωτεινό"
+
+[scheme_dark]
+other = "Σκούρο"
+
+# ---- Footer ----
+[footer_index_of]
+other = " — τεχνικό ευρετήριο. "
+
+[subscribe_rss]
+other = "Εγγραφή στο RSS"
+
+[copy_rss_title]
+other = "Αντιγραφή URL του RSS"
+
+[copy_address]
+other = "Αντιγραφή URL"
+
+# ---- Command palette / drawer / global ----
+[cmdk_panel]
+other = "Παλέτα εντολών"
+
+[cmdk_placeholder]
+other = "Αναζήτηση αναρτήσεων, οδηγών, κατηγοριών, ετικετών…"
+
+[search_results]
+other = "Αποτελέσματα αναζήτησης"
+
+[cmdk_select]
+other = "Επιλογή"
+
+[cmdk_open]
+other = "Άνοιγμα"
+
+[cmdk_close]
+other = "Κλείσιμο"
+
+[nav_menu]
+other = "Μενού πλοήγησης"
+
+[close_menu]
+other = "Κλείσιμο μενού"
+
+[back_to_top]
+other = "Επιστροφή στην κορυφή"
+
+# ---- Code block / heading anchor ----
+[copy_code]
+other = "Αντιγραφή κώδικα"
+
+[copy]
+other = "Αντιγραφή"
+
+[copy_section_link]
+other = "Αντιγραφή συνδέσμου ενότητας"
+
+# ---- Taxonomy overview & term pages ----
+[taxonomy_overview]
+other = "<span>{{ .Terms }}</span> {{ .Singular }} · σύνολο {{ .Total }} αναρτήσεις"
+
+[term_kicker_category]
+other = "Κατηγορία"
+
+[term_kicker_tag]
+other = "Ετικέτα"
+
+[term_post_count]
+one = "<b>{{ .Count }}</b> {{ if .IsCat }}σχετική {{ end }}ανάρτηση"
+other = "<b>{{ .Count }}</b> {{ if .IsCat }}σχετικές {{ end }}αναρτήσεις"
+
+[pagination]
+other = "Σελιδοποίηση"
+
+[prev_page]
+other = "Προηγούμενη σελίδα"
+
+[next_page]
+other = "Επόμενη σελίδα"
+
+[language]
+other = "Γλώσσα"
+
+[sponsor]
+other = "Χορηγία"

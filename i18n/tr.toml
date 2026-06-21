@@ -1,0 +1,163 @@
+# vishine i18n — Türkçe
+[home]
+other = "Ana sayfa"
+[categories]
+other = "Kategoriler"
+[tags]
+other = "Etiketler"
+[navigation]
+other = "Gezinme"
+[search]
+other = "Ara"
+[filter]
+other = "Filtre"
+[view_all]
+other = "Tümü"
+[unit_articles]
+other = "gönderi"
+[unit_words]
+other = "kelime"
+[reading_time]
+one = "{{ .Count }} dk"
+other = "{{ .Count }} dk"
+[read_time_label]
+one = "{{ .Count }} dk okuma"
+other = "{{ .Count }} dk okuma"
+[count_posts]
+one = "{{ .Count }} gönderi"
+other = "{{ .Count }} gönderi"
+[count_zones]
+one = "{{ .Count }} bölge"
+other = "{{ .Count }} bölge"
+[cover_alt]
+other = "kapak"
+[filter_clear]
+other = "Filtreleri temizle"
+[no_match_articles]
+other = "Eşleşen gönderi yok. Bazı filtreleri kaldırmayı deneyin."
+[load_more]
+other = "Daha fazla yükle"
+[coming_soon]
+other = "Yakında"
+[site_stats]
+other = "Site istatistikleri"
+[stat_blog_posts]
+other = "Blog gönderileri"
+[stat_playbooks]
+other = "Kılavuzlar"
+[stat_categories]
+other = "Kategoriler"
+[home_sections_title]
+other = "Bölümler"
+[home_sections_desc]
+other = "Beş yapılandırılmış bölüm · renk kodlu · tek tıkla erişilebilir"
+[view_all_content]
+other = "Tüm içeriği görüntüle"
+[section_enter]
+other = "Şuraya git: "
+[recent_updates]
+other = "Son güncellemeler"
+[top_categories]
+other = "En çok kullanılan kategoriler"
+[top_tags]
+other = "En çok kullanılan etiketler"
+[breadcrumb]
+other = "Gezinme yolu"
+[share_this]
+other = "Paylaş"
+[copy_link]
+other = "Bağlantıyı kopyala"
+[continue_reading]
+other = "Okumaya devam et"
+[related_articles]
+other = "İlgili gönderiler"
+[prev_post]
+other = "Önceki"
+[next_post]
+other = "Sonraki"
+[toc]
+other = "İçindekiler"
+[toc_title]
+other = "Bu sayfada"
+[toc_open]
+other = "İçindekileri aç"
+[toc_close]
+other = "İçindekileri kapat"
+[toc_article]
+other = "Makale içeriği"
+[toggle_read_width]
+other = "Okuma genişliğini değiştir"
+[lightbox_close]
+other = "Kapat"
+[lightbox_label]
+other = "Büyütülmüş görsel"
+[zoom_view]
+other = "Yakınlaştır"
+[click_zoom]
+other = "Yakınlaştırmak için tıklayın"
+[main_nav]
+other = "Ana gezinme"
+[open_menu]
+other = "Menüyü aç"
+[search_aria]
+other = "Ara, komut paletini aç"
+[color_scheme]
+other = "Renk şeması"
+[scheme_paper]
+other = "Kağıt"
+[scheme_clean]
+other = "Açık"
+[scheme_dark]
+other = "Koyu"
+[footer_index_of]
+other = " teknik dizini. "
+[subscribe_rss]
+other = "RSS'e abone ol"
+[copy_rss_title]
+other = "RSS adresini kopyala"
+[copy_address]
+other = "URL'yi kopyala"
+[cmdk_panel]
+other = "Komut paleti"
+[cmdk_placeholder]
+other = "Gönderi, kılavuz, kategori, etiket ara…"
+[search_results]
+other = "Arama sonuçları"
+[cmdk_select]
+other = "Seç"
+[cmdk_open]
+other = "Aç"
+[cmdk_close]
+other = "Kapat"
+[nav_menu]
+other = "Gezinme menüsü"
+[close_menu]
+other = "Menüyü kapat"
+[back_to_top]
+other = "Başa dön"
+[copy_code]
+other = "Kodu kopyala"
+[copy]
+other = "Kopyala"
+[copy_section_link]
+other = "Bölüm bağlantısını kopyala"
+[taxonomy_overview]
+other = "<span>{{ .Terms }}</span> {{ .Singular }} · toplam {{ .Total }} gönderi"
+[term_kicker_category]
+other = "Kategori"
+[term_kicker_tag]
+other = "Etiket"
+[term_post_count]
+one = "<b>{{ .Count }}</b> {{ if .IsCat }}ilgili {{ end }}gönderi"
+other = "<b>{{ .Count }}</b> {{ if .IsCat }}ilgili {{ end }}gönderi"
+[pagination]
+other = "Sayfalama"
+[prev_page]
+other = "Önceki sayfa"
+[next_page]
+other = "Sonraki sayfa"
+[language]
+other = "Dil"
+
+[sponsor]
+other = "Destek ol"

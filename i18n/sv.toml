@@ -1,0 +1,253 @@
+# vishine i18n — Svenska
+# Interface labels / interaction text only; not example content or site params.
+
+# ---- Common nouns ----
+[home]
+other = "Hem"
+
+[categories]
+other = "Kategorier"
+
+[tags]
+other = "Taggar"
+
+[navigation]
+other = "Navigering"
+
+[search]
+other = "Sök"
+
+[filter]
+other = "Filtrera"
+
+[view_all]
+other = "Alla"
+
+# ---- Units / counts ----
+[unit_articles]
+other = "inlägg"
+
+[unit_words]
+other = "ord"
+
+[reading_time]
+one = "{{ .Count }} min"
+other = "{{ .Count }} min"
+
+[read_time_label]
+one = "{{ .Count }} min läsning"
+other = "{{ .Count }} min läsning"
+
+[count_posts]
+one = "{{ .Count }} inlägg"
+other = "{{ .Count }} inlägg"
+
+[count_zones]
+one = "{{ .Count }} zon"
+other = "{{ .Count }} zoner"
+
+[cover_alt]
+other = "omslag"
+
+# ---- List / filtering ----
+[filter_clear]
+other = "Rensa filter"
+
+[no_match_articles]
+other = "Inga matchande inlägg. Prova att ta bort några filter."
+
+[load_more]
+other = "Ladda fler"
+
+[coming_soon]
+other = "Kommer snart"
+
+# ---- Home ----
+[site_stats]
+other = "Webbplatsstatistik"
+
+[stat_blog_posts]
+other = "Blogginlägg"
+
+[stat_playbooks]
+other = "Handböcker"
+
+[stat_categories]
+other = "Kategorier"
+
+[home_sections_title]
+other = "Avsnitt"
+
+[home_sections_desc]
+other = "Fem strukturerade avsnitt · färgkodade · ett klick bort"
+
+[view_all_content]
+other = "Visa allt innehåll"
+
+[section_enter]
+other = "Gå till "
+
+[recent_updates]
+other = "Senaste uppdateringar"
+
+[top_categories]
+other = "Toppkategorier"
+
+[top_tags]
+other = "Topptaggar"
+
+# ---- Article page ----
+[breadcrumb]
+other = "Sökväg"
+
+[share_this]
+other = "Dela"
+
+[copy_link]
+other = "Kopiera länk"
+
+[continue_reading]
+other = "Fortsätt läsa"
+
+[related_articles]
+other = "Relaterade inlägg"
+
+[prev_post]
+other = "Föregående"
+
+[next_post]
+other = "Nästa"
+
+# ---- Table of contents ----
+[toc]
+other = "Innehåll"
+
+[toc_title]
+other = "På den här sidan"
+
+[toc_open]
+other = "Öppna innehåll"
+
+[toc_close]
+other = "Stäng innehåll"
+
+[toc_article]
+other = "Artikelinnehåll"
+
+[toggle_read_width]
+other = "Växla läsbredd"
+
+# ---- Image lightbox ----
+[lightbox_close]
+other = "Stäng"
+
+[lightbox_label]
+other = "Förstorad bild"
+
+[zoom_view]
+other = "Zooma in"
+
+[click_zoom]
+other = "Klicka för att zooma"
+
+# ---- Header ----
+[main_nav]
+other = "Huvudnavigering"
+
+[open_menu]
+other = "Öppna meny"
+
+[search_aria]
+other = "Sök, öppna kommandopalett"
+
+[color_scheme]
+other = "Färgschema"
+
+[scheme_paper]
+other = "Papper"
+
+[scheme_clean]
+other = "Ljust"
+
+[scheme_dark]
+other = "Mörkt"
+
+# ---- Footer ----
+[footer_index_of]
+other = "s tekniska index. "
+
+[subscribe_rss]
+other = "Prenumerera på RSS"
+
+[copy_rss_title]
+other = "Kopiera RSS-URL"
+
+[copy_address]
+other = "Kopiera URL"
+
+# ---- Command palette / drawer / global ----
+[cmdk_panel]
+other = "Kommandopalett"
+
+[cmdk_placeholder]
+other = "Sök inlägg, handböcker, kategorier, taggar…"
+
+[search_results]
+other = "Sökresultat"
+
+[cmdk_select]
+other = "Välj"
+
+[cmdk_open]
+other = "Öppna"
+
+[cmdk_close]
+other = "Stäng"
+
+[nav_menu]
+other = "Navigeringsmeny"
+
+[close_menu]
+other = "Stäng meny"
+
+[back_to_top]
+other = "Till toppen"
+
+# ---- Code block / heading anchor ----
+[copy_code]
+other = "Kopiera kod"
+
+[copy]
+other = "Kopiera"
+
+[copy_section_link]
+other = "Kopiera länk till avsnitt"
+
+# ---- Taxonomy overview & term pages ----
+[taxonomy_overview]
+other = "<span>{{ .Terms }}</span> {{ .Singular }} · totalt {{ .Total }} inlägg"
+
+[term_kicker_category]
+other = "Kategori"
+
+[term_kicker_tag]
+other = "Tagg"
+
+[term_post_count]
+one = "<b>{{ .Count }}</b> {{ if .IsCat }}relaterat {{ end }}inlägg"
+other = "<b>{{ .Count }}</b> {{ if .IsCat }}relaterade {{ end }}inlägg"
+
+[pagination]
+other = "Sidnumrering"
+
+[prev_page]
+other = "Föregående sida"
+
+[next_page]
+other = "Nästa sida"
+
+[language]
+other = "Språk"
+
+[sponsor]
+other = "Sponsra"

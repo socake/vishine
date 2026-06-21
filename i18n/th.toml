@@ -1,0 +1,248 @@
+# vishine i18n — ไทย
+# Interface labels / interaction text only; not example content or site params.
+
+# ---- Common nouns ----
+[home]
+other = "หน้าแรก"
+
+[categories]
+other = "หมวดหมู่"
+
+[tags]
+other = "แท็ก"
+
+[navigation]
+other = "การนำทาง"
+
+[search]
+other = "ค้นหา"
+
+[filter]
+other = "กรอง"
+
+[view_all]
+other = "ทั้งหมด"
+
+# ---- Units / counts ----
+[unit_articles]
+other = "บทความ"
+
+[unit_words]
+other = "คำ"
+
+[reading_time]
+other = "{{ .Count }} นาที"
+
+[read_time_label]
+other = "อ่าน {{ .Count }} นาที"
+
+[count_posts]
+other = "{{ .Count }} บทความ"
+
+[count_zones]
+other = "{{ .Count }} โซน"
+
+[cover_alt]
+other = "ภาพปก"
+
+# ---- List / filtering ----
+[filter_clear]
+other = "ล้างตัวกรอง"
+
+[no_match_articles]
+other = "ไม่พบบทความที่ตรงกัน ลองลดตัวกรองดู"
+
+[load_more]
+other = "โหลดเพิ่มเติม"
+
+[coming_soon]
+other = "เร็ว ๆ นี้"
+
+# ---- Home ----
+[site_stats]
+other = "สถิติเว็บไซต์"
+
+[stat_blog_posts]
+other = "บทความบล็อก"
+
+[stat_playbooks]
+other = "คู่มือ"
+
+[stat_categories]
+other = "หมวดหมู่"
+
+[home_sections_title]
+other = "ส่วนต่าง ๆ"
+
+[home_sections_desc]
+other = "ห้าส่วนที่จัดโครงสร้าง · แยกด้วยสี · คลิกเดียวถึง"
+
+[view_all_content]
+other = "ดูเนื้อหาทั้งหมด"
+
+[section_enter]
+other = "เข้าสู่ "
+
+[recent_updates]
+other = "อัปเดตล่าสุด"
+
+[top_categories]
+other = "หมวดหมู่ยอดนิยม"
+
+[top_tags]
+other = "แท็กยอดนิยม"
+
+# ---- Article page ----
+[breadcrumb]
+other = "เส้นทางนำทาง"
+
+[share_this]
+other = "แชร์"
+
+[copy_link]
+other = "คัดลอกลิงก์"
+
+[continue_reading]
+other = "อ่านต่อ"
+
+[related_articles]
+other = "บทความที่เกี่ยวข้อง"
+
+[prev_post]
+other = "ก่อนหน้า"
+
+[next_post]
+other = "ถัดไป"
+
+# ---- Table of contents ----
+[toc]
+other = "สารบัญ"
+
+[toc_title]
+other = "ในหน้านี้"
+
+[toc_open]
+other = "เปิดสารบัญ"
+
+[toc_close]
+other = "ปิดสารบัญ"
+
+[toc_article]
+other = "สารบัญบทความ"
+
+[toggle_read_width]
+other = "สลับความกว้างการอ่าน"
+
+# ---- Image lightbox ----
+[lightbox_close]
+other = "ปิด"
+
+[lightbox_label]
+other = "ภาพขยาย"
+
+[zoom_view]
+other = "ขยาย"
+
+[click_zoom]
+other = "คลิกเพื่อขยาย"
+
+# ---- Header ----
+[main_nav]
+other = "การนำทางหลัก"
+
+[open_menu]
+other = "เปิดเมนู"
+
+[search_aria]
+other = "ค้นหา เปิดแผงคำสั่ง"
+
+[color_scheme]
+other = "ชุดสี"
+
+[scheme_paper]
+other = "กระดาษ"
+
+[scheme_clean]
+other = "สว่าง"
+
+[scheme_dark]
+other = "มืด"
+
+# ---- Footer ----
+[footer_index_of]
+other = " · ดัชนีทางเทคนิค "
+
+[subscribe_rss]
+other = "ติดตาม RSS"
+
+[copy_rss_title]
+other = "คัดลอก URL ของ RSS"
+
+[copy_address]
+other = "คัดลอก URL"
+
+# ---- Command palette / drawer / global ----
+[cmdk_panel]
+other = "แผงคำสั่ง"
+
+[cmdk_placeholder]
+other = "ค้นหาบทความ คู่มือ หมวดหมู่ แท็ก…"
+
+[search_results]
+other = "ผลการค้นหา"
+
+[cmdk_select]
+other = "เลือก"
+
+[cmdk_open]
+other = "เปิด"
+
+[cmdk_close]
+other = "ปิด"
+
+[nav_menu]
+other = "เมนูนำทาง"
+
+[close_menu]
+other = "ปิดเมนู"
+
+[back_to_top]
+other = "กลับขึ้นด้านบน"
+
+# ---- Code block / heading anchor ----
+[copy_code]
+other = "คัดลอกโค้ด"
+
+[copy]
+other = "คัดลอก"
+
+[copy_section_link]
+other = "คัดลอกลิงก์ของส่วนนี้"
+
+# ---- Taxonomy overview & term pages ----
+[taxonomy_overview]
+other = "<span>{{ .Terms }}</span> {{ .Singular }} · รวม {{ .Total }} บทความ"
+
+[term_kicker_category]
+other = "หมวดหมู่"
+
+[term_kicker_tag]
+other = "แท็ก"
+
+[term_post_count]
+other = "<b>{{ .Count }}</b> บทความ{{ if .IsCat }}ที่เกี่ยวข้อง{{ end }}"
+
+[pagination]
+other = "การแบ่งหน้า"
+
+[prev_page]
+other = "หน้าก่อนหน้า"
+
+[next_page]
+other = "หน้าถัดไป"
+
+[language]
+other = "ภาษา"
+
+[sponsor]
+other = "สนับสนุน"

@@ -1,0 +1,158 @@
+# vishine i18n — 한국어
+[home]
+other = "홈"
+[categories]
+other = "카테고리"
+[tags]
+other = "태그"
+[navigation]
+other = "내비게이션"
+[search]
+other = "검색"
+[filter]
+other = "필터"
+[view_all]
+other = "전체"
+[unit_articles]
+other = "개"
+[unit_words]
+other = "자"
+[reading_time]
+other = "{{ .Count }}분"
+[read_time_label]
+other = "{{ .Count }}분 분량"
+[count_posts]
+other = "게시물 {{ .Count }}개"
+[count_zones]
+other = "구역 {{ .Count }}개"
+[cover_alt]
+other = "커버"
+[filter_clear]
+other = "필터 지우기"
+[no_match_articles]
+other = "일치하는 게시물이 없습니다. 필터를 일부 해제해 보세요."
+[load_more]
+other = "더 보기"
+[coming_soon]
+other = "준비 중"
+[site_stats]
+other = "사이트 통계"
+[stat_blog_posts]
+other = "블로그 게시물"
+[stat_playbooks]
+other = "플레이북"
+[stat_categories]
+other = "카테고리"
+[home_sections_title]
+other = "섹션"
+[home_sections_desc]
+other = "구조화된 5개 섹션 · 색상 구분 · 원클릭 이동"
+[view_all_content]
+other = "전체 콘텐츠 보기"
+[section_enter]
+other = "들어가기: "
+[recent_updates]
+other = "최근 업데이트"
+[top_categories]
+other = "인기 카테고리"
+[top_tags]
+other = "인기 태그"
+[breadcrumb]
+other = "경로 탐색"
+[share_this]
+other = "공유"
+[copy_link]
+other = "링크 복사"
+[continue_reading]
+other = "계속 읽기"
+[related_articles]
+other = "관련 게시물"
+[prev_post]
+other = "이전"
+[next_post]
+other = "다음"
+[toc]
+other = "목차"
+[toc_title]
+other = "이 페이지에서"
+[toc_open]
+other = "목차 열기"
+[toc_close]
+other = "목차 닫기"
+[toc_article]
+other = "글 목차"
+[toggle_read_width]
+other = "읽기 너비 전환"
+[lightbox_close]
+other = "닫기"
+[lightbox_label]
+other = "확대 이미지"
+[zoom_view]
+other = "확대"
+[click_zoom]
+other = "클릭하여 확대"
+[main_nav]
+other = "기본 내비게이션"
+[open_menu]
+other = "메뉴 열기"
+[search_aria]
+other = "검색, 명령 팔레트 열기"
+[color_scheme]
+other = "색상 테마"
+[scheme_paper]
+other = "페이퍼"
+[scheme_clean]
+other = "클린"
+[scheme_dark]
+other = "다크"
+[footer_index_of]
+other = "님의 기술 인덱스. "
+[subscribe_rss]
+other = "RSS 구독"
+[copy_rss_title]
+other = "RSS URL 복사"
+[copy_address]
+other = "URL 복사"
+[cmdk_panel]
+other = "명령 팔레트"
+[cmdk_placeholder]
+other = "게시물, 플레이북, 카테고리, 태그 검색…"
+[search_results]
+other = "검색 결과"
+[cmdk_select]
+other = "선택"
+[cmdk_open]
+other = "열기"
+[cmdk_close]
+other = "닫기"
+[nav_menu]
+other = "내비게이션 메뉴"
+[close_menu]
+other = "메뉴 닫기"
+[back_to_top]
+other = "맨 위로"
+[copy_code]
+other = "코드 복사"
+[copy]
+other = "복사"
+[copy_section_link]
+other = "섹션 링크 복사"
+[taxonomy_overview]
+other = "<span>{{ .Terms }}</span>개의 {{ .Singular }} · 총 {{ .Total }}개 게시물"
+[term_kicker_category]
+other = "카테고리"
+[term_kicker_tag]
+other = "태그"
+[term_post_count]
+other = "{{ if .IsCat }}관련 {{ end }}게시물 <b>{{ .Count }}</b>개"
+[pagination]
+other = "페이지 매기기"
+[prev_page]
+other = "이전 페이지"
+[next_page]
+other = "다음 페이지"
+[language]
+other = "언어"
+
+[sponsor]
+other = "후원"

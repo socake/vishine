@@ -1,0 +1,158 @@
+# vishine i18n — 日本語
+[home]
+other = "ホーム"
+[categories]
+other = "カテゴリ"
+[tags]
+other = "タグ"
+[navigation]
+other = "ナビゲーション"
+[search]
+other = "検索"
+[filter]
+other = "絞り込み"
+[view_all]
+other = "すべて"
+[unit_articles]
+other = "件"
+[unit_words]
+other = "字"
+[reading_time]
+other = "{{ .Count }} 分"
+[read_time_label]
+other = "{{ .Count }} 分で読めます"
+[count_posts]
+other = "{{ .Count }} 件の記事"
+[count_zones]
+other = "{{ .Count }} 個のゾーン"
+[cover_alt]
+other = "カバー画像"
+[filter_clear]
+other = "絞り込みをクリア"
+[no_match_articles]
+other = "該当する記事がありません。絞り込み条件を減らしてみてください。"
+[load_more]
+other = "もっと見る"
+[coming_soon]
+other = "近日公開"
+[site_stats]
+other = "サイト統計"
+[stat_blog_posts]
+other = "ブログ記事"
+[stat_playbooks]
+other = "プレイブック"
+[stat_categories]
+other = "カテゴリ"
+[home_sections_title]
+other = "セクション"
+[home_sections_desc]
+other = "5つの構造化されたセクション・色分け表示・ワンクリックでアクセス"
+[view_all_content]
+other = "すべてのコンテンツを見る"
+[section_enter]
+other = "開く："
+[recent_updates]
+other = "最近の更新"
+[top_categories]
+other = "人気のカテゴリ"
+[top_tags]
+other = "人気のタグ"
+[breadcrumb]
+other = "パンくずリスト"
+[share_this]
+other = "共有"
+[copy_link]
+other = "リンクをコピー"
+[continue_reading]
+other = "続きを読む"
+[related_articles]
+other = "関連記事"
+[prev_post]
+other = "前へ"
+[next_post]
+other = "次へ"
+[toc]
+other = "目次"
+[toc_title]
+other = "このページの内容"
+[toc_open]
+other = "目次を開く"
+[toc_close]
+other = "目次を閉じる"
+[toc_article]
+other = "記事の目次"
+[toggle_read_width]
+other = "読みやすい幅に切り替え"
+[lightbox_close]
+other = "閉じる"
+[lightbox_label]
+other = "拡大画像"
+[zoom_view]
+other = "拡大"
+[click_zoom]
+other = "クリックで拡大"
+[main_nav]
+other = "メインナビゲーション"
+[open_menu]
+other = "メニューを開く"
+[search_aria]
+other = "検索、コマンドパレットを開く"
+[color_scheme]
+other = "配色"
+[scheme_paper]
+other = "ペーパー"
+[scheme_clean]
+other = "クリーン"
+[scheme_dark]
+other = "ダーク"
+[footer_index_of]
+other = "の技術インデックス。"
+[subscribe_rss]
+other = "RSSを購読"
+[copy_rss_title]
+other = "RSSのURLをコピー"
+[copy_address]
+other = "URLをコピー"
+[cmdk_panel]
+other = "コマンドパレット"
+[cmdk_placeholder]
+other = "記事、プレイブック、カテゴリ、タグを検索…"
+[search_results]
+other = "検索結果"
+[cmdk_select]
+other = "選択"
+[cmdk_open]
+other = "開く"
+[cmdk_close]
+other = "閉じる"
+[nav_menu]
+other = "ナビゲーションメニュー"
+[close_menu]
+other = "メニューを閉じる"
+[back_to_top]
+other = "トップへ戻る"
+[copy_code]
+other = "コードをコピー"
+[copy]
+other = "コピー"
+[copy_section_link]
+other = "セクションへのリンクをコピー"
+[taxonomy_overview]
+other = "<span>{{ .Terms }}</span> 個の{{ .Singular }}・全 {{ .Total }} 件の記事"
+[term_kicker_category]
+other = "カテゴリ"
+[term_kicker_tag]
+other = "タグ"
+[term_post_count]
+other = "<b>{{ .Count }}</b> 件の{{ if .IsCat }}関連{{ end }}記事"
+[pagination]
+other = "ページネーション"
+[prev_page]
+other = "前のページ"
+[next_page]
+other = "次のページ"
+[language]
+other = "言語"
+
+[sponsor]
+other = "スポンサー"

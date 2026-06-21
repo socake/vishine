@@ -1,0 +1,248 @@
+# vishine i18n — Tiếng Việt
+# Interface labels / interaction text only; not example content or site params.
+
+# ---- Common nouns ----
+[home]
+other = "Trang chủ"
+
+[categories]
+other = "Danh mục"
+
+[tags]
+other = "Thẻ"
+
+[navigation]
+other = "Điều hướng"
+
+[search]
+other = "Tìm kiếm"
+
+[filter]
+other = "Lọc"
+
+[view_all]
+other = "Tất cả"
+
+# ---- Units / counts ----
+[unit_articles]
+other = "bài"
+
+[unit_words]
+other = "từ"
+
+[reading_time]
+other = "{{ .Count }} phút"
+
+[read_time_label]
+other = "Đọc {{ .Count }} phút"
+
+[count_posts]
+other = "{{ .Count }} bài"
+
+[count_zones]
+other = "{{ .Count }} khu vực"
+
+[cover_alt]
+other = "ảnh bìa"
+
+# ---- List / filtering ----
+[filter_clear]
+other = "Xóa bộ lọc"
+
+[no_match_articles]
+other = "Không có bài viết phù hợp. Hãy thử bỏ bớt bộ lọc."
+
+[load_more]
+other = "Tải thêm"
+
+[coming_soon]
+other = "Sắp ra mắt"
+
+# ---- Home ----
+[site_stats]
+other = "Thống kê trang"
+
+[stat_blog_posts]
+other = "Bài viết"
+
+[stat_playbooks]
+other = "Cẩm nang"
+
+[stat_categories]
+other = "Danh mục"
+
+[home_sections_title]
+other = "Chuyên mục"
+
+[home_sections_desc]
+other = "Năm chuyên mục có cấu trúc · mã màu · truy cập một chạm"
+
+[view_all_content]
+other = "Xem tất cả nội dung"
+
+[section_enter]
+other = "Vào "
+
+[recent_updates]
+other = "Cập nhật gần đây"
+
+[top_categories]
+other = "Danh mục hàng đầu"
+
+[top_tags]
+other = "Thẻ phổ biến"
+
+# ---- Article page ----
+[breadcrumb]
+other = "Đường dẫn"
+
+[share_this]
+other = "Chia sẻ"
+
+[copy_link]
+other = "Sao chép liên kết"
+
+[continue_reading]
+other = "Đọc tiếp"
+
+[related_articles]
+other = "Bài viết liên quan"
+
+[prev_post]
+other = "Trước"
+
+[next_post]
+other = "Tiếp"
+
+# ---- Table of contents ----
+[toc]
+other = "Mục lục"
+
+[toc_title]
+other = "Trong trang này"
+
+[toc_open]
+other = "Mở mục lục"
+
+[toc_close]
+other = "Đóng mục lục"
+
+[toc_article]
+other = "Mục lục bài viết"
+
+[toggle_read_width]
+other = "Đổi độ rộng đọc"
+
+# ---- Image lightbox ----
+[lightbox_close]
+other = "Đóng"
+
+[lightbox_label]
+other = "Ảnh phóng to"
+
+[zoom_view]
+other = "Phóng to"
+
+[click_zoom]
+other = "Nhấn để phóng to"
+
+# ---- Header ----
+[main_nav]
+other = "Điều hướng chính"
+
+[open_menu]
+other = "Mở menu"
+
+[search_aria]
+other = "Tìm kiếm, mở bảng lệnh"
+
+[color_scheme]
+other = "Bảng màu"
+
+[scheme_paper]
+other = "Giấy"
+
+[scheme_clean]
+other = "Sáng"
+
+[scheme_dark]
+other = "Tối"
+
+# ---- Footer ----
+[footer_index_of]
+other = " — chỉ mục kỹ thuật. "
+
+[subscribe_rss]
+other = "Đăng ký RSS"
+
+[copy_rss_title]
+other = "Sao chép URL RSS"
+
+[copy_address]
+other = "Sao chép URL"
+
+# ---- Command palette / drawer / global ----
+[cmdk_panel]
+other = "Bảng lệnh"
+
+[cmdk_placeholder]
+other = "Tìm bài viết, cẩm nang, danh mục, thẻ…"
+
+[search_results]
+other = "Kết quả tìm kiếm"
+
+[cmdk_select]
+other = "Chọn"
+
+[cmdk_open]
+other = "Mở"
+
+[cmdk_close]
+other = "Đóng"
+
+[nav_menu]
+other = "Menu điều hướng"
+
+[close_menu]
+other = "Đóng menu"
+
+[back_to_top]
+other = "Lên đầu trang"
+
+# ---- Code block / heading anchor ----
+[copy_code]
+other = "Sao chép mã"
+
+[copy]
+other = "Sao chép"
+
+[copy_section_link]
+other = "Sao chép liên kết mục"
+
+# ---- Taxonomy overview & term pages ----
+[taxonomy_overview]
+other = "<span>{{ .Terms }}</span> {{ .Singular }} · tổng cộng {{ .Total }} bài"
+
+[term_kicker_category]
+other = "Danh mục"
+
+[term_kicker_tag]
+other = "Thẻ"
+
+[term_post_count]
+other = "<b>{{ .Count }}</b> bài viết {{ if .IsCat }}liên quan{{ end }}"
+
+[pagination]
+other = "Phân trang"
+
+[prev_page]
+other = "Trang trước"
+
+[next_page]
+other = "Trang sau"
+
+[language]
+other = "Ngôn ngữ"
+
+[sponsor]
+other = "Tài trợ"
