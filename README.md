@@ -25,15 +25,21 @@
 
 ## 截图
 
+### 🖥 桌面端
+
 | 首页（bento 门户） | 文章页 + 目录树 | 左图右文列表 |
 | :---: | :---: | :---: |
 | ![首页](docs/images/screenshot-home.png) | ![文章](docs/images/screenshot-article.png) | ![列表](docs/images/screenshot-list.png) |
 | **⌘K 命令面板** | **暗色配色** | **暖纸配色** |
 | ![命令面板](docs/images/screenshot-cmdk.png) | ![暗色](docs/images/screenshot-dark.png) | ![暖纸](docs/images/screenshot-paper.png) |
-| **Shortcodes 展示** | **自动封面（4 版式）** | **独立赞助页** |
-| ![shortcodes](docs/images/screenshot-shortcodes.png) | ![封面](docs/images/screenshot-covers.png) | ![赞助](docs/images/screenshot-sponsor.png) |
-| **教程文档站** | **移动端抽屉** | |
-| ![教程站](docs/images/screenshot-tutorial.png) | ![抽屉](docs/images/screenshot-mobile.png) | |
+| **Shortcodes 展示** | **自动封面（4 版式）** | **教程文档站** |
+| ![shortcodes](docs/images/screenshot-shortcodes.png) | ![封面](docs/images/screenshot-covers.png) | ![教程站](docs/images/screenshot-tutorial.png) |
+
+### 📱 移动端
+
+| 首页 | 文章页 | 赞助页 | 抽屉菜单 |
+| :---: | :---: | :---: | :---: |
+| ![移动首页](docs/images/screenshot-m-home.png) | ![移动文章](docs/images/screenshot-m-article.png) | ![移动赞助](docs/images/screenshot-m-sponsor.png) | ![抽屉菜单](docs/images/screenshot-mobile.png) |
 
 ---
 
