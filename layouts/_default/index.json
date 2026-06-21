@@ -1,0 +1,18 @@
+{{- /*
+  index.json — ⌘K 搜索索引（home JSON output；config outputs.home 含 JSON）。
+  main.js fetch /index.json 驱动命令面板。每个 RegularPage 一项。
+  板块色由前端按 type/categories 经 data/sections 自行映射，这里只出原始字段。
+*/ -}}
+{{- $items := slice -}}
+{{- range (where site.RegularPages "Kind" "page") -}}
+  {{- $items = $items | append (dict
+      "title"      .Title
+      "url"        .RelPermalink
+      "type"       .Section
+      "summary"    (.Summary | plainify | truncate 140)
+      "categories" (.Params.categories | default slice)
+      "tags"       (.Params.tags | default slice)
+      "date"       (.Date.Format "2006-01-02")
+  ) -}}
+{{- end -}}
+{{- $items | jsonify (dict "indent" "  ") -}}

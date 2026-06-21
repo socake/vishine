@@ -1,0 +1,15 @@
+# Hugo 构建产物
+/public/
+/resources/
+.hugo_build.lock
+
+# exampleSite 构建产物
+/exampleSite/public/
+/exampleSite/resources/
+
+# 依赖与系统文件
+node_modules/
+.DS_Store
+*.log
+
+# 注意：static/js/mermaid.min.js 是自托管的必需资产，必须纳入版本控制，切勿忽略。

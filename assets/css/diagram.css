@@ -1,0 +1,17 @@
+/* ============================================================
+   diagram.css — Mermaid 图表容器（token 化，三套 scheme 自适应）
+   ============================================================ */
+.diagram-mermaid{
+  margin:22px 0;padding:18px 18px 14px;
+  background:var(--card);border:1px solid var(--line);
+  border-radius:var(--radius);box-shadow:var(--shadow);
+  overflow-x:auto;text-align:center;
+}
+.diagram-mermaid .mermaid{display:flex;justify-content:center;min-height:40px}
+.diagram-mermaid .mermaid svg{max-width:100%;height:auto}
+/* 渲染前（还是源码文本）的占位样式，避免闪现裸文本 */
+.diagram-mermaid .mermaid:not([data-processed]){
+  font-family:var(--font-mono);font-size:12px;color:var(--ink-3);
+  white-space:pre-wrap;text-align:left;opacity:.5;
+}
+.diagram-mermaid .mermaid[data-processed]{opacity:1}

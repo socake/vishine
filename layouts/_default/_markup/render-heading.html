@@ -1,0 +1,5 @@
+{{- /*
+  标题 → <hN id="{{ .Anchor }}"> + 内嵌 .anchor（# 锚点）。
+  hover 显示 / 点击复制本节链接的行为由 main.js 接管。
+*/ -}}
+<h{{ .Level }} id="{{ .Anchor }}">{{ .Text | safeHTML }}<a class="anchor" href="#{{ .Anchor }}" aria-label="复制本节链接">#</a></h{{ .Level }}>

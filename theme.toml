@@ -1,0 +1,20 @@
+name = "vishine"
+license = "MIT"
+licenselink = "https://github.com/socake/vishine/blob/main/LICENSE"
+description = "知识门户型中文技术博客 Hugo 主题:DevOps / 云原生 / AI 工程化。三套配色 scheme（暖纸 / 纯白 / 暗色）、⌘K 命令面板、可折叠目录树、完整 Markdown 渲染规范。基于 Blowfish 二次开发。"
+homepage = "https://github.com/socake/vishine"
+demosite = "https://github.com/socake/vishine"
+tags = ["blog", "docs", "knowledge base", "chinese", "dark mode", "devops", "minimal", "responsive"]
+features = ["three color schemes", "command palette", "collapsible TOC", "code copy", "reading width toggle", "responsive", "accessible"]
+min_version = "0.146.0"
+
+[author]
+  name = "星辉 (Wenzhuo Huang)"
+  homepage = "https://github.com/socake"
+
+# 二次开发自 Blowfish（MIT, © Nuno Coração）
+[original]
+  name = "Blowfish"
+  homepage = "https://blowfish.page/"
+  repo = "https://github.com/nunocoracao/blowfish"
+  author = "Nuno Coração"

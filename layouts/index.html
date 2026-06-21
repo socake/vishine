@@ -1,0 +1,157 @@
+{{ define "main" }}
+{{- $posts := where site.RegularPages "Section" "posts" -}}
+{{- $sd := hugo.Data.sections.sections -}}
+{{- $cats := site.Taxonomies.categories.ByCount -}}
+{{- $tags := site.Taxonomies.tags.ByCount -}}
+
+{{- /* 板块图标（描线 SVG，按 class 取） */ -}}
+{{- $icons := dict
+  "blog" `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 5h16M4 10h16M4 15h10M4 20h7"/></svg>`
+  "play" `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h11l5 5v11H4z"/><path d="M14 4v5h5"/><path d="M8 13h7M8 16h5"/></svg>`
+  "docs" `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="8" height="8" rx="1.5"/><rect x="13" y="3" width="8" height="8" rx="1.5"/><rect x="3" y="13" width="8" height="8" rx="1.5"/><rect x="13" y="13" width="8" height="8" rx="1.5"/></svg>`
+  "road" `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="6" cy="6" r="2.5"/><circle cx="18" cy="18" r="2.5"/><path d="M6 8.5v4a3 3 0 0 0 3 3h6"/></svg>`
+  "res"  `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5a2 2 0 0 1 2-2h9l5 5v11a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2z"/><path d="M9 3v14"/></svg>`
+-}}
+
+<!-- ============ HERO ============ -->
+<section class="hero">
+  <div class="wrap hero-grid">
+    <div>
+      <span class="kicker"><span class="dot"></span>{{ site.Params.author }}{{ with site.Params.authorEn }} · {{ . }}{{ end }}{{ with site.Params.role }} · {{ index (split . "·") 0 | strings.TrimSpace }}{{ end }}</span>
+      {{- $tl := site.Params.tagline -}}
+      {{- $parts := split $tl "，" -}}
+      {{- $n := len $parts -}}
+      <h1>{{ range $i, $p := $parts }}{{ if lt $i (sub $n 1) }}{{ $p }}，<br>{{ else }}<span class="hl">{{ $p }}</span>{{ end }}{{ end }}</h1>
+      <p class="lead">{{ site.Params.description }}</p>
+      <div class="role-tags">
+        {{ range (split site.Params.role "·") }}<span>{{ . | strings.TrimSpace }}</span>{{ end }}
+      </div>
+    </div>
+    <div class="stat-panel">
+      <div class="stat-head"><b>站点统计</b><span class="since">SINCE {{ site.Params.since }}</span></div>
+      <div class="stat-rows">
+        <div class="stat-cell accent"><div class="num">{{ len $posts }}<span class="u">篇</span></div><div class="lbl">博客文章</div></div>
+        <div class="stat-cell"><div class="num">{{ len (where site.RegularPages "Section" "playbook") }}<span class="u">篇</span></div><div class="lbl">实战手册</div></div>
+        <div class="stat-cell"><div class="num">{{ len $cats }}<span class="u">+</span></div><div class="lbl">内容分类</div></div>
+        <div class="stat-cell"><div class="num">{{ len $tags }}<span class="u">+</span></div><div class="lbl">标签</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 五大板块 BENTO ============ -->
+<section class="sec wrap">
+  <div class="sec-head">
+    <h2>板块入口</h2>
+    <span class="desc">五大结构化板块 · 色彩编码 · 一处直达</span>
+    {{ with site.GetPage "/posts" }}<a href="{{ .RelPermalink }}" class="more">all sections →</a>{{ end }}
+  </div>
+
+  <div class="bento">
+    {{ $d := 0 }}
+    {{ range $key := (site.Params.homeSections | default (slice "posts" "playbook" "docs" "roadmap" "resources")) }}
+      {{ $d = add $d 1 }}
+      {{ $sec := index $sd $key }}
+      {{ $cls := $sec.class }}
+      {{ $secPage := site.GetPage (printf "/%s" $key) }}
+      {{ $pages := where site.RegularPages "Section" $key }}
+      <article class="mod {{ $cls }} reveal d{{ $d }}">
+        <div class="mod-head">
+          <div class="mod-ico">{{ index $icons $cls | safeHTML }}</div>
+          <div class="mod-titles"><h3>{{ $sec.label }}</h3><span class="en">{{ $sec.en }}</span></div>
+          <div class="mod-count">{{ if eq $key "docs" }}{{ len $cats }} 专区{{ else if $pages }}{{ len $pages }} 篇{{ else }}—{{ end }}</div>
+        </div>
+        <div class="mod-body">
+          {{ if eq $key "docs" }}
+            <div class="mod-chips">
+              {{ range first 8 $cats }}<a href="{{ .Page.RelPermalink }}"><span>{{ .Page.Title }}</span></a>{{ end }}
+            </div>
+          {{ else }}
+            <ul class="mod-list">
+              {{ range first 3 $pages }}
+                <li><span class="b"></span><a class="t" href="{{ .RelPermalink }}">{{ .Title }}</a><span class="m mono">{{ .Date.Format "01-02" }}</span></li>
+              {{ else }}
+                <li><span class="b"></span><span class="t" style="color:var(--ink-3)">{{ with $secPage }}{{ .Description | default "查看全部内容" }}{{ else }}查看全部内容{{ end }}</span></li>
+              {{ end }}
+            </ul>
+          {{ end }}
+        </div>
+        <div class="mod-foot">
+          <a href="{{ with $secPage }}{{ .RelPermalink }}{{ else }}/{{ $key }}/{{ end }}">进入{{ $sec.label }} →</a>
+          <span class="upd mono">{{ with first 1 $pages }}{{ range . }}updated {{ .Date.Format "01-02" }}{{ end }}{{ else }}{{ $sec.en }}{{ end }}</span>
+        </div>
+      </article>
+    {{ end }}
+
+    {{- /* 特色横幅板块（可选）：site.Params.featureZone 配置则显示，否则不渲染 */ -}}
+    {{ with site.Params.featureZone }}
+    <article class="mod ai reveal d6">
+      <div class="mod-head" style="border-bottom:1px solid var(--line-2);width:100%">
+        <div class="mod-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v3M12 18v3M3 12h3M18 12h3"/><rect x="7" y="7" width="10" height="10" rx="2"/><circle cx="12" cy="12" r="1.6" fill="currentColor"/></svg></div>
+        <div class="mod-titles"><h3>{{ .title | default "专区" }} <span style="font-family:var(--font-mono);font-size:11px;color:var(--ink-3);font-weight:500">{{ .en }}</span></h3><span class="en">{{ .desc }}</span></div>
+        {{ with .count }}<div class="mod-count">{{ . }}</div>{{ end }}
+      </div>
+      <div class="ai-inner">
+        {{ with .lead }}<div class="ai-col ai-lead">
+          <div class="big">{{ .title }}</div>
+          <div class="sub">{{ .desc }}</div>
+        </div>{{ end }}
+        {{ range .cols }}<div class="ai-col"><h4><span class="k">{{ .k }}</span> {{ .name }}</h4><p>{{ .desc }}</p></div>{{ end }}
+      </div>
+    </article>
+    {{ end }}
+  </div>
+</section>
+
+<!-- ============ FEED + SIDE ============ -->
+<section class="sec wrap" style="padding-top:8px">
+  <div class="low">
+    <!-- 最近更新流 -->
+    <div class="feed">
+      <div class="feed-head">
+        <b><span class="live"></span>最近更新</b>
+        {{ with site.GetPage "/posts" }}<a href="{{ .RelPermalink }}" class="more" style="font-family:var(--font-mono);font-size:12px;color:var(--accent);font-weight:600">recent stream →</a>{{ end }}
+      </div>
+      {{ range $i, $p := first 6 $posts }}
+        {{ $cls := partial "cat-class.html" $p }}
+        <a class="feed-row reveal d{{ add $i 1 }}" href="{{ $p.RelPermalink }}">
+          <div class="feed-date"><div class="d">{{ $p.Date.Format "02" }}</div><div class="my">{{ $p.Date.Format "06 Jan" | upper }}</div></div>
+          <div class="feed-main"><h4>{{ $p.Title }}</h4>
+            <div class="feed-meta">{{ with $p.Params.categories }}<span class="feed-cat mono" style="--fc:var(--c-{{ $cls }})">{{ index . 0 }}</span>{{ end }}<span class="feed-read mono">◷ {{ $p.ReadingTime }} min</span></div></div>
+          <span class="feed-arrow">→</span>
+        </a>
+      {{ end }}
+    </div>
+
+    <!-- SIDE -->
+    <aside class="side">
+      <div class="panel">
+        <div class="panel-head"><b>热门分类</b><span class="mono">top {{ math.Min 12 (len $cats) }}</span></div>
+        <div class="panel-body">
+          {{ $max := 1 }}{{ range first 1 $cats }}{{ $max = .Count }}{{ end }}
+          {{ range first 12 $cats }}
+            {{ $ccls := or (index hugo.Data.sections.categories .Page.Title) "blog" }}
+            <a class="cat-row" href="{{ .Page.RelPermalink }}">
+              <span class="name">{{ .Page.Title }}</span>
+              <div class="cat-bar"><i style="width:{{ div (mul .Count 100) $max }}%;--cb:var(--c-{{ $ccls }})"></i></div>
+              <span class="ct mono">{{ .Count }}</span>
+            </a>
+          {{ end }}
+        </div>
+      </div>
+
+      <div class="panel">
+        <div class="panel-head"><b>热门标签</b><span class="mono">{{ len $tags }}+</span></div>
+        <div class="panel-body">
+          <div class="tags">
+            {{ $tmax := 1 }}{{ range first 1 $tags }}{{ $tmax = .Count }}{{ end }}
+            {{ range first 18 $tags }}
+              <a class="{{ if ge .Count (int (mul $tmax 0.6)) }}lg{{ end }}" href="{{ .Page.RelPermalink }}">{{ .Page.Title }}<span class="n">{{ .Count }}</span></a>
+            {{ end }}
+          </div>
+        </div>
+      </div>
+    </aside>
+  </div>
+</section>
+{{ end }}

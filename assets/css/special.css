@@ -1,0 +1,184 @@
+/* ============================================================
+   special.css — 特殊页样式（taxonomy / term / changelog / resources / books / about）
+   铁律：只引用 token（var(--xxx)），不写死颜色；复用全站卡片 / 量感条 / 标签云调性。
+   三套 scheme 自动随 token 翻转。板块色一律经 --tc / --fc 语义层间接引用。
+   ============================================================ */
+
+/* ---------- taxonomy 总览（/categories、/tags） ---------- */
+.tax-grid{
+  display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:16px;
+}
+/* 分类量感条：复用 .panel + .cat-row + .cat-bar 调性，做成卡片 */
+.tax-card{
+  background:var(--card);border:1px solid var(--line);border-radius:var(--radius);
+  box-shadow:var(--shadow);padding:16px 18px;
+  transition:transform .2s,box-shadow .2s,border-color .25s,background-color .25s;
+  --tc:var(--accent);
+}
+.tax-card:hover{transform:translateY(-3px);box-shadow:var(--shadow-hi);border-color:color-mix(in srgb,var(--tc) 50%,var(--line))}
+.tax-card .tc-head{display:flex;align-items:baseline;justify-content:space-between;gap:10px;margin-bottom:10px}
+.tax-card .tc-name{font-size:16px;font-weight:700;letter-spacing:-.01em;color:var(--ink);transition:color .15s}
+.tax-card:hover .tc-name{color:var(--tc)}
+.tax-card .tc-ct{font-family:var(--font-mono);font-feature-settings:"tnum" 1;font-size:12px;font-weight:700;color:var(--tc)}
+.tax-card .cat-bar{margin-top:2px}
+
+/* 标签云总览：复用 .tags */
+.tax-cloud{
+  background:var(--card);border:1px solid var(--line);border-radius:var(--radius);
+  box-shadow:var(--shadow);padding:20px 22px;
+}
+
+/* ---------- term 单分类 / 单标签页 ---------- */
+.term-hero{
+  padding:30px 0 22px;border-bottom:1px solid var(--line);margin-bottom:22px;
+  --tc:var(--accent);
+}
+.term-hero .kicker{margin-bottom:14px}
+.term-hero .kicker .dot{background:var(--tc);box-shadow:0 0 0 3px color-mix(in srgb,var(--tc) 25%,transparent)}
+.term-title{
+  font-size:38px;line-height:1.12;font-weight:900;letter-spacing:-.02em;
+  color:var(--ink);margin:0;display:flex;align-items:center;gap:12px;
+}
+.term-title .th-hash{color:var(--tc);font-weight:900}
+.term-stat{font-size:12.5px;color:var(--ink-3);margin-top:12px}
+.term-stat b{color:var(--tc);font-weight:700;font-family:var(--font-mono);font-feature-settings:"tnum" 1}
+
+/* ---------- 数字分页（.Paginator） ---------- */
+.pager{display:flex;align-items:center;justify-content:center;gap:6px;margin:34px 0 8px;flex-wrap:wrap}
+.pager a,.pager span{
+  font-family:var(--font-mono);font-feature-settings:"tnum" 1;font-size:13px;font-weight:600;
+  min-width:36px;height:36px;padding:0 10px;display:inline-flex;align-items:center;justify-content:center;
+  border:1px solid var(--line);border-radius:9px;background:var(--card);color:var(--ink-2);
+  transition:color .15s,background-color .15s,border-color .15s,transform .15s;
+}
+.pager a:hover{color:var(--accent);border-color:var(--accent);transform:translateY(-1px)}
+.pager .pg-cur{color:var(--on-accent);background:var(--accent);border-color:var(--accent)}
+.pager .pg-dis{color:var(--ink-3);opacity:.5;pointer-events:none}
+.pager .pg-ellip{border:0;background:none;min-width:18px}
+
+/* ---------- changelog 时间线 ---------- */
+.changelog-timeline{
+  position:relative;margin-top:26px;padding-left:26px;
+  border-left:2px solid var(--line);max-width:var(--read-w,52em);
+}
+/* 每个 H2（月份）= 时间线节点 */
+.changelog-timeline h2{
+  position:relative;border-bottom:0;padding-bottom:0;margin-top:2em;margin-bottom:.7em;
+  font-size:20px;letter-spacing:-.01em;
+}
+.changelog-timeline > h2:first-child{margin-top:0}
+.changelog-timeline h2::before{
+  content:"";position:absolute;left:-33px;top:.38em;width:13px;height:13px;border-radius:50%;
+  background:var(--card);border:2.5px solid var(--accent);
+  box-shadow:0 0 0 4px color-mix(in srgb,var(--accent) 14%,transparent);
+}
+.changelog-timeline h3{font-size:16px}
+.changelog-timeline ul{margin-left:0}
+
+/* ---------- resources 链接卡网格 ---------- */
+/* .Content 里 markdown 列表 → CSS 直接变卡片网格，免解析 */
+.link-grid h2{
+  font-size:13px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;
+  color:var(--ink-2);margin:30px 0 14px;display:flex;align-items:center;gap:9px;border-bottom:0;padding-bottom:0;
+}
+.link-grid h2::before{content:"";width:18px;height:2px;background:var(--accent);display:inline-block}
+.link-grid > h2:first-child{margin-top:0}
+.link-grid ul{
+  list-style:none;display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));
+  gap:12px;padding:0;margin:0 0 8px;
+}
+.link-grid li{
+  position:relative;overflow:hidden;background:var(--card);border:1px solid var(--line);
+  border-radius:var(--radius);box-shadow:var(--shadow);
+  transition:transform .2s,box-shadow .2s,border-color .25s,background-color .25s;
+}
+.link-grid li::before{
+  content:"";position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--accent);
+  transition:transform .25s;
+}
+.link-grid li:hover{transform:translateY(-3px);box-shadow:var(--shadow-hi);border-color:color-mix(in srgb,var(--accent) 45%,var(--line))}
+.link-grid li:hover::before{transform:scaleX(1.4)}
+.link-grid li a{
+  display:block;padding:13px 16px;font-size:14.5px;font-weight:600;color:var(--ink);
+  text-decoration:none;line-height:1.45;
+}
+.link-grid li a:hover{color:var(--accent)}
+/* 链接后描述（markdown li 内 “— 描述”）保持次级色 */
+.link-grid li a code{font-family:var(--font-mono);font-size:12px;color:var(--ink-3)}
+
+/* ---------- books 书卡网格 ---------- */
+.book-grid h2{
+  font-size:13px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;
+  color:var(--ink-2);margin:30px 0 14px;display:flex;align-items:center;gap:9px;border-bottom:0;padding-bottom:0;
+}
+.book-grid h2::before{content:"";width:18px;height:2px;background:var(--accent);display:inline-block}
+.book-grid > h2:first-child{margin-top:0}
+.book-grid ul{
+  list-style:none;display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));
+  gap:14px;padding:0;margin:0 0 8px;
+}
+.book-grid li{
+  position:relative;background:var(--card);border:1px solid var(--line);border-radius:var(--radius);
+  box-shadow:var(--shadow);padding:16px 18px 16px 22px;line-height:1.55;
+  transition:transform .2s,box-shadow .2s,border-color .25s,background-color .25s;
+}
+.book-grid li::before{
+  content:"";position:absolute;left:0;top:14px;bottom:14px;width:4px;border-radius:0 3px 3px 0;
+  background:var(--c-res);
+}
+.book-grid li:hover{transform:translateY(-3px);box-shadow:var(--shadow-hi);border-color:color-mix(in srgb,var(--c-res) 45%,var(--line))}
+.book-grid li strong,.book-grid li b{color:var(--ink);font-weight:700;font-size:15px}
+.book-grid li a{color:var(--ink);text-decoration:none;font-weight:700;font-size:15px}
+.book-grid li a:hover{color:var(--c-res)}
+.book-grid li em{color:var(--ink-3);font-style:normal;font-family:var(--font-mono);font-size:12px}
+
+/* ---------- about 纯 prose 居中阅读页 ---------- */
+.about-page{padding-top:8px}
+.about-prose{margin:30px auto 0;max-width:var(--read-w,52em)}
+.about-head{margin-bottom:8px}
+.about-head h1{
+  font-size:40px;line-height:1.12;font-weight:900;letter-spacing:-.02em;color:var(--ink);margin:0 0 10px;
+}
+.about-head .about-desc{font-size:16px;color:var(--ink-2);line-height:1.7;margin:0}
+
+@media (max-width:720px){
+  .term-title,.about-head h1{font-size:28px}
+  .tax-grid{grid-template-columns:1fr}
+}
+
+@media (prefers-reduced-motion: reduce){
+  .tax-card:hover,.link-grid li:hover,.book-grid li:hover{transform:none}
+  .link-grid li:hover::before{transform:none}
+  .pager a:hover{transform:none}
+}
+
+/* ============ Blowfish 兼容 shortcode 样式 ============ */
+.sc-badge{
+  display:inline-block;font-family:var(--font-mono);font-size:11.5px;font-weight:700;
+  color:var(--accent-ink);background:var(--accent-soft);
+  border:1px solid color-mix(in srgb,var(--accent) 24%,transparent);
+  border-radius:5px;padding:1px 7px;vertical-align:middle;margin:0 2px;line-height:1.6;
+}
+.sc-lead{
+  font-size:18.5px;line-height:1.7;color:var(--ink-2);font-weight:500;
+  margin:0 0 1.3em;padding:2px 0 2px 16px;border-left:3px solid var(--accent);
+}
+.sc-lead p{margin:0}
+.sc-typeit{
+  display:block;font-size:18px;line-height:1.75;font-weight:500;color:var(--ink-2);
+  margin:0 0 1.4em;padding:14px 20px;border-radius:10px;
+  background:var(--accent-soft);border-left:3px solid var(--accent);
+}
+.sc-typeit p{margin:0;display:inline}
+.sc-typeit::before{content:"\201C";color:var(--accent);font-weight:800;margin-right:2px}
+.sc-typeit::after{content:"\201D";color:var(--accent);font-weight:800;margin-left:2px}
+
+/* 时间轴 / 路线图（timeline shortcode） */
+.sc-timeline{position:relative;margin:22px 0 28px;padding-left:6px}
+.sc-timeline::before{content:"";position:absolute;left:7px;top:8px;bottom:12px;width:2px;background:color-mix(in srgb,var(--accent) 22%,var(--line))}
+.tl-item{position:relative;padding:0 0 20px 36px}
+.tl-item:last-child{padding-bottom:0}
+.tl-node{position:absolute;left:0;top:4px;width:16px;height:16px;border-radius:50%;background:var(--bg);border:3px solid var(--accent);box-shadow:0 0 0 3px var(--accent-soft)}
+.tl-year{font-size:19px;font-weight:800;color:var(--accent);line-height:1.15;margin-bottom:3px;letter-spacing:.5px}
+.tl-stage{font-size:15px;font-weight:600;color:var(--ink);line-height:1.55;margin-bottom:3px}
+.tl-kw{font-size:12.5px;color:var(--ink-3);line-height:1.55}

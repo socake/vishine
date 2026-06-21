@@ -1,0 +1,12 @@
+{{- /*
+  Callout 提示框 —— 非标准 Markdown 元素统一走此 shortcode。
+  用法：{{< callout type="warn" >}} 正文（支持 Markdown） {{< /callout >}}
+  type: warn / info / tip（默认 info）→ 渲染 .callout.{type}，颜色走 token。
+*/ -}}
+{{- $type := .Get "type" | default (.Get 0) | default "info" -}}
+{{- if not (in (slice "warn" "info" "tip") $type) -}}{{- $type = "info" -}}{{- end -}}
+{{- $icons := dict "warn" "⚠️" "info" "💡" "tip" "✅" -}}
+<div class="callout {{ $type }}">
+  <span class="co-ico" aria-hidden="true">{{ index $icons $type }}</span>
+  <div class="co-body">{{ .Inner | markdownify }}</div>
+</div>

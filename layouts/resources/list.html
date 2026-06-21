@@ -1,0 +1,28 @@
+{{- /*
+  resources/list.html — 资源 / 网站导航页。
+  渲染 resources/_index.md 的 .Content（markdown 链接列表，## 分组）为【链接卡网格】：
+  每个 <li><a> 一张小卡（CSS 把 ul→grid、li→card，免解析），板块色点缀用 --accent 左条。
+*/ -}}
+{{ define "head-css" }}
+  {{ with resources.Get "css/special.css" }}
+    {{ if hugo.IsProduction }}{{ $c := . | minify | fingerprint }}<link rel="stylesheet" href="{{ $c.RelPermalink }}" integrity="{{ $c.Data.Integrity }}">
+    {{ else }}<link rel="stylesheet" href="{{ .RelPermalink }}">{{ end }}
+  {{ end }}
+{{ end }}
+
+{{ define "main" }}
+<main class="wrap">
+  <section class="sec">
+    <header class="list-hero">
+      <span class="kicker"><span class="dot"></span>resources</span>
+      <h1 class="list-title">{{ .Title }}</h1>
+      {{ with .Description }}<p class="list-desc">{{ . }}</p>{{ end }}
+    </header>
+
+    <!-- 链接卡网格：ul/li 由 special.css .link-grid 转网格卡 -->
+    <div class="link-grid prose">
+      {{ .Content }}
+    </div>
+  </section>
+</main>
+{{ end }}

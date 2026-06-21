@@ -1,0 +1,24 @@
+{{- /*
+  timeline.html — 竖直时间轴（路线图样式）
+  用法：每行一个节点，格式「年份 | 阶段 | 关键词」，用 | 分隔。
+  {{< timeline >}}
+  2023 | 规模化：双云架构 + 多集群治理 | AWS + 阿里云 ACK、Karpenter 降本
+  2024 | 安全与可观测性补课 | Cilium、gVisor、Loki 跨集群、零信任
+  {{< /timeline >}}
+*/ -}}
+<div class="sc-timeline">
+{{- range $line := split (trim .Inner "\n ") "\n" -}}
+  {{- $t := trim $line " " -}}
+  {{- if $t -}}
+    {{- $p := split $t "|" -}}
+    <div class="tl-item">
+      <span class="tl-node"></span>
+      <div class="tl-year mono">{{ trim (index $p 0) " " }}</div>
+      <div class="tl-content">
+        <div class="tl-stage">{{ if ge (len $p) 2 }}{{ trim (index $p 1) " " }}{{ end }}</div>
+        {{ if ge (len $p) 3 }}<div class="tl-kw mono">{{ trim (index $p 2) " " }}</div>{{ end }}
+      </div>
+    </div>
+  {{- end -}}
+{{- end -}}
+</div>

@@ -1,0 +1,17 @@
+{{- /* 无闪烁：渲染前应用已保存的配色 scheme 与阅读宽度。<html> 默认值已由 baseof 给出。 */ -}}
+<script>
+  (function(){
+    try{
+      var s = localStorage.getItem('vishine-scheme');
+      if(['paper','clean','dark'].indexOf(s) > -1){
+        document.documentElement.setAttribute('data-scheme', s);
+      }
+    }catch(e){}
+    try{
+      var w = localStorage.getItem('vishine-readwidth');
+      if(w === 'wide' || w === 'comfortable'){
+        document.documentElement.setAttribute('data-readwidth', w);
+      }
+    }catch(e){}
+  })();
+</script>

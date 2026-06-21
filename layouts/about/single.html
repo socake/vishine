@@ -1,0 +1,24 @@
+{{- /*
+  about/single.html — 关于页：纯 prose 单页，居中阅读，【不要 TOC 侧栏】。
+  与 _default/single.html（强制 art-layout + sticky TOC）分流，about 走纯阅读布局。
+  正文复用 .prose token；宽度走 --read-w。
+*/ -}}
+{{ define "head-css" }}
+  {{ with resources.Get "css/special.css" }}
+    {{ if hugo.IsProduction }}{{ $c := . | minify | fingerprint }}<link rel="stylesheet" href="{{ $c.RelPermalink }}" integrity="{{ $c.Data.Integrity }}">
+    {{ else }}<link rel="stylesheet" href="{{ .RelPermalink }}">{{ end }}
+  {{ end }}
+{{ end }}
+
+{{ define "main" }}
+<main class="wrap about-page">
+  <article class="about-prose prose" id="prose">
+    <header class="about-head">
+      {{ with .Params.kicker }}<span class="kicker"><span class="dot"></span>{{ . }}</span>{{ end }}
+      <h1>{{ .Title }}</h1>
+      {{ with .Description }}<p class="about-desc">{{ . }}</p>{{ end }}
+    </header>
+    {{ .Content }}
+  </article>
+</main>
+{{ end }}

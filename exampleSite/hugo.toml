@@ -1,0 +1,201 @@
+baseURL = "https://example.org/"
+title = "vishine"
+theme = "vishine"
+defaultContentLanguage = "zh-cn"
+enableEmoji = true
+enableRobotsTXT = true
+summaryLength = 30
+
+[languages]
+  [languages.zh-cn]
+    label = "简体中文"
+    locale = "zh-CN"
+    weight = 1
+
+[pagination]
+  pagerSize = 8
+
+[taxonomies]
+  tag = "tags"
+  category = "categories"
+
+[params]
+  author = "星辉"
+  authorEn = "Wenzhuo Huang"
+  role = "DevOps Engineer · 云原生 · K8s · AWS · CI/CD"
+  tagline = "K8s 在跑，GitOps 在转，AI 在帮我写脚本。"
+  description = "DevOps / SRE / AI 工程化的真实踩坑记录，不写废话。"
+  defaultScheme = "clean"
+  since = 2024
+  # googleFonts = false   # 关闭 Google Fonts CDN（改用系统字体 / 自托管）
+
+  # 自动封面生成器（文章无 featured.* 图时据标题+分类自动生成）
+  [params.cover]
+    auto = true        # false = 关闭自动封面，纯靠 featured 图
+    style = "auto"     # auto（按哈希轮换4版式）| orbit | grid | diagonal | arc（锁定单一版式）
+
+  # 首页特色横幅板块（可选）：不配则不显示
+  [params.featureZone]
+    title = "AI 专区"
+    en = "AI ZONE"
+    desc = "大模型 / 工具 / 应用 / AIOps 的工程化实践"
+    count = "4 方向"
+    [params.featureZone.lead]
+      title = "AI 在帮我写脚本"
+      desc = "把大模型真正接进 DevOps 工作流——不止 chat，而是落到流水线和告警里。"
+    [[params.featureZone.cols]]
+      k = "LLM"
+      name = "大模型"
+      desc = "本地/云端推理、提示工程、模型选型与成本权衡。"
+    [[params.featureZone.cols]]
+      k = "TOOL"
+      name = "AI 工具 · 应用"
+      desc = "运维工程师的 AI 工具实践，RAG 知识库落地。"
+    [[params.featureZone.cols]]
+      k = "OPS"
+      name = "AIOps"
+      desc = "智能告警降噪、根因辅助分析、自动化排障。"
+
+[markup]
+  [markup.goldmark.renderer]
+    unsafe = true   # shortcode 输出行内 HTML（badge/typeit 等）需要；个人博客内容可控
+  [markup.goldmark.extensions]
+    strikethrough = true
+    table = true
+    taskList = true
+    [markup.goldmark.extensions.typographer]
+      disable = true
+  [markup.goldmark.parser]
+    autoHeadingID = true
+    [markup.goldmark.parser.attribute]
+      title = true
+      block = true
+  [markup.highlight]
+    noClasses = false
+    lineNos = false
+    tabWidth = 2
+    guessSyntax = true
+  [markup.tableOfContents]
+    startLevel = 2
+    endLevel = 3
+    ordered = false
+
+[outputs]
+  home = ["HTML", "RSS", "JSON"]
+
+[menu]
+  [[menu.main]]
+    name = "博客"
+    pageRef = "/posts"
+    weight = 10
+  [[menu.main]]
+    name = "实战手册"
+    pageRef = "/playbook"
+    weight = 20
+  [[menu.main]]
+    name = "指南"
+    pageRef = "/guide"
+    weight = 25
+  [[menu.main]]
+    name = "路线图"
+    identifier = "roadmap"
+    weight = 30
+  [[menu.main]]
+    name = "DevOps 成长路径"
+    parent = "roadmap"
+    pageRef = "/roadmap/devops-engineer"
+    weight = 31
+  [[menu.main]]
+    name = "云原生学习线"
+    parent = "roadmap"
+    pageRef = "/roadmap/cloud-native"
+    weight = 32
+
+  [[menu.main]]
+    name = "运维"
+    identifier = "ops"
+    weight = 40
+  [[menu.main]]
+    name = "Linux"
+    parent = "ops"
+    pageRef = "/docs/linux"
+    weight = 41
+  [[menu.main]]
+    name = "Docker"
+    parent = "ops"
+    pageRef = "/docs/docker"
+    weight = 42
+  [[menu.main]]
+    name = "Kubernetes"
+    parent = "ops"
+    pageRef = "/docs/kubernetes"
+    weight = 43
+  [[menu.main]]
+    name = "CI/CD"
+    parent = "ops"
+    pageRef = "/docs/cicd"
+    weight = 44
+
+  [[menu.main]]
+    name = "AI"
+    identifier = "ai"
+    weight = 50
+  [[menu.main]]
+    name = "大模型"
+    parent = "ai"
+    pageRef = "/categories/大模型"
+    weight = 51
+  [[menu.main]]
+    name = "AI 工具"
+    parent = "ai"
+    pageRef = "/categories/ai-工具"
+    weight = 52
+  [[menu.main]]
+    name = "RAG"
+    parent = "ai"
+    pageRef = "/categories/rag"
+    weight = 53
+
+  [[menu.main]]
+    name = "编程"
+    identifier = "prog"
+    weight = 60
+  [[menu.main]]
+    name = "Go"
+    parent = "prog"
+    pageRef = "/docs/languages/go"
+    weight = 61
+  [[menu.main]]
+    name = "Python"
+    parent = "prog"
+    pageRef = "/docs/languages/python"
+    weight = 62
+  [[menu.main]]
+    name = "Shell"
+    parent = "prog"
+    pageRef = "/docs/languages/shell"
+    weight = 63
+
+  [[menu.main]]
+    name = "资源"
+    identifier = "res"
+    weight = 70
+  [[menu.main]]
+    name = "网站导航"
+    parent = "res"
+    pageRef = "/resources"
+    weight = 71
+  [[menu.main]]
+    name = "书单"
+    parent = "res"
+    pageRef = "/books"
+    weight = 72
+
+  [[menu.main]]
+    name = "关于"
+    pageRef = "/about"
+    weight = 80
+  [[menu.main]]
+    name = "更新日志"
+    pageRef = "/changelog"
+    weight = 90

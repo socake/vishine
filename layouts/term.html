@@ -1,0 +1,54 @@
+{{- /*
+  term.html — 单个分类 / 标签页（/categories/kubernetes、/tags/gitops 等）。
+  顶部 term-hero（名称 + 计数）+ 复用 card.html（kind=post）网格 + 数字分页 .Paginator。
+  板块色：分类经 data/sections.categories 查表，标签走 accent；经 --tc 间接引用，不写死色。
+*/ -}}
+{{ define "head-css" }}
+  {{ with resources.Get "css/list.css" }}
+    {{ if hugo.IsProduction }}{{ $c := . | minify | fingerprint }}<link rel="stylesheet" href="{{ $c.RelPermalink }}" integrity="{{ $c.Data.Integrity }}">
+    {{ else }}<link rel="stylesheet" href="{{ .RelPermalink }}">{{ end }}
+  {{ end }}
+  {{ with resources.Get "css/special.css" }}
+    {{ if hugo.IsProduction }}{{ $c := . | minify | fingerprint }}<link rel="stylesheet" href="{{ $c.RelPermalink }}" integrity="{{ $c.Data.Integrity }}">
+    {{ else }}<link rel="stylesheet" href="{{ .RelPermalink }}">{{ end }}
+  {{ end }}
+{{ end }}
+
+{{ define "main" }}
+{{- $isCat := eq .Data.Singular "category" -}}
+{{- $cls := "blog" -}}
+{{- if $isCat }}{{ $cls = or (index hugo.Data.sections.categories .Title) "blog" }}{{ else }}{{ $cls = "res" }}{{ end -}}
+{{- $paginator := .Paginate .Pages -}}
+
+<main class="wrap">
+  <section class="sec">
+    <!-- term-hero -->
+    <header class="term-hero" style="--tc:var(--c-{{ $cls }})">
+      <span class="kicker"><span class="dot"></span>{{ if $isCat }}分类 · category{{ else }}标签 · tag{{ end }}</span>
+      <h1 class="term-title"><span class="th-hash">{{ if $isCat }}#{{ else }}#{{ end }}</span>{{ .Title }}</h1>
+      <div class="term-stat mono">共 <b>{{ len .Pages }}</b> 篇{{ if $isCat }}相关文章{{ end }}</div>
+    </header>
+
+    <!-- 文章网格（复用全站 card.html） -->
+    <div class="post-grid view-card">
+      {{ range $paginator.Pages }}
+        {{ partial "card.html" (dict "page" . "kind" "post") }}
+      {{ end }}
+    </div>
+
+    <!-- 数字分页 -->
+    {{ if gt $paginator.TotalPages 1 }}
+    <nav class="pager" aria-label="分页">
+      {{ if $paginator.HasPrev }}<a href="{{ $paginator.Prev.URL }}" rel="prev" aria-label="上一页">←</a>
+      {{ else }}<span class="pg-dis" aria-hidden="true">←</span>{{ end }}
+      {{ range $paginator.Pagers }}
+        {{ if eq . $paginator }}<span class="pg-cur" aria-current="page">{{ .PageNumber }}</span>
+        {{ else }}<a href="{{ .URL }}">{{ .PageNumber }}</a>{{ end }}
+      {{ end }}
+      {{ if $paginator.HasNext }}<a href="{{ $paginator.Next.URL }}" rel="next" aria-label="下一页">→</a>
+      {{ else }}<span class="pg-dis" aria-hidden="true">→</span>{{ end }}
+    </nav>
+    {{ end }}
+  </section>
+</main>
+{{ end }}

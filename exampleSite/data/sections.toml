@@ -1,0 +1,18 @@
+# exampleSite 站点的分类 → 板块色映射（演示）
+# Hugo 深合并：站点 data/sections.toml 覆盖主题 data/sections.toml。
+# 别人用主题时，在自己站点的 data/sections.toml 里写自己的分类映射即可。
+[categories]
+  "中间件"   = "docs"
+  "Kubernetes" = "docs"
+  "AWS"      = "docs"
+  "监控"      = "docs"
+  "云原生"    = "play"
+  "多云"      = "play"
+  "CI/CD"    = "play"
+  "FinOps"   = "road"
+  "Linux"    = "road"
+  "故障复盘"  = "ai"
+  "大模型"    = "res"
+  "AI工具"    = "res"
+  "AI 工具"   = "res"
+  "RAG"      = "res"

@@ -1,0 +1,135 @@
+{{ define "head-extra" }}
+  {{- /* 无闪烁：渲染前应用已保存的阅读宽度（与 scheme 同机制） */ -}}
+  <script>
+  (function(){try{var w=localStorage.getItem('vishine-readwidth');if(w==='wide'||w==='comfortable'){document.documentElement.setAttribute('data-readwidth',w);}}catch(e){}})();
+  </script>
+{{ end }}
+
+{{ define "main" }}
+{{- $cls := partial "cat-class.html" . -}}
+{{- $cat := "" -}}{{ with .Params.categories }}{{ $cat = index . 0 }}{{ end }}
+{{- $sec := index hugo.Data.sections.sections .Section -}}
+
+<main class="wrap art-layout">
+  <article class="art-main">
+
+    <!-- 面包屑 -->
+    <nav class="crumbs" aria-label="面包屑">
+      <a href="{{ site.Home.RelPermalink }}">首页</a><span class="sep">/</span>
+      {{ with site.GetPage (printf "/%s" .Section) }}<a href="{{ .RelPermalink }}">{{ .Title }}</a><span class="sep">/</span>{{ end }}
+      <span class="cur">{{ with $cat }}{{ . }}{{ else }}{{ .Title }}{{ end }}</span>
+    </nav>
+
+    <!-- 文章头 -->
+    <header class="art-head">
+      {{ with .Params.categories }}<span class="kicker"><span class="dot"></span>{{ delimit . " · " }}</span>{{ end }}
+      <h1 class="art-title">{{ .Title }}</h1>
+      <div class="art-meta">
+        <span class="mi"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="3.5"/><path d="M5 20a7 7 0 0 1 14 0"/></svg><span class="au">{{ or .Params.author site.Params.author }}</span></span>
+        <span class="sep"></span>
+        <span class="mi"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="17" rx="2"/><path d="M3 9h18M8 2v4M16 2v4"/></svg>{{ .Date.Format "2006-01-02" }}</span>
+        <span class="sep"></span>
+        <span class="mi"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>阅读 {{ .ReadingTime }} min</span>
+        <span class="sep"></span>
+        <span class="mi"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 6h16M4 12h12M4 18h8"/></svg>{{ lang.FormatNumber 0 .WordCount }} 字</span>
+        {{ with $cat }}<span class="sep"></span><span class="feed-cat mono" style="--fc:var(--c-{{ $cls }})">{{ . }}</span>{{ end }}
+      </div>
+    </header>
+
+    {{- /* featured 封面：page bundle 有 featured.* 资源（或 .Params.cover）则铺一张 */ -}}
+    {{- $cover := "" -}}
+    {{- $fr := .Resources.GetMatch "featured.*" -}}
+    {{- if and $fr (not (index (or site.Params.cover dict) "ignoreFeatured")) -}}
+      {{- if and (ne $fr.MediaType.SubType "svg") (gt ($fr.Width | default 0) 1280) -}}
+        {{- $cover = ($fr.Resize "1280x webp q88").RelPermalink -}}
+      {{- else -}}{{- $cover = $fr.RelPermalink -}}{{- end -}}
+    {{- else if .Params.cover -}}
+      {{- $cover = .Params.cover -}}
+    {{- else if (index (or site.Params.cover dict) "auto") | default true -}}
+      {{- $svg := partial "cover-svg.html" (dict "page" . "variant" "hero") -}}
+      {{- $cover = ($svg | resources.FromString (printf "covers/%s-h.svg" (substr (md5 .RelPermalink) 0 12))).RelPermalink -}}
+    {{- end -}}
+    {{ with $cover }}<figure class="art-cover-fig"><img src="{{ . | safeURL }}" alt="{{ $.Title }} 封面" decoding="async"></figure>{{ end }}
+
+    <!-- ============ 正文（prose；render hook / shortcode 由并行任务提供） ============ -->
+    <div class="prose" id="prose">
+      {{ .Content }}
+    </div>
+
+    <!-- ============ 文末区 ============ -->
+    <footer class="art-end">
+      {{ with .Params.tags }}
+      <div class="end-block">
+        <div class="end-label">标签</div>
+        <div class="tags">
+          {{ range . }}<a href="{{ (site.GetPage (printf "/tags/%s" (. | urlize))).RelPermalink | default (printf "/tags/%s/" (. | urlize)) }}">{{ . }}</a>{{ end }}
+        </div>
+      </div>
+      {{ end }}
+
+      <div class="end-block">
+        <div class="end-label">分享这篇</div>
+        <div class="share-row">
+          <button class="share-btn primary" id="copyLink" type="button">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7 0l3-3a5 5 0 0 0-7-7l-1 1"/><path d="M14 11a5 5 0 0 0-7 0l-3 3a5 5 0 0 0 7 7l1-1"/></svg>
+            复制本文链接
+          </button>
+        </div>
+      </div>
+
+      {{ if or .PrevInSection .NextInSection }}
+      <div class="end-block">
+        <div class="end-label">继续阅读</div>
+        <nav class="pn-nav">
+          {{ with .PrevInSection }}{{ partial "card.html" (dict "page" . "kind" "prevnext" "rel" "prev") }}{{ end }}
+          {{ with .NextInSection }}{{ partial "card.html" (dict "page" . "kind" "prevnext" "rel" "next") }}{{ end }}
+        </nav>
+      </div>
+      {{ end }}
+
+      {{- /* 相关文章：同分类、排除自身、取 3 篇 */ -}}
+      {{ $related := slice }}
+      {{ with .Params.categories }}
+        {{ $related = first 3 (where (where site.RegularPages "Params.categories" "intersect" $.Params.categories) "Permalink" "!=" $.Permalink) }}
+      {{ end }}
+      {{ with $related }}
+      <div class="end-block">
+        <div class="end-label">相关文章</div>
+        <div class="rel-grid">
+          {{ range . }}{{ partial "card.html" (dict "page" . "kind" "related") }}{{ end }}
+        </div>
+      </div>
+      {{ end }}
+    </footer>
+
+  </article>
+
+  <!-- 右侧 TOC（main.js 从正文构建 scrollspy + 折叠树） -->
+  {{ partial "toc.html" . }}
+</main>
+
+<!-- TOC 移动悬浮按钮 + 抽屉 -->
+<button class="toc-fab" id="tocFab" type="button" aria-label="打开目录" aria-haspopup="true" aria-expanded="false">
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 6h13M8 12h13M8 18h13M3 6h.01M3 12h.01M3 18h.01"/></svg>
+  目录
+</button>
+<div class="toc-sheet" id="tocSheet" hidden>
+  <aside class="toc-sheet-panel" role="dialog" aria-modal="true" aria-label="文章目录">
+    <div class="toc-sheet-head">
+      <b>本页目录</b>
+      <button class="icon-btn" id="tocSheetClose" aria-label="关闭目录">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg>
+      </button>
+    </div>
+    <ul class="toc-list" id="tocListMobile"></ul>
+  </aside>
+</div>
+
+<!-- 图片 LIGHTBOX -->
+<div class="lightbox" id="lightbox" hidden>
+  <button class="lightbox-close" id="lightboxClose" type="button" aria-label="关闭放大">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg>
+  </button>
+  <div class="lightbox-inner" id="lightboxInner" role="dialog" aria-modal="true" aria-label="放大的图片"></div>
+</div>
+{{ end }}

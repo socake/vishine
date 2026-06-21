@@ -1,0 +1,29 @@
+{{- /*
+  Markdown 图片 → <figure class="fig">（role=button 供 main.js zoom/lightbox）。
+  - 优先把 .Destination 当成 page bundle / 页面资源解析（拿 RelPermalink）；
+    位图（png/jpg/...）超宽时用 Hugo image processing 缩到 1280 宽；SVG 直接用。
+  - 图包在 .diagram 里：复用 prose.css 的 figure 卡片样式，且 main.js 的
+    openLightbox 会克隆 .diagram 放大，无需额外 JS。
+  - alt → <figcaption>；title → 放大时的 aria 描述。
+*/ -}}
+{{- $dest := .Destination -}}
+{{- $src := $dest -}}
+{{- $res := "" -}}
+{{- with .Page.Resources.GetMatch $dest -}}
+  {{- $res = . -}}
+{{- else -}}
+  {{- with (resources.Get $dest) -}}{{ $res = . }}{{- end -}}
+{{- end -}}
+{{- with $res -}}
+  {{- $src = .RelPermalink -}}
+  {{- if and (ne .MediaType.SubType "svg") (gt (.Width | default 0) 1280) -}}
+    {{- $src = (.Resize "1280x webp q88").RelPermalink -}}
+  {{- end -}}
+{{- end -}}
+{{- $alt := .Text | default .Title -}}
+<figure class="fig" role="button" tabindex="0"{{ with $alt }} aria-label="放大查看 {{ . | plainify }}"{{ end }}>
+  <div class="diagram diagram-img">
+    <img src="{{ $src | safeURL }}" alt="{{ .Text | plainify }}"{{ with .Title }} title="{{ . }}"{{ end }} loading="lazy" decoding="async">
+  </div>
+  {{- with .Text }}<figcaption>{{ . | safeHTML }}<span class="zoom-hint">点击放大 ⤢</span></figcaption>{{ end -}}
+</figure>

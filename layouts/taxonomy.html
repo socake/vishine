@@ -1,0 +1,57 @@
+{{- /*
+  taxonomy.html — 分类 / 标签【总览页】（/categories、/tags）。
+  列出所有 term + 文章计数。分类用 .cat-bar 量感条卡，标签用 .tags 标签云。
+  板块色：分类经 data/sections.categories 查表（同首页侧栏逻辑），标签走 accent。
+  不写死颜色，全部经 --tc / token。
+*/ -}}
+{{ define "head-css" }}
+  {{ with resources.Get "css/special.css" }}
+    {{ if hugo.IsProduction }}{{ $c := . | minify | fingerprint }}<link rel="stylesheet" href="{{ $c.RelPermalink }}" integrity="{{ $c.Data.Integrity }}">
+    {{ else }}<link rel="stylesheet" href="{{ .RelPermalink }}">{{ end }}
+  {{ end }}
+{{ end }}
+
+{{ define "main" }}
+{{- $terms := .Data.Terms.ByCount -}}
+{{- $isTags := eq .Data.Plural "tags" -}}
+{{- $max := 1 -}}{{- with $terms }}{{ $max = (index . 0).Count }}{{ end -}}
+
+<main class="wrap">
+  <section class="sec">
+    <!-- 总览 hero -->
+    <header class="list-hero">
+      <span class="kicker"><span class="dot"></span>{{ .Data.Plural }}</span>
+      <h1 class="list-title">{{ .Title }}</h1>
+      {{ with .Content }}<div class="list-desc prose">{{ . }}</div>
+      {{ else }}{{ with .Description }}<p class="list-desc">{{ . }}</p>{{ end }}{{ end }}
+      <div class="list-stat mono"><span>{{ len $terms }}</span> 个{{ .Data.Singular }} · 共 {{ len site.RegularPages }} 篇</div>
+    </header>
+
+    {{ if $isTags }}
+      <!-- 标签云 -->
+      <div class="tax-cloud">
+        <div class="tags">
+          {{ $tmax := mul $max 0.55 }}
+          {{ range $terms }}
+            <a class="{{ if ge .Count (int $tmax) }}lg{{ end }}" href="{{ .Page.RelPermalink }}">{{ .Page.Title }}<span class="n">{{ .Count }}</span></a>
+          {{ end }}
+        </div>
+      </div>
+    {{ else }}
+      <!-- 分类量感条卡网格 -->
+      <div class="tax-grid">
+        {{ range $terms }}
+          {{- $cls := or (index hugo.Data.sections.categories .Page.Title) "blog" -}}
+          <a class="tax-card reveal" href="{{ .Page.RelPermalink }}" style="--tc:var(--c-{{ $cls }})">
+            <div class="tc-head">
+              <span class="tc-name">{{ .Page.Title }}</span>
+              <span class="tc-ct">{{ .Count }} 篇</span>
+            </div>
+            <div class="cat-bar"><i style="width:{{ div (mul .Count 100) $max }}%;--cb:var(--c-{{ $cls }})"></i></div>
+          </a>
+        {{ end }}
+      </div>
+    {{ end }}
+  </section>
+</main>
+{{ end }}

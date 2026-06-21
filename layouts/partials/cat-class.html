@@ -1,0 +1,20 @@
+{{- /*
+  cat-class.html — 解析一个 Page 的板块色 class（blog/play/road/docs/res/ai）。
+  查表顺序：① 首个分类 → data/sections.toml [categories]
+            ② 所在 section → [sections].<section>.class
+            ③ 兜底 blog（accent 调性）
+  调用：{{ $cls := partial "cat-class.html" . }}  传入 Page 对象。
+  模板里据此注入 style="--mc:var(--c-{{ $cls }})"，绝不写死颜色。
+*/ -}}
+{{- $page := . -}}
+{{- $data := hugo.Data.sections -}}
+{{- $cls := "" -}}
+{{- with $page.Params.categories -}}
+  {{- $cat := index . 0 -}}
+  {{- with index $data.categories $cat -}}{{- $cls = . -}}{{- end -}}
+{{- end -}}
+{{- if not $cls -}}
+  {{- with index $data.sections $page.Section -}}{{- $cls = .class -}}{{- end -}}
+{{- end -}}
+{{- if not $cls -}}{{- $cls = "blog" -}}{{- end -}}
+{{- return $cls -}}

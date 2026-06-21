@@ -1,0 +1,36 @@
+# vishine 板块色彩编码映射（DESIGN §2.3）
+# 卡片 / 标签的板块色一律从这里查，模板中绝不写死颜色。
+# 改色只改这里，全站生效。
+
+# 五大内容板块 → CSS class（对应 --c-* token）
+[sections]
+  [sections.posts]
+    class = "blog"
+    label = "博客"
+    en = "posts"
+  [sections.playbook]
+    class = "play"
+    label = "实战手册"
+    en = "playbook"
+  [sections.roadmap]
+    class = "road"
+    label = "路线图"
+    en = "roadmap"
+  [sections.docs]
+    class = "docs"
+    label = "运维文档"
+    en = "docs"
+  [sections.resources]
+    class = "res"
+    label = "资源"
+    en = "resources"
+
+# 分类 → 板块 class（卡片 / 标签 / 自动封面的板块色着色）
+# ⚠ 主题默认留空。请在你的【站点】 data/sections.toml 配置自己的分类映射，
+#   Hugo 会深合并站点 data 覆盖主题 data；未命中的分类自动回退到所属 section 的板块色。
+#   可选 class：blog / play / road / docs / res / ai
+# 示例（写在站点 data/sections.toml 里）：
+#   [categories]
+#     "Kubernetes" = "docs"
+#     "云原生"      = "play"
+[categories]

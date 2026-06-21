@@ -1,0 +1,108 @@
+{{ define "head-css" }}
+  {{ with resources.Get "css/list.css" }}
+    {{ if hugo.IsProduction }}{{ $c := . | minify | fingerprint }}<link rel="stylesheet" href="{{ $c.RelPermalink }}" integrity="{{ $c.Data.Integrity }}">
+    {{ else }}<link rel="stylesheet" href="{{ .RelPermalink }}">{{ end }}
+  {{ end }}
+{{ end }}
+
+{{ define "main" }}
+{{- $pages := .Pages -}}
+{{- if eq .Kind "section" }}{{ $pages = .RegularPagesRecursive }}{{ end -}}
+{{- $sec := index hugo.Data.sections.sections .Section -}}
+{{- $en := "" -}}{{ with $sec }}{{ $en = .en }}{{ else }}{{ $en = .Data.Singular | default "index" }}{{ end -}}
+{{- $paginator := .Paginate $pages -}}
+
+{{- /* 收集本列表下出现过的分类 / 标签（用于筛选 chip） */ -}}
+{{- $allCats := slice -}}{{- $allTags := slice -}}
+{{- range $pages -}}
+  {{- range .Params.categories }}{{ $allCats = $allCats | append . }}{{ end -}}
+  {{- range .Params.tags }}{{ $allTags = $allTags | append . }}{{ end -}}
+{{- end -}}
+{{- $allCats = $allCats | uniq | sort -}}
+{{- $allTags = $allTags | uniq | sort -}}
+
+<main class="wrap">
+  <section class="sec">
+    <!-- list-hero -->
+    <header class="list-hero">
+      <span class="kicker"><span class="dot"></span>{{ $en }}{{ if eq .Kind "term" }} · {{ .Data.Plural }}{{ end }}</span>
+      <h1 class="list-title">{{ .Title }}</h1>
+      {{ with .Description }}<p class="list-desc">{{ . }}</p>{{ else }}{{ with .Content }}<div class="list-desc prose">{{ . }}</div>{{ end }}{{ end }}
+      {{ if $pages }}<div class="list-stat mono"><span id="listCount">{{ len $pages }}</span> 篇</div>{{ end }}
+    </header>
+
+    {{ if $paginator.Pages }}
+    <!-- 筛选栏 -->
+    <div class="list-toolbar">
+      <div class="filter-bar" id="filterBar" role="group" aria-label="筛选">
+        {{ if $allCats }}
+          <span class="filter-label mono">分类</span>
+          {{ range $allCats }}
+            {{ $n := len (where $pages "Params.categories" "intersect" (slice .)) }}
+            <button class="chip" type="button" data-type="category" data-value="{{ . }}" aria-pressed="false">{{ . }}<span class="n">{{ $n }}</span></button>
+          {{ end }}
+        {{ end }}
+        {{ if $allTags }}
+          <span class="filter-label mono">标签</span>
+          {{ range first 16 $allTags }}
+            <button class="chip" type="button" data-type="tag" data-value="{{ . }}" aria-pressed="false">{{ . }}</button>
+          {{ end }}
+        {{ end }}
+        <button class="chip chip-clear" type="button" id="filterClear" hidden>清除筛选 ✕</button>
+      </div>
+    </div>
+
+    <!-- Feed 流：左色条 + 分类 + 标题 + 摘要 + 时长（无封面，对齐首页「最近更新」） -->
+    <div class="feed-list" id="postGrid">
+      {{ range $paginator.Pages }}
+        {{ $cls := partial "cat-class.html" . }}
+        {{ $cat := "" }}{{ with .Params.categories }}{{ $cat = index . 0 }}{{ end }}
+        {{- /* 封面：featured 资源 > cover 参数 > 自动生成（thumb） */ -}}
+        {{ $cover := "" }}
+        {{ $fr := .Resources.GetMatch "featured.*" }}
+        {{ if and $fr (not (index (or site.Params.cover dict) "ignoreFeatured")) }}{{ if and (ne $fr.MediaType.SubType "svg") (gt ($fr.Width | default 0) 640) }}{{ $cover = ($fr.Resize "640x webp q85").RelPermalink }}{{ else }}{{ $cover = $fr.RelPermalink }}{{ end }}
+        {{ else if .Params.cover }}{{ $cover = .Params.cover }}
+        {{ else if (index (or site.Params.cover dict) "auto") | default true }}{{ $svg := partial "cover-svg.html" (dict "page" . "variant" "thumb") }}{{ $cover = ($svg | resources.FromString (printf "covers/%s-t.svg" (substr (md5 .RelPermalink) 0 12))).RelPermalink }}{{ end }}
+        <a class="feed-item {{ $cls }}{{ if $cover }} has-cover{{ end }}" href="{{ .RelPermalink }}" style="--mc:var(--c-{{ $cls }})"
+           data-categories="{{ delimit (.Params.categories | default slice) "|" }}"
+           data-tags="{{ delimit (.Params.tags | default slice) "|" }}">
+          {{ with $cover }}<div class="fi-cover"><img src="{{ . | safeURL }}" alt="{{ $.Title }} 封面" loading="lazy" decoding="async"></div>{{ end }}
+          <div class="fi-body">
+            <div class="fi-top">
+              {{ with $cat }}<span class="fi-cat" style="--fc:var(--c-{{ $cls }})"><span class="fi-dot"></span>{{ . }}</span>{{ end }}
+              <time class="fi-date mono" datetime="{{ .Date.Format "2006-01-02" }}">{{ .Date.Format "2006-01-02" }}</time>
+            </div>
+            <h3 class="fi-title">{{ .Title }}</h3>
+            {{ with .Summary }}<p class="fi-sum">{{ . | plainify | truncate 130 }}</p>{{ end }}
+            <div class="fi-meta mono">
+              <span class="fi-read">◷ {{ .ReadingTime }} min</span>
+              {{ with .Params.tags }}<span class="fi-tags">{{ delimit (first 3 .) " · " }}</span>{{ end }}
+            </div>
+          </div>
+        </a>
+      {{ end }}
+    </div>
+
+    <!-- 空状态 -->
+    <div class="list-empty" id="listEmpty" hidden>没有匹配的文章，试试减少筛选条件。</div>
+
+    <!-- 加载更多 -->
+    {{ if $paginator.HasNext }}
+    <div class="load-more-wrap">
+      <a class="load-more" id="loadMore" href="{{ $paginator.Next.URL }}" rel="next">加载更多 ↓</a>
+    </div>
+    {{ end }}
+    {{ else }}
+    {{- /* 单页 section（如 roadmap）：无子文章则渲染 _index.md 正文 */ -}}
+    {{ with .Content }}<div class="prose list-prose">{{ . }}</div>{{ else }}<div class="list-empty">敬请期待</div>{{ end }}
+    {{ end }}
+  </section>
+</main>
+{{ end }}
+
+{{ define "footer-scripts" }}
+  {{ with resources.Get "js/list.js" }}
+    {{ if hugo.IsProduction }}{{ $j := . | minify | fingerprint }}<script src="{{ $j.RelPermalink }}" integrity="{{ $j.Data.Integrity }}" defer></script>
+    {{ else }}<script src="{{ .RelPermalink }}" defer></script>{{ end }}
+  {{ end }}
+{{ end }}

@@ -1,0 +1,13 @@
+{{- /*
+  链接 → 站外链接加 target=_blank rel=noopener + 外链角标 .link-ext；
+  站内链接正常渲染。
+*/ -}}
+{{- $dest := .Destination -}}
+{{- $external := false -}}
+{{- if or (hasPrefix $dest "http://") (hasPrefix $dest "https://") (hasPrefix $dest "//") -}}
+  {{- $u := urls.Parse $dest -}}
+  {{- $siteHost := "" -}}
+  {{- with .Page.Site.BaseURL -}}{{- $siteHost = (urls.Parse .).Host -}}{{- end -}}
+  {{- if and $u.Host (ne $u.Host $siteHost) -}}{{- $external = true -}}{{- end -}}
+{{- end -}}
+<a href="{{ $dest | safeURL }}"{{ with .Title }} title="{{ . }}"{{ end }}{{ if $external }} target="_blank" rel="noopener"{{ end }}>{{ .Text | safeHTML }}{{ if $external }}<span class="link-ext" aria-hidden="true">↗</span>{{ end }}</a>

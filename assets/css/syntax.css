@@ -1,0 +1,56 @@
+/* ============================================================
+   syntax.css — Hugo/chroma 语法高亮 → vishine --code-* token 映射
+   （DESIGN §2.4：注释不斜体、mono→sans 兜底中文、13.5px/1.7）
+   ============================================================ */
+
+/* 代码块容器内的 chroma 输出 */
+.code-block .chroma,
+.prose pre.chroma,
+.prose .highlight pre {
+  background: transparent;
+  font-family: var(--font-mono), var(--font-sans);
+  font-size: 13.5px;
+  line-height: 1.7;
+  tab-size: 2;
+  -moz-tab-size: 2;
+  letter-spacing: 0;
+}
+
+/* 普通文本 / 标点 / 操作符 */
+.chroma                       { color: var(--ink-2); }
+.chroma .n, .chroma .nx,
+.chroma .nl, .chroma .py      { color: var(--ink-2); }
+.chroma .p, .chroma .o,
+.chroma .ow                   { color: var(--ink-2); }
+
+/* 关键字 */
+.chroma .k, .chroma .kd, .chroma .kn,
+.chroma .kr, .chroma .kt, .chroma .kc,
+.chroma .nt                   { color: var(--code-key); font-weight: 500; }
+
+/* 字符串 */
+.chroma .s, .chroma .s1, .chroma .s2,
+.chroma .sb, .chroma .sc, .chroma .sd,
+.chroma .se, .chroma .sh, .chroma .si,
+.chroma .sx, .chroma .sr, .chroma .ss { color: var(--code-str); }
+
+/* 注释（务必不斜体，中文发虚） */
+.chroma .c, .chroma .c1, .chroma .cm,
+.chroma .cs, .chroma .cp, .chroma .cpf { color: var(--code-com); font-style: normal; }
+
+/* 数字 */
+.chroma .m, .chroma .mi, .chroma .mf,
+.chroma .mh, .chroma .mo, .chroma .mb,
+.chroma .il                   { color: var(--code-num); }
+
+/* 函数 / 内建 */
+.chroma .nf, .chroma .nb,
+.chroma .fm, .chroma .vm      { color: var(--code-fn); }
+
+/* 类型 / 类名 */
+.chroma .nc, .chroma .nn,
+.chroma .no                   { color: var(--code-fn); }
+
+/* 行高亮（若启用 lineNos / hl_lines） */
+.chroma .hl                   { background: color-mix(in srgb, var(--accent) 10%, transparent); }
+.chroma .ln, .chroma .lnt     { color: var(--ink-3); user-select: none; }

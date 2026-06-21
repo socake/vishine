@@ -1,0 +1,29 @@
+{{- /*
+  changelog/list.html — 更新日志【时间线】。
+  渲染 changelog/_index.md 的 .Content（按月 ## 标题）为左竖线时间线：
+  每个 H2（月份）作节点（CSS 在 H2::before 画圆点），prose 风格正文。
+  纯 token 着色，节点圆点用 --accent。
+*/ -}}
+{{ define "head-css" }}
+  {{ with resources.Get "css/special.css" }}
+    {{ if hugo.IsProduction }}{{ $c := . | minify | fingerprint }}<link rel="stylesheet" href="{{ $c.RelPermalink }}" integrity="{{ $c.Data.Integrity }}">
+    {{ else }}<link rel="stylesheet" href="{{ .RelPermalink }}">{{ end }}
+  {{ end }}
+{{ end }}
+
+{{ define "main" }}
+<main class="wrap">
+  <section class="sec">
+    <header class="list-hero">
+      <span class="kicker"><span class="dot"></span>changelog</span>
+      <h1 class="list-title">{{ .Title }}</h1>
+      {{ with .Description }}<p class="list-desc">{{ . }}</p>{{ end }}
+    </header>
+
+    <!-- 时间线容器：.Content 的 ## 月份 = 节点（见 special.css .changelog-timeline） -->
+    <div class="changelog-timeline prose">
+      {{ .Content }}
+    </div>
+  </section>
+</main>
+{{ end }}

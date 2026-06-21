@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="{{ or site.Language.Locale site.Language.Lang "zh-CN" }}" data-scheme="{{ site.Params.defaultScheme | default "clean" }}">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  {{ partial "head.html" . }}
+  {{- /* 无闪烁内联脚本（scheme）：由并行任务产出，缺失时跳过不致命 */ -}}
+  {{ if templates.Exists "partials/head-scheme.html" }}{{ partial "head-scheme.html" . }}{{ end }}
+  {{ block "head-extra" . }}{{ end }}
+</head>
+<body>
+  {{ partial "header.html" . }}
+
+  {{ block "main" . }}{{ end }}
+
+  {{ partial "footer.html" . }}
+
+  {{- /* 全局件容器：命令面板 / 抽屉 / 返回顶部 / toast，结构照搬 mockup */ -}}
+  {{ partial "globals.html" . }}
+
+  {{- /* main.js（全局交互）：由并行任务产出 */ -}}
+  {{ with resources.Get "js/main.js" }}
+    {{ if hugo.IsProduction }}{{ $j := . | minify | fingerprint }}<script src="{{ $j.RelPermalink }}" integrity="{{ $j.Data.Integrity }}" defer></script>
+    {{ else }}<script src="{{ .RelPermalink }}" defer></script>{{ end }}
+  {{ end }}
+  <script>window.VISHINE_MERMAID_SRC="{{ "js/mermaid.min.js" | relURL }}";</script>
+  {{ with resources.Get "js/diagram.js" }}<script src="{{ .RelPermalink }}" defer></script>{{ end }}
+  {{ block "footer-scripts" . }}{{ end }}
+</body>
+</html>

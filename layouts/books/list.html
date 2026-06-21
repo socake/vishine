@@ -1,0 +1,28 @@
+{{- /*
+  books/list.html — 书单页。
+  渲染 books/_index.md 的 .Content（markdown 列表，## 分组）为【书卡网格】：
+  每个 <li> 一张书卡（CSS 把 ul→grid、li→card），左竖条用资源板块色 --c-res 点缀。
+*/ -}}
+{{ define "head-css" }}
+  {{ with resources.Get "css/special.css" }}
+    {{ if hugo.IsProduction }}{{ $c := . | minify | fingerprint }}<link rel="stylesheet" href="{{ $c.RelPermalink }}" integrity="{{ $c.Data.Integrity }}">
+    {{ else }}<link rel="stylesheet" href="{{ .RelPermalink }}">{{ end }}
+  {{ end }}
+{{ end }}
+
+{{ define "main" }}
+<main class="wrap">
+  <section class="sec">
+    <header class="list-hero">
+      <span class="kicker"><span class="dot"></span>books</span>
+      <h1 class="list-title">{{ .Title }}</h1>
+      {{ with .Description }}<p class="list-desc">{{ . }}</p>{{ end }}
+    </header>
+
+    <!-- 书卡网格：ul/li 由 special.css .book-grid 转书卡 -->
+    <div class="book-grid prose">
+      {{ .Content }}
+    </div>
+  </section>
+</main>
+{{ end }}

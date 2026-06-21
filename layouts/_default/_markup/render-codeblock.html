@@ -1,0 +1,21 @@
+{{- /*
+  代码块 → .code-block > .code-head（语言标签 + 复制按钮）+ chroma highlight。
+  复制按钮逻辑（含 .cc-txt 文案切换、✓ 反馈、toast）由 main.js 的 copyText 接管。
+  语言取 .Type；highlight 走站点 [markup.highlight]（noClasses=false → 映射 --code-* token）。
+*/ -}}
+{{- $type := .Type | default "text" -}}
+{{- if eq $type "mermaid" -}}
+  {{- /* 图表：交给 mermaid（assets/js/diagram.js 渲染、套主题色、随 scheme 翻配色） */ -}}
+  <figure class="diagram-mermaid"><pre class="mermaid">{{- trim .Inner "\n" -}}</pre></figure>
+{{- else -}}
+<div class="code-block">
+  <div class="code-head">
+    <span class="code-lang">{{ $type }}</span>
+    <button class="code-copy" type="button" aria-label="复制代码">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg>
+      <span class="cc-txt">复制</span>
+    </button>
+  </div>
+  {{- highlight (trim .Inner "\n") $type .Options -}}
+</div>
+{{- end -}}

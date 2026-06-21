@@ -1,0 +1,63 @@
+{{- /*
+  card.html — 全站统一卡片。一处定义、全站复用（列表卡 / 相关文章 / 上下篇）。
+  参数 dict：
+    page  (必填)  : Page 对象
+    kind  (可选)  : "post"（列表网格卡，默认）| "related"（相关文章）| "prevnext"（上下篇）
+    rel   (kind=prevnext 时) : "prev" | "next"
+  板块色经 cat-class.html → data/sections.toml 查表，注入 style="--mc:var(--c-<cls>)"，模板不写死颜色。
+*/ -}}
+{{- $page := .page -}}
+{{- $kind := .kind | default "post" -}}
+{{- $cls := partial "cat-class.html" $page -}}
+{{- $cat := "" -}}
+{{- with $page.Params.categories }}{{ $cat = index . 0 }}{{ end -}}
+
+{{- if eq $kind "prevnext" -}}
+  {{- $rel := .rel | default "prev" -}}
+  <a href="{{ $page.RelPermalink }}" class="pn-card {{ $rel }}">
+    <span class="pn-lbl">{{ if eq $rel "prev" }}← 上一篇{{ else }}下一篇 →{{ end }}</span>
+    <div class="pn-ttl">{{ $page.Title }}</div>
+  </a>
+
+{{- else if eq $kind "related" -}}
+  <a href="{{ $page.RelPermalink }}" class="rel-card {{ $cls }}" style="--mc:var(--c-{{ $cls }})">
+    {{ with $cat }}<span class="rel-cat">{{ . }}</span>{{ end }}
+    <h4>{{ $page.Title }}</h4>
+    <div class="rel-meta mono">{{ $page.Date.Format "01-02" }} · {{ $page.ReadingTime }} min</div>
+  </a>
+
+{{- else -}}
+  {{- /* kind=post：列表网格卡，含摘要，带筛选数据属性。
+        有 featured 资源（或 .Params.cover）则顶部铺封面缩略，否则纯文字卡。 */ -}}
+  {{- $coverURL := "" -}}
+  {{- $fr := $page.Resources.GetMatch "featured.*" -}}
+  {{- if and $fr (not (index (or site.Params.cover dict) "ignoreFeatured")) -}}
+    {{- if and (ne $fr.MediaType.SubType "svg") (gt ($fr.Width | default 0) 900) -}}
+      {{- $coverURL = ($fr.Resize "900x webp q85").RelPermalink -}}
+    {{- else -}}{{- $coverURL = $fr.RelPermalink -}}{{- end -}}
+  {{- else if $page.Params.cover -}}
+    {{- $coverURL = $page.Params.cover -}}
+  {{- else if (index (or site.Params.cover dict) "auto") | default true -}}
+    {{- $svg := partial "cover-svg.html" (dict "page" $page "variant" "thumb") -}}
+    {{- $coverURL = ($svg | resources.FromString (printf "covers/%s-t.svg" (substr (md5 $page.RelPermalink) 0 12))).RelPermalink -}}
+  {{- end -}}
+  <article class="card {{ $cls }}{{ if $coverURL }} has-cover{{ end }}" style="--mc:var(--c-{{ $cls }})"
+    data-categories="{{ delimit ($page.Params.categories | default slice) "|" }}"
+    data-tags="{{ delimit ($page.Params.tags | default slice) "|" }}">
+    <a class="card-link" href="{{ $page.RelPermalink }}">
+      {{ with $coverURL }}<div class="card-cover"><img src="{{ . | safeURL }}" alt="{{ $page.Title }} 封面" loading="lazy" decoding="async"></div>{{ end }}
+      <div class="card-body">
+        <div class="card-top">
+          {{ with $cat }}<span class="card-cat mono" style="--fc:var(--c-{{ $cls }})">{{ . }}</span>{{ end }}
+          <time class="card-date mono" datetime="{{ $page.Date.Format "2006-01-02" }}">{{ $page.Date.Format "2006-01-02" }}</time>
+        </div>
+        <h3 class="card-title">{{ $page.Title }}</h3>
+        {{ with $page.Summary }}<p class="card-summary">{{ . | plainify | truncate 110 }}</p>{{ end }}
+        <div class="card-meta mono">
+          <span class="card-read">◷ {{ $page.ReadingTime }} min</span>
+          {{ with $page.Params.tags }}<span class="card-tags">{{ delimit (first 3 .) " · " }}</span>{{ end }}
+        </div>
+      </div>
+    </a>
+  </article>
+{{- end -}}

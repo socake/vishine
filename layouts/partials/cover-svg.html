@@ -1,0 +1,98 @@
+{{- /*
+  cover-svg.html — 自动封面生成器（多版式 · 可配置 · Hugo 原生）
+  入参：(dict "page" PAGE "variant" "hero|thumb")
+  thumb：列表缩略，4 种版式据文章哈希轮换（多样但同设计语言）；可用 site.Params.cover.style 锁定单一版式。
+  hero ：详情横幅，带文章标题。
+  板块色查 data/sections.toml；字号按视觉宽度（中文1/英文0.55）统一。
+*/ -}}
+{{- $page := .page -}}
+{{- $variant := .variant | default "hero" -}}
+{{- $title := $page.Title -}}
+
+{{- $cls := "blog" -}}
+{{- with $page.Params.categories -}}
+  {{- $cls = or (index hugo.Data.sections.categories (index . 0)) $cls -}}
+{{- else -}}
+  {{- with index hugo.Data.sections.sections $page.Section -}}{{ $cls = .class }}{{ end -}}
+{{- end -}}
+{{- $pal := dict "blog" "#c75132" "play" "#2f6f5e" "road" "#b3892a" "docs" "#3a5e8c" "res" "#7a4f8a" "ai" "#a83a52" -}}
+{{- $palD := dict "blog" "#8f3a22" "play" "#21503f" "road" "#7f6118" "docs" "#284667" "res" "#583a66" "ai" "#7c2a3c" -}}
+{{- $palB := dict "blog" "#f6e2d8" "play" "#dcebe4" "road" "#f1e6cb" "docs" "#dbe5ef" "res" "#e9dfee" "ai" "#f3dce1" -}}
+{{- $c := index $pal $cls | default "#c75132" -}}
+{{- $cd := index $palD $cls | default "#8f3a22" -}}
+{{- $cb := index $palB $cls | default "#f6e2d8" -}}
+{{- $cat := "" -}}{{ with $page.Params.categories }}{{ $cat = index . 0 }}{{ end -}}
+{{- $mark := $cat | default ($page.Section | title) -}}
+
+{{- /* 字号按视觉宽度（中文≈1 / 英文≈0.55），全分类视觉一致 */ -}}
+{{- $bytes := len $mark -}}{{- $runes := strings.RuneCount $mark -}}
+{{- $cjk := math.Ceil (div (sub $bytes $runes) 2.0) -}}{{- $ascii := sub $runes $cjk -}}
+{{- $vw := add $cjk (mul $ascii 0.55) -}}
+
+{{- if eq $variant "thumb" -}}
+{{- $mfs := div 470.0 $vw -}}{{- if gt $mfs 120.0 }}{{ $mfs = 120.0 }}{{ end }}{{ if lt $mfs 56.0 }}{{ $mfs = 56.0 }}{{ end }}{{- $mfs = int $mfs -}}
+{{- /* 版式选择：site.Params.cover.style 锁定，否则按标题哈希轮换 0–3 */ -}}
+{{- $style := (index (or site.Params.cover dict) "style") | default "auto" -}}
+{{- $seed := mod (add (len $title) ($page.Date.Day)) 4 -}}
+{{- if ne $style "auto" }}{{ $seed = index (dict "orbit" 0 "grid" 1 "diagonal" 2 "arc" 3) $style | default 0 }}{{ end -}}
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 500" role="img" aria-label="{{ $cat }}">
+  <defs>
+    <style>.t{font-family:"Noto Sans SC",system-ui,sans-serif}.m{font-family:"JetBrains Mono",ui-monospace,Menlo,monospace}</style>
+    <linearGradient id="g" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="{{ $c }}" stop-opacity="0.26"/><stop offset="0.65" stop-color="{{ $c }}" stop-opacity="0.08"/><stop offset="1" stop-color="{{ $cd }}" stop-opacity="0.05"/></linearGradient>
+    <pattern id="dot" width="30" height="30" patternUnits="userSpaceOnUse"><circle cx="3" cy="3" r="2" fill="{{ $c }}" opacity="0.16"/></pattern>
+  </defs>
+  <rect width="800" height="500" fill="{{ $cb }}"/>
+  <rect width="800" height="500" fill="url(#g)"/>
+  <rect width="12" height="500" fill="{{ $c }}"/>
+  {{- if eq $seed 0 -}}
+  {{- /* 版式 0 · orbit：右侧大同心圆半出血 */ -}}
+  <g transform="translate(700,250)"><circle r="252" fill="none" stroke="{{ $c }}" stroke-width="3" opacity="0.12"/><circle r="186" fill="none" stroke="{{ $c }}" stroke-width="3" opacity="0.20"/><circle r="120" fill="{{ $c }}" fill-opacity="0.16" stroke="{{ $c }}" stroke-width="3"/></g>
+  {{- else if eq $seed 1 -}}
+  {{- /* 版式 1 · grid：点阵铺满 + 实心圆块 */ -}}
+  <rect x="380" y="0" width="420" height="500" fill="url(#dot)"/>
+  <circle cx="650" cy="250" r="96" fill="{{ $c }}" fill-opacity="0.18" stroke="{{ $c }}" stroke-width="3"/>
+  <circle cx="650" cy="250" r="150" fill="none" stroke="{{ $c }}" stroke-width="2.5" opacity="0.18"/>
+  {{- else if eq $seed 2 -}}
+  {{- /* 版式 2 · diagonal：对角色带 */ -}}
+  <path d="M800 0 L800 230 L300 500 L560 500 Z" fill="{{ $c }}" opacity="0.16"/>
+  <path d="M800 90 L800 250 L470 500 L640 500 Z" fill="{{ $cd }}" opacity="0.14"/>
+  <circle cx="650" cy="170" r="58" fill="none" stroke="{{ $c }}" stroke-width="3" opacity="0.5"/>
+  {{- else -}}
+  {{- /* 版式 3 · arc：大圆弧 + 散点 */ -}}
+  <path d="M560 -40 A320 320 0 0 1 560 540" fill="none" stroke="{{ $c }}" stroke-width="3" opacity="0.22"/>
+  <path d="M650 40 A240 240 0 0 1 650 460" fill="none" stroke="{{ $c }}" stroke-width="3" opacity="0.32"/>
+  <circle cx="700" cy="250" r="14" fill="{{ $c }}" opacity="0.7"/>
+  <circle cx="620" cy="120" r="8" fill="{{ $c }}" opacity="0.4"/><circle cx="640" cy="380" r="8" fill="{{ $c }}" opacity="0.4"/>
+  {{- end -}}
+  <text class="t" x="56" y="{{ add 244 (int (mul $mfs 0.34)) }}" font-size="{{ $mfs }}" font-weight="900" letter-spacing="-2" fill="{{ $cd }}">{{ $mark }}</text>
+  <text class="m" x="56" y="462" font-size="22" font-weight="700" fill="{{ $c }}" opacity="0.85">vi<tspan fill="{{ $cd }}">shine</tspan></text>
+</svg>
+{{- else -}}
+{{- /* ===== 详情页横幅 hero ===== */ -}}
+{{- $mfs := cond (le (strings.RuneCount $mark) 2) 34 (cond (le (strings.RuneCount $mark) 3) 27 20) -}}
+{{- $len := strings.RuneCount $title -}}
+{{- $l1 := $title -}}{{- $l2 := "" -}}{{- $maxlen := $len -}}
+{{- if gt $len 11 -}}{{- $half := math.Ceil (div $len 2.0) | int -}}{{- $l1 = substr $title 0 $half -}}{{- $l2 = substr $title $half -}}{{- $maxlen = $half -}}{{- end -}}
+{{- $fs := cond (le $maxlen 6) 74 (cond (le $maxlen 9) 56 44) -}}
+{{- $y1 := 360 -}}{{- $y2 := 0 -}}{{- if $l2 -}}{{ $y1 = 336 }}{{ $y2 = add $y1 (add $fs 12) }}{{- end -}}
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630" role="img" aria-label="{{ $cat }} · {{ $title }}">
+  <defs>
+    <style>.t{font-family:"Noto Sans SC",system-ui,sans-serif}.m{font-family:"JetBrains Mono",ui-monospace,Menlo,monospace}</style>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="{{ $c }}" stop-opacity="0.13"/><stop offset="0.55" stop-color="{{ $c }}" stop-opacity="0.04"/><stop offset="1" stop-color="{{ $cd }}" stop-opacity="0.10"/></linearGradient>
+    <pattern id="dots" width="32" height="32" patternUnits="userSpaceOnUse"><circle cx="2.5" cy="2.5" r="1.7" fill="{{ $c }}" opacity="0.13"/></pattern>
+    <radialGradient id="glow" cx="0.82" cy="0.42" r="0.5"><stop offset="0" stop-color="{{ $c }}" stop-opacity="0.16"/><stop offset="1" stop-color="{{ $c }}" stop-opacity="0"/></radialGradient>
+  </defs>
+  <rect width="1200" height="630" rx="18" fill="#f8f7f4"/>
+  <rect width="1200" height="630" rx="18" fill="url(#bg)"/>
+  <rect x="720" y="0" width="480" height="630" fill="url(#dots)"/>
+  <rect width="1200" height="630" rx="18" fill="url(#glow)"/>
+  <rect width="14" height="630" fill="{{ $c }}"/>
+  <path d="M770 0 L1200 430" stroke="{{ $c }}" stroke-width="2" opacity="0.12"/>
+  <path d="M880 0 L1200 320" stroke="{{ $c }}" stroke-width="2" opacity="0.10"/>
+  <g transform="translate(1012,315)"><circle r="172" fill="none" stroke="{{ $c }}" stroke-width="2" opacity="0.16"/><circle r="128" fill="none" stroke="{{ $c }}" stroke-width="2" opacity="0.26"/><circle r="86" fill="{{ $c }}" fill-opacity="0.12" stroke="{{ $c }}" stroke-width="2.5"/><text class="t" x="0" y="{{ math.Round (mul $mfs 0.34) }}" font-size="{{ $mfs }}" font-weight="800" fill="{{ $cd }}" text-anchor="middle">{{ $mark }}</text></g>
+  {{- with $cat }}<g transform="translate(80,200)"><rect width="{{ add 52 (mul (strings.RuneCount .) 22) }}" height="44" rx="9" fill="{{ $c }}" fill-opacity="0.14" stroke="{{ $c }}" stroke-width="1.5"/><circle cx="26" cy="22" r="6" fill="{{ $c }}"/><text class="m" x="42" y="29" font-size="20" font-weight="700" fill="{{ $cd }}">{{ . }}</text></g>{{- end }}
+  <text class="t" x="80" y="{{ $y1 }}" font-size="{{ $fs }}" font-weight="900" letter-spacing="-1.5" fill="#20201d">{{ $l1 }}</text>
+  {{- if $l2 }}<text class="t" x="80" y="{{ $y2 }}" font-size="{{ $fs }}" font-weight="900" letter-spacing="-1.5" fill="#20201d">{{ $l2 }}</text>{{- end }}
+  <text class="m" x="80" y="588" font-size="19" font-weight="700" fill="#8c887d">vi<tspan fill="{{ $c }}">shine</tspan></text>
+</svg>
+{{- end -}}
