@@ -367,18 +367,27 @@
       if(!linkMap.has(id)) linkMap.set(id, []);
       linkMap.get(id).push(a);
     }
+    // 手动点击折叠/展开：标记为「干预态」，此后 scrollspy 不再自动管理这一组
     function toggleItem(li, btn){
+      li.dataset.manual = '1';
       const collapsed = li.classList.toggle('collapsed');
       btn.setAttribute('aria-expanded', collapsed ? 'false' : 'true');
     }
-    // 确保 id 所属的 H2 组处于展开态（scrollspy 用，不主动折叠其它组）
-    function ensureExpanded(id){
-      const h2id = h3Parent.has(id) ? h3Parent.get(id) : id;
-      (itemReg.get(h2id) || []).forEach(it=>{
-        if(it.li.classList.contains('collapsed')){
-          it.li.classList.remove('collapsed');
-          if(it.toggle) it.toggle.setAttribute('aria-expanded','true');
-        }
+    function setCollapsed(it, collapsed){
+      it.li.classList.toggle('collapsed', collapsed);
+      if(it.toggle) it.toggle.setAttribute('aria-expanded', collapsed ? 'false' : 'true');
+    }
+    // 自动态（非干预）：只展开当前所在的 H2 组，其余全部收起；
+    // 用户手动开/合过的组带 data-manual，scrollspy 一律不碰，尊重手动操作。
+    function autoManage(id){
+      const activeH2 = h3Parent.has(id) ? h3Parent.get(id) : id;
+      itemReg.forEach((items, h2id)=>{
+        const wantCollapsed = h2id !== activeH2;
+        items.forEach(it=>{
+          if(it.li.dataset.manual) return;   // 干预态：不自动管理
+          if(!it.toggle) return;             // 无子项的 H2 没有折叠器
+          setCollapsed(it, wantCollapsed);
+        });
       });
     }
     function buildTree(rootUl, onNav){
@@ -415,12 +424,13 @@
         if(it.childrenUl.children.length){
           const btn = document.createElement('button');
           btn.className = 'toc-toggle'; btn.type = 'button';
-          btn.setAttribute('aria-expanded','true');
+          btn.setAttribute('aria-expanded','false');   // 默认折叠（目录当大纲用）
           btn.setAttribute('aria-label','折叠或展开此节');
           btn.innerHTML = CHEV;
           btn.addEventListener('click', ()=>toggleItem(it.li, btn));
           it.row.appendChild(btn);
           it.toggle = btn;
+          it.li.classList.add('collapsed');            // 默认折叠态
         }
         if(!itemReg.has(it.id)) itemReg.set(it.id, []);
         itemReg.get(it.id).push({li:it.li, toggle:it.toggle});
@@ -435,7 +445,7 @@
         const on = key===id;
         links.forEach(l=>l.classList.toggle('active', on));
       });
-      ensureExpanded(id); // 当前位置所在组自动展开
+      autoManage(id); // 自动态：只展开当前组、收起其它（干预态除外）
     }
 
     /* ---------- TOC scrollspy（IntersectionObserver）---------- */
