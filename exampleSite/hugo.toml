@@ -92,7 +92,6 @@ summaryLength = 30
   # ===========================================================================
   [languages.en]
     label = "English"          # 语言切换菜单里显示的名字
-    languageName = "English"   # 语言的标准名称（用于 SEO / RSS 等）
     locale = "en"              # 地区代码：英文
     weight = 2                 # 排在简体中文（weight=1）之后
 
@@ -158,6 +157,7 @@ summaryLength = 30
 [taxonomies]
   tag = "tags"
   category = "categories"
+  series = "series"
 
 
 # -----------------------------------------------------------------------------
@@ -471,3 +471,14 @@ summaryLength = 30
     name = "赞助"
     pageRef = "/sponsor"
     weight = 85
+
+# ============ 评论（giscus，基于 GitHub Discussions）============
+# 还需在 https://giscus.app 给 socake/vishine 安装 giscus app（一次性），评论才会真正加载
+[params.comments]
+  [params.comments.giscus]
+    repo       = "socake/vishine"
+    repoId     = "R_kgDOTAoe_w"
+    category   = "Announcements"
+    categoryId = "DIC_kwDOTAoe_84C_ldv"
+    mapping    = "pathname"
+    lang       = "zh-CN"

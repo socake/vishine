@@ -1,5 +1,6 @@
 ---
 title: "RAG 实战：从能跑到好用的工程化要点"
+series: ["AI 工程化入门"]
 date: 2026-06-05T10:00:00+08:00
 categories: ["RAG"]
 tags: ["RAG", "向量数据库", "Embedding", "检索增强", "LLM"]

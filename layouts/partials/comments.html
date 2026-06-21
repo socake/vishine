@@ -1,0 +1,46 @@
+{{- /*
+  comments.html — giscus 评论（基于 GitHub Discussions，免后端、免数据库）。
+
+  启用方式（在站点 hugo.toml 配）：
+    [params.comments.giscus]
+      repo       = "用户名/仓库名"      # 必须是公开仓库，且已装 giscus app + 开启 Discussions
+      repoId     = "R_xxx"             # 从 https://giscus.app 生成
+      category   = "Comments"
+      categoryId = "DIC_xxx"           # 从 https://giscus.app 生成
+      mapping    = "pathname"          # 文章与 discussion 的映射方式（可选）
+      lang       = "zh-CN"             # 评论框语言（可选）
+  文章 frontmatter 加 showComments: false 可单篇关闭。
+  评论区配色会自动跟随站点三套 scheme（暗色→giscus dark，其余→light）。
+*/ -}}
+{{- $g := index (or site.Params.comments dict) "giscus" -}}
+{{- if and $g $g.repo (ne .Params.showComments false) -}}
+<section class="comments" id="comments" aria-label="{{ i18n "comments" | default "评论" }}">
+  <div class="end-label">{{ i18n "comments" | default "评论" }}</div>
+  <script src="https://giscus.app/client.js"
+    data-repo="{{ $g.repo }}"
+    data-repo-id="{{ $g.repoId }}"
+    data-category="{{ $g.category | default "Comments" }}"
+    data-category-id="{{ $g.categoryId }}"
+    data-mapping="{{ $g.mapping | default "pathname" }}"
+    data-strict="1"
+    data-reactions-enabled="1"
+    data-emit-metadata="0"
+    data-input-position="top"
+    data-theme="light"
+    data-lang="{{ $g.lang | default "zh-CN" }}"
+    crossorigin="anonymous" async>
+  </script>
+  <script>
+  (function(){
+    function theme(){ return document.documentElement.getAttribute('data-scheme')==='dark' ? 'dark' : 'light'; }
+    function sync(){
+      var f=document.querySelector('iframe.giscus-frame');
+      if(f && f.contentWindow) f.contentWindow.postMessage({giscus:{setConfig:{theme:theme()}}}, 'https://giscus.app');
+    }
+    // 加载后多探几次（iframe 异步出现），并在配色切换时同步
+    var n=0, iv=setInterval(function(){ sync(); if(++n>10) clearInterval(iv); }, 800);
+    new MutationObserver(sync).observe(document.documentElement,{attributes:true,attributeFilter:['data-scheme']});
+  })();
+  </script>
+</section>
+{{- end -}}

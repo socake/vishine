@@ -246,3 +246,12 @@ other = "语言"
 
 [sponsor]
 other = "赞助"
+
+[comments]
+other = "评论"
+
+[series_label]
+other = "本系列"
+
+[series_nav]
+other = "系列文章"

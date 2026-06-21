@@ -1,5 +1,6 @@
 ---
 title: "Prompt 工程：让模型稳定产出的实用技巧"
+series: ["AI 工程化入门"]
 date: 2026-05-25T10:00:00+08:00
 categories: ["AI 工具"]
 tags: ["AI 工具", "Prompt", "提示词", "LLM", "工程化"]

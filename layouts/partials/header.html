@@ -44,7 +44,7 @@
       {{- if gt (len $homes) 1 }}
       <div class="lang-switch" role="group" aria-label="{{ i18n "language" }}">
         {{- range $homes }}{{ $short := index (split .Language.Lang "-") 0 | upper }}
-        <a class="lang-btn{{ if eq .Language.Lang site.Language.Lang }} active{{ end }}" href="{{ .RelPermalink }}" hreflang="{{ .Language.Lang }}" title="{{ .Language.LanguageName | default .Language.Lang }}">{{ $short }}</a>
+        <a class="lang-btn{{ if eq .Language.Lang site.Language.Lang }} active{{ end }}" href="{{ .RelPermalink }}" hreflang="{{ .Language.Lang }}" title="{{ .Language.Label | default .Language.Lang }}">{{ $short }}</a>
         {{- end }}
       </div>
       {{- end }}

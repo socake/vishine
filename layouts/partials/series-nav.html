@@ -1,0 +1,29 @@
+{{- /*
+  series-nav.html — 文章页「本系列文章」导航。
+  用 .GetTerms 直接拿到本文所属的 series term 页（自动兼容 series 写成字符串或数组、中文 slug），
+  列出同系列全部文章（按时间正序＝阅读顺序），高亮当前篇，并链接到系列目录页。
+*/ -}}
+{{- $cur := . -}}
+{{- with .GetTerms "series" -}}
+<div class="series-wrap">
+  {{- range . -}}
+    {{- $pages := .Pages.ByDate -}}
+    <nav class="series-box" aria-label="{{ i18n "series_nav" | default "系列文章" }}">
+      <div class="series-head">
+        <span class="series-ico" aria-hidden="true">📚</span>
+        <div class="series-meta">
+          <div class="series-label">{{ i18n "series_label" | default "本系列" }} · {{ len $pages }} {{ i18n "count_unit" | default "篇" }}</div>
+          <a class="series-name" href="{{ .RelPermalink }}">{{ .LinkTitle }}</a>
+        </div>
+      </div>
+      <ol class="series-list">
+        {{- range $pages -}}
+          <li{{ if eq .Permalink $cur.Permalink }} class="current"{{ end }}>
+            {{- if eq .Permalink $cur.Permalink -}}<span>{{ .LinkTitle }}</span>{{- else -}}<a href="{{ .RelPermalink }}">{{ .LinkTitle }}</a>{{- end -}}
+          </li>
+        {{- end -}}
+      </ol>
+    </nav>
+  {{- end -}}
+</div>
+{{- end -}}

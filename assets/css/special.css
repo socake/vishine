@@ -199,3 +199,26 @@
 /* footer 赞助入口（药丸链接） */
 .foot-sponsor{display:inline-flex;align-items:center;gap:4px;font-size:13px;font-weight:600;color:var(--accent);text-decoration:none;padding:3px 13px;border:1px solid color-mix(in srgb,var(--accent) 30%,transparent);border-radius:20px;transition:.16s;white-space:nowrap}
 .foot-sponsor:hover{background:var(--accent-soft);border-color:var(--accent);transform:translateY(-1px)}
+
+/* 系列文章导航（series-nav） */
+.series-wrap{margin:28px 0 4px}
+.series-box{border:1px solid color-mix(in srgb,var(--accent) 22%,var(--line));border-radius:14px;background:var(--accent-soft);padding:18px 20px;margin-bottom:16px}
+.series-head{display:flex;gap:12px;align-items:center;margin-bottom:12px}
+.series-ico{font-size:26px;line-height:1;flex:none}
+.series-label{font-size:12.5px;font-weight:600;color:var(--accent);font-family:var(--font-mono);margin-bottom:1px}
+.series-name{font-size:17px;font-weight:800;color:var(--ink);text-decoration:none}
+.series-name:hover{color:var(--accent)}
+.series-list{margin:0;padding:0;list-style:none;counter-reset:s}
+.series-list li{counter-increment:s;position:relative;padding:7px 0 7px 34px;font-size:14.5px;line-height:1.5;border-top:1px solid color-mix(in srgb,var(--accent) 12%,transparent)}
+.series-list li:first-child{border-top:0}
+.series-list li::before{content:counter(s);position:absolute;left:0;top:6px;width:22px;height:22px;border-radius:50%;background:var(--card);border:1px solid var(--line);color:var(--ink-3);font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:center;font-family:var(--font-mono)}
+.series-list a{color:var(--ink-2);text-decoration:none}
+.series-list a:hover{color:var(--accent)}
+.series-list li.current{font-weight:700}
+.series-list li.current span{color:var(--ink)}
+.series-list li.current::before{background:var(--accent);border-color:var(--accent);color:#fff}
+
+/* 评论区（giscus） */
+.comments{margin:34px 0 8px}
+.comments .end-label{margin-bottom:14px}
+.comments .giscus,.comments .giscus-frame{margin-top:8px;width:100%}

@@ -56,6 +56,9 @@
       {{ .Content }}
     </div>
 
+    {{- /* 本系列文章导航（文章属于某 series 时显示，否则不渲染） */ -}}
+    {{ partial "series-nav.html" . }}
+
     <!-- ============ 文末区 ============ -->
     <footer class="art-end">
       {{ with .Params.tags }}
@@ -101,6 +104,9 @@
       </div>
       {{ end }}
     </footer>
+
+    {{- /* 评论（giscus；配了 params.comments.giscus 且未单篇关闭时显示） */ -}}
+    {{ partial "comments.html" . }}
 
   </article>
 

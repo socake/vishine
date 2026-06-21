@@ -251,3 +251,12 @@ other = "Language"
 
 [sponsor]
 other = "Sponsor"
+
+[comments]
+other = "Comments"
+
+[series_label]
+other = "This series"
+
+[series_nav]
+other = "Series"
