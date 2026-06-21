@@ -42,6 +42,7 @@
       <span>© {{ site.Params.since }}–{{ now.Year }} {{ site.Params.author }}{{ with site.Params.authorEn }} · {{ . }}{{ end }}</span>
       {{ with site.GetPage "/sponsor" }}<a class="foot-sponsor" href="{{ .RelPermalink }}">☕ {{ i18n "sponsor" }}</a>{{ end }}
       <span class="made">{{ site.Params.tagline }}</span>
+      <span class="foot-powered">Powered by <a href="https://gohugo.io/" rel="noopener" target="_blank">Hugo</a> &amp; <a href="https://github.com/socake/vishine" rel="noopener" target="_blank">vishine</a></span>
     </div>
   </div>
 </footer>

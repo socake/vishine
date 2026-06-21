@@ -9,6 +9,8 @@
 
 **[在线 Demo](https://socake.github.io/vishine/)** · **[教程文档站](https://socake.github.io/vishine/tutorial/)** · **[使用文档](docs/USAGE.md)** · **[快速开始](docs/GETTING-STARTED.md)**
 
+🌐 **中文** · [English](README.en.md) · [日本語](README.ja.md)
+
 ---
 
 ## 为什么又造一个轮子
