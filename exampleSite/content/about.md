@@ -35,3 +35,11 @@ description: "关于星辉与这个博客。"
 
 - GitHub：[github.com/socake](https://github.com/socake)
 - Email：[hi@vishine.dev](mailto:hi@vishine.dev)
+
+---
+
+## 赞助支持
+
+如果这个主题帮到了你，欢迎请我喝杯咖啡 ☕
+
+{{< sponsor >}}

@@ -1,9 +1,9 @@
 {{- /* toc.html — 右侧目录容器。列表项由 main.js 从正文 h2/h3 构建（scrollspy + 折叠树）。
        含标题行 + 阅读宽度切换按钮（#readWidthBtn），结构照搬 d-article.html。 */ -}}
-<aside class="art-toc" aria-label="目录">
+<aside class="art-toc" aria-label="{{ i18n "toc" }}">
   <div class="toc-head">
-    <span class="toc-title">本页目录</span>
-    <button class="read-width-btn" id="readWidthBtn" type="button" aria-pressed="false" title="切换阅读宽度" aria-label="切换阅读宽度">
+    <span class="toc-title">{{ i18n "toc_title" }}</span>
+    <button class="read-width-btn" id="readWidthBtn" type="button" aria-pressed="false" title="{{ i18n "toggle_read_width" }}" aria-label="{{ i18n "toggle_read_width" }}">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 7v10M20 7v10M8 12h8M8 12l2.5-2.5M8 12l2.5 2.5M16 12l-2.5-2.5M16 12l-2.5 2.5"/></svg>
     </button>
   </div>

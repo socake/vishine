@@ -28,27 +28,27 @@
       <span class="kicker"><span class="dot"></span>{{ $en }}{{ if eq .Kind "term" }} · {{ .Data.Plural }}{{ end }}</span>
       <h1 class="list-title">{{ .Title }}</h1>
       {{ with .Description }}<p class="list-desc">{{ . }}</p>{{ else }}{{ with .Content }}<div class="list-desc prose">{{ . }}</div>{{ end }}{{ end }}
-      {{ if $pages }}<div class="list-stat mono"><span id="listCount">{{ len $pages }}</span> 篇</div>{{ end }}
+      {{ if $pages }}<div class="list-stat mono"><span id="listCount">{{ len $pages }}</span> {{ i18n "unit_articles" }}</div>{{ end }}
     </header>
 
     {{ if $paginator.Pages }}
     <!-- 筛选栏 -->
     <div class="list-toolbar">
-      <div class="filter-bar" id="filterBar" role="group" aria-label="筛选">
+      <div class="filter-bar" id="filterBar" role="group" aria-label="{{ i18n "filter" }}">
         {{ if $allCats }}
-          <span class="filter-label mono">分类</span>
+          <span class="filter-label mono">{{ i18n "categories" }}</span>
           {{ range $allCats }}
             {{ $n := len (where $pages "Params.categories" "intersect" (slice .)) }}
             <button class="chip" type="button" data-type="category" data-value="{{ . }}" aria-pressed="false">{{ . }}<span class="n">{{ $n }}</span></button>
           {{ end }}
         {{ end }}
         {{ if $allTags }}
-          <span class="filter-label mono">标签</span>
+          <span class="filter-label mono">{{ i18n "tags" }}</span>
           {{ range first 16 $allTags }}
             <button class="chip" type="button" data-type="tag" data-value="{{ . }}" aria-pressed="false">{{ . }}</button>
           {{ end }}
         {{ end }}
-        <button class="chip chip-clear" type="button" id="filterClear" hidden>清除筛选 ✕</button>
+        <button class="chip chip-clear" type="button" id="filterClear" hidden>{{ i18n "filter_clear" }} ✕</button>
       </div>
     </div>
 
@@ -66,7 +66,7 @@
         <a class="feed-item {{ $cls }}{{ if $cover }} has-cover{{ end }}" href="{{ .RelPermalink }}" style="--mc:var(--c-{{ $cls }})"
            data-categories="{{ delimit (.Params.categories | default slice) "|" }}"
            data-tags="{{ delimit (.Params.tags | default slice) "|" }}">
-          {{ with $cover }}<div class="fi-cover"><img src="{{ . | safeURL }}" alt="{{ $.Title }} 封面" loading="lazy" decoding="async"></div>{{ end }}
+          {{ with $cover }}<div class="fi-cover"><img src="{{ . | safeURL }}" alt="{{ $.Title }} {{ i18n "cover_alt" }}" loading="lazy" decoding="async"></div>{{ end }}
           <div class="fi-body">
             <div class="fi-top">
               {{ with $cat }}<span class="fi-cat" style="--fc:var(--c-{{ $cls }})"><span class="fi-dot"></span>{{ . }}</span>{{ end }}
@@ -75,7 +75,7 @@
             <h3 class="fi-title">{{ .Title }}</h3>
             {{ with .Summary }}<p class="fi-sum">{{ . | plainify | truncate 130 }}</p>{{ end }}
             <div class="fi-meta mono">
-              <span class="fi-read">◷ {{ .ReadingTime }} min</span>
+              <span class="fi-read">◷ {{ i18n "reading_time" .ReadingTime }}</span>
               {{ with .Params.tags }}<span class="fi-tags">{{ delimit (first 3 .) " · " }}</span>{{ end }}
             </div>
           </div>
@@ -84,17 +84,17 @@
     </div>
 
     <!-- 空状态 -->
-    <div class="list-empty" id="listEmpty" hidden>没有匹配的文章，试试减少筛选条件。</div>
+    <div class="list-empty" id="listEmpty" hidden>{{ i18n "no_match_articles" }}</div>
 
     <!-- 加载更多 -->
     {{ if $paginator.HasNext }}
     <div class="load-more-wrap">
-      <a class="load-more" id="loadMore" href="{{ $paginator.Next.URL }}" rel="next">加载更多 ↓</a>
+      <a class="load-more" id="loadMore" href="{{ $paginator.Next.URL }}" rel="next">{{ i18n "load_more" }} ↓</a>
     </div>
     {{ end }}
     {{ else }}
     {{- /* 单页 section（如 roadmap）：无子文章则渲染 _index.md 正文 */ -}}
-    {{ with .Content }}<div class="prose list-prose">{{ . }}</div>{{ else }}<div class="list-empty">敬请期待</div>{{ end }}
+    {{ with .Content }}<div class="prose list-prose">{{ . }}</div>{{ else }}<div class="list-empty">{{ i18n "coming_soon" }}</div>{{ end }}
     {{ end }}
   </section>
 </main>

@@ -13,3 +13,10 @@ node_modules/
 *.log
 
 # 注意：static/js/mermaid.min.js 是自托管的必需资产，必须纳入版本控制，切勿忽略。
+
+# 教程站构建产物 + 临时软链
+/tutorialSite/public/
+/tutorialSite/resources/
+/tutorialSite/themes/
+/exampleSite/themes/
+.hugo_build.lock

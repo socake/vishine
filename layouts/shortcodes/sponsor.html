@@ -1,0 +1,35 @@
+{{- /*
+  sponsor.html — 赞助 / 打赏区（"请我喝杯咖啡"）
+
+  用法：在文章或「关于」页里写  {{< sponsor >}}
+  收款码图片路径在站点 hugo.toml 里配置：
+
+    [params.sponsor]
+      title  = "请我喝杯咖啡"
+      desc   = "如果这个项目帮到了你，欢迎赞助支持～"
+      wechat = "/img/sponsor/wechat.png"   # 微信收款码（图片放在 static/ 下）
+      alipay = "/img/sponsor/alipay.jpg"   # 支付宝收款码
+
+  也可用参数临时覆盖：{{< sponsor title="支持作者" >}}
+  没配任何收款码时整块不渲染。
+*/ -}}
+{{- $s := site.Params.sponsor | default dict -}}
+{{- $title  := .Get "title"  | default ($s.title  | default "请我喝杯咖啡") -}}
+{{- $desc   := .Get "desc"   | default ($s.desc   | default "如果这个项目帮到了你，欢迎赞助支持，让它走得更远。") -}}
+{{- $wechat := .Get "wechat" | default $s.wechat -}}
+{{- $alipay := .Get "alipay" | default $s.alipay -}}
+{{- if or $wechat $alipay -}}
+<div class="sc-sponsor">
+  <div class="sp-head">
+    <span class="sp-ico" aria-hidden="true">☕</span>
+    <div class="sp-text">
+      <div class="sp-title">{{ $title }}</div>
+      <div class="sp-desc">{{ $desc }}</div>
+    </div>
+  </div>
+  <div class="sp-codes">
+    {{- with $wechat }}<figure class="sp-code"><img src="{{ . | relURL }}" alt="微信赞助码" loading="lazy"><figcaption>微信</figcaption></figure>{{ end -}}
+    {{- with $alipay }}<figure class="sp-code"><img src="{{ . | relURL }}" alt="支付宝赞助码" loading="lazy"><figcaption>支付宝</figcaption></figure>{{ end -}}
+  </div>
+</div>
+{{- end -}}

@@ -1,7 +1,7 @@
 {{- /* header.html — 顶栏：品牌 / 动态菜单（含下拉）/ 搜索 / 配色切换 / RSS */ -}}
 <header class="topbar">
   <div class="wrap nav">
-    <a href="{{ site.Home.RelPermalink }}" class="brand-mini" aria-label="{{ site.Title }} 首页">
+    <a href="{{ site.Home.RelPermalink }}" class="brand-mini" aria-label="{{ site.Title }} {{ i18n "home" }}">
       <div class="glyph">
         <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
           <path d="M4.5 6.5 L10 18 L15.5 4.5" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>
@@ -10,7 +10,7 @@
       </div>
       <b>vi<span>shine</span></b>
     </a>
-    <nav class="nav-links" aria-label="主导航">
+    <nav class="nav-links" aria-label="{{ i18n "main_nav" }}">
       {{ $page := . }}
       {{ range site.Menus.main }}
         {{ $active := or ($page.IsMenuCurrent "main" .) ($page.HasMenuCurrent "main" .) }}
@@ -30,15 +30,24 @@
       {{ end }}
     </nav>
     <div class="nav-tools">
-      <button class="icon-btn hamburger" id="hamburger" aria-label="打开导航菜单" aria-haspopup="true" aria-expanded="false">
+      <button class="icon-btn hamburger" id="hamburger" aria-label="{{ i18n "open_menu" }}" aria-haspopup="true" aria-expanded="false">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 6h16M4 12h16M4 18h16"/></svg>
       </button>
-      <div class="search-mini" id="searchMini" role="button" tabindex="0" aria-label="搜索，打开命令面板"><span>搜索…</span><kbd>⌘K</kbd></div>
-      <div class="scheme-switch" role="group" aria-label="配色方案">
-        <button class="sw-btn" data-set="paper" title="暖纸 paper" aria-label="暖纸"><span class="sw-sw sw-paper"></span></button>
-        <button class="sw-btn" data-set="clean" title="纯白 clean" aria-label="纯白"><span class="sw-sw sw-clean"></span></button>
-        <button class="sw-btn" data-set="dark" title="暗色 dark" aria-label="暗色"><span class="sw-sw sw-dark"></span></button>
+      <div class="search-mini" id="searchMini" role="button" tabindex="0" aria-label="{{ i18n "search_aria" }}"><span>{{ i18n "search" }}…</span><kbd>⌘K</kbd></div>
+      <div class="scheme-switch" role="group" aria-label="{{ i18n "color_scheme" }}">
+        <button class="sw-btn" data-set="paper" title="{{ i18n "scheme_paper" }}" aria-label="{{ i18n "scheme_paper" }}"><span class="sw-sw sw-paper"></span></button>
+        <button class="sw-btn" data-set="clean" title="{{ i18n "scheme_clean" }}" aria-label="{{ i18n "scheme_clean" }}"><span class="sw-sw sw-clean"></span></button>
+        <button class="sw-btn" data-set="dark" title="{{ i18n "scheme_dark" }}" aria-label="{{ i18n "scheme_dark" }}"><span class="sw-sw sw-dark"></span></button>
       </div>
+      {{- /* 语言切换器：站点配了多语言（site.Languages > 1）时才出现，显示各语言首页链接 */ -}}
+      {{- $homes := site.Home.AllTranslations -}}
+      {{- if gt (len $homes) 1 }}
+      <div class="lang-switch" role="group" aria-label="{{ i18n "language" }}">
+        {{- range $homes }}{{ $short := index (split .Language.Lang "-") 0 | upper }}
+        <a class="lang-btn{{ if eq .Language.Lang site.Language.Lang }} active{{ end }}" href="{{ .RelPermalink }}" hreflang="{{ .Language.Lang }}" title="{{ .Language.LanguageName | default .Language.Lang }}">{{ $short }}</a>
+        {{- end }}
+      </div>
+      {{- end }}
       {{ with site.Home.OutputFormats.Get "rss" }}
       <a class="icon-btn" href="{{ .RelPermalink }}" title="RSS" aria-label="RSS"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 11a9 9 0 0 1 9 9"/><path d="M4 4a16 16 0 0 1 16 16"/><circle cx="5" cy="19" r="1.4" fill="currentColor" stroke="none"/></svg></a>
       {{ end }}

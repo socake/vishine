@@ -28,12 +28,12 @@
       </div>
     </div>
     <div class="stat-panel">
-      <div class="stat-head"><b>站点统计</b><span class="since">SINCE {{ site.Params.since }}</span></div>
+      <div class="stat-head"><b>{{ i18n "site_stats" }}</b><span class="since">SINCE {{ site.Params.since }}</span></div>
       <div class="stat-rows">
-        <div class="stat-cell accent"><div class="num">{{ len $posts }}<span class="u">篇</span></div><div class="lbl">博客文章</div></div>
-        <div class="stat-cell"><div class="num">{{ len (where site.RegularPages "Section" "playbook") }}<span class="u">篇</span></div><div class="lbl">实战手册</div></div>
-        <div class="stat-cell"><div class="num">{{ len $cats }}<span class="u">+</span></div><div class="lbl">内容分类</div></div>
-        <div class="stat-cell"><div class="num">{{ len $tags }}<span class="u">+</span></div><div class="lbl">标签</div></div>
+        <div class="stat-cell accent"><div class="num">{{ len $posts }}<span class="u">{{ i18n "unit_articles" }}</span></div><div class="lbl">{{ i18n "stat_blog_posts" }}</div></div>
+        <div class="stat-cell"><div class="num">{{ len (where site.RegularPages "Section" "playbook") }}<span class="u">{{ i18n "unit_articles" }}</span></div><div class="lbl">{{ i18n "stat_playbooks" }}</div></div>
+        <div class="stat-cell"><div class="num">{{ len $cats }}<span class="u">+</span></div><div class="lbl">{{ i18n "stat_categories" }}</div></div>
+        <div class="stat-cell"><div class="num">{{ len $tags }}<span class="u">+</span></div><div class="lbl">{{ i18n "tags" }}</div></div>
       </div>
     </div>
   </div>
@@ -42,8 +42,8 @@
 <!-- ============ 五大板块 BENTO ============ -->
 <section class="sec wrap">
   <div class="sec-head">
-    <h2>板块入口</h2>
-    <span class="desc">五大结构化板块 · 色彩编码 · 一处直达</span>
+    <h2>{{ i18n "home_sections_title" }}</h2>
+    <span class="desc">{{ i18n "home_sections_desc" }}</span>
     {{ with site.GetPage "/posts" }}<a href="{{ .RelPermalink }}" class="more">all sections →</a>{{ end }}
   </div>
 
@@ -59,7 +59,7 @@
         <div class="mod-head">
           <div class="mod-ico">{{ index $icons $cls | safeHTML }}</div>
           <div class="mod-titles"><h3>{{ $sec.label }}</h3><span class="en">{{ $sec.en }}</span></div>
-          <div class="mod-count">{{ if eq $key "docs" }}{{ len $cats }} 专区{{ else if $pages }}{{ len $pages }} 篇{{ else }}—{{ end }}</div>
+          <div class="mod-count">{{ if eq $key "docs" }}{{ i18n "count_zones" (len $cats) }}{{ else if $pages }}{{ i18n "count_posts" (len $pages) }}{{ else }}—{{ end }}</div>
         </div>
         <div class="mod-body">
           {{ if eq $key "docs" }}
@@ -71,13 +71,13 @@
               {{ range first 3 $pages }}
                 <li><span class="b"></span><a class="t" href="{{ .RelPermalink }}">{{ .Title }}</a><span class="m mono">{{ .Date.Format "01-02" }}</span></li>
               {{ else }}
-                <li><span class="b"></span><span class="t" style="color:var(--ink-3)">{{ with $secPage }}{{ .Description | default "查看全部内容" }}{{ else }}查看全部内容{{ end }}</span></li>
+                <li><span class="b"></span><span class="t" style="color:var(--ink-3)">{{ with $secPage }}{{ .Description | default (i18n "view_all_content") }}{{ else }}{{ i18n "view_all_content" }}{{ end }}</span></li>
               {{ end }}
             </ul>
           {{ end }}
         </div>
         <div class="mod-foot">
-          <a href="{{ with $secPage }}{{ .RelPermalink }}{{ else }}/{{ $key }}/{{ end }}">进入{{ $sec.label }} →</a>
+          <a href="{{ with $secPage }}{{ .RelPermalink }}{{ else }}/{{ $key }}/{{ end }}">{{ i18n "section_enter" }}{{ $sec.label }} →</a>
           <span class="upd mono">{{ with first 1 $pages }}{{ range . }}updated {{ .Date.Format "01-02" }}{{ end }}{{ else }}{{ $sec.en }}{{ end }}</span>
         </div>
       </article>
@@ -109,7 +109,7 @@
     <!-- 最近更新流 -->
     <div class="feed">
       <div class="feed-head">
-        <b><span class="live"></span>最近更新</b>
+        <b><span class="live"></span>{{ i18n "recent_updates" }}</b>
         {{ with site.GetPage "/posts" }}<a href="{{ .RelPermalink }}" class="more" style="font-family:var(--font-mono);font-size:12px;color:var(--accent);font-weight:600">recent stream →</a>{{ end }}
       </div>
       {{ range $i, $p := first 6 $posts }}
@@ -117,7 +117,7 @@
         <a class="feed-row reveal d{{ add $i 1 }}" href="{{ $p.RelPermalink }}">
           <div class="feed-date"><div class="d">{{ $p.Date.Format "02" }}</div><div class="my">{{ $p.Date.Format "06 Jan" | upper }}</div></div>
           <div class="feed-main"><h4>{{ $p.Title }}</h4>
-            <div class="feed-meta">{{ with $p.Params.categories }}<span class="feed-cat mono" style="--fc:var(--c-{{ $cls }})">{{ index . 0 }}</span>{{ end }}<span class="feed-read mono">◷ {{ $p.ReadingTime }} min</span></div></div>
+            <div class="feed-meta">{{ with $p.Params.categories }}<span class="feed-cat mono" style="--fc:var(--c-{{ $cls }})">{{ index . 0 }}</span>{{ end }}<span class="feed-read mono">◷ {{ i18n "reading_time" $p.ReadingTime }}</span></div></div>
           <span class="feed-arrow">→</span>
         </a>
       {{ end }}
@@ -126,7 +126,7 @@
     <!-- SIDE -->
     <aside class="side">
       <div class="panel">
-        <div class="panel-head"><b>热门分类</b><span class="mono">top {{ math.Min 12 (len $cats) }}</span></div>
+        <div class="panel-head"><b>{{ i18n "top_categories" }}</b><span class="mono">top {{ math.Min 12 (len $cats) }}</span></div>
         <div class="panel-body">
           {{ $max := 1 }}{{ range first 1 $cats }}{{ $max = .Count }}{{ end }}
           {{ range first 12 $cats }}
@@ -141,7 +141,7 @@
       </div>
 
       <div class="panel">
-        <div class="panel-head"><b>热门标签</b><span class="mono">{{ len $tags }}+</span></div>
+        <div class="panel-head"><b>{{ i18n "top_tags" }}</b><span class="mono">{{ len $tags }}+</span></div>
         <div class="panel-body">
           <div class="tags">
             {{ $tmax := 1 }}{{ range first 1 $tags }}{{ $tmax = .Count }}{{ end }}

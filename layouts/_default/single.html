@@ -14,8 +14,8 @@
   <article class="art-main">
 
     <!-- 面包屑 -->
-    <nav class="crumbs" aria-label="面包屑">
-      <a href="{{ site.Home.RelPermalink }}">首页</a><span class="sep">/</span>
+    <nav class="crumbs" aria-label="{{ i18n "breadcrumb" }}">
+      <a href="{{ site.Home.RelPermalink }}">{{ i18n "home" }}</a><span class="sep">/</span>
       {{ with site.GetPage (printf "/%s" .Section) }}<a href="{{ .RelPermalink }}">{{ .Title }}</a><span class="sep">/</span>{{ end }}
       <span class="cur">{{ with $cat }}{{ . }}{{ else }}{{ .Title }}{{ end }}</span>
     </nav>
@@ -29,9 +29,9 @@
         <span class="sep"></span>
         <span class="mi"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="17" rx="2"/><path d="M3 9h18M8 2v4M16 2v4"/></svg>{{ .Date.Format "2006-01-02" }}</span>
         <span class="sep"></span>
-        <span class="mi"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>阅读 {{ .ReadingTime }} min</span>
+        <span class="mi"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>{{ i18n "read_time_label" .ReadingTime }}</span>
         <span class="sep"></span>
-        <span class="mi"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 6h16M4 12h12M4 18h8"/></svg>{{ lang.FormatNumber 0 .WordCount }} 字</span>
+        <span class="mi"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 6h16M4 12h12M4 18h8"/></svg>{{ lang.FormatNumber 0 .WordCount }} {{ i18n "unit_words" }}</span>
         {{ with $cat }}<span class="sep"></span><span class="feed-cat mono" style="--fc:var(--c-{{ $cls }})">{{ . }}</span>{{ end }}
       </div>
     </header>
@@ -49,7 +49,7 @@
       {{- $svg := partial "cover-svg.html" (dict "page" . "variant" "hero") -}}
       {{- $cover = ($svg | resources.FromString (printf "covers/%s-h.svg" (substr (md5 .RelPermalink) 0 12))).RelPermalink -}}
     {{- end -}}
-    {{ with $cover }}<figure class="art-cover-fig"><img src="{{ . | safeURL }}" alt="{{ $.Title }} 封面" decoding="async"></figure>{{ end }}
+    {{ with $cover }}<figure class="art-cover-fig"><img src="{{ . | safeURL }}" alt="{{ $.Title }} {{ i18n "cover_alt" }}" decoding="async"></figure>{{ end }}
 
     <!-- ============ 正文（prose；render hook / shortcode 由并行任务提供） ============ -->
     <div class="prose" id="prose">
@@ -60,7 +60,7 @@
     <footer class="art-end">
       {{ with .Params.tags }}
       <div class="end-block">
-        <div class="end-label">标签</div>
+        <div class="end-label">{{ i18n "tags" }}</div>
         <div class="tags">
           {{ range . }}<a href="{{ (site.GetPage (printf "/tags/%s" (. | urlize))).RelPermalink | default (printf "/tags/%s/" (. | urlize)) }}">{{ . }}</a>{{ end }}
         </div>
@@ -68,18 +68,18 @@
       {{ end }}
 
       <div class="end-block">
-        <div class="end-label">分享这篇</div>
+        <div class="end-label">{{ i18n "share_this" }}</div>
         <div class="share-row">
           <button class="share-btn primary" id="copyLink" type="button">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7 0l3-3a5 5 0 0 0-7-7l-1 1"/><path d="M14 11a5 5 0 0 0-7 0l-3 3a5 5 0 0 0 7 7l1-1"/></svg>
-            复制本文链接
+            {{ i18n "copy_link" }}
           </button>
         </div>
       </div>
 
       {{ if or .PrevInSection .NextInSection }}
       <div class="end-block">
-        <div class="end-label">继续阅读</div>
+        <div class="end-label">{{ i18n "continue_reading" }}</div>
         <nav class="pn-nav">
           {{ with .PrevInSection }}{{ partial "card.html" (dict "page" . "kind" "prevnext" "rel" "prev") }}{{ end }}
           {{ with .NextInSection }}{{ partial "card.html" (dict "page" . "kind" "prevnext" "rel" "next") }}{{ end }}
@@ -94,7 +94,7 @@
       {{ end }}
       {{ with $related }}
       <div class="end-block">
-        <div class="end-label">相关文章</div>
+        <div class="end-label">{{ i18n "related_articles" }}</div>
         <div class="rel-grid">
           {{ range . }}{{ partial "card.html" (dict "page" . "kind" "related") }}{{ end }}
         </div>
@@ -109,15 +109,15 @@
 </main>
 
 <!-- TOC 移动悬浮按钮 + 抽屉 -->
-<button class="toc-fab" id="tocFab" type="button" aria-label="打开目录" aria-haspopup="true" aria-expanded="false">
+<button class="toc-fab" id="tocFab" type="button" aria-label="{{ i18n "toc_open" }}" aria-haspopup="true" aria-expanded="false">
   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 6h13M8 12h13M8 18h13M3 6h.01M3 12h.01M3 18h.01"/></svg>
-  目录
+  {{ i18n "toc" }}
 </button>
 <div class="toc-sheet" id="tocSheet" hidden>
-  <aside class="toc-sheet-panel" role="dialog" aria-modal="true" aria-label="文章目录">
+  <aside class="toc-sheet-panel" role="dialog" aria-modal="true" aria-label="{{ i18n "toc_article" }}">
     <div class="toc-sheet-head">
-      <b>本页目录</b>
-      <button class="icon-btn" id="tocSheetClose" aria-label="关闭目录">
+      <b>{{ i18n "toc_title" }}</b>
+      <button class="icon-btn" id="tocSheetClose" aria-label="{{ i18n "toc_close" }}">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg>
       </button>
     </div>
@@ -127,9 +127,9 @@
 
 <!-- 图片 LIGHTBOX -->
 <div class="lightbox" id="lightbox" hidden>
-  <button class="lightbox-close" id="lightboxClose" type="button" aria-label="关闭放大">
+  <button class="lightbox-close" id="lightboxClose" type="button" aria-label="{{ i18n "lightbox_close" }}">
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg>
   </button>
-  <div class="lightbox-inner" id="lightboxInner" role="dialog" aria-modal="true" aria-label="放大的图片"></div>
+  <div class="lightbox-inner" id="lightboxInner" role="dialog" aria-modal="true" aria-label="{{ i18n "lightbox_label" }}"></div>
 </div>
 {{ end }}

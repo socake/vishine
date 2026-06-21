@@ -1,0 +1,250 @@
+# vishine theme UI strings — English
+# Interface labels / interaction text only; not example content or site params.
+
+# ---- Common nouns ----
+[home]
+other = "Home"
+
+[categories]
+other = "Categories"
+
+[tags]
+other = "Tags"
+
+[navigation]
+other = "Navigation"
+
+[search]
+other = "Search"
+
+[filter]
+other = "Filter"
+
+[view_all]
+other = "All"
+
+# ---- Units / counts ----
+[unit_articles]
+other = "posts"
+
+[unit_words]
+other = "words"
+
+[reading_time]
+one = "{{ .Count }} min"
+other = "{{ .Count }} min"
+
+[read_time_label]
+one = "{{ .Count }} min read"
+other = "{{ .Count }} min read"
+
+[count_posts]
+one = "{{ .Count }} post"
+other = "{{ .Count }} posts"
+
+[count_zones]
+one = "{{ .Count }} zone"
+other = "{{ .Count }} zones"
+
+[cover_alt]
+other = "cover"
+
+# ---- List / filtering ----
+[filter_clear]
+other = "Clear filters"
+
+[no_match_articles]
+other = "No matching posts. Try removing some filters."
+
+[load_more]
+other = "Load more"
+
+[coming_soon]
+other = "Coming soon"
+
+# ---- Home ----
+[site_stats]
+other = "Site stats"
+
+[stat_blog_posts]
+other = "Blog posts"
+
+[stat_playbooks]
+other = "Playbooks"
+
+[stat_categories]
+other = "Categories"
+
+[home_sections_title]
+other = "Sections"
+
+[home_sections_desc]
+other = "Five structured sections · color-coded · one click away"
+
+[view_all_content]
+other = "View all content"
+
+[section_enter]
+other = "Enter "
+
+[recent_updates]
+other = "Recent updates"
+
+[top_categories]
+other = "Top categories"
+
+[top_tags]
+other = "Top tags"
+
+# ---- Article page ----
+[breadcrumb]
+other = "Breadcrumb"
+
+[share_this]
+other = "Share"
+
+[copy_link]
+other = "Copy link"
+
+[continue_reading]
+other = "Continue reading"
+
+[related_articles]
+other = "Related posts"
+
+[prev_post]
+other = "Previous"
+
+[next_post]
+other = "Next"
+
+# ---- Table of contents ----
+[toc]
+other = "Contents"
+
+[toc_title]
+other = "On this page"
+
+[toc_open]
+other = "Open contents"
+
+[toc_close]
+other = "Close contents"
+
+[toc_article]
+other = "Article contents"
+
+[toggle_read_width]
+other = "Toggle reading width"
+
+# ---- Image lightbox ----
+[lightbox_close]
+other = "Close"
+
+[lightbox_label]
+other = "Enlarged image"
+
+[zoom_view]
+other = "Zoom in"
+
+[click_zoom]
+other = "Click to zoom"
+
+# ---- Header ----
+[main_nav]
+other = "Main navigation"
+
+[open_menu]
+other = "Open menu"
+
+[search_aria]
+other = "Search, open command palette"
+
+[color_scheme]
+other = "Color scheme"
+
+[scheme_paper]
+other = "Paper"
+
+[scheme_clean]
+other = "Clean"
+
+[scheme_dark]
+other = "Dark"
+
+# ---- Footer ----
+[footer_index_of]
+other = "'s technical index. "
+
+[subscribe_rss]
+other = "Subscribe RSS"
+
+[copy_rss_title]
+other = "Copy RSS URL"
+
+[copy_address]
+other = "Copy URL"
+
+# ---- Command palette / drawer / global ----
+[cmdk_panel]
+other = "Command palette"
+
+[cmdk_placeholder]
+other = "Search posts, playbooks, categories, tags…"
+
+[search_results]
+other = "Search results"
+
+[cmdk_select]
+other = "Select"
+
+[cmdk_open]
+other = "Open"
+
+[cmdk_close]
+other = "Close"
+
+[nav_menu]
+other = "Navigation menu"
+
+[close_menu]
+other = "Close menu"
+
+[back_to_top]
+other = "Back to top"
+
+# ---- Code block / heading anchor ----
+[copy_code]
+other = "Copy code"
+
+[copy]
+other = "Copy"
+
+[copy_section_link]
+other = "Copy link to section"
+
+# ---- Taxonomy overview & term pages ----
+[taxonomy_overview]
+other = "<span>{{ .Terms }}</span> {{ .Singular }} · {{ .Total }} posts in total"
+
+[term_kicker_category]
+other = "Category"
+
+[term_kicker_tag]
+other = "Tag"
+
+[term_post_count]
+one = "<b>{{ .Count }}</b> {{ if .IsCat }}related {{ end }}post"
+other = "<b>{{ .Count }}</b> {{ if .IsCat }}related {{ end }}posts"
+
+[pagination]
+other = "Pagination"
+
+[prev_page]
+other = "Previous page"
+
+[next_page]
+other = "Next page"
+
+[language]
+other = "Language"

@@ -21,9 +21,9 @@
   {{- end -}}
 {{- end -}}
 {{- $alt := .Text | default .Title -}}
-<figure class="fig" role="button" tabindex="0"{{ with $alt }} aria-label="放大查看 {{ . | plainify }}"{{ end }}>
+<figure class="fig" role="button" tabindex="0"{{ with $alt }} aria-label="{{ i18n "zoom_view" }} {{ . | plainify }}"{{ end }}>
   <div class="diagram diagram-img">
     <img src="{{ $src | safeURL }}" alt="{{ .Text | plainify }}"{{ with .Title }} title="{{ . }}"{{ end }} loading="lazy" decoding="async">
   </div>
-  {{- with .Text }}<figcaption>{{ . | safeHTML }}<span class="zoom-hint">点击放大 ⤢</span></figcaption>{{ end -}}
+  {{- with .Text }}<figcaption>{{ . | safeHTML }}<span class="zoom-hint">{{ i18n "click_zoom" }} ⤢</span></figcaption>{{ end -}}
 </figure>

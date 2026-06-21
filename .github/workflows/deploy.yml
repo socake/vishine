@@ -36,15 +36,17 @@ jobs:
       - name: Setup Pages
         id: pages
         uses: actions/configure-pages@v5
-      - name: Build demo site
+      - name: Build both sites (demo + tutorial)
         run: |
-          # 把主题（仓库根）软链进 exampleSite/themes/vishine，再用 exampleSite 作为站点根构建
-          mkdir -p exampleSite/themes
+          # 主题（仓库根）软链进各站点的 themes/vishine
+          mkdir -p exampleSite/themes tutorialSite/themes
           ln -sfn ../.. exampleSite/themes/vishine
-          hugo \
-            --source exampleSite \
-            --gc --minify \
-            --baseURL "${{ steps.pages.outputs.base_url }}/"
+          ln -sfn ../.. tutorialSite/themes/vishine
+          BASE="${{ steps.pages.outputs.base_url }}"
+          # 成品 Demo → 根路径
+          hugo --source exampleSite --gc --minify --baseURL "$BASE/"
+          # 教程文档站 → /tutorial/ 子路径，输出合并进 demo 的 public/tutorial
+          hugo --source tutorialSite --gc --minify --baseURL "$BASE/tutorial/" -d "$PWD/exampleSite/public/tutorial"
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:

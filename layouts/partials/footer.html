@@ -11,28 +11,28 @@
             <path d="M19.5 5.5 c.25 1.7 .9 2.35 2.6 2.6 -1.7 .25 -2.35 .9 -2.6 2.6 -.25 -1.7 -.9 -2.35 -2.6 -2.6 1.7 -.25 2.35 -.9 2.6 -2.6 Z" fill="currentColor"/>
           </svg>
         </div>
-        <p><b style="color:var(--ink)">{{ site.Title }}</b> · {{ site.Params.author }}的技术索引。{{ site.Params.description }}</p>
+        <p><b style="color:var(--ink)">{{ site.Title }}</b> · {{ site.Params.author }}{{ i18n "footer_index_of" }}{{ site.Params.description }}</p>
         {{ with site.Home.OutputFormats.Get "rss" }}
-        <a class="rss" href="{{ .RelPermalink }}"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 11a9 9 0 0 1 9 9"/><path d="M4 4a16 16 0 0 1 16 16"/><circle cx="5" cy="19" r="1.4" fill="currentColor" stroke="none"/></svg>订阅 RSS</a>
-        <button class="rss rss-copy" id="rssCopy" type="button" title="复制订阅地址" data-rss="{{ .Permalink }}" style="margin-left:8px"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg>复制地址</button>
+        <a class="rss" href="{{ .RelPermalink }}"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 11a9 9 0 0 1 9 9"/><path d="M4 4a16 16 0 0 1 16 16"/><circle cx="5" cy="19" r="1.4" fill="currentColor" stroke="none"/></svg>{{ i18n "subscribe_rss" }}</a>
+        <button class="rss rss-copy" id="rssCopy" type="button" title="{{ i18n "copy_rss_title" }}" data-rss="{{ .Permalink }}" style="margin-left:8px"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg>{{ i18n "copy_address" }}</button>
         {{ end }}
       </div>
       <div class="foot-col">
-        <h5>分类</h5>
+        <h5>{{ i18n "categories" }}</h5>
         {{ range first 5 $cats }}
           <a href="{{ .Page.RelPermalink }}">{{ .Page.Title }}<span class="mono">{{ .Count }}</span></a>
         {{ end }}
-        {{ with site.GetPage "/categories" }}<a href="{{ .RelPermalink }}">全部 {{ len $cats }}+ →</a>{{ end }}
+        {{ with site.GetPage "/categories" }}<a href="{{ .RelPermalink }}">{{ i18n "view_all" }} {{ len $cats }}+ →</a>{{ end }}
       </div>
       <div class="foot-col">
-        <h5>标签</h5>
+        <h5>{{ i18n "tags" }}</h5>
         {{ range first 5 $tags }}
           <a href="{{ .Page.RelPermalink }}">{{ .Page.Title }}<span class="mono">{{ .Count }}</span></a>
         {{ end }}
-        {{ with site.GetPage "/tags" }}<a href="{{ .RelPermalink }}">全部 {{ len $tags }}+ →</a>{{ end }}
+        {{ with site.GetPage "/tags" }}<a href="{{ .RelPermalink }}">{{ i18n "view_all" }} {{ len $tags }}+ →</a>{{ end }}
       </div>
       <div class="foot-col">
-        <h5>导航</h5>
+        <h5>{{ i18n "navigation" }}</h5>
         {{ range site.Menus.main }}
           <a href="{{ .URL }}">{{ .Name }}</a>
         {{ end }}

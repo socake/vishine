@@ -182,3 +182,15 @@
 .tl-year{font-size:19px;font-weight:800;color:var(--accent);line-height:1.15;margin-bottom:3px;letter-spacing:.5px}
 .tl-stage{font-size:15px;font-weight:600;color:var(--ink);line-height:1.55;margin-bottom:3px}
 .tl-kw{font-size:12.5px;color:var(--ink-3);line-height:1.55}
+
+/* 赞助 / 打赏（sponsor shortcode） */
+.sc-sponsor{margin:24px 0;padding:20px 22px;border-radius:14px;background:var(--accent-soft);border:1px solid color-mix(in srgb,var(--accent) 18%,transparent)}
+.sp-head{display:flex;gap:12px;align-items:center;margin-bottom:16px}
+.sp-ico{font-size:30px;line-height:1;flex:none}
+.sp-title{font-size:17px;font-weight:800;color:var(--ink);margin-bottom:2px}
+.sp-desc{font-size:13.5px;color:var(--ink-3);line-height:1.55}
+.sp-codes{display:flex;gap:18px;flex-wrap:wrap}
+.sp-code{margin:0;text-align:center;background:var(--card);padding:10px;border-radius:10px;border:1px solid var(--line)}
+.sp-code img{display:block;width:200px;height:auto;border-radius:6px}
+.sp-code figcaption{margin-top:6px;font-size:12.5px;font-weight:600;color:var(--ink-2);font-family:var(--font-mono)}
+@media(max-width:560px){.sp-code img{width:150px}}

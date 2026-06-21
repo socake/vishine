@@ -1,0 +1,281 @@
+# =============================================================================
+#  vishine 教程文档站 · hugo.toml（站点配置文件）
+# -----------------------------------------------------------------------------
+#  这是整个站点的「总开关」。Hugo 启动时第一个读的就是它。
+#  文件用 TOML 格式（一种比 JSON 更好读的配置语法）：
+#    key = value          # 普通键值对
+#    [table]              # 一个「分组 / 表」，下面缩进的键都属于它
+#    [[array_of_tables]]  # 双中括号 = 数组里的一项，可以重复出现（如菜单项）
+#  「#」开头的是注释，Hugo 会忽略，只给人看。
+#
+#  本文件每一项都写了注释解释「是什么 / 为什么 / 改了会怎样」，
+#  完全零基础也能照着改。看不懂的名词，往下读注释一定有解释。
+# =============================================================================
+
+
+# -----------------------------------------------------------------------------
+#  一、站点身份与全局开关
+# -----------------------------------------------------------------------------
+
+# baseURL：站点最终发布到的网址。它会被拼进所有绝对链接、RSS、sitemap。
+#   · 本地预览（hugo server）时 Hugo 会自动用 localhost 覆盖它，所以本地随便填。
+#   · 部署时才真正生效。两种常见形态：
+#       1) 用户/组织站点：https://你的用户名.github.io/        （根路径）
+#       2) 项目站点：    https://你的用户名.github.io/仓库名/   （子路径，末尾仓库名别漏！）
+#   这里先填项目站点形态作为示例，部署章节(09)会详细讲。
+baseURL = "https://socake.github.io/vishine-tutorial/"
+
+# title：站点标题。显示在浏览器标签页、RSS、部分页面头部。
+title = "vishine 教程"
+
+# theme：使用哪个主题。值必须等于 themes/ 目录下（或 --themesDir 指定目录里）
+#   主题文件夹的名字。我们用的就是 vishine。
+theme = "vishine"
+
+# defaultContentLanguage：默认内容语言。vishine 是中文主题，固定写 zh-cn。
+#   它还决定了日期、数字等的本地化格式。**必填**，写错会导致界面文案错乱。
+defaultContentLanguage = "zh-cn"
+
+# enableEmoji：允许在 Markdown 里用 :smile: 这种 emoji 简写。开着没坏处。
+enableEmoji = true
+
+# enableRobotsTXT：自动生成 robots.txt（告诉搜索引擎爬虫哪些能抓）。
+enableRobotsTXT = true
+
+# summaryLength：自动摘要的词数。文章没写 summary 时，Hugo 截取正文前 N 个词当摘要。
+#   我们的每篇教程都手写了 summary，所以这个值基本只是兜底。
+summaryLength = 40
+
+
+# -----------------------------------------------------------------------------
+#  二、多语言（languages）
+# -----------------------------------------------------------------------------
+#  即使只有一种语言，也建议显式声明，方便日后扩展，也让本地化更准确。
+[languages]
+  [languages.zh-cn]
+    label = "简体中文"   # 语言切换器里显示的名字
+    locale = "zh-CN"     # 标准地区码，影响日期/数字格式
+    weight = 1           # 排序权重，数字小的排前面（只有一种语言时无所谓）
+
+
+# -----------------------------------------------------------------------------
+#  三、分页（pagination）
+# -----------------------------------------------------------------------------
+#  列表页（如 /docs/）一页最多显示多少篇，超出就「加载更多」。
+[pagination]
+  pagerSize = 12   # 我们一共 10 篇教程，设 12 保证一页全列出、不分页
+
+
+# -----------------------------------------------------------------------------
+#  四、分类法（taxonomies）—— 务必保留！
+# -----------------------------------------------------------------------------
+#  「分类法」是 Hugo 给内容贴标签、做聚合的机制。这里声明两种：
+#    · tag（标签 tags）：细粒度关键词，一篇可挂多个。
+#    · category（分类 categories）：粗粒度归类，决定「板块色」（见下方 data 说明）。
+#  ⚠ vishine 的板块色、筛选、首页统计都依赖这两个分类法。删掉会让一堆功能失效。
+[taxonomies]
+  tag = "tags"
+  category = "categories"
+
+
+# -----------------------------------------------------------------------------
+#  五、永久链接（permalinks）—— 每篇文章的网址长什么样
+# -----------------------------------------------------------------------------
+#  permalink（永久链接）= 一篇内容最终的 URL 路径规则。
+#  可用占位符：:section（所属板块）、:slug（文件名或 frontmatter 里的 slug）、
+#             :year/:month/:day（日期）、:title 等。
+#  下面让 docs 板块的文章网址形如  /docs/文件名/ ，干净好记、利于 SEO。
+[permalinks]
+  docs = "/docs/:slug/"
+
+
+# -----------------------------------------------------------------------------
+#  六、主题参数（params）—— 主题专属的自定义项
+# -----------------------------------------------------------------------------
+#  [params] 下面的值不是 Hugo 内置的，而是 vishine 主题自己读取的。
+#  首页的大标题、副标题、统计面板等都从这里取值。
+[params]
+  author   = "星辉"               # 作者名，显示在文章头、首页 hero、页脚
+  authorEn = "Wenzhuo Huang"      # 作者英文名（可选）
+  role     = "vishine 主题 · 手把手教程 · 零基础友好"  # 副标题角色行，用「·」分隔会拆成小标签
+  # tagline：首页大标题。主题会按中文逗号「，」拆成多行，最后一句高亮。
+  tagline  = "从装 Hugo 到上线，一步步带你用好 vishine。"
+  # description：站点简介，用于首页副文案、SEO meta、RSS。
+  description = "一套手把手的 vishine 主题教程：环境准备、安装、配置、写作、封面、shortcodes、图表、菜单、部署，照着做就能上线。"
+  defaultScheme = "clean"   # 默认配色方案：paper(暖纸) / clean(纯白) / dark(暗色)；读者可在顶栏切换
+  since = 2024              # 建站年份，显示在首页统计面板「SINCE」
+
+  # 首页「板块入口」只展示哪些板块（按顺序）。本教程站内容全在 docs 板块，
+  # 所以只列 docs，避免首页出现一堆空板块卡片。
+  homeSections = ["docs"]
+
+  # ---- 自动封面生成器（params.cover）----
+  # 文章若没放 featured 图，主题会按「标题 + 首个分类」纯 Hugo 原生生成一张 SVG 封面。
+  # 详见教程 05。这里给教程站开着，列表页/详情页都会有统一风格的占位封面。
+  [params.cover]
+    auto = true           # true=自动生成兜底封面；false=只用你手放的 featured 图
+    style = "auto"        # auto=按文章哈希在4种版式间轮换；或锁定 orbit/grid/diagonal/arc 之一
+    ignoreFeatured = false # true=忽略文章里的 featured.* 图，全站强制用自动封面（迁移时有用）
+
+  # ---- 首页特色横幅（params.featureZone，可选）----
+  # 配了就在首页「板块入口」里多出一块醒目横幅；不配则不显示。
+  # 这里用它做教程站的「开始上手」引导区。
+  [params.featureZone]
+    title = "开始上手"
+    en = "GET STARTED"
+    desc = "三步走：先把环境和主题装好，再配置和写作，最后部署上线。"
+    count = "10 章"
+    [params.featureZone.lead]
+      title = "照着做，就能跑起来"
+      desc = "每一章都先讲「为什么」，再给可直接复制的命令和配置，全程零基础友好。"
+    [[params.featureZone.cols]]
+      k = "01-04"
+      name = "入门基础"
+      desc = "装 Hugo + Git、安装 vishine、配置站点、写第一篇文章。"
+    [[params.featureZone.cols]]
+      k = "05-08"
+      name = "外观与写作"
+      desc = "自动封面、shortcodes、Mermaid 图表、多级下拉菜单。"
+    [[params.featureZone.cols]]
+      k = "09-10"
+      name = "发布上线"
+      desc = "GitHub Pages 自动部署，加上进阶技巧与常见坑排查。"
+
+
+# -----------------------------------------------------------------------------
+#  七、Markdown 渲染（markup）—— 决定 Markdown 怎么变成 HTML
+# -----------------------------------------------------------------------------
+#  Hugo 用 goldmark 引擎渲染 Markdown。下面这些设置 vishine 都依赖，建议照抄。
+[markup]
+  [markup.goldmark.renderer]
+    # unsafe=true：允许 Markdown 里直接出现 HTML（以及 shortcode 输出的行内 HTML）。
+    # vishine 的 badge / callout / typeit 等会输出 <span>、<div>，**必须开**，
+    # 否则它们会被当成纯文本转义掉，显示成一串尖括号。
+    unsafe = true
+  [markup.goldmark.extensions]
+    strikethrough = true   # 支持 ~~删除线~~
+    table = true           # 支持 Markdown 表格
+    taskList = true        # 支持 - [ ] 任务清单
+    [markup.goldmark.extensions.typographer]
+      disable = true       # 关掉「智能标点」替换，避免把中文标点/代码里的引号改坏
+  [markup.goldmark.parser]
+    autoHeadingID = true   # 自动给标题生成锚点 id —— 目录(TOC)和「#」跳转都靠它，**必开**
+    [markup.goldmark.parser.attribute]
+      title = true         # 允许给标题加 {属性}
+      block = true         # 允许给块级元素加 {属性}
+  [markup.highlight]
+    # 代码高亮设置。noClasses=false 表示「用 CSS class 着色」而非内联颜色，
+    # 这样代码块才能跟着三套配色方案(paper/clean/dark)一起翻色。**必须 false**。
+    noClasses = false
+    lineNos = false      # 不显示行号（想显示改 true）
+    tabWidth = 2
+    guessSyntax = true   # 代码块没标语言时，尝试自动猜测
+  [markup.tableOfContents]
+    startLevel = 2       # 目录从 H2(##) 开始收
+    endLevel = 3         # 收到 H3(###) 为止
+    ordered = false      # 目录用无序列表（圆点）而非编号
+
+
+# -----------------------------------------------------------------------------
+#  八、输出格式（outputs）—— 每种页面生成哪些文件
+# -----------------------------------------------------------------------------
+#  home = 首页要额外生成 JSON。
+#  ⚠ vishine 的 ⌘K 命令面板（顶栏「搜索…」）的数据源就是这个 JSON。
+#    漏掉 "JSON" 会导致搜索框能打开、但搜不到任何东西，且没有报错。必填。
+[outputs]
+  home = ["HTML", "RSS", "JSON"]
+
+
+# -----------------------------------------------------------------------------
+#  九、导航菜单（menu.main）—— 顶栏导航 + 多级下拉
+# -----------------------------------------------------------------------------
+#  每个 [[menu.main]] 是一个菜单项。规则：
+#    · name    = 显示文字
+#    · weight  = 排序（小的靠前；一级控制左右顺序，子项控制下拉内上下顺序）
+#    · pageRef = 指向站内某个页面的逻辑路径（推荐，比写死 url 更稳）
+#    · url     = 指向外部链接（如 GitHub）时用
+#  做「下拉菜单」的规则（详见教程 08）：
+#    · 父项：给 identifier（唯一标识）、**不给 pageRef**（它只是容器，点了不跳转）
+#    · 子项：用 parent = "父项的 identifier" 挂上去
+#  我们把 10 篇教程分成三个下拉组，外加「教程总览」和「GitHub」两个一级项，
+#  这样顶栏就成了一份可点开直达任意章节的「文档导航」。
+[menu]
+  # 一级项：教程总览（指向 docs 板块首页，那里列出全部章节卡片）
+  [[menu.main]]
+    name = "教程总览"
+    pageRef = "/docs"
+    weight = 10
+
+  # 下拉组 1：入门基础（01–04）
+  [[menu.main]]
+    name = "入门基础"
+    identifier = "base"   # 父项：只做下拉容器
+    weight = 20
+  [[menu.main]]
+    name = "01 · 环境准备"
+    parent = "base"
+    pageRef = "/docs/01-environment"
+    weight = 21
+  [[menu.main]]
+    name = "02 · 安装 vishine"
+    parent = "base"
+    pageRef = "/docs/02-install"
+    weight = 22
+  [[menu.main]]
+    name = "03 · 配置站点"
+    parent = "base"
+    pageRef = "/docs/03-configuration"
+    weight = 23
+  [[menu.main]]
+    name = "04 · 写第一篇"
+    parent = "base"
+    pageRef = "/docs/04-first-post"
+    weight = 24
+
+  # 下拉组 2：外观与写作（05–08）
+  [[menu.main]]
+    name = "外观与写作"
+    identifier = "style"
+    weight = 30
+  [[menu.main]]
+    name = "05 · 自动封面"
+    parent = "style"
+    pageRef = "/docs/05-auto-cover"
+    weight = 31
+  [[menu.main]]
+    name = "06 · Shortcodes"
+    parent = "style"
+    pageRef = "/docs/06-shortcodes"
+    weight = 32
+  [[menu.main]]
+    name = "07 · Mermaid 图表"
+    parent = "style"
+    pageRef = "/docs/07-mermaid"
+    weight = 33
+  [[menu.main]]
+    name = "08 · 菜单与下拉"
+    parent = "style"
+    pageRef = "/docs/08-menus"
+    weight = 34
+
+  # 下拉组 3：发布上线（09–10）
+  [[menu.main]]
+    name = "发布上线"
+    identifier = "ship"
+    weight = 40
+  [[menu.main]]
+    name = "09 · 部署 Pages"
+    parent = "ship"
+    pageRef = "/docs/09-deploy"
+    weight = 41
+  [[menu.main]]
+    name = "10 · 进阶排坑"
+    parent = "ship"
+    pageRef = "/docs/10-advanced"
+    weight = 42
+
+  # 一级项：跳到主题源码仓库（外部链接用 url）
+  [[menu.main]]
+    name = "GitHub"
+    url = "https://github.com/socake/vishine"
+    weight = 90

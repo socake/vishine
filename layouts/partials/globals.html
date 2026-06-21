@@ -2,28 +2,28 @@
 
 <!-- ⌘K 命令面板 -->
 <div class="cmdk-overlay" id="cmdk" hidden>
-  <div class="cmdk-panel" role="dialog" aria-modal="true" aria-label="命令搜索面板">
+  <div class="cmdk-panel" role="dialog" aria-modal="true" aria-label="{{ i18n "cmdk_panel" }}">
     <div class="cmdk-search">
       <svg class="mag" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
-      <input id="cmdkInput" type="text" placeholder="搜索文章、手册、分类、标签…" autocomplete="off" spellcheck="false"
-        role="combobox" aria-expanded="true" aria-controls="cmdkResults" aria-autocomplete="list" aria-label="搜索">
+      <input id="cmdkInput" type="text" placeholder="{{ i18n "cmdk_placeholder" }}" autocomplete="off" spellcheck="false"
+        role="combobox" aria-expanded="true" aria-controls="cmdkResults" aria-autocomplete="list" aria-label="{{ i18n "search" }}">
       <kbd>esc</kbd>
     </div>
-    <div class="cmdk-results" id="cmdkResults" role="listbox" aria-label="搜索结果"></div>
+    <div class="cmdk-results" id="cmdkResults" role="listbox" aria-label="{{ i18n "search_results" }}"></div>
     <div class="cmdk-footer">
-      <span><kbd>↑</kbd><kbd>↓</kbd> 选择</span>
-      <span><kbd>↵</kbd> 打开</span>
-      <span><kbd>esc</kbd> 关闭</span>
+      <span><kbd>↑</kbd><kbd>↓</kbd> {{ i18n "cmdk_select" }}</span>
+      <span><kbd>↵</kbd> {{ i18n "cmdk_open" }}</span>
+      <span><kbd>esc</kbd> {{ i18n "cmdk_close" }}</span>
     </div>
   </div>
 </div>
 
 <!-- 移动抽屉 -->
 <div class="drawer-overlay" id="drawer" hidden>
-  <aside class="drawer-panel" role="dialog" aria-modal="true" aria-label="导航菜单">
+  <aside class="drawer-panel" role="dialog" aria-modal="true" aria-label="{{ i18n "nav_menu" }}">
     <div class="drawer-head">
       <b>vi<span>shine</span></b>
-      <button class="icon-btn drawer-close" aria-label="关闭菜单">
+      <button class="icon-btn drawer-close" aria-label="{{ i18n "close_menu" }}">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg>
       </button>
     </div>
@@ -50,7 +50,7 @@
 </div>
 
 <!-- 返回顶部 -->
-<button class="to-top" id="toTop" type="button" aria-label="返回顶部">
+<button class="to-top" id="toTop" type="button" aria-label="{{ i18n "back_to_top" }}">
   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 19V5M6 11l6-6 6 6"/></svg>
 </button>
 

@@ -1,0 +1,245 @@
+# vishine 主题 UI 文案 — 简体中文
+# 仅界面标签/交互文字；示例内容、站点参数不在此处。
+
+# ---- 通用名词 ----
+[home]
+other = "首页"
+
+[categories]
+other = "分类"
+
+[tags]
+other = "标签"
+
+[navigation]
+other = "导航"
+
+[search]
+other = "搜索"
+
+[filter]
+other = "筛选"
+
+[view_all]
+other = "全部"
+
+# ---- 计量单位 / 计数 ----
+[unit_articles]
+other = "篇"
+
+[unit_words]
+other = "字"
+
+[reading_time]
+other = "{{ .Count }} min"
+
+[read_time_label]
+other = "阅读 {{ .Count }} min"
+
+[count_posts]
+other = "{{ .Count }} 篇"
+
+[count_zones]
+other = "{{ .Count }} 专区"
+
+[cover_alt]
+other = "封面"
+
+# ---- 列表 / 筛选 ----
+[filter_clear]
+other = "清除筛选"
+
+[no_match_articles]
+other = "没有匹配的文章，试试减少筛选条件。"
+
+[load_more]
+other = "加载更多"
+
+[coming_soon]
+other = "敬请期待"
+
+# ---- 首页 ----
+[site_stats]
+other = "站点统计"
+
+[stat_blog_posts]
+other = "博客文章"
+
+[stat_playbooks]
+other = "实战手册"
+
+[stat_categories]
+other = "内容分类"
+
+[home_sections_title]
+other = "板块入口"
+
+[home_sections_desc]
+other = "五大结构化板块 · 色彩编码 · 一处直达"
+
+[view_all_content]
+other = "查看全部内容"
+
+[section_enter]
+other = "进入"
+
+[recent_updates]
+other = "最近更新"
+
+[top_categories]
+other = "热门分类"
+
+[top_tags]
+other = "热门标签"
+
+# ---- 文章页 ----
+[breadcrumb]
+other = "面包屑"
+
+[share_this]
+other = "分享这篇"
+
+[copy_link]
+other = "复制本文链接"
+
+[continue_reading]
+other = "继续阅读"
+
+[related_articles]
+other = "相关文章"
+
+[prev_post]
+other = "上一篇"
+
+[next_post]
+other = "下一篇"
+
+# ---- 目录 TOC ----
+[toc]
+other = "目录"
+
+[toc_title]
+other = "本页目录"
+
+[toc_open]
+other = "打开目录"
+
+[toc_close]
+other = "关闭目录"
+
+[toc_article]
+other = "文章目录"
+
+[toggle_read_width]
+other = "切换阅读宽度"
+
+# ---- 图片灯箱 ----
+[lightbox_close]
+other = "关闭放大"
+
+[lightbox_label]
+other = "放大的图片"
+
+[zoom_view]
+other = "放大查看"
+
+[click_zoom]
+other = "点击放大"
+
+# ---- 顶栏 header ----
+[main_nav]
+other = "主导航"
+
+[open_menu]
+other = "打开导航菜单"
+
+[search_aria]
+other = "搜索，打开命令面板"
+
+[color_scheme]
+other = "配色方案"
+
+[scheme_paper]
+other = "暖纸"
+
+[scheme_clean]
+other = "纯白"
+
+[scheme_dark]
+other = "暗色"
+
+# ---- 页脚 footer ----
+[footer_index_of]
+other = "的技术索引。"
+
+[subscribe_rss]
+other = "订阅 RSS"
+
+[copy_rss_title]
+other = "复制订阅地址"
+
+[copy_address]
+other = "复制地址"
+
+# ---- 命令面板 / 抽屉 / 全局 ----
+[cmdk_panel]
+other = "命令搜索面板"
+
+[cmdk_placeholder]
+other = "搜索文章、手册、分类、标签…"
+
+[search_results]
+other = "搜索结果"
+
+[cmdk_select]
+other = "选择"
+
+[cmdk_open]
+other = "打开"
+
+[cmdk_close]
+other = "关闭"
+
+[nav_menu]
+other = "导航菜单"
+
+[close_menu]
+other = "关闭菜单"
+
+[back_to_top]
+other = "返回顶部"
+
+# ---- 代码块 / 标题锚点 ----
+[copy_code]
+other = "复制代码"
+
+[copy]
+other = "复制"
+
+[copy_section_link]
+other = "复制本节链接"
+
+# ---- 分类 / 标签总览与单页 ----
+[taxonomy_overview]
+other = "<span>{{ .Terms }}</span> 个{{ .Singular }} · 共 {{ .Total }} 篇"
+
+[term_kicker_category]
+other = "分类 · category"
+
+[term_kicker_tag]
+other = "标签 · tag"
+
+[term_post_count]
+other = "共 <b>{{ .Count }}</b> 篇{{ if .IsCat }}相关文章{{ end }}"
+
+[pagination]
+other = "分页"
+
+[prev_page]
+other = "上一页"
+
+[next_page]
+other = "下一页"
+
+[language]
+other = "语言"

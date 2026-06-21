@@ -24,7 +24,7 @@
       <h1 class="list-title">{{ .Title }}</h1>
       {{ with .Content }}<div class="list-desc prose">{{ . }}</div>
       {{ else }}{{ with .Description }}<p class="list-desc">{{ . }}</p>{{ end }}{{ end }}
-      <div class="list-stat mono"><span>{{ len $terms }}</span> 个{{ .Data.Singular }} · 共 {{ len site.RegularPages }} 篇</div>
+      <div class="list-stat mono">{{ i18n "taxonomy_overview" (dict "Terms" (len $terms) "Singular" .Data.Singular "Total" (len site.RegularPages)) | safeHTML }}</div>
     </header>
 
     {{ if $isTags }}
@@ -45,7 +45,7 @@
           <a class="tax-card reveal" href="{{ .Page.RelPermalink }}" style="--tc:var(--c-{{ $cls }})">
             <div class="tc-head">
               <span class="tc-name">{{ .Page.Title }}</span>
-              <span class="tc-ct">{{ .Count }} 篇</span>
+              <span class="tc-ct">{{ i18n "count_posts" .Count }}</span>
             </div>
             <div class="cat-bar"><i style="width:{{ div (mul .Count 100) $max }}%;--cb:var(--c-{{ $cls }})"></i></div>
           </a>

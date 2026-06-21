@@ -15,7 +15,7 @@
 {{- if eq $kind "prevnext" -}}
   {{- $rel := .rel | default "prev" -}}
   <a href="{{ $page.RelPermalink }}" class="pn-card {{ $rel }}">
-    <span class="pn-lbl">{{ if eq $rel "prev" }}← 上一篇{{ else }}下一篇 →{{ end }}</span>
+    <span class="pn-lbl">{{ if eq $rel "prev" }}← {{ i18n "prev_post" }}{{ else }}{{ i18n "next_post" }} →{{ end }}</span>
     <div class="pn-ttl">{{ $page.Title }}</div>
   </a>
 
@@ -23,7 +23,7 @@
   <a href="{{ $page.RelPermalink }}" class="rel-card {{ $cls }}" style="--mc:var(--c-{{ $cls }})">
     {{ with $cat }}<span class="rel-cat">{{ . }}</span>{{ end }}
     <h4>{{ $page.Title }}</h4>
-    <div class="rel-meta mono">{{ $page.Date.Format "01-02" }} · {{ $page.ReadingTime }} min</div>
+    <div class="rel-meta mono">{{ $page.Date.Format "01-02" }} · {{ i18n "reading_time" $page.ReadingTime }}</div>
   </a>
 
 {{- else -}}
@@ -45,7 +45,7 @@
     data-categories="{{ delimit ($page.Params.categories | default slice) "|" }}"
     data-tags="{{ delimit ($page.Params.tags | default slice) "|" }}">
     <a class="card-link" href="{{ $page.RelPermalink }}">
-      {{ with $coverURL }}<div class="card-cover"><img src="{{ . | safeURL }}" alt="{{ $page.Title }} 封面" loading="lazy" decoding="async"></div>{{ end }}
+      {{ with $coverURL }}<div class="card-cover"><img src="{{ . | safeURL }}" alt="{{ $page.Title }} {{ i18n "cover_alt" }}" loading="lazy" decoding="async"></div>{{ end }}
       <div class="card-body">
         <div class="card-top">
           {{ with $cat }}<span class="card-cat mono" style="--fc:var(--c-{{ $cls }})">{{ . }}</span>{{ end }}
@@ -54,7 +54,7 @@
         <h3 class="card-title">{{ $page.Title }}</h3>
         {{ with $page.Summary }}<p class="card-summary">{{ . | plainify | truncate 110 }}</p>{{ end }}
         <div class="card-meta mono">
-          <span class="card-read">◷ {{ $page.ReadingTime }} min</span>
+          <span class="card-read">◷ {{ i18n "reading_time" $page.ReadingTime }}</span>
           {{ with $page.Params.tags }}<span class="card-tags">{{ delimit (first 3 .) " · " }}</span>{{ end }}
         </div>
       </div>

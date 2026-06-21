@@ -1,0 +1,56 @@
+# =============================================================================
+#  板块色彩编码映射（教程站）
+# -----------------------------------------------------------------------------
+#  vishine 给「卡片左色条、分类标签、自动封面」着色时，颜色不是写死在模板里的，
+#  而是从这张表查出来的。Hugo 会把【站点】的 data/sections.toml 深度合并、
+#  覆盖到【主题】自带的同名文件上 —— 所以你只要在这里写自己的映射即可。
+#
+#  着色查找顺序（见主题 layouts/partials/cat-class.html）：
+#    1) 取文章的「首个分类」categories[0] → 来下面 [categories] 表里查它对应哪个 class
+#    2) 查不到 → 用文章所在 section（这里都是 docs）的板块 class
+#    3) 再兜底 → blog
+#  可选的 class 一共 6 个：blog / play / road / docs / res / ai
+#  ⚠ 分类名必须和文章 frontmatter 里写的【完全一致】（含空格、大小写），否则查不中、颜色变灰。
+# =============================================================================
+
+
+# ---- 五大内容板块 → CSS class（一般沿用主题默认即可，这里显式写出便于理解）----
+[sections]
+  [sections.posts]
+    class = "blog"
+    label = "博客"
+    en = "posts"
+  [sections.playbook]
+    class = "play"
+    label = "实战手册"
+    en = "playbook"
+  [sections.roadmap]
+    class = "road"
+    label = "路线图"
+    en = "roadmap"
+  [sections.docs]
+    class = "docs"
+    label = "教程文档"
+    en = "docs"
+  [sections.resources]
+    class = "res"
+    label = "资源"
+    en = "resources"
+
+
+# ---- 分类 → 板块 class：决定每篇教程卡片/标签/封面的颜色 ----
+#  我们给三个阶段配不同色系，读者扫一眼就能区分「入门 / 外观 / 上线」：
+#    入门基础 → road（路线图色，意指「从零起步的路径」）
+#    外观写作 → play（实战色，意指「动手做」）
+#    发布上线 → res / ai（资源/AI 色，区分「收尾上线」）
+[categories]
+  "环境准备"     = "road"
+  "安装"         = "road"
+  "配置"         = "docs"
+  "写作"         = "play"
+  "封面"         = "play"
+  "Shortcodes"   = "res"
+  "图表"         = "res"
+  "导航"         = "docs"
+  "部署"         = "ai"
+  "进阶"         = "ai"

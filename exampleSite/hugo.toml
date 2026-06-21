@@ -1,3 +1,46 @@
+# =============================================================================
+#  vishine 主题 · 示例站点配置文件 (hugo.toml)
+# =============================================================================
+#
+#  这是什么文件？
+#  -------------
+#  这是 Hugo 站点的「总配置文件」。Hugo 是一个静态网站生成器（把 Markdown
+#  文章 + 主题模板，编译成一堆纯 HTML 网页）。本文件告诉 Hugo：你的网站叫什么、
+#  用哪个主题、有几种语言、菜单怎么排、文章分类怎么分……几乎所有“全站级别”的
+#  设置都写在这里。
+#
+#  怎么用？
+#  --------
+#  1. 安装 Hugo（extended 版本），在站点根目录执行 `hugo server` 本地预览，
+#     浏览器打开 http://localhost:1313 就能看到效果，改了本文件会自动刷新。
+#  2. 执行 `hugo` 会把整站编译进 public/ 目录，部署时上传这个目录即可。
+#
+#  语法速记（TOML 格式）
+#  --------------------
+#  - `键 = 值`         ：设置一个配置项，字符串要加引号，数字/true/false 不用。
+#  - `# 井号`          ：注释，Hugo 会忽略，专门写给人看。
+#  - `[xxx]`           ：一个“配置区块”（表/table），下面缩进的键都属于它。
+#  - `[[xxx]]`         ：双中括号表示“数组里的一项”，可以重复多次（比如菜单项、
+#                        首页栏目，每个 [[...]] 就是列表中的一个元素）。
+#
+#  改配置的安全做法：先改一项 → 存盘 → 看 `hugo server` 实时效果 → 满意再改下一项。
+# =============================================================================
+
+
+# -----------------------------------------------------------------------------
+#  基础信息（全站最顶层的几个关键设置）
+# -----------------------------------------------------------------------------
+#  - baseURL：网站的正式访问网址（线上域名）。本地预览时随便填没关系，但正式
+#    部署前一定要改成你真实的域名，否则文章里的链接、RSS 地址会指向错的地方。
+#    结尾建议保留斜杠 /。
+#  - title：网站标题。会显示在浏览器标签页、首页头部、SEO 信息里。
+#  - theme：使用的主题名称，对应 themes/ 目录下的文件夹名。这里是 "vishine"。
+#  - defaultContentLanguage：默认语言。下面 [languages] 里以这个为准；本站默认
+#    简体中文 "zh-cn"。
+#  - enableEmoji：是否允许在 Markdown 里用 :smile: 这种写法显示表情，true=开启。
+#  - enableRobotsTXT：是否自动生成 robots.txt（告诉搜索引擎爬虫哪些能抓），true=开启。
+#  - summaryLength：文章列表里“摘要”默认截取多少个词（没有手动写摘要时生效）。
+# -----------------------------------------------------------------------------
 baseURL = "https://example.org/"
 title = "vishine"
 theme = "vishine"
@@ -6,19 +49,131 @@ enableEmoji = true
 enableRobotsTXT = true
 summaryLength = 30
 
+
+# -----------------------------------------------------------------------------
+#  语言设置 [languages]（多语言 / i18n）
+# -----------------------------------------------------------------------------
+#  i18n = internationalization（国际化），就是“让网站支持多种语言”的能力。
+#  每加一门语言，就在 [languages] 下面加一个 [languages.语言代码] 区块。
+#  默认只开了简体中文；本文件后面还配了一份英文 [languages.en] 作为示范。
+#
+#  每门语言常见的设置项：
+#  - label：在“语言切换菜单”里显示给读者看的名字（如“简体中文”“English”）。
+#  - locale：地区代码，影响日期、数字等本地化格式（zh-CN = 中国大陆中文）。
+#  - weight：排序权重，数字越小越靠前。weight=1 的语言排在切换菜单最前面。
+#  - languageName / languageCode：语言的标准名称/代码，用于 SEO 和 RSS（可选）。
+#
+#  注意：每门语言的文章放在不同地方——可以用文件名后缀（about.zh-cn.md /
+#  about.en.md），也可以用按语言分目录的方式。具体看主题/Hugo 多语言文档。
+# -----------------------------------------------------------------------------
 [languages]
+
+  # ---- 简体中文（本站默认语言）----
   [languages.zh-cn]
     label = "简体中文"
     locale = "zh-CN"
     weight = 1
 
+
+  # ===========================================================================
+  #  英文 [languages.en]（示范：如何新增一门语言）
+  # ===========================================================================
+  #  下面整段就是“新增一门语言”的完整模板，照着改就能再加日语、法语等：
+  #
+  #  第 1 步：复制一份 [languages.xx] 区块，xx 换成语言代码（en=英文）。
+  #  第 2 步：填好 label / languageName / locale / weight（weight 要和已有语言
+  #          不同，决定切换菜单里的先后顺序，这里英文排第 2 所以 weight=2）。
+  #  第 3 步：在 [languages.en.params] 里翻译那些“会显示在页面上的文字”
+  #          （作者名、标语、简介等）。没翻译到的项会自动回退用默认值。
+  #  第 4 步：在 [languages.en.menu] 里写这门语言专属的导航菜单（见下方）。
+  #          顶层的 [menu] 只对默认语言生效，所以英文菜单必须单独写一份。
+  #  第 5 步：给文章准备英文版内容，例如 content/about.en.md，Hugo 会自动按
+  #          语言匹配。没有英文版的页面，切到英文时可能不显示。
+  # ===========================================================================
+  [languages.en]
+    label = "English"          # 语言切换菜单里显示的名字
+    languageName = "English"   # 语言的标准名称（用于 SEO / RSS 等）
+    locale = "en"              # 地区代码：英文
+    weight = 2                 # 排在简体中文（weight=1）之后
+
+    # ---- 英文版的页面文案（对应中文 [params] 里那些展示性文字）----
+    #  这里只翻译“会出现在页面上”的内容；像 defaultScheme、since 这类纯功能项
+    #  通常不用按语言重复，会自动沿用默认语言的设置。
+    [languages.en.params]
+      author = "Wenzhuo Huang"
+      role = "DevOps Engineer · Cloud Native · K8s · AWS · CI/CD"
+      tagline = "K8s is running, GitOps is spinning, and AI helps me write scripts."
+      description = "Real-world notes on DevOps / SRE / AI engineering. No fluff."
+
+    # ---- 英文版导航菜单（结构同下方顶层 [menu]，把 name 翻成英文）----
+    #  这里给出主菜单的英文对照；pageRef 指向的页面要有对应英文内容才点得开。
+    [languages.en.menu]
+      [[languages.en.menu.main]]
+        name = "Blog"
+        pageRef = "/posts"
+        weight = 10
+      [[languages.en.menu.main]]
+        name = "Playbook"
+        pageRef = "/playbook"
+        weight = 20
+      [[languages.en.menu.main]]
+        name = "Guide"
+        pageRef = "/guide"
+        weight = 25
+      [[languages.en.menu.main]]
+        name = "About"
+        pageRef = "/about"
+        weight = 80
+      [[languages.en.menu.main]]
+        name = "Changelog"
+        pageRef = "/changelog"
+        weight = 90
+
+
+# -----------------------------------------------------------------------------
+#  分页 [pagination]
+# -----------------------------------------------------------------------------
+#  pagination（分页）= 文章太多时，把列表拆成第 1 页、第 2 页……一页只放一部分。
+#  - pagerSize：每页显示几篇文章。这里是 8，第 9 篇起会被翻到第 2 页。
+#    想一页放更多就调大这个数字。
+# -----------------------------------------------------------------------------
 [pagination]
   pagerSize = 8
 
+
+# -----------------------------------------------------------------------------
+#  分类法 [taxonomies]
+# -----------------------------------------------------------------------------
+#  taxonomy（分类法）= 给文章贴标签、归类的方式。Hugo 会自动为每一类生成
+#  聚合页面（比如把所有打了某个标签的文章列在一起）。
+#  写法是 `单数 = "复数"`：左边是在文章头部（front matter）里写的字段名，
+#  右边是生成页面的网址路径段。
+#  - tag = "tags"：标签。文章里写 `tags: ["k8s"]`，会生成 /tags/k8s/ 聚合页。
+#  - category = "categories"：分类。文章里写 `categories: ["运维"]`，
+#    会生成 /categories/运维/ 聚合页。
+#
+#  名词解释：front matter（前置元数据）= 每篇 Markdown 文章最顶部、用 --- 或
+#  +++ 包起来的一小段设置，写标题、日期、标签、分类等信息。
+# -----------------------------------------------------------------------------
 [taxonomies]
   tag = "tags"
   category = "categories"
 
+
+# -----------------------------------------------------------------------------
+#  主题参数 [params]（主题专属设置，和站点身份/外观相关）
+# -----------------------------------------------------------------------------
+#  [params] 是“主题自定义参数”的大本营。Hugo 内核不认识这些键，是 vishine
+#  主题模板自己去读取并显示的。这里放作者信息、标语、配色等。
+#  - author / authorEn：作者名（中文 / 英文）。
+#  - role：一句话职业身份，常显示在头像/简介旁。
+#  - tagline：标语，首页醒目的一句话。
+#  - description：网站简介，也会用于 SEO 的 meta description。
+#  - defaultScheme：默认配色方案。vishine 提供多套配色，这里选 "clean"。
+#  - since：建站年份，常用于页脚版权“© 2024 - 今年”。
+#  - googleFonts：是否加载 Google 字体 CDN。默认那行被注释掉了（即开启）；
+#    如果你在国内访问慢，可以去掉行首 # 把它设为 false，改用系统/自托管字体。
+# -----------------------------------------------------------------------------
 [params]
   author = "星辉"
   authorEn = "Wenzhuo Huang"
@@ -29,20 +184,46 @@ summaryLength = 30
   since = 2024
   # googleFonts = false   # 关闭 Google Fonts CDN（改用系统字体 / 自托管）
 
-  # 自动封面生成器（文章无 featured.* 图时据标题+分类自动生成）
+  # ---------------------------------------------------------------------------
+  #  自动封面生成 [params.cover]
+  # ---------------------------------------------------------------------------
+  #  作用：当一篇文章没有自带封面图（即目录里没有 featured.* 图片）时，主题会
+  #  根据“标题 + 分类”自动画一张封面图，省得每篇都要找图。
+  #  - auto：true=开启自动封面；false=关闭，只有放了 featured 图的文章才有封面。
+  #  - style：自动封面的版式风格。
+  #      auto     = 按文章标题哈希在 4 种版式里轮流换（每篇看起来不一样）
+  #      orbit / grid / diagonal / arc = 锁定其中某一种固定版式
+  # ---------------------------------------------------------------------------
   [params.cover]
     auto = true        # false = 关闭自动封面，纯靠 featured 图
     style = "auto"     # auto（按哈希轮换4版式）| orbit | grid | diagonal | arc（锁定单一版式）
 
-  # 首页特色横幅板块（可选）：不配则不显示
+  # ---------------------------------------------------------------------------
+  #  首页特色横幅 [params.featureZone]（可选板块）
+  # ---------------------------------------------------------------------------
+  #  作用：在首页放一个醒目的“专题推广”横幅区。整段是可选的——如果不需要，
+  #  把整个 [params.featureZone] 区块删掉或注释掉，首页就不显示它。
+  #  顶部几项是横幅的总标题：
+  #  - title / en：中英文大标题。
+  #  - desc：副标题描述。
+  #  - count：右上角的小角标文字（如“4 方向”）。
   [params.featureZone]
     title = "AI 专区"
     en = "AI ZONE"
     desc = "大模型 / 工具 / 应用 / AIOps 的工程化实践"
     count = "4 方向"
+
+    # ---- 横幅的“主推语” [params.featureZone.lead]：一句更突出的引导文案 ----
     [params.featureZone.lead]
       title = "AI 在帮我写脚本"
       desc = "把大模型真正接进 DevOps 工作流——不止 chat，而是落到流水线和告警里。"
+
+    # ---- 横幅下方的并排小栏目 [[params.featureZone.cols]] ----
+    #  每个 [[...]] 是一栏（双中括号=数组里的一项，可以重复多个）。
+    #  - k：栏目的小标签/角标（如 LLM、TOOL）。
+    #  - name：栏目名称。
+    #  - desc：栏目说明。
+    #  想加/减栏目，就复制或删掉整段 [[params.featureZone.cols]] 即可。
     [[params.featureZone.cols]]
       k = "LLM"
       name = "大模型"
@@ -56,34 +237,103 @@ summaryLength = 30
       name = "AIOps"
       desc = "智能告警降噪、根因辅助分析、自动化排障。"
 
+
+# -----------------------------------------------------------------------------
+#  Markdown 渲染设置 [markup]
+# -----------------------------------------------------------------------------
+#  markup（标记/排版）= 控制“把 Markdown 文章转成 HTML 网页”的细节规则。
+#  Hugo 默认用 goldmark 这个 Markdown 引擎来做转换，下面就是对它的调校。
+#  名词：goldmark = Hugo 内置的 Markdown 解析器；shortcode（短代码）= 在文章里
+#  写 {{< 名字 >}} 这样的小指令，调用主题预设的功能块（比如徽章、打字机效果）。
+# -----------------------------------------------------------------------------
 [markup]
+  # ---- 渲染器：控制最终输出 HTML 的行为 ----
+  #  - unsafe：是否允许 Markdown 里直接写 HTML 标签。默认 Hugo 出于安全会把
+  #    行内 HTML 过滤掉；本主题的一些 shortcode（badge 徽章、typeit 打字机等）
+  #    需要输出 HTML，所以设为 true。个人博客内容自己可控，开了无妨；如果你的
+  #    站点会接收他人投稿，请谨慎（可能有 XSS 风险）。
   [markup.goldmark.renderer]
     unsafe = true   # shortcode 输出行内 HTML（badge/typeit 等）需要；个人博客内容可控
+
+  # ---- 扩展语法：开启一些超出标准 Markdown 的好用写法 ----
+  #  - strikethrough：~~删除线~~。
+  #  - table：表格语法。
+  #  - taskList：- [ ] / - [x] 任务清单（带勾选框）。
   [markup.goldmark.extensions]
     strikethrough = true
     table = true
     taskList = true
+    # typographer：自动把直引号变弯引号、--变破折号等“智能排版”。
+    #  这里 disable=true 关掉它，避免它改动代码/中文里的标点。
     [markup.goldmark.extensions.typographer]
       disable = true
+
+  # ---- 解析器：控制 Markdown 怎么被读懂 ----
+  #  - autoHeadingID：自动给每个标题生成锚点 id（这样可以用 #小节 直接跳转）。
   [markup.goldmark.parser]
     autoHeadingID = true
+    # attribute：允许给标题/区块附加自定义属性（如 {.class #id}）。
+    #  - title：允许给标题加属性；block：允许给段落等块级元素加属性。
     [markup.goldmark.parser.attribute]
       title = true
       block = true
+
+  # ---- 代码高亮 [markup.highlight] ----
+  #  - noClasses：false=用 CSS 类名做高亮（配合主题样式/暗色模式更灵活），
+  #    true 则把颜色直接内联写死。
+  #  - lineNos：是否显示代码行号，false=不显示。
+  #  - tabWidth：制表符按几个空格宽度显示，这里是 2。
+  #  - guessSyntax：没标语言的代码块，是否自动猜测语言来高亮，true=猜。
   [markup.highlight]
     noClasses = false
     lineNos = false
     tabWidth = 2
     guessSyntax = true
+
+  # ---- 文章目录 [markup.tableOfContents]（TOC，根据标题自动生成的目录）----
+  #  - startLevel / endLevel：目录收录的标题层级范围。2~3 表示只收 H2、H3，
+  #    忽略最大的 H1 和更小的 H4 以下，目录更精简。
+  #  - ordered：true=用有序列表（1.2.3.），false=用无序列表（圆点）。
   [markup.tableOfContents]
     startLevel = 2
     endLevel = 3
     ordered = false
 
+
+# -----------------------------------------------------------------------------
+#  输出格式 [outputs]
+# -----------------------------------------------------------------------------
+#  outputs（输出）= 指定某种页面除了普通网页，还额外生成哪些格式的文件。
+#  - home：首页要输出的格式列表。
+#      HTML = 正常网页；
+#      RSS  = 订阅源（读者可用 RSS 阅读器订阅你的更新）；
+#      JSON = 一份 JSON 数据，本主题用它来做“站内搜索”的索引。
+#  如果你不需要搜索或订阅，可以去掉对应项；但本主题搜索依赖 JSON，建议保留。
+# -----------------------------------------------------------------------------
 [outputs]
   home = ["HTML", "RSS", "JSON"]
 
+
+# -----------------------------------------------------------------------------
+#  导航菜单 [menu]
+# -----------------------------------------------------------------------------
+#  作用：定义网站顶部/侧边的导航菜单。这里的 [menu] 对“默认语言（简体中文）”
+#  生效；英文菜单已在上面的 [languages.en.menu] 单独配过。
+#
+#  每个菜单项用 [[menu.main]] 表示（main 是菜单的名字，可有多组菜单）。
+#  常用字段：
+#  - name：菜单上显示的文字。
+#  - pageRef：这一项点击后跳到的页面（用站内路径，如 "/posts"）。
+#  - weight：排序权重，数字越小越靠左/靠前。
+#  - identifier：给这一项起个唯一“代号”，用来当作子菜单的父级锚点（本身不一定
+#    跳转，常作为“只是一个分组标题”的下拉父项）。
+#  - parent：填某个父项的 identifier，表示“我是它的子菜单项”，会收进下拉里。
+#
+#  下面通过 identifier + parent 组合，搭出了多个带下拉子项的分组菜单
+#  （路线图 / 运维 / AI / 编程 / 资源）。想加菜单就复制一段 [[menu.main]] 改内容。
+# -----------------------------------------------------------------------------
 [menu]
+  # ---- 顶级单项：直接跳转，没有子菜单 ----
   [[menu.main]]
     name = "博客"
     pageRef = "/posts"
@@ -96,6 +346,10 @@ summaryLength = 30
     name = "指南"
     pageRef = "/guide"
     weight = 25
+
+  # ---- 分组：路线图（父项 roadmap + 两个子项）----
+  #  第一项只有 identifier、没有 pageRef，是“纯下拉标题”；下面两项用
+  #  parent = "roadmap" 挂到它下面成为子菜单。
   [[menu.main]]
     name = "路线图"
     identifier = "roadmap"
@@ -111,6 +365,7 @@ summaryLength = 30
     pageRef = "/roadmap/cloud-native"
     weight = 32
 
+  # ---- 分组：运维（父项 ops + 子项）----
   [[menu.main]]
     name = "运维"
     identifier = "ops"
@@ -136,6 +391,7 @@ summaryLength = 30
     pageRef = "/docs/cicd"
     weight = 44
 
+  # ---- 分组：AI（父项 ai + 子项；注意子项指向的是分类聚合页 /categories/...）----
   [[menu.main]]
     name = "AI"
     identifier = "ai"
@@ -156,6 +412,7 @@ summaryLength = 30
     pageRef = "/categories/rag"
     weight = 53
 
+  # ---- 分组：编程（父项 prog + 子项）----
   [[menu.main]]
     name = "编程"
     identifier = "prog"
@@ -176,6 +433,7 @@ summaryLength = 30
     pageRef = "/docs/languages/shell"
     weight = 63
 
+  # ---- 分组：资源（父项 res + 子项）----
   [[menu.main]]
     name = "资源"
     identifier = "res"
@@ -191,6 +449,7 @@ summaryLength = 30
     pageRef = "/books"
     weight = 72
 
+  # ---- 末尾顶级单项 ----
   [[menu.main]]
     name = "关于"
     pageRef = "/about"
@@ -199,3 +458,11 @@ summaryLength = 30
     name = "更新日志"
     pageRef = "/changelog"
     weight = 90
+
+# ============ 赞助 / 打赏 ============
+# sponsor shortcode 从这里读收款码图片路径（图片放在 static/ 下）
+[params.sponsor]
+  title  = "请我喝杯咖啡"
+  desc   = "如果这个主题帮到了你，欢迎赞助支持～"
+  wechat = "/img/sponsor/wechat.png"
+  alipay = "/img/sponsor/alipay.jpg"

@@ -24,9 +24,9 @@
   <section class="sec">
     <!-- term-hero -->
     <header class="term-hero" style="--tc:var(--c-{{ $cls }})">
-      <span class="kicker"><span class="dot"></span>{{ if $isCat }}分类 · category{{ else }}标签 · tag{{ end }}</span>
+      <span class="kicker"><span class="dot"></span>{{ if $isCat }}{{ i18n "term_kicker_category" }}{{ else }}{{ i18n "term_kicker_tag" }}{{ end }}</span>
       <h1 class="term-title"><span class="th-hash">{{ if $isCat }}#{{ else }}#{{ end }}</span>{{ .Title }}</h1>
-      <div class="term-stat mono">共 <b>{{ len .Pages }}</b> 篇{{ if $isCat }}相关文章{{ end }}</div>
+      <div class="term-stat mono">{{ i18n "term_post_count" (dict "Count" (len .Pages) "IsCat" $isCat) | safeHTML }}</div>
     </header>
 
     <!-- 文章网格（复用全站 card.html） -->
@@ -38,14 +38,14 @@
 
     <!-- 数字分页 -->
     {{ if gt $paginator.TotalPages 1 }}
-    <nav class="pager" aria-label="分页">
-      {{ if $paginator.HasPrev }}<a href="{{ $paginator.Prev.URL }}" rel="prev" aria-label="上一页">←</a>
+    <nav class="pager" aria-label="{{ i18n "pagination" }}">
+      {{ if $paginator.HasPrev }}<a href="{{ $paginator.Prev.URL }}" rel="prev" aria-label="{{ i18n "prev_page" }}">←</a>
       {{ else }}<span class="pg-dis" aria-hidden="true">←</span>{{ end }}
       {{ range $paginator.Pagers }}
         {{ if eq . $paginator }}<span class="pg-cur" aria-current="page">{{ .PageNumber }}</span>
         {{ else }}<a href="{{ .URL }}">{{ .PageNumber }}</a>{{ end }}
       {{ end }}
-      {{ if $paginator.HasNext }}<a href="{{ $paginator.Next.URL }}" rel="next" aria-label="下一页">→</a>
+      {{ if $paginator.HasNext }}<a href="{{ $paginator.Next.URL }}" rel="next" aria-label="{{ i18n "next_page" }}">→</a>
       {{ else }}<span class="pg-dis" aria-hidden="true">→</span>{{ end }}
     </nav>
     {{ end }}
