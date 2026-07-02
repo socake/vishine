@@ -1,0 +1,75 @@
+{{ define "main" }}
+{{ if .Parent.IsHome }}
+{{- /* ============ 路线图总览：6 方向卡片 ============ */ -}}
+<div class="wrap rm-wrap">
+  <header class="rm-hero">
+    <span class="rm-kicker">ROADMAP</span>
+    <h1>{{ .Title }}</h1>
+    <div class="prose rm-intro">{{ .Content }}</div>
+  </header>
+  <div class="rm-cards">
+    {{ range .Sections.ByWeight }}
+      {{ $ch := where .RegularPages "Params.group" "正文" }}
+      {{ $iv := where .RegularPages "Params.group" "面试" }}
+      {{ $bd := where .RegularPages "Params.group" "广度专题" }}
+      <a class="rm-card" href="{{ .RelPermalink }}">
+        <span class="rm-num">{{ .Weight }}</span>
+        <span class="rm-card-title">{{ .Title }}</span>
+        <span class="rm-card-sum">{{ .Params.summary }}</span>
+        <span class="rm-card-stat">
+          <b>{{ len $ch }}</b> 篇正文{{ with len $bd }} · <b>{{ . }}</b> 广度{{ end }} · <b>{{ len $iv }}</b> 套面试
+        </span>
+      </a>
+    {{ end }}
+  </div>
+</div>
+{{ else }}
+{{- /* ============ 方向落地页：总览 + 分组索引 ============ */ -}}
+<div class="wrap rm-wrap rm-track">
+  <nav class="rm-crumb"><a href="{{ (site.GetPage "/roadmap").RelPermalink }}">← 学习路线图</a></nav>
+  <header class="rm-track-head"><h1><span class="rm-num">{{ .Weight }}</span>{{ .Title }}</h1></header>
+  {{ with .Content }}<div class="prose rm-overview">{{ . }}</div>{{ end }}
+
+  {{ $ch := (where .RegularPages "Params.group" "正文").ByWeight }}
+  {{ $bd := (where .RegularPages "Params.group" "广度专题").ByWeight }}
+  {{ $iv := (where .RegularPages "Params.group" "面试").ByWeight }}
+  {{ $br := (where .RegularPages "Params.group" "岗位分支").ByWeight }}
+
+  {{ with $ch }}
+  <section class="rm-sec">
+    <h2 class="rm-sec-title">正文精讲 <span class="rm-count">{{ len . }}</span></h2>
+    {{ $cur := "__none__" }}
+    <ol class="rm-list">
+    {{ range . }}
+      {{ $s := .Params.stage }}
+      {{ if and $s (ne $s $cur) }}</ol><div class="rm-stage">{{ $s }}</div><ol class="rm-list">{{ $cur = $s }}{{ end }}
+      <li><a href="{{ .RelPermalink }}"><span class="rm-ch-t">{{ .Title }}</span>{{ with .Params.summary }}<span class="rm-ch-d">{{ . }}</span>{{ end }}</a></li>
+    {{ end }}
+    </ol>
+  </section>
+  {{ end }}
+
+  {{ with $bd }}
+  <section class="rm-sec">
+    <h2 class="rm-sec-title">广度专题 <span class="rm-count">{{ len . }}</span></h2>
+    <ol class="rm-list">{{ range . }}<li><a href="{{ .RelPermalink }}"><span class="rm-ch-t">{{ .Title }}</span></a></li>{{ end }}</ol>
+  </section>
+  {{ end }}
+
+  {{ with $iv }}
+  <section class="rm-sec">
+    <h2 class="rm-sec-title">面试题 <span class="rm-count">{{ len . }}</span></h2>
+    <p class="rm-sec-note">答案默认折叠，点题目展开；可开「自测模式」全部收起。</p>
+    <div class="rm-iv-grid">{{ range . }}<a class="rm-iv-card" href="{{ .RelPermalink }}">{{ .Title | replaceRE "^面试 · " "" }}</a>{{ end }}</div>
+  </section>
+  {{ end }}
+
+  {{ with $br }}
+  <section class="rm-sec">
+    <h2 class="rm-sec-title">岗位分支 <span class="rm-count">{{ len . }}</span></h2>
+    <div class="rm-iv-grid">{{ range . }}<a class="rm-iv-card" href="{{ .RelPermalink }}">{{ .Title | replaceRE "^岗位分支 · " "" }}</a>{{ end }}</div>
+  </section>
+  {{ end }}
+</div>
+{{ end }}
+{{ end }}

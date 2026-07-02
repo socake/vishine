@@ -337,6 +337,9 @@
     headings.forEach((h, i)=>{
       const id = h.id || ('sec-' + (i+1));
       h.id = id;
+      // 去掉 render-heading 钩子在服务端生成的锚点，避免与下面 JS 锚点重复（悬停出现 ##），
+      // 同时防止其 # 文本污染 TOC（textContent 会把锚点的 # 也算进去）。
+      const srvAnchor = h.querySelector('a.anchor'); if(srvAnchor) srvAnchor.remove();
       const text = h.textContent.trim();
 
       // 锚点 #
@@ -548,4 +551,60 @@
     tocSheetClose.addEventListener('click', closeTocSheet);
     tocSheet.addEventListener('mousedown', e=>{ if(e.target===tocSheet) closeTocSheet(); });
     tocSheet.addEventListener('keydown', e=>{ if(e.key==='Escape'){ e.preventDefault(); closeTocSheet(); } });
+  })();
+
+  /* ============ 面试题折叠（自测）：把每个 h3 题目折成可展开卡片 ============ */
+  (function(){
+    document.querySelectorAll('.prose.is-interview').forEach(function(prose){
+      var h3s = [].slice.call(prose.querySelectorAll('h3'));
+      if(!h3s.length) return;
+      var items = [];
+      h3s.forEach(function(h3){
+        var item = document.createElement('div'); item.className = 'qa-item';
+        // 收集答案：h3 之后的兄弟，直到下一个 h2/h3
+        var ans = document.createElement('div'); ans.className = 'qa-a';
+        var n = h3.nextSibling;
+        while(n){
+          var nx = n.nextSibling;
+          if(n.nodeType === 1 && (n.tagName === 'H3' || n.tagName === 'H2')) break;
+          if(n.nodeType === 1 && n.tagName === 'HR'){ n.remove(); n = nx; continue; }
+          ans.appendChild(n); n = nx;
+        }
+        // 保留 h3 本体（连同 id / 锚点），只把它移进卡片当作可点击题头 —— TOC / 锚点 / scrollspy 继续可用
+        h3.parentNode.insertBefore(item, h3);
+        h3.classList.add('qa-q');
+        var chev = document.createElementNS('http://www.w3.org/2000/svg','svg');
+        chev.setAttribute('class','qa-chev'); chev.setAttribute('viewBox','0 0 24 24');
+        chev.setAttribute('fill','none'); chev.setAttribute('stroke','currentColor');
+        chev.setAttribute('stroke-width','2.4'); chev.setAttribute('stroke-linecap','round');
+        chev.setAttribute('stroke-linejoin','round'); chev.setAttribute('aria-hidden','true');
+        chev.innerHTML = '<path d="m9 6 6 6-6 6"/>';
+        h3.insertBefore(chev, h3.firstChild);
+        item.appendChild(h3); item.appendChild(ans);
+        h3.addEventListener('click', function(e){
+          if(e.target.closest && e.target.closest('a.anchor')) return; // 点 # 复制链接，不折叠
+          item.classList.toggle('open');
+        });
+        items.push(item);
+      });
+      if(!items.length) return;
+      var bar = document.createElement('div'); bar.className = 'qa-controls';
+      bar.innerHTML = '<button class="qa-btn" type="button" data-act="expand">展开全部</button><button class="qa-btn on" type="button" data-act="collapse">收起全部 · 自测</button>';
+      items[0].parentNode.insertBefore(bar, items[0]);
+      bar.addEventListener('click', function(e){
+        var b = e.target.closest('.qa-btn'); if(!b) return;
+        var open = b.dataset.act === 'expand';
+        items.forEach(function(it){ it.classList.toggle('open', open); });
+        bar.querySelector('[data-act=expand]').classList.toggle('on', open);
+        bar.querySelector('[data-act=collapse]').classList.toggle('on', !open);
+      });
+      // 从 TOC / 锚点跳转过来时，自动展开对应题目
+      function openFromHash(){
+        var id = decodeURIComponent((location.hash || '').slice(1)); if(!id) return;
+        var h = document.getElementById(id); if(!h) return;
+        var it = h.closest('.qa-item'); if(it) it.classList.add('open');
+      }
+      openFromHash();
+      window.addEventListener('hashchange', openFromHash);
+    });
   })();

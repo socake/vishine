@@ -52,9 +52,18 @@
     {{ with $cover }}<figure class="art-cover-fig"><img src="{{ . | safeURL }}" alt="{{ $.Title }} {{ i18n "cover_alt" }}" decoding="async"></figure>{{ end }}
 
     <!-- ============ 正文（prose；render hook / shortcode 由并行任务提供） ============ -->
-    <div class="prose" id="prose">
+    <div class="prose{{ if .Params.interview }} is-interview{{ end }}" id="prose">
       {{ .Content }}
     </div>
+
+    {{- /* 路线图页：章节上/下页导航 + 回目录 */ -}}
+    {{ if .Params.track }}
+    <nav class="rm-pager">
+      {{ with .PrevInSection }}<a class="rm-pg rm-prev" href="{{ .RelPermalink }}"><span class="rm-pg-dir">← 上一篇</span><span class="rm-pg-t">{{ .Title }}</span></a>{{ else }}<span class="rm-pg-empty"></span>{{ end }}
+      <a class="rm-pg rm-back" href="{{ .CurrentSection.RelPermalink }}">目录</a>
+      {{ with .NextInSection }}<a class="rm-pg rm-next" href="{{ .RelPermalink }}"><span class="rm-pg-dir">下一篇 →</span><span class="rm-pg-t">{{ .Title }}</span></a>{{ else }}<span class="rm-pg-empty"></span>{{ end }}
+    </nav>
+    {{ end }}
 
     {{- /* 本系列文章导航（文章属于某 series 时显示，否则不渲染） */ -}}
     {{ partial "series-nav.html" . }}

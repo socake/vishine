@@ -1,0 +1,72 @@
+/* ============ 学习路线图（roadmap） ============ */
+.rm-wrap{max-width:var(--wrap-w,1080px);margin:0 auto;padding:0 20px}
+.rm-hero{padding:36px 0 8px}
+.rm-kicker{font-family:var(--font-mono);font-size:11px;letter-spacing:.22em;color:var(--accent);font-weight:700}
+.rm-hero h1{font-size:34px;font-weight:850;letter-spacing:-.02em;margin:8px 0 6px}
+.rm-intro{color:var(--ink-2);font-size:15px}
+.rm-intro p{margin:.5em 0}
+
+/* 总览卡片 */
+.rm-cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:16px;margin:22px 0 48px}
+.rm-card{display:flex;flex-direction:column;gap:8px;padding:20px 20px 18px;border:1px solid var(--line);border-radius:16px;background:var(--card);transition:transform .16s,box-shadow .16s,border-color .16s}
+.rm-card:hover{transform:translateY(-3px);box-shadow:0 12px 30px rgba(0,0,0,.08);border-color:var(--accent-soft,#f0d9cf)}
+.rm-num{display:inline-flex;align-items:center;justify-content:center;width:40px;height:40px;flex:none;border-radius:12px;background:var(--accent-soft,#fdeee8);color:var(--accent);font-family:var(--font-mono);font-size:19px;font-weight:800;letter-spacing:-.02em}
+.rm-card-title{font-size:18px;font-weight:800;color:var(--ink);letter-spacing:-.01em}
+.rm-card-sum{font-size:13.5px;line-height:1.65;color:var(--ink-2);flex:1}
+.rm-card-stat{font-size:12px;color:var(--ink-3);font-family:var(--font-mono);padding-top:8px;border-top:1px solid var(--line-2)}
+.rm-card-stat b{color:var(--accent);font-weight:700}
+
+/* 方向落地页 */
+.rm-track{max-width:860px}
+.rm-crumb{padding:28px 0 4px}
+.rm-crumb a{font-size:13px;color:var(--ink-3);font-weight:600}
+.rm-crumb a:hover{color:var(--accent)}
+.rm-track-head h1{font-size:30px;font-weight:850;letter-spacing:-.02em;margin:6px 0 14px;display:flex;align-items:center;gap:12px}
+.rm-track-head .rm-num{width:44px;height:44px;font-size:21px}
+.rm-overview{color:var(--ink-2);margin-bottom:10px}
+.rm-sec{margin:30px 0}
+.rm-sec-title{font-size:19px;font-weight:800;letter-spacing:-.01em;padding-left:11px;border-left:5px solid var(--accent);display:flex;align-items:center;gap:10px}
+.rm-count{font-family:var(--font-mono);font-size:12px;font-weight:700;color:var(--accent);background:var(--accent-soft,#fdeee8);border-radius:20px;padding:1px 9px}
+.rm-sec-note{font-size:12.5px;color:var(--ink-3);margin:6px 0 0 11px}
+.rm-stage{font-family:var(--font-mono);font-size:11.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-3);font-weight:700;margin:16px 0 6px 11px}
+.rm-list{list-style:none;margin:8px 0 0;padding:0;border-left:2px solid var(--line);margin-left:11px}
+.rm-list li{margin:0}
+.rm-list li a{display:flex;flex-direction:column;gap:2px;padding:9px 14px;border-radius:0 8px 8px 0;transition:.14s;border-left:2px solid transparent;margin-left:-2px}
+.rm-list li a:hover{background:var(--paper-2);border-left-color:var(--accent)}
+.rm-ch-t{font-size:15px;font-weight:600;color:var(--ink)}
+.rm-ch-d{font-size:12.5px;color:var(--ink-3);line-height:1.5}
+.rm-iv-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:10px;margin-top:12px}
+.rm-iv-card{padding:12px 14px;border:1px solid var(--line);border-radius:10px;background:var(--card);font-size:14px;font-weight:600;color:var(--ink-2);text-align:center;transition:.14s}
+.rm-iv-card:hover{border-color:var(--accent);color:var(--accent)}
+
+/* ============ 面试题折叠（自测） ============ */
+.qa-controls{display:flex;gap:8px;align-items:center;margin:0 0 18px;flex-wrap:wrap}
+.qa-btn{font:inherit;font-size:13px;font-weight:600;padding:7px 14px;border:1px solid var(--line);border-radius:20px;background:var(--card);color:var(--ink-2);cursor:pointer;transition:.14s}
+.qa-btn:hover{border-color:var(--accent);color:var(--accent)}
+.qa-btn.on{background:var(--accent);border-color:var(--accent);color:#fff}
+.prose.is-interview .qa-item{border:1px solid var(--line);border-radius:12px;margin:12px 0;overflow:hidden;background:var(--card)}
+.prose.is-interview h3.qa-q{display:flex;align-items:flex-start;gap:10px;padding:14px 16px;margin:0;cursor:pointer;font-size:15.5px;font-weight:700;color:var(--ink);line-height:1.5;transition:background .14s;border:0;scroll-margin-top:84px}
+.prose.is-interview h3.qa-q:hover{background:var(--paper-2)}
+.qa-chev{flex:none;width:16px;height:16px;margin-top:3px;color:var(--ink-3);transition:transform .2s}
+.qa-item.open .qa-chev{transform:rotate(90deg);color:var(--accent)}
+.qa-a{max-height:0;opacity:0;overflow:hidden;transition:max-height .28s ease,opacity .2s;padding:0 16px}
+.qa-item.open .qa-a{max-height:6000px;opacity:1;padding:2px 16px 16px}
+.qa-a>*:first-child{margin-top:0}
+
+/* 路线图上下页导航 */
+.rm-pager{display:grid;grid-template-columns:1fr auto 1fr;gap:10px;align-items:stretch;margin:34px 0 8px;padding-top:20px;border-top:1px solid var(--line-2)}
+.rm-pg{padding:10px 14px;border:1px solid var(--line);border-radius:10px;transition:.14s;display:flex;flex-direction:column;gap:2px;justify-content:center}
+.rm-pg:hover{border-color:var(--accent)}
+.rm-pg-dir{font-size:11px;color:var(--ink-3);font-family:var(--font-mono)}
+.rm-pg-t{font-size:13.5px;font-weight:600;color:var(--ink-2);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:22ch}
+.rm-next{text-align:right;align-items:flex-end}
+.rm-back{align-self:center;font-size:13px;font-weight:600;color:var(--ink-3);border-radius:20px;padding:9px 18px;border-color:transparent}
+.rm-back:hover{color:var(--accent);border-color:var(--line)}
+.rm-pg-empty{display:block}
+
+@media (max-width:720px){
+  .rm-hero h1{font-size:27px}
+  .rm-pg-t{max-width:14ch}
+  .rm-cards{grid-template-columns:1fr}
+  .rm-track-head h1{font-size:24px}
+}
