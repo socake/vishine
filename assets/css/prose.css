@@ -494,13 +494,16 @@ a:focus-visible, button:focus-visible, input:focus-visible,
 
 /* TOC 移动悬浮按钮 + 抽屉 */
 .toc-fab{
-  display:none;position:fixed;left:16px;bottom:16px;z-index:120;align-items:center;gap:7px;
-  height:42px;padding:0 15px;border-radius:22px;border:1px solid var(--line);
-  background:var(--card);color:var(--ink-2);box-shadow:var(--shadow-hi);cursor:pointer;
-  font:inherit;font-size:13px;font-weight:600;transition:color .16s,border-color .16s;
+  display:none;position:fixed;left:14px;bottom:14px;z-index:120;align-items:center;gap:6px;
+  height:36px;padding:0 13px;border-radius:18px;border:1px solid var(--line);
+  background:color-mix(in srgb, var(--card) 78%, transparent);
+  -webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);
+  color:var(--ink-3);box-shadow:0 4px 14px rgba(0,0,0,.10);cursor:pointer;
+  font:inherit;font-size:12px;font-weight:600;opacity:.9;
+  transition:opacity .16s,color .16s,border-color .16s;
 }
-.toc-fab:hover{color:var(--accent);border-color:var(--accent)}
-.toc-fab svg{width:16px;height:16px}
+.toc-fab:hover{color:var(--accent);border-color:var(--accent);opacity:1}
+.toc-fab svg{width:15px;height:15px}
 .toc-sheet{position:fixed;inset:0;z-index:160;background:var(--overlay);-webkit-backdrop-filter:blur(3px);backdrop-filter:blur(3px);opacity:0;transition:opacity .2s}
 .toc-sheet.open{opacity:1}
 .toc-sheet[hidden]{display:none}

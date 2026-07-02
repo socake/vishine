@@ -441,6 +441,8 @@ a{color:inherit;text-decoration:none}
 @media (max-width:720px){
   .wrap{padding:0 16px}
   .nav-links,.search-mini{display:none}
+  /* 顶栏挤不下的配色/语言/RSS 收进抽屉(见 .drawer-tools),顶栏只留 logo + 汉堡,消除横向溢出 */
+  .nav-tools .scheme-switch,.nav-tools .lang-switch,.nav-tools>a.icon-btn{display:none}
   .hero h1{font-size:32px}
   .bento{grid-template-columns:1fr}
   .mod.blog,.mod.play,.mod.docs,.mod.road,.mod.res,.mod.ai{grid-column:span 1}
@@ -537,6 +539,9 @@ a:focus-visible, button:focus-visible, input:focus-visible,
 .drawer-nav a{display:block;padding:11px 12px;border-radius:8px;font-size:15px;color:var(--ink-2);font-weight:500;transition:.14s}
 .drawer-nav a:hover{background:var(--paper-2);color:var(--ink)}
 .drawer-nav a.active{color:var(--accent);font-weight:700}
+/* 抽屉底部工具区：配色 / 语言 / RSS（移动端从顶栏收纳到这里） */
+.drawer-tools{display:flex;align-items:center;gap:14px;flex-wrap:wrap;padding:14px 16px 6px;margin-top:6px;border-top:1px solid var(--line-2)}
+.drawer-tools .icon-btn{color:var(--ink-3)}
 .drawer-group>button{
   width:100%;display:flex;align-items:center;justify-content:space-between;
   padding:11px 12px;border:0;background:none;font:inherit;font-size:15px;font-weight:600;
