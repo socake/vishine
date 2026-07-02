@@ -1,0 +1,21 @@
+{{- /* Web App Manifest（Hugo 模板）——名称/图标随站点自适应；由 head-pwa.html 经 ExecuteAsTemplate 渲染到 /manifest.webmanifest */ -}}
+{{- $theme := site.Params.pwaThemeColor | default "#c75132" -}}
+{{- $bg := site.Params.pwaBackground | default "#ffffff" -}}
+{{- $desc := site.Params.description | default "" -}}
+{
+  "name": {{ site.Title | jsonify }},
+  "short_name": {{ (site.Params.pwaShortName | default site.Title) | jsonify }},
+  "description": {{ $desc | jsonify }},
+  "lang": {{ (or site.Language.Locale site.Language.Lang "zh-CN") | jsonify }},
+  "start_url": {{ ("/" | relURL) | jsonify }},
+  "scope": {{ ("/" | relURL) | jsonify }},
+  "display": "standalone",
+  "orientation": "any",
+  "background_color": {{ $bg | jsonify }},
+  "theme_color": {{ $theme | jsonify }},
+  "icons": [
+    { "src": {{ ("android-chrome-192x192.png" | relURL) | jsonify }}, "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": {{ ("android-chrome-512x512.png" | relURL) | jsonify }}, "sizes": "512x512", "type": "image/png", "purpose": "any" },
+    { "src": {{ ("android-chrome-512x512-maskable.png" | relURL) | jsonify }}, "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ]
+}

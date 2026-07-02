@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>离线 · vishine</title>
+<meta name="robots" content="noindex">
+<style>
+  :root { --accent:#c75132; --ink:#2a2320; --muted:#8a7d76; --bg:#fbf7f4; --card:#ffffff; --line:#efe4dd; }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  html,body { height:100%; }
+  body {
+    font-family: -apple-system,BlinkMacSystemFont,"Segoe UI","Noto Sans SC",Roboto,"PingFang SC","Microsoft YaHei",sans-serif;
+    background: radial-gradient(120% 80% at 50% 0%, #fdeee8 0%, var(--bg) 55%);
+    color: var(--ink); display:flex; align-items:center; justify-content:center; padding:24px;
+  }
+  .card {
+    background: var(--card); border:1px solid var(--line); border-radius:20px;
+    padding:40px 32px; max-width:420px; width:100%; text-align:center;
+    box-shadow: 0 12px 40px rgba(199,81,50,.08);
+  }
+  .logo { width:72px; height:72px; border-radius:18px; margin:0 auto 22px; display:block; }
+  h1 { font-size:22px; font-weight:800; letter-spacing:-.01em; margin-bottom:10px; }
+  p { font-size:15px; line-height:1.75; color:var(--muted); margin-bottom:8px; }
+  .btn {
+    display:inline-block; margin-top:22px; padding:12px 30px; border:none; cursor:pointer;
+    background: var(--accent); color:#fff; font-size:15px; font-weight:700; border-radius:12px;
+    font-family:inherit; transition: opacity .2s;
+  }
+  .btn:active { opacity:.85; }
+  .hint { margin-top:18px; font-size:12.5px; color:#b3a79f; }
+</style>
+</head>
+<body>
+  <div class="card">
+    <svg class="logo" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+      <rect width="32" height="32" rx="8" fill="#e0552f"/>
+      <path d="M7 9 L13.5 24 L20.5 6" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+      <path d="M25 7 c.3 2.1 1.1 2.9 3.2 3.2 -2.1 .3 -2.9 1.1 -3.2 3.2 -.3 -2.1 -1.1 -2.9 -3.2 -3.2 2.1 -.3 2.9 -1.1 3.2 -3.2 Z" fill="#fff"/>
+    </svg>
+    <h1>当前处于离线状态</h1>
+    <p>网络恢复后即可继续阅读。</p>
+    <p>你之前访问过、已缓存的页面仍然可以打开。</p>
+    <button class="btn" onclick="location.reload()">重新连接</button>
+    <div class="hint">vishine · 已离线缓存</div>
+  </div>
+  <script>
+    // 网络恢复即自动重载（地铁出隧道、Wi-Fi 重连等场景）
+    window.addEventListener('online', function () { location.reload(); });
+  </script>
+</body>
+</html>

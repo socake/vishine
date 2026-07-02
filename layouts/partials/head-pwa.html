@@ -1,0 +1,35 @@
+{{- /* head-pwa.html — PWA：manifest / theme-color / iOS 图标与元信息 / SW 注册。
+       由 params.pwa 控制（默认开启）；主题色可用 params.pwaThemeColor 覆盖。 */ -}}
+{{- if site.Params.pwa | default true -}}
+{{- $theme := site.Params.pwaThemeColor | default "#c75132" -}}
+{{- with resources.Get "pwa/manifest.webmanifest" -}}
+  {{- $manifest := . | resources.ExecuteAsTemplate "manifest.webmanifest" $ -}}
+  <link rel="manifest" href="{{ $manifest.RelPermalink }}">
+{{- end }}
+<meta name="theme-color" content="{{ $theme }}">
+{{- /* theme-color 跟随配色方案（paper/clean/dark 手动切），让独立窗口状态栏与页面同色 */ -}}
+<script>
+  (function () {
+    var C = { paper: '#f4f1ea', clean: '#fafafb', dark: '#111317' };
+    var m = document.querySelector('meta[name="theme-color"]');
+    function sync() { var s = document.documentElement.getAttribute('data-scheme'); if (m && C[s]) m.setAttribute('content', C[s]); }
+    sync();
+    try { new MutationObserver(sync).observe(document.documentElement, { attributes: true, attributeFilter: ['data-scheme'] }); } catch (e) {}
+  })();
+</script>
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="{{ site.Title }}">
+<link rel="apple-touch-icon" href="{{ "apple-touch-icon.png" | relURL }}">
+{{- with resources.Get "pwa/sw.js" -}}
+  {{- $sw := . | resources.ExecuteAsTemplate "sw.js" $ -}}
+<script>
+  if ('serviceWorker' in navigator) {
+    window.addEventListener('load', function () {
+      navigator.serviceWorker.register("{{ $sw.RelPermalink }}").catch(function () {});
+    });
+  }
+</script>
+{{- end -}}
+{{- end -}}

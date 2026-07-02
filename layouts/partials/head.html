@@ -50,4 +50,7 @@
   {{- end -}}
 {{- end -}}
 
+{{- /* PWA：manifest / theme-color / iOS 元信息 / service worker 注册 */ -}}
+{{ partial "head-pwa.html" . }}
+
 {{ block "head-css" . }}{{ end }}
