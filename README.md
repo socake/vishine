@@ -68,6 +68,9 @@
 - 代码块一键复制、图片自动 `figure` + 点击放大、超宽位图自动缩放。
 - 多语言 i18n：界面文案内置 **26 种语言**（中 / 英 / 日 / 韩 / 法 / 德 / 西 / 葡 / 俄 / 阿 / 繁中…），顶栏一键切换，可继续扩展。
 
+**离线与安装（PWA）**
+- 开箱即用的 PWA：`manifest` + service worker + 离线兜底页 + 可安装图标，读者可把博客「添加到主屏 / 安装」当 App 用——独立窗口、离线读已缓存文章、二次访问更快；状态栏色随 `paper/clean/dark` 配色自适应。`params.pwa` 默认开启、可关。详见「配置速览 → PWA」。
+
 ---
 
 ## 两个示例站
@@ -197,6 +200,25 @@ hugo server -D
   pageRef = "/docs/kubernetes"
   weight = 41
 ```
+
+### PWA（可安装 / 离线）
+
+**场景**：把博客「添加到主屏 / 安装」当 App 用——独立窗口、无地址栏，离线也能读已缓存过的文章，二次访问更快。适合自己常看、或想给读者更沉浸阅读体验的博客。
+
+**为什么**：Hugo 静态站加 PWA 成本极低（几个静态文件），却能把「网页」升级成「可安装应用」；service worker 顺带缓存资源、断网兜底，体验白嫖提升。
+
+**怎么用**：默认开启，构建产物已含 `/manifest.webmanifest`、`/sw.js`、`/offline.html`。可调项：
+
+```toml
+[params]
+  pwa = true                 # 默认 true；设 false 关闭整个 PWA
+  pwaThemeColor = "#c75132"  # 安装后状态栏/标题栏底色（默认强调色；会随 paper/clean/dark 配色实时覆盖）
+  pwaShortName = "vishine"   # 主屏图标下的短名，默认取 site.Title
+```
+
+- **图标**：主题自带 `static/android-chrome-{192,512,512-maskable}.png` + `apple-touch-icon.png` 作 fallback；站点在自己的 `static/` 放同名文件即可覆盖成品牌图标。
+- **离线策略**：HTML 页 network-first（看得到最新文章）、静态资源 stale-while-revalidate、断网回落 `offline.html`；缓存带版本号、每次构建自动清旧缓存。
+- **前提**：service worker 只在 **HTTPS**（或 localhost）下生效，务必保证站点 HTTPS 正常。
 
 ---
 
