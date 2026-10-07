@@ -38,7 +38,9 @@ self.addEventListener('fetch', (event) => {
   // HTML 页面导航：network-first（保证看到最新文章）→ 缓存 → 离线兜底页
   if (req.mode === 'navigate') {
     event.respondWith(
-      fetch(req)
+      // Revalidate the HTTP cache as well: a CDN may send a year-long max-age
+      // for HTML, otherwise network-first can still return yesterday's page.
+      fetch(req, { cache: 'no-cache' })
         .then((res) => {
           const copy = res.clone();
           caches.open(CACHE).then((c) => c.put(req, copy));
