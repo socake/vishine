@@ -1,0 +1,8 @@
+{{- $number := .Get "number" -}}
+{{- $title := .Get "title" -}}
+{{- if not $title }}{{ errorf "runbook-step requires title: %s" .Position }}{{ end -}}
+{{- $id := .Get "id" | default (printf "step-%s-%s" $number ($title | anchorize)) -}}
+<section class="runbook-step" aria-labelledby="{{ $id }}">
+  <header class="runbook-head"><h3 class="runbook-title" id="{{ $id }}">{{ with $number }}{{ i18n "runbook_step" }} {{ . }}：{{ end }}{{ $title }}</h3></header>
+  <div class="runbook-parts">{{ .Inner | safeHTML }}</div>
+</section>

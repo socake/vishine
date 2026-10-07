@@ -169,7 +169,7 @@ summaryLength = 30
 #  - role：一句话职业身份，常显示在头像/简介旁。
 #  - tagline：标语，首页醒目的一句话。
 #  - description：网站简介，也会用于 SEO 的 meta description。
-#  - defaultScheme：默认配色方案。vishine 提供多套配色，这里选 "clean"。
+#  - defaultScheme：默认配色方案。vishine 提供多套配色，这里选 "paper"。
 #  - since：建站年份，常用于页脚版权“© 2024 - 今年”。
 #  - googleFonts：是否加载 Google 字体 CDN。默认那行被注释掉了（即开启）；
 #    如果你在国内访问慢，可以去掉行首 # 把它设为 false，改用系统/自托管字体。
@@ -180,7 +180,7 @@ summaryLength = 30
   role = "DevOps Engineer · 云原生 · K8s · AWS · CI/CD"
   tagline = "K8s 在跑，GitOps 在转，AI 在帮我写脚本。"
   description = "DevOps / SRE / AI 工程化的真实踩坑记录，不写废话。"
-  defaultScheme = "clean"
+  defaultScheme = "paper"
   since = 2024
   # googleFonts = false   # 关闭 Google Fonts CDN（改用系统字体 / 自托管）
 

@@ -13,19 +13,20 @@
     <nav class="nav-links" aria-label="{{ i18n "main_nav" }}">
       {{ $page := . }}
       {{ range site.Menus.main }}
-        {{ $active := or ($page.IsMenuCurrent "main" .) ($page.HasMenuCurrent "main" .) }}
+        {{ $active := partial "menu-active.html" (dict "page" $page "entry" .) }}
         {{ if .HasChildren }}
           <div class="dropdown">
             <button{{ if $active }} class="active"{{ end }}>{{ .Name }} <span class="caret">▼</span></button>
             <div class="menu">
+              {{ if .URL }}<a class="menu-overview" href="{{ .URL }}">{{ i18n "view_all" }} · {{ .Name }} <span aria-hidden="true">→</span></a>{{ end }}
               {{ range .Children }}
                 {{ $cnt := "" }}{{ with .Page }}{{ if .Pages }}{{ $cnt = len .Pages }}{{ end }}{{ end }}
-                <a href="{{ .URL }}">{{ .Name }} <span class="mono">{{ with $cnt }}{{ . }}{{ else }}·{{ end }}</span></a>
+                <a href="{{ .URL }}"{{ if partial "menu-active.html" (dict "page" $page "entry" .) }} class="active"{{ end }}{{ if eq .URL $page.RelPermalink }} aria-current="page"{{ end }}>{{ .Name }} <span class="mono">{{ with $cnt }}{{ . }}{{ else }}·{{ end }}</span></a>
               {{ end }}
             </div>
           </div>
         {{ else }}
-          <a href="{{ .URL }}"{{ if $active }} class="active"{{ end }}>{{ .Name }}</a>
+          <a href="{{ .URL }}"{{ if $active }} class="active"{{ end }}{{ if eq .URL $page.RelPermalink }} aria-current="page"{{ end }}>{{ .Name }}</a>
         {{ end }}
       {{ end }}
     </nav>

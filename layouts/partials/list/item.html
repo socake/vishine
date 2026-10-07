@@ -1,0 +1,26 @@
+{{- /* One feed item shared by initial HTML and the complete filter index. */ -}}
+        {{ $cls := partial "cat-class.html" . }}
+        {{ $cat := "" }}{{ with .Params.categories }}{{ $cat = index . 0 }}{{ end }}
+        {{- /* 封面：featured 资源 > cover 参数 > 自动生成（thumb） */ -}}
+        {{ $cover := "" }}
+        {{ $fr := .Resources.GetMatch "featured.*" }}
+        {{ if and $fr (not (index (or site.Params.cover dict) "ignoreFeatured")) }}{{ if and (ne $fr.MediaType.SubType "svg") (gt ($fr.Width | default 0) 640) }}{{ $cover = ($fr.Resize "640x webp q85").RelPermalink }}{{ else }}{{ $cover = $fr.RelPermalink }}{{ end }}
+        {{ else if .Params.cover }}{{ $cover = .Params.cover }}
+        {{ else if (index (or site.Params.cover dict) "auto") | default true }}{{ $svg := partial "cover-svg.html" (dict "page" . "variant" "thumb") }}{{ $cover = ($svg | resources.FromString (printf "covers/%s-t.svg" (substr (md5 .RelPermalink) 0 12))).RelPermalink }}{{ end }}
+        <a class="feed-item {{ $cls }}{{ if $cover }} has-cover{{ end }}" href="{{ .RelPermalink }}" style="--mc:var(--c-{{ $cls }})"
+           data-categories="{{ delimit (.Params.categories | default slice) "|" }}"
+           data-tags="{{ delimit (.Params.tags | default slice) "|" }}">
+          {{ with $cover }}<div class="fi-cover"><img src="{{ . | safeURL }}" alt="{{ $.Title }} {{ i18n "cover_alt" }}" loading="lazy" decoding="async"></div>{{ end }}
+          <div class="fi-body">
+            <div class="fi-top">
+              {{ with $cat }}<span class="fi-cat" style="--fc:var(--c-{{ $cls }})"><span class="fi-dot"></span>{{ . }}</span>{{ end }}
+              <time class="fi-date mono" datetime="{{ .Date.Format "2006-01-02" }}">{{ .Date.Format "2006-01-02" }}</time>
+            </div>
+            <h3 class="fi-title">{{ .Title }}</h3>
+            {{ with .Summary }}<p class="fi-sum">{{ . | plainify | truncate 130 }}</p>{{ end }}
+            <div class="fi-meta mono">
+              <span class="fi-read">◷ {{ i18n "reading_time" .ReadingTime }}</span>
+              {{ with .Params.tags }}<span class="fi-tags">{{ delimit (first 3 .) " · " }}</span>{{ end }}
+            </div>
+          </div>
+        </a>

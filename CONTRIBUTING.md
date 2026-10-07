@@ -122,3 +122,7 @@ vishine 的核心是「三套配色 + 板块色彩编码」，所有颜色都走
 ---
 
 感谢你的贡献，让 vishine 变得更好！
+
+## 公共组件与文档同步
+
+开发前读 [AGENTS.md](AGENTS.md) 与 [组件目录](docs/COMPONENTS.md)。新增公共组件同时维护实现、参数契约、可复制源码与实际示例；博客只提供内容与调用。文档示例运行 `python3 scripts/check-component-docs.py`，再构建两个示例站。不要只把新组件写进现场验收记录。

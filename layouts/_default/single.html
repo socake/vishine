@@ -14,11 +14,7 @@
   <article class="art-main">
 
     <!-- 面包屑 -->
-    <nav class="crumbs" aria-label="{{ i18n "breadcrumb" }}">
-      <a href="{{ site.Home.RelPermalink }}">{{ i18n "home" }}</a><span class="sep">/</span>
-      {{ with site.GetPage (printf "/%s" .Section) }}<a href="{{ .RelPermalink }}">{{ .Title }}</a><span class="sep">/</span>{{ end }}
-      <span class="cur">{{ with $cat }}{{ . }}{{ else }}{{ .Title }}{{ end }}</span>
-    </nav>
+    {{ partial "breadcrumbs.html" . }}
 
     <!-- 文章头 -->
     <header class="art-head">
@@ -57,13 +53,7 @@
     </div>
 
     {{- /* 路线图页：章节上/下页导航 + 回目录 */ -}}
-    {{ if .Params.track }}
-    <nav class="rm-pager">
-      {{ with .PrevInSection }}<a class="rm-pg rm-prev" href="{{ .RelPermalink }}"><span class="rm-pg-dir">← 上一篇</span><span class="rm-pg-t">{{ .Title }}</span></a>{{ else }}<span class="rm-pg-empty"></span>{{ end }}
-      <a class="rm-pg rm-back" href="{{ .CurrentSection.RelPermalink }}">目录</a>
-      {{ with .NextInSection }}<a class="rm-pg rm-next" href="{{ .RelPermalink }}"><span class="rm-pg-dir">下一篇 →</span><span class="rm-pg-t">{{ .Title }}</span></a>{{ else }}<span class="rm-pg-empty"></span>{{ end }}
-    </nav>
-    {{ end }}
+    {{ if and .Params.track (eq .Section "roadmap") }}{{ partial "roadmap-navigation.html" . }}{{ end }}
 
     {{- /* 本系列文章导航（文章属于某 series 时显示，否则不渲染） */ -}}
     {{ partial "series-nav.html" . }}
@@ -89,7 +79,7 @@
         </div>
       </div>
 
-      {{ if or .PrevInSection .NextInSection }}
+      {{ if and (not (and .Params.track (eq .Section "roadmap"))) (or .PrevInSection .NextInSection) }}
       <div class="end-block">
         <div class="end-label">{{ i18n "continue_reading" }}</div>
         <nav class="pn-nav">
@@ -132,6 +122,7 @@
   <aside class="toc-sheet-panel" role="dialog" aria-modal="true" aria-label="{{ i18n "toc_article" }}">
     <div class="toc-sheet-head">
       <b>{{ i18n "toc_title" }}</b>
+      {{ partial "read-width-button.html" (dict "id" "readWidthMobileBtn") }}
       <button class="icon-btn" id="tocSheetClose" aria-label="{{ i18n "toc_close" }}">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg>
       </button>
@@ -147,4 +138,14 @@
   </button>
   <div class="lightbox-inner" id="lightboxInner" role="dialog" aria-modal="true" aria-label="{{ i18n "lightbox_label" }}"></div>
 </div>
+{{ end }}
+
+{{ define "footer-scripts" }}
+  {{ if or (.HasShortcode "config-tabs") (.HasShortcode "reading-details") }}
+    {{ with resources.Get "js/reading-components.js" }}
+      {{ $script := . }}{{ if hugo.IsProduction }}{{ $script = $script | minify }}{{ end }}
+      {{ $script = $script | fingerprint }}
+      <script src="{{ $script.RelPermalink }}" integrity="{{ $script.Data.Integrity }}" defer></script>
+    {{ end }}
+  {{ end }}
 {{ end }}

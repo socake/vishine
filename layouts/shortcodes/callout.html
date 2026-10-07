@@ -5,8 +5,14 @@
 */ -}}
 {{- $type := .Get "type" | default (.Get 0) | default "info" -}}
 {{- if not (in (slice "warn" "info" "tip") $type) -}}{{- $type = "info" -}}{{- end -}}
-{{- $icons := dict "warn" "⚠️" "info" "💡" "tip" "✅" -}}
 <div class="callout {{ $type }}">
-  <span class="co-ico" aria-hidden="true">{{ index $icons $type }}</span>
-  <div class="co-body">{{ .Inner | markdownify }}</div>
+  <span class="co-ico" aria-hidden="true">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+      {{- if eq $type "warn" -}}<path d="M10.3 4.7 2.7 18a2 2 0 0 0 1.7 3h15.2a2 2 0 0 0 1.7-3L13.7 4.7a2 2 0 0 0-3.4 0Z"/><path d="M12 9v4m0 4h.01"/>
+      {{- else if eq $type "tip" -}}<circle cx="12" cy="12" r="9"/><path d="m8 12 2.5 2.5L16 9"/>
+      {{- else -}}<circle cx="12" cy="12" r="9"/><path d="M12 11v6m0-10h.01"/>
+      {{- end -}}
+    </svg>
+  </span>
+  <div class="co-body">{{ with .Get "title" }}<strong class="co-title">{{ . }}</strong>{{ end }}{{ .Inner | markdownify }}</div>
 </div>

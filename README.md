@@ -7,11 +7,21 @@
 [![中文优先](https://img.shields.io/badge/lang-中文优先-d22128.svg)](#)
 [![二开自 Blowfish](https://img.shields.io/badge/forked%20from-Blowfish-1d3f8a.svg)](https://blowfish.page/)
 
-**[在线 Demo](https://socake.github.io/vishine/)** · **[教程文档站](https://socake.github.io/vishine/tutorial/)** · **[使用文档](docs/USAGE.md)** · **[快速开始](docs/GETTING-STARTED.md)**
+**[在线 Demo](https://socake.github.io/vishine/)** · **[教程文档站](https://socake.github.io/vishine/tutorial/)** · **[组件目录](docs/COMPONENTS.md)** · **[使用文档](docs/USAGE.md)** · **[快速开始](docs/GETTING-STARTED.md)**
 
 🌐 **中文** · [English](README.en.md) · [日本語](README.ja.md)
 
 ---
+
+## Agent 协作与本地开发
+
+Agent 从 [AGENTS.md](AGENTS.md) 开始，了解组件边界、启动命令与验证约定。无需安装前端依赖；使用 `sh scripts/theme-dev.sh serve exampleSite` 启动示例站。通用栏目导航用法见 [SECTION-NAVIGATION.md](docs/SECTION-NAVIGATION.md)。
+
+## 从内容到组件
+
+博客提供文章、图片、栏目和配置；主题承担公共渲染与交互。写作者先看 [组件目录](docs/COMPONENTS.md)，按“我想做什么”找到配置、shortcode 和实际示例。Agent 开发主题读 [AGENTS.md](AGENTS.md)；在博客中使用主题，则按 [宿主入口模板](docs/AGENTS-HOST.example.md) 接入。
+
+本地运行 `sh scripts/theme-dev.sh serve tutorialSite` 可查看“组件与维护”：每个新正文组件同时展示可复制源码与真实效果；栏目教程演示自动卡片与多层导航。线上 Demo 与教程随 main 分支的发布工作流更新。
 
 ## 为什么又造一个轮子
 
@@ -53,7 +63,7 @@
 - bento 风格知识门户首页：模块化卡片网格，把不同板块的最新内容编排成一目了然的门户。
 
 **内容呈现**
-- 左图右文 feed 列表：分类 / 标签即时筛选 + 加载更多。
+- 左图右文 feed 列表：完整集合分类 / 标签筛选 + 分页与 URL 状态恢复。
 - 自动封面生成器：文章无图时按「标题 + 分类」自动生成封面，4 种版式（orbit / grid / diagonal / arc）据哈希轮换、板块色着色，**纯 Hugo 原生、零外部依赖**；`[params.cover]` 可调风格、可锁定版式、可关闭。
 
 **交互与导航**
@@ -115,14 +125,14 @@ enableEmoji = true
   tag = "tags"
   category = "categories"
 
-# ⚠⚠ 最易踩：漏掉 JSON，⌘K 搜索的 /index.json 会 404，搜索静默失效
+# ⚠⚠ 最易踩：漏掉 JSON，⌘K 搜索的 /index.json 会 404，搜索显示索引不可用提示
 [outputs]
   home = ["HTML", "RSS", "JSON"]
 
 # ⚠ 必需：render hook 依赖这些 goldmark / highlight 设置
 [markup]
   [markup.goldmark.renderer]
-    unsafe = true            # ⚠ shortcode 输出行内 HTML 需要
+    unsafe = true            # ⚠ 正文原始 HTML 需要；主题 shortcode 本身不依赖此开关
   [markup.goldmark.parser]
     autoHeadingID = true
     [markup.goldmark.parser.attribute]
@@ -142,7 +152,7 @@ enableEmoji = true
 
 [params]
   author = "你的名字"
-  defaultScheme = "clean"   # paper / clean / dark
+  defaultScheme = "paper"   # paper / clean / dark
 ```
 
 ### 3. 启动
@@ -231,6 +241,9 @@ hugo server -D
 | `callout` | `{{< callout type="warn\|info\|tip" >}}…{{< /callout >}}` | 提示框（默认 `info`） |
 | `typeit` | `{{< typeit >}}文本{{< /typeit >}}` | 醒目引言块 |
 | `timeline` | 每行 `节点 \| 阶段 \| 关键词` | 竖直时间轴 / 路线图 |
+| `runbook-step` / `step-part` | [写法与参数](docs/RUNBOOK-COMPONENTS.md) | 前置、执行、验证、回退 |
+| `config-tabs` / `config-tab` | [写法与参数](docs/RUNBOOK-COMPONENTS.md) | 可切换的互斥方案 |
+| `reading-details` | [写法与参数](docs/RUNBOOK-COMPONENTS.md) | 可展开的补充说明 |
 | `sponsor` | `{{< sponsor >}}` | 赞助 / 打赏区（收款码走 `params.sponsor` 配置） |
 
 `mermaid` 图表用 ` ```mermaid ` 围栏书写，自动渲染、随配色翻色、自托管不依赖 CDN。
@@ -242,6 +255,10 @@ hugo server -D
 | 文档 | 内容 |
 | --- | --- |
 | [教程文档站](https://socake.github.io/vishine/tutorial/) | 手把手图文教程（从装 Hugo 到部署上线，新手首选） |
+| [组件目录](docs/COMPONENTS.md) | 自动页面组件、全部 shortcode、配置入口与限制 |
+| [栏目导航](docs/SECTION-NAVIGATION.md) | 自动子栏目、直属文章、分组与排序 |
+| [正文组件](docs/RUNBOOK-COMPONENTS.md) | 实战步骤、选项卡与折叠说明 |
+| [宿主 Agent 接入](docs/AGENTS-HOST.example.md) | 让博客侧 Agent 发现并复用主题 |
 | [`docs/GETTING-STARTED.md`](docs/GETTING-STARTED.md) | 从零到上线的快速指引 |
 | [`docs/USAGE.md`](docs/USAGE.md) | 详细使用文档（配置逐项说明、写作、排坑、FAQ） |
 | [`docs/DESIGN.md`](docs/DESIGN.md) | 设计系统（配色 token、板块色、组件、布局） |

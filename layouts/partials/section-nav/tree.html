@@ -1,0 +1,8 @@
+{{- $current := .current -}}
+<ul class="hub-tree-list">
+{{ range .root.Sections.ByWeight }}
+  {{ $active := or (eq . $current) (.IsAncestor $current) }}
+  <li><a href="{{ .RelPermalink }}"{{ if eq . $current }} aria-current="page"{{ end }}{{ if $active }} class="is-path"{{ end }}>{{ .LinkTitle }}{{ with len .Sections }}<span>{{ . }}</span>{{ end }}</a>
+  {{ if and $active .Sections }}{{ partial "section-nav/tree.html" (dict "root" . "current" $current) }}{{ end }}</li>
+{{ end }}
+</ul>

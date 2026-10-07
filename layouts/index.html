@@ -44,7 +44,7 @@
   <div class="sec-head">
     <h2>{{ i18n "home_sections_title" }}</h2>
     <span class="desc">{{ i18n "home_sections_desc" }}</span>
-    {{ with site.GetPage "/posts" }}<a href="{{ .RelPermalink }}" class="more">all sections →</a>{{ end }}
+    {{ with site.GetPage "/posts" }}<a href="{{ .RelPermalink }}" class="more">{{ i18n "all_articles" }} →</a>{{ end }}
   </div>
 
   <div class="bento">
@@ -96,7 +96,10 @@
           <div class="big">{{ .title }}</div>
           <div class="sub">{{ .desc }}</div>
         </div>{{ end }}
-        {{ range .cols }}<div class="ai-col"><h4><span class="k">{{ .k }}</span> {{ .name }}</h4><p>{{ .desc }}</p></div>{{ end }}
+        {{ range .cols }}<div class="ai-col"><h4><span class="k">{{ .k }}</span>
+          {{ if .links }}{{ range $i, $link := .links }}{{ if $i }} · {{ end }}{{ with site.GetPage .pageRef }}<a href="{{ .RelPermalink }}">{{ $link.name }}</a>{{ else }}{{ $link.name }}{{ end }}{{ end }}
+          {{ else }}{{ $name := .name }}{{ with site.GetPage (.pageRef | default "__none__") }}<a href="{{ .RelPermalink }}">{{ $name }}</a>{{ else }}{{ $name }}{{ end }}{{ end }}
+        </h4><p>{{ .desc }}</p></div>{{ end }}
       </div>
     </article>
     {{ end }}
@@ -110,7 +113,7 @@
     <div class="feed">
       <div class="feed-head">
         <b><span class="live"></span>{{ i18n "recent_updates" }}</b>
-        {{ with site.GetPage "/posts" }}<a href="{{ .RelPermalink }}" class="more" style="font-family:var(--font-mono);font-size:12px;color:var(--accent);font-weight:600">recent stream →</a>{{ end }}
+        {{ with site.GetPage "/posts" }}<a href="{{ .RelPermalink }}" class="more" style="font-family:var(--font-mono);font-size:12px;color:var(--accent);font-weight:600">{{ i18n "all_articles" }} →</a>{{ end }}
       </div>
       {{ range $i, $p := first 6 $posts }}
         {{ $cls := partial "cat-class.html" $p }}

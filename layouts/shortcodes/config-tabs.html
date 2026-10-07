@@ -1,0 +1,7 @@
+{{- $id := .Get "id" -}}
+{{- $label := .Get "label" -}}
+{{- if or (not $id) (not $label) }}{{ errorf "config-tabs requires a unique id and label: %s" .Position }}{{ end -}}
+<section class="config-tabs" id="{{ $id }}" data-config-tabs aria-label="{{ $label }}">
+  <div class="config-tabs-label">{{ $label }}</div>
+  {{ .Inner | safeHTML }}
+</section>

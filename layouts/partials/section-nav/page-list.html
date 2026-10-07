@@ -1,0 +1,5 @@
+<ul class="hub-pages">
+{{ range .pages }}
+  <li><a href="{{ .RelPermalink }}"><span class="hub-page-main"><span class="hub-page-title">{{ .LinkTitle }}</span>{{ with or .Description .Params.summary }}<span class="hub-page-summary">{{ . }}</span>{{ end }}</span><span class="hub-page-arrow" aria-hidden="true">→</span></a></li>
+{{ end }}
+</ul>

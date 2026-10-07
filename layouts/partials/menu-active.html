@@ -1,0 +1,16 @@
+{{- $page := .page -}}
+{{- $entry := .entry -}}
+{{- $active := or ($page.IsMenuCurrent "main" $entry) ($page.HasMenuCurrent "main" $entry) -}}
+{{- with $entry.Page -}}
+  {{- $active = or $active (eq .RelPermalink $page.RelPermalink) (.IsAncestor $page) -}}
+  {{- if eq .Kind "term" -}}
+    {{- $termURL := .RelPermalink -}}
+    {{- range $page.GetTerms .Data.Plural -}}
+      {{- if eq .RelPermalink $termURL }}{{ $active = true }}{{ end -}}
+    {{- end -}}
+  {{- end -}}
+{{- end -}}
+{{- range $entry.Children -}}
+  {{- if partial "menu-active.html" (dict "page" $page "entry" .) }}{{ $active = true }}{{ end -}}
+{{- end -}}
+{{- return $active -}}

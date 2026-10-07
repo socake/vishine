@@ -1,0 +1,6 @@
+<a class="hub-card" href="{{ .RelPermalink }}">
+  <span class="hub-card-top"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M3 7V5a1 1 0 0 1 1-1h6l2 3h8a1 1 0 0 1 1 1v11a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V7Z"/></svg><span>{{ i18n "hub_section" }}</span></span>
+  <h3>{{ .LinkTitle }}</h3>
+  {{ with or .Description .Params.summary }}<p>{{ . }}</p>{{ end }}
+  <span class="hub-card-bottom">{{ with len .Sections }}{{ . }} {{ i18n "hub_sections_unit" }} · {{ end }}{{ len .RegularPagesRecursive }} {{ i18n "hub_pages_unit" }}<span aria-hidden="true">→</span></span>
+</a>

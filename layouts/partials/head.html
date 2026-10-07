@@ -37,7 +37,7 @@
 {{- end -}}
 
 {{- /* CSS 合并：tokens 与 base 已并入 components/prose，Concat→Minify→Fingerprint */ -}}
-{{- $order := slice "css/components.css" "css/prose.css" "css/syntax.css" "css/special.css" "css/list.css" "css/diagram.css" "css/roadmap.css" -}}
+{{- $order := slice "css/components.css" "css/prose.css" "css/syntax.css" "css/special.css" "css/list.css" "css/diagram.css" "css/roadmap.css" "css/component-polish.css" "css/section-hub.css" -}}
 {{- $sheets := slice -}}
 {{- range $order }}{{ with resources.Get . }}{{ $sheets = $sheets | append . }}{{ end }}{{ end -}}
 {{- with $sheets -}}
@@ -46,6 +46,7 @@
     {{- $css = $css | minify | fingerprint -}}
     <link rel="stylesheet" href="{{ $css.RelPermalink }}" integrity="{{ $css.Data.Integrity }}">
   {{- else -}}
+    {{- $css = $css | fingerprint -}}
     <link rel="stylesheet" href="{{ $css.RelPermalink }}">
   {{- end -}}
 {{- end -}}

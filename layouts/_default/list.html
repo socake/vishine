@@ -6,11 +6,15 @@
 {{ end }}
 
 {{ define "main" }}
+{{ if and (eq .Kind "section") (or .Sections .Params.sectionnav.enabled) }}
+  {{ partial "section-hub.html" . }}
+{{ else }}
 {{- $pages := .Pages -}}
 {{- if eq .Kind "section" }}{{ $pages = .RegularPagesRecursive }}{{ end -}}
 {{- $sec := index hugo.Data.sections.sections .Section -}}
 {{- $en := "" -}}{{ with $sec }}{{ $en = .en }}{{ else }}{{ $en = .Data.Singular | default "index" }}{{ end -}}
 {{- $paginator := .Paginate $pages -}}
+{{- $index := partialCached "list/index.html" (dict "page" . "pages" $pages) .RelPermalink -}}
 
 {{- /* 收集本列表下出现过的分类 / 标签（用于筛选 chip） */ -}}
 {{- $allCats := slice -}}{{- $allTags := slice -}}
@@ -34,7 +38,7 @@
     {{ if $paginator.Pages }}
     <!-- 筛选栏 -->
     <div class="list-toolbar">
-      <div class="filter-bar" id="filterBar" role="group" aria-label="{{ i18n "filter" }}">
+      <div class="filter-bar" id="filterBar" hidden role="group" aria-label="{{ i18n "filter" }}">
         {{ if $allCats }}
           <span class="filter-label mono">{{ i18n "categories" }}</span>
           {{ range $allCats }}
@@ -52,46 +56,28 @@
       </div>
     </div>
 
+    <div class="filter-selection" id="filterSelection" hidden></div>
+    <div class="list-feedback" id="listFeedback" hidden>
+      <span id="listMessage" role="status" aria-live="polite"></span>
+      <button class="chip" type="button" id="listRetry" hidden>{{ i18n "retry" }}</button>
+    </div>
+    <noscript><p class="list-stat">{{ i18n "filters_require_js" }}</p></noscript>
+
     <!-- Feed 流：左色条 + 分类 + 标题 + 摘要 + 时长（无封面，对齐首页「最近更新」） -->
-    <div class="feed-list" id="postGrid">
+    <div class="feed-list" id="postGrid" data-index="{{ $index.RelPermalink }}" data-base-url="{{ .RelPermalink }}" data-page-size="{{ $paginator.PagerSize }}" data-page="{{ $paginator.PageNumber }}" data-total="{{ len $pages }}">
       {{ range $paginator.Pages }}
-        {{ $cls := partial "cat-class.html" . }}
-        {{ $cat := "" }}{{ with .Params.categories }}{{ $cat = index . 0 }}{{ end }}
-        {{- /* 封面：featured 资源 > cover 参数 > 自动生成（thumb） */ -}}
-        {{ $cover := "" }}
-        {{ $fr := .Resources.GetMatch "featured.*" }}
-        {{ if and $fr (not (index (or site.Params.cover dict) "ignoreFeatured")) }}{{ if and (ne $fr.MediaType.SubType "svg") (gt ($fr.Width | default 0) 640) }}{{ $cover = ($fr.Resize "640x webp q85").RelPermalink }}{{ else }}{{ $cover = $fr.RelPermalink }}{{ end }}
-        {{ else if .Params.cover }}{{ $cover = .Params.cover }}
-        {{ else if (index (or site.Params.cover dict) "auto") | default true }}{{ $svg := partial "cover-svg.html" (dict "page" . "variant" "thumb") }}{{ $cover = ($svg | resources.FromString (printf "covers/%s-t.svg" (substr (md5 .RelPermalink) 0 12))).RelPermalink }}{{ end }}
-        <a class="feed-item {{ $cls }}{{ if $cover }} has-cover{{ end }}" href="{{ .RelPermalink }}" style="--mc:var(--c-{{ $cls }})"
-           data-categories="{{ delimit (.Params.categories | default slice) "|" }}"
-           data-tags="{{ delimit (.Params.tags | default slice) "|" }}">
-          {{ with $cover }}<div class="fi-cover"><img src="{{ . | safeURL }}" alt="{{ $.Title }} {{ i18n "cover_alt" }}" loading="lazy" decoding="async"></div>{{ end }}
-          <div class="fi-body">
-            <div class="fi-top">
-              {{ with $cat }}<span class="fi-cat" style="--fc:var(--c-{{ $cls }})"><span class="fi-dot"></span>{{ . }}</span>{{ end }}
-              <time class="fi-date mono" datetime="{{ .Date.Format "2006-01-02" }}">{{ .Date.Format "2006-01-02" }}</time>
-            </div>
-            <h3 class="fi-title">{{ .Title }}</h3>
-            {{ with .Summary }}<p class="fi-sum">{{ . | plainify | truncate 130 }}</p>{{ end }}
-            <div class="fi-meta mono">
-              <span class="fi-read">◷ {{ i18n "reading_time" .ReadingTime }}</span>
-              {{ with .Params.tags }}<span class="fi-tags">{{ delimit (first 3 .) " · " }}</span>{{ end }}
-            </div>
-          </div>
-        </a>
+        {{ partialCached "list/item.html" . .RelPermalink }}
       {{ end }}
     </div>
 
     <!-- 空状态 -->
     <div class="list-empty" id="listEmpty" hidden>{{ i18n "no_match_articles" }}</div>
 
-    <!-- 加载更多 -->
-    {{ if $paginator.HasNext }}
-    <div class="load-more-wrap">
-      <a class="load-more" id="loadMore" href="{{ $paginator.Next.URL }}" rel="next">{{ i18n "load_more" }} ↓</a>
-    </div>
-    {{ end }}
+    <nav class="list-pager" id="listPager" aria-label="{{ i18n "pagination" }}">
+      <a class="chip" id="listPrev"{{ if $paginator.HasPrev }} href="{{ $paginator.Prev.URL }}" rel="prev"{{ else }} hidden{{ end }}>← {{ i18n "prev_page" }}</a>
+      <span class="list-page-status mono" id="listPageStatus" role="status" aria-live="polite">{{ $paginator.PageNumber }} / {{ $paginator.TotalPages }}</span>
+      <a class="chip" id="listNext"{{ if $paginator.HasNext }} href="{{ $paginator.Next.URL }}" rel="next"{{ else }} hidden{{ end }}>{{ i18n "next_page" }} →</a>
+    </nav>
     {{ else }}
     {{- /* 单页 section（如 roadmap）：无子文章则渲染 _index.md 正文 */ -}}
     {{ with .Content }}<div class="prose list-prose">{{ . }}</div>{{ else }}<div class="list-empty">{{ i18n "coming_soon" }}</div>{{ end }}
@@ -100,9 +86,14 @@
 </main>
 {{ end }}
 
+{{ end }}
+
 {{ define "footer-scripts" }}
-  {{ with resources.Get "js/list.js" }}
-    {{ if hugo.IsProduction }}{{ $j := . | minify | fingerprint }}<script src="{{ $j.RelPermalink }}" integrity="{{ $j.Data.Integrity }}" defer></script>
-    {{ else }}<script src="{{ .RelPermalink }}" defer></script>{{ end }}
-  {{ end }}
+  {{ if not (and (eq .Kind "section") (or .Sections .Params.sectionnav.enabled)) }}
+  {{ $scripts := slice (resources.Get "js/list-state.js") (resources.Get "js/list.js") }}
+  {{ $js := $scripts | resources.Concat "js/list-bundle.js" }}
+  {{ if hugo.IsProduction }}{{ $js = $js | minify }}{{ end }}
+  {{ $js = $js | fingerprint }}
+  <script src="{{ $js.RelPermalink }}" integrity="{{ $js.Data.Integrity }}" defer></script>
+{{ end }}
 {{ end }}

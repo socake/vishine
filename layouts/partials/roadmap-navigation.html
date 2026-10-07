@@ -1,0 +1,17 @@
+{{- $page := . -}}
+{{- $track := .CurrentSection -}}
+{{- $chapters := $track.RegularPages -}}
+{{- with .Params.group }}{{ $chapters = where $chapters "Params.group" . }}{{ end -}}
+{{- $chapters = $chapters.ByWeight -}}
+{{- $position := -1 -}}
+{{- range $i, $chapter := $chapters }}{{ if eq $chapter.RelPermalink $page.RelPermalink }}{{ $position = $i }}{{ end }}{{ end -}}
+{{- if ge $position 0 -}}
+<nav class="rm-reading-nav" aria-label="{{ i18n "chapter_navigation" }}">
+  <div class="rm-reading-context"><a href="{{ $track.RelPermalink }}">{{ $track.Title }}</a><span>{{ with .Params.group }}{{ . }} · {{ end }}{{ add $position 1 }} / {{ len $chapters }}</span></div>
+  <div class="rm-pager">
+    {{ if gt $position 0 }}{{ with index $chapters (sub $position 1) }}<a class="rm-pg rm-prev" href="{{ .RelPermalink }}" rel="prev"><span class="rm-pg-dir">← {{ i18n "previous_chapter" }}</span><span class="rm-pg-t">{{ .Title }}</span></a>{{ end }}{{ else }}<span class="rm-pg-empty"></span>{{ end }}
+    <a class="rm-pg rm-back" href="{{ $track.RelPermalink }}">{{ i18n "chapter_contents" }}</a>
+    {{ if lt (add $position 1) (len $chapters) }}{{ with index $chapters (add $position 1) }}<a class="rm-pg rm-next" href="{{ .RelPermalink }}" rel="next"><span class="rm-pg-dir">{{ i18n "next_chapter" }} →</span><span class="rm-pg-t">{{ .Title }}</span></a>{{ end }}{{ else }}<span class="rm-pg-empty"></span>{{ end }}
+  </div>
+</nav>
+{{- end -}}

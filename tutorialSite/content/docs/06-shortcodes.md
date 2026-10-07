@@ -1,11 +1,11 @@
 ---
-title: "06 · Shortcodes 大全：badge / lead / callout / timeline / typeit"
+title: "06 · 基础 Shortcodes：badge / lead / callout / timeline / typeit"
 slug: "06-shortcodes"
 weight: 32
 date: 2026-06-21
 categories: ["Shortcodes"]
 tags: ["shortcode", "badge", "callout", "lead", "timeline"]
-summary: "在正文里真实调用 vishine 的全部 shortcode：badge 徽章、lead 引言、callout 提示框、timeline 时间轴、typeit 强调。每个都先给代码、再给本页真实渲染。"
+summary: "在正文里真实调用 vishine 的基础 shortcode：badge 徽章、lead 引言、callout 提示框、timeline 时间轴、typeit 强调。每个都先给代码、再给本页真实渲染。"
 toc: true
 ---
 
@@ -16,7 +16,7 @@ toc: true
 **shortcode（短代码）** 是 Hugo 的一个机制：在 Markdown 里写一段 `{{</* 名字 */>}}…{{</* /名字 */>}}`，Hugo 会把它替换成一段预定义的 HTML。vishine 提供了几个常用的，下面逐个演示。
 
 {{< callout type="info" >}}
-**前提**：`hugo.toml` 里 `[markup.goldmark.renderer] unsafe = true`。这些 shortcode 会输出行内 HTML，关掉 unsafe 会被转义成纯文本。本教程站已经配好了。
+正文直接写原始 HTML 时需配置 `markup.goldmark.renderer.unsafe = true`；主题 shortcode 本身不依赖此开关。步骤、选项卡和折叠说明见 [第 11 章](../11-components/)。
 {{< /callout >}}
 
 ## 一、badge 行内徽章

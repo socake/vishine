@@ -1,0 +1,6 @@
+{{- $title := .Get "title" -}}
+{{- if not $title }}{{ errorf "reading-details requires title: %s" .Position }}{{ end -}}
+<details class="reading-details"{{ with .Get "id" }} id="{{ . }}"{{ end }}{{ if eq (printf "%v" (.Get "open")) "true" }} open{{ end }}>
+  <summary><span>{{ $title }}</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="m9 5 7 7-7 7"/></svg></summary>
+  <div class="reading-details-body">{{ .Inner | .Page.RenderString (dict "display" "block") }}</div>
+</details>

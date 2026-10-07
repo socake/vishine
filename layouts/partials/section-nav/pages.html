@@ -1,0 +1,11 @@
+{{- $field := .config.subgroupby | default "" -}}
+{{- if not $field }}{{ partial "section-nav/page-list.html" . }}{{ else -}}
+  {{- $names := slice }}{{ range .pages }}{{ $names = $names | append (printf "%v" (index .Params $field | default "")) }}{{ end -}}
+  {{- $pages := .pages -}}
+  {{ range $names | uniq }}
+    {{ $name := . }}{{ $members := slice }}
+    {{ range $pages }}{{ if eq (printf "%v" (index .Params $field | default "")) $name }}{{ $members = $members | append . }}{{ end }}{{ end }}
+    {{ with $name }}<h3 class="hub-subgroup">{{ . }}</h3>{{ end }}
+    {{ partial "section-nav/page-list.html" (dict "pages" $members) }}
+  {{ end }}
+{{ end }}

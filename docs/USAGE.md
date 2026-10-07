@@ -3,15 +3,17 @@
 vishine 的完整使用与配置参考。视觉与交互规范见 [`DESIGN.md`](./DESIGN.md) / [`INTERACTION.md`](./INTERACTION.md) / [`MARKDOWN.md`](./MARKDOWN.md)。
 
 > 三件「漏了就坏」的事，先记住：
-> 1. `[outputs] home` 必须含 `JSON`，否则 ⌘K 搜索静默失效。
+> 1. `[outputs] home` 必须含 `JSON`，否则 ⌘K 搜索会显示索引不可用提示。
 > 2. `[taxonomies]` 必须有 `tag` / `category`，否则板块色、筛选、统计都坏。
 > 3. `[menu.main]` 不配则顶栏没有导航。
 
 ---
 
+自动页面与写作组件统一入口见 [COMPONENTS.md](COMPONENTS.md)。新增栏目看 [SECTION-NAVIGATION.md](SECTION-NAVIGATION.md)，步骤／选项卡／折叠说明看 [RUNBOOK-COMPONENTS.md](RUNBOOK-COMPONENTS.md)。
+
 ## 1. 安装与升级
 
-环境：**Hugo extended ≥ 0.146.0**（必须 extended）。
+当前 CI 和本轮验证使用 **Hugo 0.163.3 extended**；theme.toml 声明最低 0.146.0，但未完整回归所有中间版本。
 
 三种安装方式：
 
@@ -74,7 +76,7 @@ defaultContentLanguage = "zh-cn"   # 必需
   home = ["HTML", "RSS", "JSON"]
 ```
 
-`JSON` 生成 `/index.json`——⌘K 命令面板 fetch 它来搜索。**漏 JSON ⇒ /index.json 404 ⇒ 搜索框打开但搜不到任何东西，且没有报错**。这是最常见的踩坑。
+`JSON` 生成 `/index.json`——⌘K 命令面板 fetch 它来搜索。**漏 JSON ⇒ 无可用索引 ⇒ 搜索显示错误提示**。这是最常见的踩坑。
 
 ### 2.5 menu（必需，支持二级下拉）
 
@@ -152,7 +154,7 @@ render hook（标题锚点、代码块、图片、链接）依赖以下设置：
 | `role` | 头衔串，按 `·` 拆成首页 role chips | 空 | 不显示 chips |
 | `tagline` | 首页大标题；按中文逗号 `，` 断行，末段高亮 | 空 | 首页大标题空 |
 | `description` | 站点描述（首页 lead + 默认 meta description） | 空 | 留白 |
-| `defaultScheme` | 初始配色：`paper`/`clean`/`dark` | `clean` | 用 clean |
+| `defaultScheme` | 初始配色：`paper`/`clean`/`dark` | `paper` | 用 paper |
 | `since` | 起始年份（统计面板 SINCE） | 空 | 留白 |
 | `googleFonts` | 是否加载 Google Fonts CDN；`false` 改系统字体 | `true` | 默认走 CDN |
 | `homeSections` | 首页板块顺序（section key 列表） | `["posts","playbook","docs","roadmap","resources"]` | 用默认顺序 |
@@ -231,7 +233,7 @@ render hook（标题锚点、代码块、图片、链接）依赖以下设置：
 | `categories` | []string | 分类数组；**`index 0`（首个）决定板块色 + 自动封面配色** |
 | `tags` | []string | 标签数组；卡片显示前 3 个 |
 | `summary` | string | 摘要；卡片、搜索、meta description 用它。不写则取正文自动摘要 |
-| `toc` | bool | `true` 显示右侧目录树 |
+| `toc` | bool | 当前模板自动挂载目录，此字段尚未实现关闭控制 |
 | `cover` | string | 手动封面 URL，优先级高于自动封面（低于 `featured.*` 资源） |
 | `author` | string | 覆盖站点 `params.author` |
 
@@ -293,7 +295,7 @@ render hook 自动包成 `<figure>`，可点击放大（lightbox）。超过 128
 
 ### 6.6 TOC
 
-frontmatter `toc: true` 开启。右侧目录由 main.js 从正文 `h2/h3` 构建，含 scrollspy 高亮、折叠树、阅读宽度切换按钮。
+当前文章模板自动挂载，`toc` 字段尚不控制关闭。右侧目录由 main.js 从正文 `h2/h3` 构建，含 scrollspy 高亮、折叠树、阅读宽度切换按钮。
 
 ---
 
@@ -338,18 +340,20 @@ frontmatter `toc: true` 开启。右侧目录由 main.js 从正文 `h2/h3` 构�
 
 | scheme | 名称 | 适用 |
 | --- | --- | --- |
-| `paper` | 暖纸 | 暖色护眼 |
-| `clean` | 纯白 | 默认，干净 |
+| `paper` | 暖纸 | 默认，暖色 |
+| `clean` | 纯白 | 干净 |
 | `dark` | 暗色 | 暗环境 |
 
 - **切换**：顶栏右侧三个色块按钮。
-- **默认**：`params.defaultScheme`（默认 `clean`），写在 `<html data-scheme>`。
+- **默认**：`params.defaultScheme`（默认 `paper`），写在 `<html data-scheme>`；已手动选择过配色的读者继续使用浏览器保存的选择。
 - **持久化**：存 `localStorage` 的 `vishine-scheme`；渲染前由 `head-scheme.html` 内联脚本读取并应用，无白屏闪烁。阅读宽度同理存 `vishine-readwidth`（`comfortable`/`wide`）。
 - **自定义 token**：三套 scheme 的颜色变量（`--c-blog`、`--ink-*`、`--code-*` 等）在 `assets/css/` 定义，按 `data-scheme` 切换。新增 / 改色规则见 `DESIGN.md`，务必三套各验一遍。
 
 ---
 
 ## 9. 自定义进阶
+
+优先修改宿主配置，通用呈现能力在主题实现。宿主 `assets/css/custom.css` 当前不会自动加载；模板覆盖是需自行维护的例外。详见 [组件定制边界](COMPONENTS.md#定制边界)。
 
 - **板块色**：改 `data/sections.toml`（映射）+ `assets/css` 的 `--c-*` token（实际色值）。
 - **字体**：`googleFonts = false` 关 CDN，改用 `Noto Sans SC` / `JetBrains Mono` 的系统回退栈。也可自托管字体后改 `head.html`。
@@ -363,7 +367,7 @@ frontmatter `toc: true` 开启。右侧目录由 main.js 从正文 `h2/h3` 构�
 
 - 快捷键 `⌘K` / `Ctrl+K`，或点顶栏「搜索…」。
 - 数据源 `/index.json`，由 home 的 JSON output 生成，每个 RegularPage 一项（title / url / section / summary / categories / tags / date）。
-- **前提**：`[outputs] home` 含 `"JSON"`。漏掉则索引 404、搜索无结果且无报错。
+- **前提**：`[outputs] home` 含 `"JSON"`。漏掉则无法加载索引，面板显示错误提示；恢复 JSON 后重新构建。
 
 ---
 
@@ -384,7 +388,7 @@ frontmatter `toc: true` 开启。右侧目录由 main.js 从正文 `h2/h3` 构�
 | 顶栏没有导航 | 没配 `[menu.main]` |
 | 卡片 / 标签颜色不对、都灰扑扑 | `data/sections.toml` 的 `[categories]` 分类名没**精确匹配**（空格、大小写），或没在站点侧配映射 |
 | 代码高亮三套 scheme 不换色 | `[markup.highlight] noClasses` 不是 `false` |
-| 标题没锚点 / TOC 空 | `[markup.goldmark.parser] autoHeadingID` 没开，或文章 `toc: false` |
+| 标题没锚点 / TOC 空 | `[markup.goldmark.parser] autoHeadingID` 没开，或正文没有 H2/H3 标题 |
 | 首页大标题 / 头衔 chips 空 | 没配 `params.tagline` / `params.role` |
 | 构建报资源处理错误 | 用的不是 Hugo **extended** 版本 |
 | 首页某板块缺失 | `homeSections` 里没列该 section，或 `data/sections.toml [sections]` 缺对应项 |

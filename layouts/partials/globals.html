@@ -1,19 +1,20 @@
 {{- /* globals.html — 全局件：⌘K 命令面板 / 移动抽屉 / 返回顶部 / toast 容器。结构照搬 mockup */ -}}
 
 <!-- ⌘K 命令面板 -->
-<div class="cmdk-overlay" id="cmdk" hidden>
+<div class="cmdk-overlay" id="cmdk" data-index="{{ with site.Home.OutputFormats.Get "json" }}{{ .RelPermalink }}{{ end }}" hidden>
   <div class="cmdk-panel" role="dialog" aria-modal="true" aria-label="{{ i18n "cmdk_panel" }}">
     <div class="cmdk-search">
       <svg class="mag" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
       <input id="cmdkInput" type="text" placeholder="{{ i18n "cmdk_placeholder" }}" autocomplete="off" spellcheck="false"
         role="combobox" aria-expanded="true" aria-controls="cmdkResults" aria-autocomplete="list" aria-label="{{ i18n "search" }}">
-      <kbd>esc</kbd>
+      <button class="cmdk-close" id="cmdkClose" type="button" aria-label="{{ i18n "cmdk_close" }}">esc</button>
     </div>
+    <div id="cmdkState" hidden></div>
     <div class="cmdk-results" id="cmdkResults" role="listbox" aria-label="{{ i18n "search_results" }}"></div>
     <div class="cmdk-footer">
       <span><kbd>↑</kbd><kbd>↓</kbd> {{ i18n "cmdk_select" }}</span>
       <span><kbd>↵</kbd> {{ i18n "cmdk_open" }}</span>
-      <span><kbd>esc</kbd> {{ i18n "cmdk_close" }}</span>
+      <span class="cmdk-status" id="cmdkStatus" role="status" aria-live="polite" aria-atomic="true"></span>
     </div>
   </div>
 </div>
@@ -27,22 +28,24 @@
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg>
       </button>
     </div>
+    <button class="search-mini drawer-search" id="drawerSearch" type="button">{{ i18n "search" }} <span aria-hidden="true">⌕</span></button>
     <nav class="drawer-nav">
       {{ $page := . }}
       {{ range site.Menus.main }}
-        {{ $active := or ($page.IsMenuCurrent "main" .) ($page.HasMenuCurrent "main" .) }}
+        {{ $active := partial "menu-active.html" (dict "page" $page "entry" .) }}
         {{ if .HasChildren }}
           <div class="drawer-group">
-            <button type="button" aria-expanded="false">{{ .Name }} <span class="caret">▼</span></button>
+            <button type="button"{{ if $active }} class="active"{{ end }} aria-expanded="false">{{ .Name }} <span class="caret">▼</span></button>
             <div class="drawer-sub">
+              {{ if .URL }}<a href="{{ .URL }}">{{ i18n "view_all" }} · {{ .Name }} →</a>{{ end }}
               {{ range .Children }}
                 {{ $cnt := "" }}{{ with .Page }}{{ if .Pages }}{{ $cnt = len .Pages }}{{ end }}{{ end }}
-                <a href="{{ .URL }}">{{ .Name }} <span class="mono">{{ with $cnt }}{{ . }}{{ else }}·{{ end }}</span></a>
+                <a href="{{ .URL }}"{{ if partial "menu-active.html" (dict "page" $page "entry" .) }} class="active"{{ end }}{{ if eq .URL $page.RelPermalink }} aria-current="page"{{ end }}>{{ .Name }} <span class="mono">{{ with $cnt }}{{ . }}{{ else }}·{{ end }}</span></a>
               {{ end }}
             </div>
           </div>
         {{ else }}
-          <a href="{{ .URL }}"{{ if $active }} class="active"{{ end }}>{{ .Name }}</a>
+          <a href="{{ .URL }}"{{ if $active }} class="active"{{ end }}{{ if eq .URL $page.RelPermalink }} aria-current="page"{{ end }}>{{ .Name }}</a>
         {{ end }}
       {{ end }}
     </nav>

@@ -6,14 +6,16 @@
 
 ---
 
+组件如何选择、调用及定制，先看 [COMPONENTS.md](COMPONENTS.md)。博客侧 Agent 接入见 [AGENTS-HOST.example.md](AGENTS-HOST.example.md)。
+
 ## 0. 环境准备
 
 vishine 用到 Hugo 的资源处理管线（图片缩放、SVG 内联封面、CSS/JS 指纹），**必须用 Hugo extended 版**。
 
 ```bash
 hugo version
-# 需要看到 extended，且版本 ≥ 0.146.0：
-# hugo v0.146.0+extended ...
+# 当前 CI 与本地验证版本为 0.163.3 extended：
+# hugo v0.163.3+extended ...
 ```
 
 没装或不是 extended：
@@ -65,14 +67,14 @@ enableEmoji = true
   author = "星辉"
   authorEn = "Wenzhuo Huang"
   tagline = "把想法写下来，把踩的坑记下来。"
-  defaultScheme = "clean"            # paper / clean / dark
+  defaultScheme = "paper"            # paper / clean / dark
   [params.cover]
     auto = true                      # 无 featured 图时自动生成封面
 
 # render hook（标题锚点、代码复制、图片 zoom、shortcode）依赖以下设置
 [markup]
   [markup.goldmark.renderer]
-    unsafe = true                    # shortcode 输出行内 HTML（badge 等）需要
+    unsafe = true                    # 正文中原始 HTML 需要
   [markup.goldmark.parser]
     autoHeadingID = true             # TOC / 锚点必需
   [markup.highlight]
@@ -92,7 +94,7 @@ enableEmoji = true
 
 ### 三件「漏了就坏」的事
 
-1. **`[outputs] home` 必须含 `JSON`** —— 否则 `/index.json` 404，⌘K 搜索打开了却搜不到任何东西，**且没有任何报错**，最难排查。
+1. **`[outputs] home` 必须含 `JSON`** —— 否则 `/index.json` 404，⌘K 搜索打开了却搜不到任何东西，面板会提示索引不可用。
 2. **`[taxonomies]` 必须有 `tag` / `category`** —— 否则板块色、筛选、统计全坏。
 3. **`[markup.highlight] noClasses = false`** —— 否则代码高亮不随 paper/clean/dark 三套配色换色。
 
@@ -134,7 +136,7 @@ date: 2026-06-21T10:00:00+08:00
 categories: ["随笔"]          # 首个分类决定板块色 + 封面配色
 tags: ["第一篇", "Hugo"]
 summary: "用 vishine 写的第一篇文章，顺便试试 shortcode。"
-toc: true                      # 右侧显示目录树
+toc: true                      # 当前目录自动挂载，此字段暂不控制隐藏
 ---
 
 正文从这里开始。
@@ -173,7 +175,7 @@ toc: true                      # 右侧显示目录树
 
 ## 6. 写作元素：shortcode 与图表
 
-vishine 兼容 Blowfish 常用 shortcode（需 `markup.goldmark.renderer.unsafe = true`）：
+vishine 支持以下常用 shortcode；正文直接写原始 HTML 时才需要 `markup.goldmark.renderer.unsafe = true`：
 
 ```markdown
 当前 {{< badge >}}v1.0{{< /badge >}} 已发布。
@@ -251,7 +253,7 @@ jobs:
   build:
     runs-on: ubuntu-latest
     env:
-      HUGO_VERSION: 0.146.0
+      HUGO_VERSION: 0.163.3
     steps:
       - name: Install Hugo CLI (extended)
         run: |
@@ -297,7 +299,7 @@ jobs:
 | 顶栏没有导航 | 没配 `[menu.main]` |
 | 卡片 / 标签颜色全灰 | `data/sections.toml` 分类名没精确匹配，或没在站点侧配映射 |
 | 代码高亮三套配色不换色 | `[markup.highlight] noClasses` 不是 `false` |
-| 标题没锚点 / TOC 空 | `[markup.goldmark.parser] autoHeadingID` 没开，或文章 `toc: false` |
+| 标题没锚点 / TOC 空 | `[markup.goldmark.parser] autoHeadingID` 没开，或正文没有 H2/H3 标题 |
 | 构建报资源处理错误 | 用的不是 Hugo **extended** 版 |
 | 上线后样式全丢 | Project Pages 的 `baseURL` 漏了 `/<repo>/`，或 Source 没选 GitHub Actions |
 | 部署出空站 | workflow 漏了 `submodules: recursive` |

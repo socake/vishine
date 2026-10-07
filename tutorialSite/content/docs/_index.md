@@ -1,4 +1,10 @@
 ---
 title: "教程总览"
-description: "10 篇手把手教程，从环境准备到部署上线。按编号顺序读，每篇都能照着做。下面是全部章节，点卡片进入。"
+description: "从安装、写作到组件与 Agent 维护：先完成 01–10，再用 11–12 查看源码和真实效果。"
+aliases: [/docs/page/1/]
+cascade:
+  params:
+    sectionNav:
+      enabled: true
+      order: weight
 ---

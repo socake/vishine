@@ -1,0 +1,19 @@
+{{- /* Direct children are navigation; recursive descendants are used only for totals. */ -}}
+{{- $config := .Params.sectionnav | default dict -}}
+{{- $pages := .RegularPages.ByWeight -}}
+{{- $order := index $config "order" | default "weight" -}}
+{{- if eq $order "title" }}{{ $pages = .RegularPages.ByTitle }}{{ else if eq $order "date" }}{{ $pages = .RegularPages.ByDate.Reverse }}{{ end -}}
+{{- $field := index $config "groupby" | default "" -}}
+{{- $names := slice -}}
+{{- range $pages }}{{ $name := "" }}{{ if $field }}{{ $name = printf "%v" (index .Params $field | default "") }}{{ end }}{{ $names = $names | append $name }}{{ end -}}
+{{- $names = $names | uniq -}}
+{{- $ordered := slice -}}
+{{- range index $config "grouporder" }}{{ if in $names . }}{{ $ordered = $ordered | append . }}{{ end }}{{ end -}}
+{{- range $names }}{{ if not (in $ordered .) }}{{ $ordered = $ordered | append . }}{{ end }}{{ end -}}
+{{- $groups := slice -}}
+{{- range $ordered -}}
+  {{- $name := . }}{{ $members := slice -}}
+  {{- range $pages }}{{ $value := "" }}{{ if $field }}{{ $value = printf "%v" (index .Params $field | default "") }}{{ end }}{{ if eq $value $name }}{{ $members = $members | append . }}{{ end }}{{ end -}}
+  {{- $groups = $groups | append (dict "name" $name "pages" $members "id" (printf "hub-group-%s" (substr (md5 $name) 0 8))) -}}
+{{- end -}}
+{{- return (dict "sections" .Sections.ByWeight "pages" $pages "groups" $groups "total" (len .RegularPagesRecursive) "config" $config) -}}

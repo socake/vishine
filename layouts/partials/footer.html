@@ -34,7 +34,13 @@
       <div class="foot-col">
         <h5>{{ i18n "navigation" }}</h5>
         {{ range site.Menus.main }}
-          <a href="{{ .URL }}">{{ .Name }}</a>
+          {{ if .URL }}
+            <a href="{{ .URL }}">{{ .Name }}</a>
+          {{ else if .HasChildren }}
+            <details class="foot-menu"><summary>{{ .Name }}</summary><div>
+              {{ range .Children }}{{ if .URL }}<a href="{{ .URL }}">{{ .Name }}</a>{{ else }}<span>{{ .Name }}</span>{{ end }}{{ end }}
+            </div></details>
+          {{ else }}<span class="foot-menu-label">{{ .Name }}</span>{{ end }}
         {{ end }}
       </div>
     </div>

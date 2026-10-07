@@ -255,3 +255,66 @@ other = "本系列"
 
 [series_nav]
 other = "系列文章"
+
+[retry]
+other = "重试"
+
+[filters_require_js]
+other = "启用 JavaScript 可按分类和标签筛选；也可使用下方分页浏览全部文章。"
+
+[all_articles]
+other = "全部文章"
+
+[chapter_navigation]
+other = "章节导航"
+
+[previous_chapter]
+other = "上一章"
+
+[next_chapter]
+other = "下一章"
+
+[chapter_contents]
+other = "返回目录"
+
+[runbook_step]
+other = "步骤"
+
+[runbook_prerequisites]
+other = "前置条件"
+
+[runbook_action]
+other = "执行"
+
+[runbook_verify]
+other = "验证"
+
+[runbook_rollback]
+other = "回退"
+
+[hub_section]
+other = "子栏目"
+
+[hub_sections_unit]
+other = "个子栏目"
+
+[hub_pages_unit]
+other = "篇内容"
+
+[hub_sections]
+other = "子栏目"
+
+[hub_pages]
+other = "本栏文章"
+
+[hub_browse]
+other = "浏览栏目"
+
+[hub_on_page]
+other = "本页导航"
+
+[hub_intro]
+other = "查看栏目说明"
+
+[hub_empty]
+other = "这里还没有子栏目或文章。"

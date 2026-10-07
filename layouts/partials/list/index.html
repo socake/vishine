@@ -1,0 +1,12 @@
+{{- /* Per-list collection, with the same rendered items as the server paginator. */ -}}
+{{- $items := slice -}}
+{{- range .pages -}}
+  {{- $items = $items | append (dict
+    "url" .RelPermalink
+    "categories" (.Params.categories | default slice)
+    "tags" (.Params.tags | default slice)
+    "html" (string (partialCached "list/item.html" . .RelPermalink))
+  ) -}}
+{{- end -}}
+{{- $path := printf "data/lists/%s.json" (md5 .page.RelPermalink) -}}
+{{- return (resources.FromString $path ($items | jsonify) | fingerprint) -}}

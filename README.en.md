@@ -1,5 +1,8 @@
 # vishine
 
+
+Current component contract (Chinese): [Component catalog](docs/COMPONENTS.md) · [Agent entry](AGENTS.md) · [Host integration](docs/AGENTS-HOST.example.md).
+
 > A knowledge-portal Hugo theme for technical blogging — built for long-term writing on DevOps, cloud-native, and AI engineering.
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](./LICENSE)

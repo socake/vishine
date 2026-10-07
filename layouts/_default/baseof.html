@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="{{ or site.Language.Locale site.Language.Lang "zh-CN" }}" data-scheme="{{ site.Params.defaultScheme | default "clean" }}">
+<html lang="{{ or site.Language.Locale site.Language.Lang "zh-CN" }}" data-scheme="{{ site.Params.defaultScheme | default "paper" }}">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -21,7 +21,7 @@
   {{- /* main.js（全局交互）：由并行任务产出 */ -}}
   {{ with resources.Get "js/main.js" }}
     {{ if hugo.IsProduction }}{{ $j := . | minify | fingerprint }}<script src="{{ $j.RelPermalink }}" integrity="{{ $j.Data.Integrity }}" defer></script>
-    {{ else }}<script src="{{ .RelPermalink }}" defer></script>{{ end }}
+    {{ else }}{{ $j := . | fingerprint }}<script src="{{ $j.RelPermalink }}" defer></script>{{ end }}
   {{ end }}
   <script>window.VISHINE_MERMAID_SRC="{{ "js/mermaid.min.js" | relURL }}";</script>
   {{ with resources.Get "js/diagram.js" }}<script src="{{ .RelPermalink }}" defer></script>{{ end }}

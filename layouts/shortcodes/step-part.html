@@ -1,0 +1,14 @@
+{{- $kind := .Get "kind" | default "action" -}}
+{{- if not (in (slice "prerequisites" "action" "verify" "rollback") $kind) }}{{ errorf "Unknown step-part kind %q: %s" $kind .Position }}{{ end -}}
+{{- if not .Parent }}{{ errorf "step-part must be inside runbook-step: %s" .Position }}{{ end -}}
+{{- $label := i18n (printf "runbook_%s" $kind) -}}
+<div class="runbook-part runbook-{{ $kind }}">
+  <div class="runbook-label"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+    {{ if eq $kind "verify" }}<path d="m5 12 4 4L19 6"/>
+    {{ else if eq $kind "rollback" }}<path d="M8 7H3V2M3 7a9 9 0 1 1-1 9"/>
+    {{ else if eq $kind "prerequisites" }}<path d="M8 6h13M8 12h13M8 18h13M3 6h.01M3 12h.01M3 18h.01"/>
+    {{ else }}<path d="m8 4 12 8-12 8z"/>
+    {{ end }}
+  </svg><strong>{{ $label }}</strong></div>
+  <div class="runbook-body">{{ .Inner | .Page.RenderString (dict "display" "block") }}</div>
+</div>

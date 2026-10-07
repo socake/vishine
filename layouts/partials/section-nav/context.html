@@ -1,0 +1,7 @@
+<details class="hub-browser">
+  <summary>{{ i18n "hub_browse" }}<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></summary>
+  <nav class="hub-tree" aria-label="{{ i18n "hub_browse" }}">
+    <a class="hub-tree-root" href="{{ .FirstSection.RelPermalink }}"{{ if eq . .FirstSection }} aria-current="page"{{ end }}>{{ .FirstSection.LinkTitle }}</a>
+    {{ partial "section-nav/tree.html" (dict "root" .FirstSection "current" .) }}
+  </nav>
+</details>

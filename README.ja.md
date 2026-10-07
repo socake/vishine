@@ -1,5 +1,8 @@
 # vishine
 
+
+Current component contract (Chinese): [Component catalog](docs/COMPONENTS.md) · [Agent entry](AGENTS.md) · [Host integration](docs/AGENTS-HOST.example.md).
+
 > ナレッジポータル型の中国語技術ブログ向け Hugo テーマ —— DevOps / クラウドネイティブ / AI エンジニアリングの長期的な執筆のために。
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](./LICENSE)

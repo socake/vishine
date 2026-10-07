@@ -1,0 +1,338 @@
+/* Shared component surfaces. Preserve the original geometry, density and palette. */
+:root {
+  --surface-highlight: rgba(255,255,255,.78);
+  --surface-edge: color-mix(in srgb,var(--line) 84%,var(--ink) 16%);
+  --surface-shadow: inset 0 1px 0 var(--surface-highlight), 0 1px 2px rgba(48,36,20,.055), 0 8px 22px -12px rgba(48,36,20,.22);
+  --surface-shadow-hover: inset 0 1px 0 var(--surface-highlight), 0 2px 3px rgba(48,36,20,.06), 0 12px 28px -14px rgba(48,36,20,.28);
+  --popover-shadow: inset 0 1px 0 var(--surface-highlight), 0 3px 6px -3px rgba(48,36,20,.16), 0 18px 40px -14px rgba(48,36,20,.26);
+}
+[data-scheme="dark"] {
+  --surface-highlight: rgba(255,255,255,.055);
+  --surface-edge: color-mix(in srgb,var(--line) 82%,var(--ink) 18%);
+  --surface-shadow: inset 0 1px 0 var(--surface-highlight), 0 2px 4px rgba(0,0,0,.20), 0 10px 24px -14px rgba(0,0,0,.55);
+  --surface-shadow-hover: inset 0 1px 0 var(--surface-highlight), 0 3px 6px rgba(0,0,0,.24), 0 14px 30px -14px rgba(0,0,0,.65);
+  --popover-shadow: inset 0 1px 0 var(--surface-highlight), 0 4px 8px rgba(0,0,0,.20), 0 18px 40px -12px rgba(0,0,0,.70);
+}
+
+/* Section modules: a quiet raised surface, with a more precise colored edge. */
+.mod {
+  border-color:var(--surface-edge);
+  background:linear-gradient(180deg,color-mix(in srgb,var(--card) 94%,white),var(--card) 60%);
+  box-shadow:var(--surface-shadow);
+  transition:transform 160ms ease,box-shadow 160ms ease,border-color 160ms ease;
+}
+.mod.reveal.in {opacity:1;animation-fill-mode:backwards}
+.mod::before {
+  width:3px;
+  background:linear-gradient(180deg,color-mix(in srgb,var(--mc) 86%,white),var(--mc));
+  transform:none;box-shadow:none;transition:none;
+}
+.mod:hover,.mod:focus-within {
+  transform:none;
+  border-color:color-mix(in srgb,var(--mc) 30%,var(--surface-edge));
+  box-shadow:var(--surface-shadow-hover);
+}
+.mod:hover::before {transform:none;box-shadow:none}
+.mod .mod-ico {
+  background:linear-gradient(160deg,var(--card),color-mix(in srgb,var(--mc) 9%,var(--card)));
+  box-shadow:inset 0 1px 0 var(--surface-highlight),0 1px 2px rgba(48,36,20,.04);
+}
+.mod .mod-count {
+  background:color-mix(in srgb,var(--mc) 7%,var(--card));
+  border-color:color-mix(in srgb,var(--mc) 17%,var(--line));
+}
+.mod .mod-list li {transition:background-color 140ms ease,color 140ms ease}
+.mod .mod-list li:hover,.mod .mod-list li:focus-within {
+  padding-left:0;
+  background:color-mix(in srgb,var(--mc) 4%,var(--card));
+}
+.mod .mod-foot {
+  background:color-mix(in srgb,var(--paper-2) 48%,var(--card));
+  box-shadow:inset 0 1px 0 var(--surface-highlight);
+}
+.mod .mod-foot a {text-underline-offset:4px}
+.mod .mod-foot a:hover {text-decoration:underline}
+
+/* Statistics keep their original size; baseline alignment and inset header. */
+.stat-panel {border-color:var(--surface-edge);box-shadow:var(--surface-shadow)}
+.stat-head {
+  background:linear-gradient(180deg,var(--paper-2),color-mix(in srgb,var(--paper-2) 65%,var(--card)));
+  box-shadow:inset 0 1px 2px rgba(48,36,20,.025);
+  border-bottom-color:var(--line);
+}
+.stat-head .since {color:var(--ink-2);letter-spacing:.035em}
+.stat-cell {border-bottom-color:var(--line);box-shadow:inset 0 1px 0 var(--surface-highlight)}
+.stat-cell:nth-child(odd) {border-right-color:var(--line)}
+.stat-cell:nth-last-child(-n+2) {border-bottom-color:transparent}
+.stat-cell .num {display:flex;align-items:baseline;gap:5px;font-variant-numeric:tabular-nums}
+.stat-cell .num .u {margin-left:0;color:var(--ink-2)}
+.stat-cell .lbl {color:var(--ink-2)}
+
+/* Shared dropdown surface. JS controls state; hover remains a no-JS fallback. */
+.nav-links .dropdown .menu {
+  min-width:200px;padding:6px;border-color:var(--surface-edge);
+  background:var(--card);box-shadow:var(--popover-shadow);
+  transform-origin:top left;
+  transition:opacity 140ms ease,transform 140ms ease,visibility 140ms;
+}
+.nav-links .dropdown .menu::before {content:"";position:absolute;left:0;right:0;top:-9px;height:9px}
+.nav-links .dropdown .menu a {
+  align-items:center;gap:20px;min-height:40px;padding:8px 10px;
+  color:var(--ink-2);border-radius:7px;
+  transition:background-color 120ms ease,color 120ms ease;
+}
+.nav-links .dropdown .menu a:hover,.nav-links .dropdown .menu a:focus-visible {
+  color:var(--accent-ink);background:var(--accent-soft);
+}
+.nav-links .dropdown .menu a.active {background:var(--paper-2);color:var(--accent-ink)}
+.nav-links .dropdown .menu a .mono {
+  min-width:24px;padding:1px 6px;text-align:center;border-radius:5px;
+  color:var(--ink-2);background:var(--paper-2);font-variant-numeric:tabular-nums;
+}
+.nav-links .dropdown.open>button {color:var(--accent-ink);background:var(--accent-soft)}
+.nav-links .dropdown .caret {transition:transform 140ms ease}
+.nav-links .dropdown.open .caret {transform:rotate(180deg)}
+.nav-links.js-menus .dropdown:not(.open) .menu {opacity:0;visibility:hidden;pointer-events:none;transform:translateY(-4px)}
+.nav-links.js-menus .dropdown.open .menu {opacity:1;visibility:visible;pointer-events:auto;transform:translateY(0)}
+@media(hover:hover) and (prefers-reduced-motion:no-preference) {
+  .mod:hover {transform:translateY(-1px)}
+}
+@media(prefers-reduced-motion:reduce) {
+  .mod,.mod .mod-list li,.nav-links .dropdown .menu,.nav-links .dropdown .caret {transition:none}
+  .mod:hover {transform:none}
+}
+
+
+/* Quiet supporting surfaces; all use the same light source as section cards. */
+.feed,.panel,.card,.pn-card,.rel-card {
+  border-color:var(--surface-edge);box-shadow:var(--surface-shadow);
+}
+.feed-head,.panel-head {
+  background:linear-gradient(180deg,var(--paper-2),color-mix(in srgb,var(--paper-2) 65%,var(--card)));
+  box-shadow:inset 0 1px 0 var(--surface-highlight);
+}
+.card:hover,.card:focus-within,.pn-card:hover,.pn-card:focus-visible,.rel-card:hover,.rel-card:focus-visible {transform:none;box-shadow:var(--surface-shadow-hover)}
+.card:hover::before,.rel-card:hover::before {transform:none;box-shadow:none}
+.feed-row:hover,.feed-row:focus-visible,.feed-item:hover,.feed-item:focus-visible {
+  background:color-mix(in srgb,var(--accent) 4%,var(--card));
+}
+.feed-row:focus-visible .feed-main h4,.feed-item:focus-visible .fi-title {color:var(--accent-ink)}
+.feed-row:focus-visible .feed-arrow {color:var(--accent)}
+.feed-item:focus-visible::before {opacity:1}
+.mod-titles .en,.mod-foot .upd,.mod-list li .m,.ai-col p,.ai-lead .sub,
+.panel-head .mono,.cat-row .ct,.feed-meta,.feed-date .my,.fi-date,.fi-meta,.card-date,.card-meta {
+  color:var(--ink-2);
+}
+
+/* Shared controls: a small rim and restrained, consistent interaction feedback. */
+.icon-btn,.search-mini,.scheme-switch,.lang-switch,.view-switch,.share-btn,.qa-btn {
+  border-color:var(--surface-edge);box-shadow:inset 0 1px 0 var(--surface-highlight),0 1px 2px rgba(0,0,0,.025);
+}
+.search-mini {cursor:pointer;color:var(--ink-2)}
+.icon-btn:hover,.share-btn:hover,.chip:hover,.tags a:hover {transform:none}
+.icon-btn:active,.share-btn:active,.qa-btn:active {box-shadow:inset 0 1px 3px rgba(0,0,0,.09)}
+.sw-btn[aria-pressed="true"] {box-shadow:inset 0 0 0 1px var(--surface-edge)}
+.chip,.tags a,.sc-badge,.mod-chips a {
+  border-color:var(--line);box-shadow:inset 0 1px 0 var(--surface-highlight);
+}
+.mod-chips a span {border-color:var(--line);box-shadow:inset 0 1px 0 var(--surface-highlight)}
+.mod-chips a:focus-visible span {color:var(--mc);border-color:var(--mc);background:var(--mbg)}
+.mod-chips a {border-radius:6px;transition:background-color 140ms,color 140ms,border-color 140ms}
+.mod-chips a:hover,.mod-chips a:focus-visible {color:var(--mc);border-color:var(--mc);background:var(--mbg)}
+.tags a:hover,.tags a:focus-visible,.chip:hover,.chip:focus-visible {
+  background:var(--accent-soft);color:var(--accent-ink);border-color:var(--accent);
+}
+.chip.on {background:var(--accent-soft);color:var(--accent-ink);border-color:var(--accent)}
+.chip .n,.chip.on .n,.tags a .n,.tags a:hover .n {color:var(--ink-2)}
+.feed-cat,.card-cat,.sc-badge {box-shadow:inset 0 1px 0 var(--surface-highlight)}
+:where(button,a,input):focus-visible {outline:2px solid var(--accent-ink);outline-offset:3px}
+
+/* Search, navigation and TOC belong to the same elevated surface family. */
+.cmdk-panel,.drawer-panel,.toc-sheet-panel {
+  border-color:var(--surface-edge);box-shadow:var(--popover-shadow);
+}
+.cmdk-search {background:linear-gradient(180deg,var(--card),var(--paper-2));border-bottom-color:var(--line)}
+.cmdk-search input {min-width:0}
+.cmdk-search:focus-within {box-shadow:inset 0 -2px 0 var(--accent)}
+.cmdk-search input:focus-visible {outline:none}
+.cmdk-close {flex-shrink:0;width:32px;height:32px;font:12px var(--font-mono);color:var(--ink-2);background:var(--card);border:1px solid var(--line);border-radius:7px;cursor:pointer}
+.cmdk-results {overscroll-behavior:contain;scroll-padding:8px}
+.cmdk-item {border:1px solid transparent;transition:background-color 140ms,border-color 140ms}
+.cmdk-item.active {background:var(--accent-soft);border-color:color-mix(in srgb,var(--accent) 25%,var(--line))}
+.cmdk-item .ci-ico {box-shadow:inset 0 1px 0 var(--surface-highlight);border:1px solid color-mix(in srgb,var(--ci-c) 18%,var(--line))}
+.cmdk-item .ci-title {white-space:normal;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical}
+.cmdk-item .ci-meta,.cmdk-group-label,.cmdk-footer,.cmdk-empty {color:var(--ink-2)}
+.cmdk-footer {flex-wrap:wrap;gap:8px 16px;border-top-color:var(--line)}
+.cmdk-status {margin-left:auto;font-variant-numeric:tabular-nums}
+.cmdk-retry {display:block;margin:12px auto 0;padding:7px 14px;border:1px solid var(--surface-edge);border-radius:7px;background:var(--card);color:var(--accent-ink);font:inherit;cursor:pointer}
+.drawer-search {display:flex;flex-shrink:0;width:100%;margin:16px 0 8px;justify-content:space-between}
+.drawer-nav a:hover,.drawer-nav a:focus-visible,.drawer-group>button:hover {background:var(--accent-soft);color:var(--accent-ink)}
+.drawer-sub {visibility:hidden}
+.drawer-group.open .drawer-sub {visibility:visible}
+.art-toc {background:color-mix(in srgb,var(--paper) 96%,transparent);border-radius:var(--radius)}
+.toc-head {padding-top:4px;padding-bottom:8px;border-bottom:1px solid var(--line-2)}
+.toc-title,.toc-h3 {color:var(--ink-2)}
+.toc-h2,.toc-h3 {border-radius:0 6px 6px 0;transition:background-color 140ms,color 140ms}
+.toc-h2:hover,.toc-h3:hover {transform:none;background:var(--paper-2)}
+.toc-h2.active,.toc-h3.active {background:var(--accent-soft);color:var(--accent-ink);border-left-color:var(--accent)}
+.toc-toggle {width:26px;height:26px;color:var(--ink-2)}
+.toc-children {max-height:none}
+.toc-item.collapsed .toc-children {visibility:hidden}
+.toc-sheet-panel {overscroll-behavior:contain}
+.toc-sheet-head {position:sticky;top:-18px;background:var(--card);z-index:1;padding:8px 0;border-bottom:1px solid var(--line)}
+.toc-fab,.to-top {background:var(--card);color:var(--ink-2);border-color:var(--surface-edge);box-shadow:var(--surface-shadow)}
+.toc-fab {opacity:1}
+
+/* Reading components stay grounded, with a useful toolbar and semantic icons. */
+.code-block,.table-wrap {border-color:var(--surface-edge);box-shadow:inset 0 1px 0 var(--surface-highlight),0 2px 6px -4px rgba(0,0,0,.14)}
+.code-head {background:var(--card);border-bottom-color:var(--line);box-shadow:inset 0 1px 0 var(--surface-highlight)}
+.code-lang {color:var(--ink-2)}
+.code-copy {opacity:1;color:var(--ink-2);background:var(--paper-2);border-color:var(--line);min-height:28px;min-width:64px;justify-content:center}
+.code-copy:hover {background:var(--accent-soft);color:var(--accent-ink);border-color:var(--accent)}
+.code-copy.done {color:var(--c-play);background:var(--c-play-bg)}
+.code-copy.failed {color:var(--accent-ink);background:var(--accent-soft)}
+.code-block pre {overscroll-behavior-x:contain;scrollbar-width:thin;scrollbar-color:var(--surface-edge) transparent}
+.callout {background:color-mix(in srgb,var(--cc) 5%,var(--card));border-color:color-mix(in srgb,var(--cc) 25%,var(--line));border-left:3px solid var(--cc);box-shadow:inset 0 1px 0 var(--surface-highlight)}
+.callout.tip {--cc:var(--c-play)}
+.callout .co-ico {box-shadow:inset 0 1px 0 var(--surface-highlight)}
+.callout .co-ico svg {width:17px;height:17px}
+.callout .co-body>:first-child {margin-top:0}
+.callout .co-body>:last-child {margin-bottom:0}
+.callout .co-title {display:block;color:var(--ink);font-weight:700;margin-bottom:4px}
+
+/* Keep the engineering grid; lower its contrast slightly behind text. */
+body {background-image:linear-gradient(color-mix(in srgb,var(--grid-line) 72%,transparent) 1px,transparent 1px),linear-gradient(90deg,color-mix(in srgb,var(--grid-line) 72%,transparent) 1px,transparent 1px)}
+@media(max-width:720px) {
+  .cmdk-overlay {padding:16px 10px;align-items:flex-start}
+  .cmdk-panel {max-height:calc(100dvh - 32px)}
+  .cmdk-footer {font-size:10px;gap:8px}
+  .cmdk-close {width:40px;height:40px}
+  .code-copy {min-height:36px}
+  .toc-fab {min-height:44px}
+  .toc-sheet .toc-toggle {width:36px;height:36px}
+  .toc-sheet .toc-h2,.toc-sheet .toc-h3 {padding-top:9px;padding-bottom:9px}
+}
+@media(prefers-reduced-motion:reduce) {
+  .feed-head .live {animation:none}
+  .cmdk-item,.mod-chips a,.toc-h2,.toc-h3 {transition:none}
+}
+
+.prose :not(pre)>code {white-space:normal;overflow-wrap:anywhere}
+.code-block pre code {white-space:pre;overflow-wrap:normal}
+.table-wrap {max-width:100%;overscroll-behavior-x:contain}
+.table-wrap:focus-visible,.code-block pre:focus-visible {outline:2px solid var(--accent-ink);outline-offset:-2px}
+
+/* Complete-list filtering and predictable pagination. */
+#postGrid {scroll-margin-top:82px}
+#filterBar[hidden],#filterSelection[hidden],#listFeedback[hidden],#postGrid[hidden],#listPrev[hidden],#listNext[hidden] {display:none}
+.filter-selection {display:flex;flex-wrap:wrap;gap:8px;margin:-6px 0 18px}
+.selected-filter {color:var(--accent-ink);background:var(--accent-soft)}
+.list-feedback {display:flex;align-items:center;gap:12px;margin:16px 0;color:var(--ink-2);font-size:13px}
+.list-pager {display:flex;justify-content:center;align-items:center;flex-wrap:wrap;gap:16px;margin:30px 0 12px}
+.list-page-status {font-size:12px;color:var(--ink-2)}
+.filter-bar button:disabled {cursor:wait;opacity:.6}
+
+/* Navigation destinations and context without changing the homepage structure. */
+.foot-menu {font-size:13px;color:var(--ink-3);margin-bottom:8px}
+.foot-menu summary {cursor:pointer;list-style-position:inside}
+.foot-menu summary:hover,.foot-menu summary:focus-visible {color:var(--accent-ink)}
+.foot-menu>div {padding:8px 0 0 12px;border-left:1px solid var(--line);margin-top:6px}
+.foot-menu-label {display:block;font-size:13px;color:var(--ink-3);margin-bottom:8px}
+.nav-links .menu .menu-overview {border-bottom:1px solid var(--line);border-radius:6px 6px 0 0;margin-bottom:4px}
+.drawer-group>button.active {color:var(--accent-ink);background:var(--accent-soft)}
+.ai-col h4 a {text-decoration:underline;text-decoration-color:color-mix(in srgb,var(--mc) 35%,transparent);text-underline-offset:4px}
+.ai-col h4 a:hover {color:var(--mc);text-decoration-color:currentColor}
+.crumbs {flex-wrap:wrap}
+.crumbs .cur {overflow-wrap:anywhere}
+.rm-reading-nav {max-width:var(--read-w);margin:28px 0;border-top:1px solid var(--line);padding-top:14px}
+.rm-reading-context {display:flex;justify-content:space-between;gap:12px;color:var(--ink-2);font-size:12px}
+.rm-reading-context a {color:var(--accent-ink);font-weight:600}
+.rm-reading-context span {font-family:var(--font-mono);flex-shrink:0}
+.rm-reading-nav .rm-pager {margin:12px 0 0;padding:0;border:0}
+.rm-reading-nav .rm-pg-t {white-space:normal;overflow:visible;max-width:none;overflow-wrap:anywhere}
+
+/* Reusable operation / verification / rollback blocks, built with shortcodes. */
+.runbook-step {margin:1.7em 0;border:1px solid var(--surface-edge);border-radius:var(--radius);background:var(--card);box-shadow:var(--surface-shadow);overflow:hidden}
+.runbook-head {padding:15px 18px;background:var(--paper-2);border-bottom:1px solid var(--line);box-shadow:inset 0 1px 0 var(--surface-highlight)}
+.prose .runbook-title {font-size:18px;margin:0;line-height:1.5}
+.runbook-part {display:grid;grid-template-columns:90px minmax(0,1fr);gap:18px;padding:18px;border-bottom:1px solid var(--line-2);--step-color:var(--ink-2)}
+.runbook-part:last-child {border-bottom:0}
+.runbook-verify {--step-color:var(--c-play);background:color-mix(in srgb,var(--c-play) 3%,var(--card))}
+.runbook-rollback {--step-color:var(--c-road);background:color-mix(in srgb,var(--c-road) 4%,var(--card))}
+.runbook-label {display:flex;gap:6px;align-items:center;align-self:start;color:var(--step-color);font-size:12px;padding-top:3px}
+.runbook-label svg {width:16px;height:16px;flex-shrink:0}
+.runbook-body {min-width:0;font-size:14.5px;line-height:1.75}
+.runbook-body>:first-child {margin-top:0}
+.runbook-body>:last-child {margin-bottom:0}
+.runbook-body .code-block {box-shadow:none}
+@media(max-width:720px) {
+  .runbook-part {grid-template-columns:1fr;gap:10px;padding:14px}
+  .runbook-head {padding:13px 14px}
+  .prose .runbook-title {font-size:17px}
+  .rm-reading-context {flex-wrap:wrap}
+  .rm-reading-nav .rm-pager {gap:8px}
+  .rm-reading-nav .rm-pg {padding:10px}
+  .rm-reading-nav .rm-pg-t {font-size:12px}
+}
+
+/* Center the complete reading composition; width changes never hide its TOC. */
+.wrap.art-layout {max-width:calc(var(--read-w) + 320px);grid-template-columns:minmax(0,1fr) 232px;gap:32px;padding:26px 28px 10px}
+.art-layout .art-main {grid-column:1}
+.art-layout .art-head {max-width:none}
+.art-layout .art-toc {grid-column:2;width:232px;max-width:100%}
+.art-layout .prose,.art-layout .art-end {transition:none}
+@media (max-width:1100px) {
+  .wrap.art-layout {max-width:calc(var(--read-w) + 56px);grid-template-columns:minmax(0,1fr);gap:0}
+  .art-layout .art-toc {display:none}
+  .toc-fab {display:inline-flex}
+}
+@media (max-width:720px) {.wrap.art-layout {padding:22px 16px 10px}}
+
+/* Configuration alternatives: progressively enhanced, all content available without JS. */
+.config-tabs {margin:1.7em 0;min-width:0;border:1px solid var(--surface-edge);border-radius:var(--radius);background:var(--card);box-shadow:var(--surface-shadow);overflow:hidden}
+.config-tabs-label {padding:12px 18px;font-size:12px;font-weight:700;color:var(--ink-2);border-bottom:1px solid var(--line-2)}
+.config-tablist {display:flex;gap:6px;overflow-x:auto;padding:8px 12px;background:var(--paper-2);border-bottom:1px solid var(--line);scrollbar-width:thin}
+.config-tab {flex-shrink:0;border:1px solid transparent;border-radius:7px;background:transparent;color:var(--ink-2);padding:9px 12px;font:inherit;font-size:13px;font-weight:500;cursor:pointer}
+.config-tab:hover {background:var(--card);color:var(--ink)}
+.config-tab[aria-selected="true"] {background:var(--card);color:var(--accent-ink);border-color:var(--surface-edge);box-shadow:0 1px 3px color-mix(in srgb,var(--ink) 8%,transparent)}
+.config-tab:focus-visible,.config-panel:focus-visible,.reading-details>summary:focus-visible {outline:2px solid var(--accent);outline-offset:-3px}
+.config-panel {min-width:0;padding:18px;scroll-margin-top:90px}
+.config-panel[hidden] {display:none}
+.config-panel>:first-child {margin-top:0}
+.config-panel>:last-child {margin-bottom:0}
+.config-panel+.config-panel {border-top:1px solid var(--line)}
+.config-tabs[data-enhanced] .config-panel {border-top:0}
+.config-panel .code-block {box-shadow:none}
+.reading-details {margin:1.4em 0;border:1px solid var(--surface-edge);border-radius:var(--radius);background:var(--card);overflow:hidden}
+.reading-details>summary {display:flex;align-items:center;justify-content:space-between;gap:14px;padding:14px 18px;list-style:none;cursor:pointer;color:var(--ink);font-size:14px;font-weight:500}
+.reading-details>summary::-webkit-details-marker {display:none}
+.reading-details>summary:hover {background:var(--paper-2)}
+.reading-details>summary svg {width:16px;height:16px;flex-shrink:0;color:var(--ink-2);transition:transform 160ms}
+.reading-details[open]>summary {border-bottom:1px solid var(--line-2)}
+.reading-details[open]>summary svg {transform:rotate(90deg)}
+.reading-details-body {padding:16px 18px;font-size:14.5px}
+.reading-details-body>:first-child {margin-top:0}
+.reading-details-body>:last-child {margin-bottom:0}
+@media (max-width:720px) {
+  .config-panel,.reading-details-body {padding:14px}
+  .config-tabs-label,.reading-details>summary {padding:12px 14px}
+  .config-tab {min-height:44px;padding:8px 10px}
+}
+@media (prefers-reduced-motion:reduce) {.reading-details>summary svg {transition:none}}
+@media print {
+  .config-tablist {display:none}
+  .config-tabs .config-panel[hidden] {display:block}
+}
+
+/* Keep the width control reachable when the rail becomes a floating directory. */
+.toc-sheet-head b {flex:1}
+.read-width-btn {width:auto;min-height:32px;padding:0 8px;gap:6px;font-size:11px;white-space:nowrap;color:var(--ink-2)}
+.read-width-btn[data-width="wide"] {color:var(--accent-ink);border-color:var(--surface-edge);background:var(--accent-soft)}
+.toc-sheet-head .read-width-btn {width:auto;min-height:44px}
+.config-panel h4 .anchor {margin-left:8px;opacity:0;color:var(--accent);font-size:13px;text-decoration:none}
+.config-panel h4:hover .anchor,.config-panel h4 .anchor:focus-visible {opacity:1}
+@media (max-width:1100px) {
+  .topbar .nav-links {display:none}
+  .topbar .hamburger {display:flex}
+  .topbar .nav-tools {margin-left:auto}
+}

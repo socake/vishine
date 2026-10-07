@@ -1,0 +1,6 @@
+{{- if not .Parent }}{{ errorf "config-tab requires config-tabs parent: %s" .Position }}{{ else if ne .Parent.Name "config-tabs" }}{{ errorf "config-tab requires config-tabs parent: %s" .Position }}{{ end -}}
+{{- $label := .Get "label" -}}
+{{- if not $label }}{{ errorf "config-tab requires label: %s" .Position }}{{ end -}}
+<section class="config-panel" data-tab-label="{{ $label }}" aria-label="{{ $label }}">
+  {{ .Inner | .Page.RenderString (dict "display" "block") }}
+</section>

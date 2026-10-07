@@ -61,9 +61,9 @@ summaryLength = 40
 # -----------------------------------------------------------------------------
 #  三、分页（pagination）
 # -----------------------------------------------------------------------------
-#  列表页（如 /docs/）一页最多显示多少篇，超出就「加载更多」。
+#  列表页（如 /docs/）一页最多显示多少篇，普通列表超出后分页；栏目总览不分页。
 [pagination]
-  pagerSize = 12   # 我们一共 10 篇教程，设 12 保证一页全列出、不分页
+  pagerSize = 12   # 我们普通文章列表的每页数量；教程总览由 sectionNav 控制
 
 
 # -----------------------------------------------------------------------------
@@ -102,7 +102,7 @@ summaryLength = 40
   tagline  = "从装 Hugo 到上线，一步步带你用好 vishine。"
   # description：站点简介，用于首页副文案、SEO meta、RSS。
   description = "一套手把手的 vishine 主题教程：环境准备、安装、配置、写作、封面、shortcodes、图表、菜单、部署，照着做就能上线。"
-  defaultScheme = "clean"   # 默认配色方案：paper(暖纸) / clean(纯白) / dark(暗色)；读者可在顶栏切换
+  defaultScheme = "paper"   # 默认配色方案：paper(暖纸) / clean(纯白) / dark(暗色)；读者可在顶栏切换
   since = 2024              # 建站年份，显示在首页统计面板「SINCE」
 
   # 首页「板块入口」只展示哪些板块（按顺序）。本教程站内容全在 docs 板块，
@@ -124,7 +124,7 @@ summaryLength = 40
     title = "开始上手"
     en = "GET STARTED"
     desc = "三步走：先把环境和主题装好，再配置和写作，最后部署上线。"
-    count = "10 章"
+    count = "12 章"
     [params.featureZone.lead]
       title = "照着做，就能跑起来"
       desc = "每一章都先讲「为什么」，再给可直接复制的命令和配置，全程零基础友好。"
@@ -150,7 +150,7 @@ summaryLength = 40
   [markup.goldmark.renderer]
     # unsafe=true：允许 Markdown 里直接出现 HTML（以及 shortcode 输出的行内 HTML）。
     # vishine 的 badge / callout / typeit 等会输出 <span>、<div>，**必须开**，
-    # 否则它们会被当成纯文本转义掉，显示成一串尖括号。
+    # 否则正文中的原始 HTML 才受此项控制；主题 shortcode 本身不依赖此开关。
     unsafe = true
   [markup.goldmark.extensions]
     strikethrough = true   # 支持 ~~删除线~~
@@ -181,7 +181,7 @@ summaryLength = 40
 # -----------------------------------------------------------------------------
 #  home = 首页要额外生成 JSON。
 #  ⚠ vishine 的 ⌘K 命令面板（顶栏「搜索…」）的数据源就是这个 JSON。
-#    漏掉 "JSON" 会导致搜索框能打开、但搜不到任何东西，且没有报错。必填。
+#    漏掉 "JSON" 会导致搜索框能打开、但搜不到任何东西，显示索引不可用提示。必填。
 [outputs]
   home = ["HTML", "RSS", "JSON"]
 
@@ -197,7 +197,7 @@ summaryLength = 40
 #  做「下拉菜单」的规则（详见教程 08）：
 #    · 父项：给 identifier（唯一标识）、**不给 pageRef**（它只是容器，点了不跳转）
 #    · 子项：用 parent = "父项的 identifier" 挂上去
-#  我们把 10 篇教程分成三个下拉组，外加「教程总览」和「GitHub」两个一级项，
+#  基础教程分成三个下拉组，组件与维护单列，外加「教程总览」和「GitHub」两个一级项，
 #  这样顶栏就成了一份可点开直达任意章节的「文档导航」。
 [menu]
   # 一级项：教程总览（指向 docs 板块首页，那里列出全部章节卡片）
@@ -279,3 +279,18 @@ summaryLength = 40
     name = "GitHub"
     url = "https://github.com/socake/vishine"
     weight = 90
+
+  [[menu.main]]
+    name = "组件与维护"
+    identifier = "components"
+    weight = 50
+  [[menu.main]]
+    name = "11 · 组件源码与效果"
+    parent = "components"
+    pageRef = "/docs/11-components"
+    weight = 51
+  [[menu.main]]
+    name = "12 · 栏目与 Agent"
+    parent = "components"
+    pageRef = "/docs/12-sections"
+    weight = 52

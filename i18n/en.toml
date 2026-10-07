@@ -260,3 +260,66 @@ other = "This series"
 
 [series_nav]
 other = "Series"
+
+[retry]
+other = "Retry"
+
+[filters_require_js]
+other = "Enable JavaScript to filter by category and tag, or browse all articles using pagination below."
+
+[all_articles]
+other = "All articles"
+
+[chapter_navigation]
+other = "Chapter navigation"
+
+[previous_chapter]
+other = "Previous chapter"
+
+[next_chapter]
+other = "Next chapter"
+
+[chapter_contents]
+other = "Contents"
+
+[runbook_step]
+other = "Step"
+
+[runbook_prerequisites]
+other = "Prerequisites"
+
+[runbook_action]
+other = "Action"
+
+[runbook_verify]
+other = "Verify"
+
+[runbook_rollback]
+other = "Rollback"
+
+[hub_section]
+other = "Section"
+
+[hub_sections_unit]
+other = "subsections"
+
+[hub_pages_unit]
+other = "pages"
+
+[hub_sections]
+other = "Subsections"
+
+[hub_pages]
+other = "Articles here"
+
+[hub_browse]
+other = "Browse sections"
+
+[hub_on_page]
+other = "On this page"
+
+[hub_intro]
+other = "About this section"
+
+[hub_empty]
+other = "There are no subsections or articles here yet."

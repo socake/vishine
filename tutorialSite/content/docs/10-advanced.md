@@ -30,7 +30,7 @@ toc: true
 {{< /callout >}}
 
 {{< callout type="warn" >}}
-**shortcode 显示成一串尖括号**：`[markup.goldmark.renderer] unsafe` 必须是 `true`。badge / callout 等会输出行内 HTML，关掉 unsafe 会被转义成纯文本。
+**原始 HTML 没有渲染**：正文直接写 HTML 时需要 `markup.goldmark.renderer.unsafe = true`。主题 shortcode 不依赖此开关；若组件不显示，检查名称、参数和嵌套。
 {{< /callout >}}
 
 ## 二、自动封面相关

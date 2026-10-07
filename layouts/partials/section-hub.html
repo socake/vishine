@@ -1,0 +1,35 @@
+{{- $model := partial "section-nav/model.html" . -}}
+<main class="wrap section-hub{{ if not $model.sections }} hub-leaf{{ end }}">
+  <div class="hub-context">{{ partial "breadcrumbs.html" . }}{{ partial "section-nav/context.html" . }}</div>
+  <header class="hub-header">
+    <h1>{{ .Title }}</h1>
+    {{ with or .Description .Params.summary }}<p class="hub-description">{{ . }}</p>{{ end }}
+    <p class="hub-stats">{{ with len $model.sections }}<span><b>{{ . }}</b> {{ i18n "hub_sections_unit" }}</span>{{ end }}<span><b>{{ $model.total }}</b> {{ i18n "hub_pages_unit" }}</span></p>
+  </header>
+  {{ if gt (add (len $model.groups) (cond (gt (len $model.sections) 0) 1 0)) 1 }}
+  <nav class="hub-jumps" aria-label="{{ i18n "hub_on_page" }}">
+    {{ if $model.sections }}<a href="#hub-sections">{{ i18n "hub_sections" }} <span>{{ len $model.sections }}</span></a>{{ end }}
+    {{ range $model.groups }}<a href="#{{ .id }}">{{ .name | default (i18n "hub_pages") }} <span>{{ len .pages }}</span></a>{{ end }}
+  </nav>
+  {{ end }}
+  {{ with .Content }}
+    {{ $plain := . | plainify | strings.TrimSpace }}
+    {{ if ne $plain (or $.Description $.Params.summary | default "") }}
+      {{ if or (or $.Description $.Params.summary) (gt (len $plain) 420) }}<details class="hub-intro"><summary>{{ i18n "hub_intro" }}</summary><div class="prose">{{ . }}</div></details>
+      {{ else }}<div class="hub-intro prose">{{ . }}</div>{{ end }}
+    {{ end }}
+  {{ end }}
+  {{ with $model.sections }}
+    <section class="hub-section" id="hub-sections" aria-labelledby="hub-sections-title">
+      <div class="hub-section-heading"><h2 id="hub-sections-title">{{ i18n "hub_sections" }}</h2><span>{{ len . }}</span></div>
+      <div class="hub-cards">{{ range . }}{{ partial "section-nav/card.html" . }}{{ end }}</div>
+    </section>
+  {{ end }}
+  {{ range $model.groups }}
+    <section class="hub-section" id="{{ .id }}" aria-labelledby="{{ .id }}-title">
+      <div class="hub-section-heading"><h2 id="{{ .id }}-title">{{ .name | default (i18n "hub_pages") }}</h2><span>{{ len .pages }}</span></div>
+      {{ partial "section-nav/pages.html" (dict "pages" .pages "config" $model.config) }}
+    </section>
+  {{ end }}
+  {{ if not (or $model.sections $model.pages) }}<p class="hub-empty">{{ i18n "hub_empty" }}</p>{{ end }}
+</main>
