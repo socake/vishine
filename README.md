@@ -58,6 +58,7 @@ Agent 从 [AGENTS.md](AGENTS.md) 开始，了解组件边界、启动命令与�
 ## 特性
 
 **视觉与配色**
+- 默认启用多层表面：固定底纹、独立阅读面和悬浮目录；整页自然滚动，可用 `params.layeredSurfaces = false` 关闭。[配置与规则](docs/DEPTH-SURFACES.md)。
 - 三套可切换配色：暖纸 `paper` / 纯白 `clean` / 暗色 `dark`，全局 CSS token 一键切换，`localStorage` 持久化，渲染前内联应用、无闪烁。
 - 五大板块色彩编码：内容按板块（博客 / 实战手册 / 路线图 / 运维文档 / 资源）着色，分类可映射到板块色，全站一处配置（`data/sections.toml`）。
 - bento 风格知识门户首页：模块化卡片网格，把不同板块的最新内容编排成一目了然的门户。

@@ -181,6 +181,7 @@ summaryLength = 30
   tagline = "K8s 在跑，GitOps 在转，AI 在帮我写脚本。"
   description = "DevOps / SRE / AI 工程化的真实踩坑记录，不写废话。"
   defaultScheme = "paper"
+  layeredSurfaces = true  # 固定底纹 + 独立阅读面；false 关闭，省略默认开启
   since = 2024
   # googleFonts = false   # 关闭 Google Fonts CDN（改用系统字体 / 自托管）
 

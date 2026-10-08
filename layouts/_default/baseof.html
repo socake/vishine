@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="{{ or site.Language.Locale site.Language.Lang "zh-CN" }}" data-scheme="{{ site.Params.defaultScheme | default "paper" }}">
+<html lang="{{ or site.Language.Locale site.Language.Lang "zh-CN" }}" data-scheme="{{ site.Params.defaultScheme | default "paper" }}"{{ if ne site.Params.layeredSurfaces false }} data-depth="layered"{{ end }}>
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">

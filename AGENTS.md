@@ -29,7 +29,7 @@
 | `layouts/partials/section-hub.html` | 栏目总览组合模板 |
 | `layouts/partials/section-nav/` | 栏目数据模型、入口卡、文章列表、分组和路径导航 |
 | `layouts/shortcodes` | 作者在文章正文中主动插入的组件 |
-| `assets/css` | 原有样式与公共变量；`component-polish.css` 为已验收质感规则，`section-hub.css` 为栏目组件 |
+| `assets/css` | 原有样式与公共变量；`component-polish.css` 为已验收质感规则，`section-hub.css` 为栏目组件，`depth.css` 为可关闭的页面分层 |
 | `assets/js/main.js` | 搜索、菜单、配色、阅读宽度、目录、代码复制等通用交互 |
 | `assets/js/list-state.js`, `list.js` | 普通博客列表的完整集合筛选、分页与 URL 状态 |
 | `assets/js/reading-components.js` | 配置选项卡与折叠说明增强，仅相关文章加载 |
@@ -61,6 +61,7 @@ git diff --check
 ## 必须维护的行为
 
 - 首页保持工作台／跳板定位；不要未经要求改成大字宣传页或文章流。复用现有暖纸／纯白／暗色变量、字号、边界和阴影。
+- 分层表面由 `params.layeredSurfaces` 控制（默认开启），契约见 `docs/DEPTH-SURFACES.md`。背景固定且不接收输入；保留整页滚动，不给文章添加固定高度、嵌套滚动或 transform 外壳；移动端减轻阴影。
 - 有侧栏时正文和侧栏整体平衡。阅读宽度切换不应隐藏切回按钮；侧栏断点不能依赖当前宽度模式。
 - 栏目页的子栏目和直属文章分开呈现；递归后代集合只用于总数，不能铺平成当前层的文章。未知分组、未分组、空栏目都必须有确定行为。
 - 栏目导航（跨页面）和本页目录（文章标题）是两种职责；不要混成同一棵树。

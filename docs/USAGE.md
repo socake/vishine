@@ -154,6 +154,7 @@ render hook（标题锚点、代码块、图片、链接）依赖以下设置：
 | `role` | 头衔串，按 `·` 拆成首页 role chips | 空 | 不显示 chips |
 | `tagline` | 首页大标题；按中文逗号 `，` 断行，末段高亮 | 空 | 首页大标题空 |
 | `description` | 站点描述（首页 lead + 默认 meta description） | 空 | 留白 |
+| `layeredSurfaces` | [固定背景与分层表面](DEPTH-SURFACES.md)，布尔值 | `true` | false 恢复原表面，整页滚动不变 |
 | `defaultScheme` | 初始配色：`paper`/`clean`/`dark` | `paper` | 用 paper |
 | `since` | 起始年份（统计面板 SINCE） | 空 | 留白 |
 | `googleFonts` | 是否加载 Google Fonts CDN；`false` 改系统字体 | `true` | 默认走 CDN |

@@ -16,6 +16,7 @@
 | 本页目录和阅读宽度 | 正文 `##` / `###` | 目录、定位、宽度按钮 | 当前模板自动挂载；`toc: false` 尚未作为关闭开关实现，勿依赖它 |
 | 顶栏 / 页脚导航 | menu.main 的 pageRef 或 url；父子项用 identifier / parent | 菜单、移动抽屉、当前项和页脚入口 | [配置参考](USAGE.md)；教程 08 |
 | 搜索 | outputs.home 包含 JSON | 标题、摘要、分类、标签搜索；加载失败提示 | [配置参考](USAGE.md)；不等同于完整正文搜索 |
+| 页面立体感 | 无需文章配置；params.layeredSurfaces 默认 true | 固定背景、阅读面、目录与卡片层次；三套配色自动适配 | [分层表面](DEPTH-SURFACES.md)；教程 03 的页面即为实际效果 |
 | 配色 / 封面 | defaultScheme；params.cover；featured 图片或 cover 字段 | 暖纸、纯白、暗色；自动封面 | [配置参考](USAGE.md)；读者保存的配色优先于默认值 |
 | 系列文章 | taxonomies 增加 `series = "series"`，文章 `series: [系列名]` | 同系列导航，按日期正序 | `layouts/partials/series-nav.html`；不是 weight 排序的学习路线 |
 | 评论 / 赞助 / PWA | params.comments.giscus / params.sponsor / params.pwa | 配置后渲染对应功能 | [配置参考](USAGE.md)、[赞助参数](#赞助参数)；不自动开通第三方服务 |
