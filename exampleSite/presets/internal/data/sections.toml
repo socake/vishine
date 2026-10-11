@@ -1,0 +1,10 @@
+[sections.docs]
+class = "docs"
+label = "使用手册"
+en = "GUIDES"
+icon = "docs"
+[sections.posts]
+class = "ai"
+label = "入门介绍"
+en = "START"
+icon = "ai"

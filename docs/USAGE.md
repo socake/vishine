@@ -406,3 +406,15 @@ render hook 自动包成 `<figure>`，可点击放大（lightbox）。超过 128
 [params]
 homeSections = ["docs", "posts"]
 ```
+
+### 板块图标
+
+在站点 `data/sections.toml` 的 `[sections.<key>]` 中写 `icon`。默认沿用 class 对应图标；内置名称为 `blog / play / docs / road / res / ai`，未知名称回退 blog。也可以提供完整 `<svg ...>...</svg>` 字符串（仅用于可信站点配置，主题原样渲染，并隐藏装饰图标的读屏输出）。
+
+```toml
+[sections.posts]
+class = "ai"
+icon = "ai"   # 也可写多行 SVG 字符串
+```
+
+两板块配置示例在 `exampleSite/presets/internal/`；默认 exampleSite 不加载此预设。

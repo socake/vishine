@@ -10,6 +10,7 @@
   "play" `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h11l5 5v11H4z"/><path d="M14 4v5h5"/><path d="M8 13h7M8 16h5"/></svg>`
   "docs" `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="8" height="8" rx="1.5"/><rect x="13" y="3" width="8" height="8" rx="1.5"/><rect x="3" y="13" width="8" height="8" rx="1.5"/><rect x="13" y="13" width="8" height="8" rx="1.5"/></svg>`
   "road" `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="6" cy="6" r="2.5"/><circle cx="18" cy="18" r="2.5"/><path d="M6 8.5v4a3 3 0 0 0 3 3h6"/></svg>`
+  "ai" `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v3M12 18v3M3 12h3M18 12h3"/><rect x="7" y="7" width="10" height="10" rx="2"/><circle cx="12" cy="12" r="1.6" fill="currentColor"/></svg>`
   "res"  `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5a2 2 0 0 1 2-2h9l5 5v11a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2z"/><path d="M9 3v14"/></svg>`
 -}}
 
@@ -53,16 +54,18 @@
     {{ $d := 0 }}
     {{ range $key := $homeSections }}
       {{ $d = add $d 1 }}
-      {{ $sec := index $sd $key }}
-      {{ $cls := $sec.class }}
+      {{ $sec := index $sd $key | default dict }}
+      {{ $cls := $sec.class | default "blog" }}
       {{ $secPage := site.GetPage (printf "/%s" $key) }}
       {{ $pages := where site.RegularPages "Section" $key }}
       {{ $span := 2 }}
       {{ if eq $sectionCount 1 }}{{ $span = 6 }}{{ else if or (eq $sectionCount 2) (eq $sectionCount 4) (and (eq $sectionCount 5) (le $d 2)) }}{{ $span = 3 }}{{ end }}
       <article class="mod {{ $cls }} sec-{{ $key | urlize }} span-{{ $span }} reveal d{{ $d }}">
         <div class="mod-head">
-          <div class="mod-ico">{{ index $icons $cls | safeHTML }}</div>
-          <div class="mod-titles"><h3>{{ $sec.label }}</h3><span class="en">{{ $sec.en }}</span></div>
+          {{ $icon := index $icons ($sec.icon | default $cls) | default (index $icons "blog") }}
+          {{ with $sec.icon }}{{ if strings.HasPrefix (strings.TrimSpace .) "<svg" }}{{ $icon = . }}{{ end }}{{ end }}
+          <div class="mod-ico" aria-hidden="true">{{ $icon | safeHTML }}</div>
+          <div class="mod-titles"><h3>{{ $sec.label | default $key }}</h3><span class="en">{{ $sec.en }}</span></div>
           <div class="mod-count">{{ if eq $key "docs" }}{{ i18n "count_zones" (len $cats) }}{{ else if $pages }}{{ i18n "count_posts" (len $pages) }}{{ else }}—{{ end }}</div>
         </div>
         <div class="mod-body">
@@ -81,7 +84,7 @@
           {{ end }}
         </div>
         <div class="mod-foot">
-          <a href="{{ with $secPage }}{{ .RelPermalink }}{{ else }}/{{ $key }}/{{ end }}">{{ i18n "section_enter" }}{{ $sec.label }} →</a>
+          <a href="{{ with $secPage }}{{ .RelPermalink }}{{ else }}/{{ $key }}/{{ end }}">{{ i18n "section_enter" }}{{ $sec.label | default $key }} →</a>
           <span class="upd mono">{{ with first 1 $pages }}{{ range . }}updated {{ .Date.Format "01-02" }}{{ end }}{{ else }}{{ $sec.en }}{{ end }}</span>
         </div>
       </article>

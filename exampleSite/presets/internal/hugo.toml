@@ -1,0 +1,17 @@
+baseURL = "https://example.org/internal/"
+title = "DevBox"
+theme = "vishine"
+defaultContentLanguage = "zh-cn"
+[taxonomies]
+tag = "tags"
+category = "categories"
+[outputs]
+home = ["HTML", "RSS", "JSON"]
+[params]
+author = "开发团队"
+role = "内部教程 · 使用指引"
+tagline = "从入门到实践，让工具更好用。"
+description = "DevBox 内部教程与使用手册。"
+since = 2026
+googleFonts = false
+homeSections = ["docs", "posts"]

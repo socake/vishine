@@ -19,3 +19,17 @@ homeSections = ["docs", "posts"]
 ```
 
 两块各半，三块各三分之一，五块保持主题原来的两行编排。板块颜色不再影响宽度；窄屏自动单列。
+
+## 板块颜色与图标
+
+在站点 `data/sections.toml` 中配置；这里的 class 只决定颜色。
+
+```toml
+[sections.posts]
+class = "ai"
+label = "入门介绍"
+icon = "ai"
+# 也可用 SVG 字符串：icon = '<svg viewBox="0 0 24 24" ...>...</svg>'
+```
+
+内置图标：blog、play、docs、road、res、ai。不指定 icon 时沿用 class 对应图标。
