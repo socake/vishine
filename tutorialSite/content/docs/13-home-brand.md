@@ -84,3 +84,7 @@ brand = {pre="Dev", hl="Box"}
 ```
 
 不配时使用站点 title，再回退 vishine。品牌文字在页头与两种自动封面上保持一致。
+
+## 特殊字符标签
+
+文章 front matter 可直接写 `tags: ["bcecmd -c"]`。主题使用 Hugo 生成的 term 页面 URL，不自行改写字符。内部教程示例的第一篇入门文章演示了这个标签。

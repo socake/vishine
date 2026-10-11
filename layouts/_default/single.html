@@ -60,11 +60,11 @@
 
     <!-- ============ 文末区 ============ -->
     <footer class="art-end">
-      {{ with .Params.tags }}
+      {{ with .GetTerms "tags" }}
       <div class="end-block">
         <div class="end-label">{{ i18n "tags" }}</div>
         <div class="tags">
-          {{ range . }}<a href="{{ (site.GetPage (printf "/tags/%s" (. | urlize))).RelPermalink | default (printf "/tags/%s/" (. | urlize)) }}">{{ . }}</a>{{ end }}
+          {{ range . }}<a href="{{ .RelPermalink }}">{{ .Data.Term }}</a>{{ end }}
         </div>
       </div>
       {{ end }}

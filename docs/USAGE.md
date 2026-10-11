@@ -467,3 +467,7 @@ heroLinks = [{name="使用手册", pageRef="/docs"}, {name="入门介绍", pageR
 [params]
 brand = {pre="Dev", hl="Box"}
 ```
+
+### 标签与分类链接
+
+标签使用 Hugo 的 term 页面链接（`.GetTerms "tags"`），不手工 urlize 拼 URL；支持 `bcecmd -c` 这样的空格与连字符组合以及自定义 taxonomy permalink。首页、页脚和列表 taxonomy 链接也使用 term 页面。内部教程示例第一篇文章含此标签，可点击验证。无需新增参数。
