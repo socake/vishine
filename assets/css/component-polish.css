@@ -336,3 +336,17 @@ body {background-image:linear-gradient(color-mix(in srgb,var(--grid-line) 72%,tr
   .topbar .hamburger {display:flex}
   .topbar .nav-tools {margin-left:auto}
 }
+
+/* Direct subsection indexes have row feedback; taxonomy pills stay unchanged. */
+.mod-index{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));column-gap:20px}
+.mod-index-row{display:grid;grid-template-columns:5px minmax(0,1fr) auto 12px;align-items:center;gap:9px;min-height:40px;border-bottom:1px solid var(--line-2);color:var(--ink-2);font-size:12.5px}
+.index-dot{width:4px;height:4px;border-radius:50%;background:var(--ink-3);transition:background-color 140ms}
+.index-title{overflow-wrap:anywhere;transition:color 140ms}
+.index-count{color:var(--ink-2);font-size:11px;font-variant-numeric:tabular-nums}
+.index-arrow{opacity:0;color:var(--mc);transition:opacity 140ms}
+.mod-index-row:hover .index-title,.mod-index-row:focus-visible .index-title{color:var(--mc)}
+.mod-index-row:hover .index-dot,.mod-index-row:focus-visible .index-dot{background:var(--mc)}
+.mod-index-row:hover .index-arrow,.mod-index-row:focus-visible .index-arrow{opacity:1}
+.mod-index-row:focus-visible{outline:2px solid var(--mc);outline-offset:2px}
+@media(max-width:520px){.mod-index{grid-template-columns:1fr}}
+@media(prefers-reduced-motion:reduce){.index-dot,.index-title,.index-arrow{transition:none}}
