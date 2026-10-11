@@ -42,20 +42,24 @@
 <!-- ============ 五大板块 BENTO ============ -->
 <section class="sec wrap">
   <div class="sec-head">
-    <h2>{{ i18n "home_sections_title" }}</h2>
-    <span class="desc">{{ i18n "home_sections_desc" }}</span>
+    <h2>{{ site.Params.homeSectionsTitle | default (i18n "home_sections_title") }}</h2>
+    <span class="desc">{{ site.Params.homeSectionsDescription | default (i18n "home_sections_desc") }}</span>
     {{ with site.GetPage "/posts" }}<a href="{{ .RelPermalink }}" class="more">{{ i18n "all_articles" }} →</a>{{ end }}
   </div>
 
+  {{ $homeSections := site.Params.homeSections | default (slice "posts" "playbook" "docs" "roadmap" "resources") }}
+  {{ $sectionCount := len $homeSections }}
   <div class="bento">
     {{ $d := 0 }}
-    {{ range $key := (site.Params.homeSections | default (slice "posts" "playbook" "docs" "roadmap" "resources")) }}
+    {{ range $key := $homeSections }}
       {{ $d = add $d 1 }}
       {{ $sec := index $sd $key }}
       {{ $cls := $sec.class }}
       {{ $secPage := site.GetPage (printf "/%s" $key) }}
       {{ $pages := where site.RegularPages "Section" $key }}
-      <article class="mod {{ $cls }} reveal d{{ $d }}">
+      {{ $span := 2 }}
+      {{ if eq $sectionCount 1 }}{{ $span = 6 }}{{ else if or (eq $sectionCount 2) (eq $sectionCount 4) (and (eq $sectionCount 5) (le $d 2)) }}{{ $span = 3 }}{{ end }}
+      <article class="mod {{ $cls }} sec-{{ $key | urlize }} span-{{ $span }} reveal d{{ $d }}">
         <div class="mod-head">
           <div class="mod-ico">{{ index $icons $cls | safeHTML }}</div>
           <div class="mod-titles"><h3>{{ $sec.label }}</h3><span class="en">{{ $sec.en }}</span></div>
@@ -85,7 +89,7 @@
 
     {{- /* 特色横幅板块（可选）：site.Params.featureZone 配置则显示，否则不渲染 */ -}}
     {{ with site.Params.featureZone }}
-    <article class="mod ai reveal d6">
+    <article class="mod ai span-6 reveal d6">
       <div class="mod-head" style="border-bottom:1px solid var(--line-2);width:100%">
         <div class="mod-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v3M12 18v3M3 12h3M18 12h3"/><rect x="7" y="7" width="10" height="10" rx="2"/><circle cx="12" cy="12" r="1.6" fill="currentColor"/></svg></div>
         <div class="mod-titles"><h3>{{ .title | default "专区" }} <span style="font-family:var(--font-mono);font-size:11px;color:var(--ink-3);font-weight:500">{{ .en }}</span></h3><span class="en">{{ .desc }}</span></div>

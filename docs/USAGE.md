@@ -393,3 +393,16 @@ render hook 自动包成 `<figure>`，可点击放大（lightbox）。超过 128
 | 首页大标题 / 头衔 chips 空 | 没配 `params.tagline` / `params.role` |
 | 构建报资源处理错误 | 用的不是 Hugo **extended** 版本 |
 | 首页某板块缺失 | `homeSections` 里没列该 section，或 `data/sections.toml [sections]` 缺对应项 |
+
+## 首页与品牌配置
+
+### 首页板块与宽度
+
+`params.homeSections` 默认是 `["posts", "playbook", "docs", "roadmap", "resources"]`，按配置顺序渲染。宽度不依赖板块颜色：1 块占满，2 块各半，3 块各三分之一，4 块两行各半，5 块保持 `3+3 / 2+2+2`；6 块及以上每行三块。可选 featureZone 始终单独占满一行。窄屏全部单列。
+
+`params.homeSectionsTitle` / `params.homeSectionsDescription` 可替换入口区标题与说明，默认沿用原 i18n 文案，避免两板块站点仍显示“五大板块”。每块提供 `sec-<key>` 类用于宿主微调，例如 `.sec-posts`。教程站只有一块 docs，示范单板块占满；两板块可写：
+
+```toml
+[params]
+homeSections = ["docs", "posts"]
+```

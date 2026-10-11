@@ -326,12 +326,9 @@ a{color:inherit;text-decoration:none}
 .mod-foot .upd{font-size:11px;color:var(--ink-3);font-family:var(--font-mono)}
 
 /* span layout */
-.mod.blog{grid-column:span 3}
-.mod.play{grid-column:span 3}
-.mod.docs{grid-column:span 2}
-.mod.road{grid-column:span 2}
-.mod.res{grid-column:span 2}
-.mod.ai{grid-column:span 6}
+.mod.span-3{grid-column:span 3}
+.mod.span-2{grid-column:span 2}
+.mod.span-6{grid-column:span 6}
 
 /* color binding */
 .mod.blog{--mc:var(--c-blog);--mbg:var(--c-blog-bg)}
@@ -445,7 +442,7 @@ a{color:inherit;text-decoration:none}
   .nav-tools .scheme-switch,.nav-tools .lang-switch,.nav-tools>a.icon-btn{display:none}
   .hero h1{font-size:32px}
   .bento{grid-template-columns:1fr}
-  .mod.blog,.mod.play,.mod.docs,.mod.road,.mod.res,.mod.ai{grid-column:span 1}
+  .bento>.mod{grid-column:span 1}
   .ai-inner{grid-template-columns:1fr}
   .ai-col{border-left:0;border-top:1px solid var(--line-2)}
   .stat-rows{grid-template-columns:1fr 1fr}
