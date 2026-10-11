@@ -15,3 +15,4 @@ description = "DevBox 内部教程与使用手册。"
 since = 2026
 googleFonts = false
 homeSections = ["docs", "posts"]
+homeStats = [{section="posts", label="入门介绍"}, {section="docs", label="使用手册"}, {kind="categories"}, {kind="tags"}]

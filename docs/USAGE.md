@@ -418,3 +418,12 @@ icon = "ai"   # 也可写多行 SVG 字符串
 ```
 
 两板块配置示例在 `exampleSite/presets/internal/`；默认 exampleSite 不加载此预设。
+
+### 首页统计
+
+`params.homeStats` 未配置时保留四格：posts 文章数、playbook 文章数、分类数、标签数。每项指定 `section`（顶层板块内全部已发布普通页面，含后代）或 `kind="categories" / "tags"`（全站 term 数）。`label` 可覆盖名称；省略时取栏目标题或翻译文案。数组顺序即显示顺序，第一格沿用强调色。
+
+```toml
+[params]
+homeStats = [{section="posts", label="入门介绍"}, {section="docs", label="使用手册"}, {kind="categories"}, {kind="tags"}]
+```

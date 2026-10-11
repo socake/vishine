@@ -31,10 +31,13 @@
     <div class="stat-panel">
       <div class="stat-head"><b>{{ i18n "site_stats" }}</b><span class="since">SINCE {{ site.Params.since }}</span></div>
       <div class="stat-rows">
-        <div class="stat-cell accent"><div class="num">{{ len $posts }}<span class="u">{{ i18n "unit_articles" }}</span></div><div class="lbl">{{ i18n "stat_blog_posts" }}</div></div>
-        <div class="stat-cell"><div class="num">{{ len (where site.RegularPages "Section" "playbook") }}<span class="u">{{ i18n "unit_articles" }}</span></div><div class="lbl">{{ i18n "stat_playbooks" }}</div></div>
-        <div class="stat-cell"><div class="num">{{ len $cats }}<span class="u">+</span></div><div class="lbl">{{ i18n "stat_categories" }}</div></div>
-        <div class="stat-cell"><div class="num">{{ len $tags }}<span class="u">+</span></div><div class="lbl">{{ i18n "tags" }}</div></div>
+        {{ $stats := site.Params.homeStats | default (slice (dict "section" "posts" "label" (i18n "stat_blog_posts")) (dict "section" "playbook" "label" (i18n "stat_playbooks")) (dict "kind" "categories") (dict "kind" "tags")) }}
+        {{ range $i, $stat := $stats }}
+          {{ $count := 0 }}{{ $unit := "+" }}{{ $label := "" }}
+          {{ with .section }}{{ $count = len (where site.RegularPages "Section" .) }}{{ $unit = i18n "unit_articles" }}{{ $label = . }}{{ with site.GetPage (printf "/%s" .) }}{{ $label = .Title }}{{ end }}{{ end }}
+          {{ if eq .kind "categories" }}{{ $count = len $cats }}{{ $label = i18n "stat_categories" }}{{ else if eq .kind "tags" }}{{ $count = len $tags }}{{ $label = i18n "tags" }}{{ end }}
+          <div class="stat-cell{{ if eq $i 0 }} accent{{ end }}"><div class="num">{{ $count }}<span class="u">{{ $unit }}</span></div><div class="lbl">{{ .label | default $label }}</div></div>
+        {{ end }}
       </div>
     </div>
   </div>

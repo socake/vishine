@@ -33,3 +33,14 @@ icon = "ai"
 ```
 
 内置图标：blog、play、docs、road、res、ai。不指定 icon 时沿用 class 对应图标。
+
+## 自定义统计
+
+本教程首页实际使用以下配置，不再显示不存在的实战手册：
+
+```toml
+[params]
+homeStats = [{section="docs", label="教程文章"}, {kind="categories"}, {kind="tags"}]
+```
+
+section 统计这个顶层板块全部已发布文章；kind 统计全站分类或标签数量。label 可选，用于替换默认名称。
