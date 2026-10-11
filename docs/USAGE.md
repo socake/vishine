@@ -494,3 +494,12 @@ customCSS = ["css/site.css"]   # 对应 assets/css/site.css
 ### 无脚本、打印与减少动效
 
 入场动画是渐进增强：默认 HTML 内容可见，仅 main.js 成功初始化 IntersectionObserver 后在 html 加 js 类，启用 reveal 动画。JS 禁用 / 未加载、浏览器不支持 observer、打印以及 `prefers-reduced-motion: reduce` 下保持可见。无配置开关；可在示例站关闭 JS 或打印预览验证最近更新与所有板块。
+
+### 页脚简介
+
+`params.footerTagline` 默认未配置，保留原来的「作者 + 的技术索引 + description」组合。配置字符串时用它替换整个简介；空字符串只显示站点标题，可用于非博客站点。
+
+```toml
+[params]
+footerTagline = "团队共享的工具使用手册。"
+```
