@@ -62,3 +62,14 @@ recentLimit = 6
 ```
 
 先合并再按 date 倒序取前六条；未配置仍只展示 posts。
+
+## 首屏可点击入口
+
+本教程首页实际配置了两个入口；第一项是主入口。
+
+```toml
+[params]
+heroLinks = [{name="开始教程", pageRef="/docs"}, {name="首页配置", pageRef="/docs/13-home-brand"}]
+```
+
+外链可用 url 替代 pageRef。未配置时 role 是普通身份文字，不呈现按钮外观。

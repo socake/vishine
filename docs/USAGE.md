@@ -449,3 +449,12 @@ hugo --source exampleSite/presets/internal --themesDir ../../../.. --minify
 recentSections = ["docs", "posts"]
 recentLimit = 6
 ```
+
+### Hero 链接与身份文字
+
+`params.heroLinks` 默认未配置，回退为 role 纯文字（按 `·` 分隔）。配置后显示真实链接：首个实心主色，其余描边，带箭头、悬停反馈与键盘焦点。每项需要 name 与 pageRef 或 url；同时提供时 pageRef 优先。pageRef 通过 Hugo 页面解析，自动支持部署子路径与当前语言；无法解析或缺少 name 的项跳过。url 可为外链或站内路径。
+
+```toml
+[params]
+heroLinks = [{name="使用手册", pageRef="/docs"}, {name="入门介绍", pageRef="/posts"}]
+```

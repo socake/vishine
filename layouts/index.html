@@ -27,9 +27,17 @@
       {{- $n := len $parts -}}
       <h1>{{ range $i, $p := $parts }}{{ if lt $i (sub $n 1) }}{{ $p }}，<br>{{ else }}<span class="hl">{{ $p }}</span>{{ end }}{{ end }}</h1>
       <p class="lead">{{ site.Params.description }}</p>
-      <div class="role-tags">
-        {{ range (split site.Params.role "·") }}<span>{{ . | strings.TrimSpace }}</span>{{ end }}
-      </div>
+      {{ $heroLinks := slice }}
+      {{ range site.Params.heroLinks }}
+        {{ $href := "" }}
+        {{ if .pageRef }}{{ with site.GetPage .pageRef }}{{ $href = .RelPermalink }}{{ end }}{{ else if .url }}{{ $href = .url | relURL }}{{ end }}
+        {{ if and .name $href }}{{ $heroLinks = $heroLinks | append (dict "name" .name "href" $href) }}{{ end }}
+      {{ end }}
+      {{ with $heroLinks }}
+        <div class="hero-links">{{ range . }}<a href="{{ .href }}">{{ .name }}<span aria-hidden="true">→</span></a>{{ end }}</div>
+      {{ else }}
+        {{ with site.Params.role }}<div class="role-tags">{{ range (split . "·") }}<span>{{ . | strings.TrimSpace }}</span>{{ end }}</div>{{ end }}
+      {{ end }}
     </div>
     <div class="stat-panel">
       <div class="stat-head"><b>{{ i18n "site_stats" }}</b><span class="since">SINCE {{ site.Params.since }}</span></div>

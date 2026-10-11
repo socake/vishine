@@ -18,3 +18,4 @@ homeSections = ["docs", "posts"]
 homeStats = [{section="posts", label="入门介绍"}, {section="docs", label="使用手册"}, {kind="categories"}, {kind="tags"}]
 recentSections = ["docs", "posts"]
 recentLimit = 6
+heroLinks = [{name="使用手册", pageRef="/docs"}, {name="入门介绍", pageRef="/posts"}]

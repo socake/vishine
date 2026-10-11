@@ -108,6 +108,7 @@ summaryLength = 40
   # 首页「板块入口」只展示哪些板块（按顺序）。本教程站内容全在 docs 板块，
   # 所以只列 docs，避免首页出现一堆空板块卡片。
   homeSections = ["docs"]
+  heroLinks = [{name="开始教程", pageRef="/docs"}, {name="首页配置", pageRef="/docs/13-home-brand"}]
   recentSections = ["docs"]
   recentLimit = 6
   homeStats = [{section="docs", label="教程文章"}, {kind="categories"}, {kind="tags"}]
