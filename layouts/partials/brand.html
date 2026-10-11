@@ -1,0 +1,9 @@
+{{- /* Shared brand data; escape text at each HTML/SVG rendering boundary. */ -}}
+{{- $brand := site.Params.brand | default dict -}}
+{{- $pre := $brand.pre | default "" -}}
+{{- $hl := $brand.hl | default "" -}}
+{{- if not (or $pre $hl) -}}
+  {{- $pre = site.Title | default "vishine" -}}
+  {{- if eq $pre "vishine" }}{{ $pre = "vi" }}{{ $hl = "shine" }}{{ end -}}
+{{- end -}}
+{{- return (dict "pre" $pre "hl" $hl) -}}

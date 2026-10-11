@@ -458,3 +458,12 @@ recentLimit = 6
 [params]
 heroLinks = [{name="使用手册", pageRef="/docs"}, {name="入门介绍", pageRef="/posts"}]
 ```
+
+### 品牌名
+
+`params.brand = {pre="Dev", hl="Box"}` 同时作用于页头、缩略封面与详情封面，hl 使用强调色。pre / hl 可单独配置。显式配置品牌时，详情封面的品牌标记放在横幅裁切范围内。未配置或两项都为空时，回退 site.Title；Title 也为空时回退 vishine。回退名称恰为 vishine 时保留原来的 vi / shine 分色，现有博客无需改配置。
+
+```toml
+[params]
+brand = {pre="Dev", hl="Box"}
+```

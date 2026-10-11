@@ -73,3 +73,14 @@ heroLinks = [{name="开始教程", pageRef="/docs"}, {name="首页配置", pageR
 ```
 
 外链可用 url 替代 pageRef。未配置时 role 是普通身份文字，不呈现按钮外观。
+
+## 页头与封面的品牌
+
+本站显式使用 `brand = {pre="vi", hl="shine"}`。内部教程示例使用：
+
+```toml
+[params]
+brand = {pre="Dev", hl="Box"}
+```
+
+不配时使用站点 title，再回退 vishine。品牌文字在页头与两种自动封面上保持一致。

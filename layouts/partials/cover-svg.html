@@ -8,6 +8,7 @@
 {{- $page := .page -}}
 {{- $variant := .variant | default "hero" -}}
 {{- $title := $page.Title -}}
+{{- $brand := partial "brand.html" $page -}}
 
 {{- $cls := "blog" -}}
 {{- with $page.Params.categories -}}
@@ -65,7 +66,7 @@
   <circle cx="620" cy="120" r="8" fill="{{ $c }}" opacity="0.4"/><circle cx="640" cy="380" r="8" fill="{{ $c }}" opacity="0.4"/>
   {{- end -}}
   <text class="t" x="56" y="{{ add 244 (int (mul $mfs 0.34)) }}" font-size="{{ $mfs }}" font-weight="900" letter-spacing="-2" fill="{{ $cd }}">{{ $mark }}</text>
-  <text class="m" x="56" y="462" font-size="22" font-weight="700" fill="{{ $c }}" opacity="0.85">vi<tspan fill="{{ $cd }}">shine</tspan></text>
+  <text class="m" x="56" y="462" font-size="22" font-weight="700" fill="{{ $c }}" opacity="0.85">{{ $brand.pre }}{{ with $brand.hl }}<tspan fill="{{ $cd }}">{{ . }}</tspan>{{ end }}</text>
 </svg>
 {{- else -}}
 {{- /* ===== 详情页横幅 hero ===== */ -}}
@@ -93,6 +94,6 @@
   {{- with $cat }}<g transform="translate(80,200)"><rect width="{{ add 52 (mul (strings.RuneCount .) 22) }}" height="44" rx="9" fill="{{ $c }}" fill-opacity="0.14" stroke="{{ $c }}" stroke-width="1.5"/><circle cx="26" cy="22" r="6" fill="{{ $c }}"/><text class="m" x="42" y="29" font-size="20" font-weight="700" fill="{{ $cd }}">{{ . }}</text></g>{{- end }}
   <text class="t" x="80" y="{{ $y1 }}" font-size="{{ $fs }}" font-weight="900" letter-spacing="-1.5" fill="#20201d">{{ $l1 }}</text>
   {{- if $l2 }}<text class="t" x="80" y="{{ $y2 }}" font-size="{{ $fs }}" font-weight="900" letter-spacing="-1.5" fill="#20201d">{{ $l2 }}</text>{{- end }}
-  <text class="m" x="80" y="588" font-size="19" font-weight="700" fill="#8c887d">vi<tspan fill="{{ $c }}">shine</tspan></text>
+  <text class="m" x="{{ if site.Params.brand }}1012{{ else }}80{{ end }}" y="{{ if site.Params.brand }}438{{ else }}588{{ end }}"{{ if site.Params.brand }} text-anchor="middle"{{ end }} font-size="19" font-weight="700" fill="#8c887d">{{ $brand.pre }}{{ with $brand.hl }}<tspan fill="{{ $c }}">{{ . }}</tspan>{{ end }}</text>
 </svg>
 {{- end -}}
