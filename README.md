@@ -15,7 +15,7 @@
 
 ## Agent 协作与本地开发
 
-Agent 从 [AGENTS.md](AGENTS.md) 开始，了解组件边界、启动命令与验证约定。无需安装前端依赖；使用 `sh scripts/theme-dev.sh serve exampleSite` 启动示例站。通用栏目导航用法见 [SECTION-NAVIGATION.md](docs/SECTION-NAVIGATION.md)。
+Agent 从 [AGENTS.md](AGENTS.md) 开始，了解组件边界、启动命令与验证约定。首页与品牌配置见 [USAGE](docs/USAGE.md#首页与品牌配置)，两板块最小宿主在 `exampleSite/presets/internal/`。无需安装前端依赖；使用 `sh scripts/theme-dev.sh serve exampleSite` 启动示例站。通用栏目导航用法见 [SECTION-NAVIGATION.md](docs/SECTION-NAVIGATION.md)。
 
 ## 从内容到组件
 

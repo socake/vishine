@@ -529,3 +529,5 @@ defaultScheme = "paper"
 | sections.<key>.icon（data） | class 对应内置图标，未知名称回退 blog |
 
 板块宽度、docs 索引、term 链接、封面断行与无脚本可见性由主题自动处理。升级后，宿主可把等效首页 / 页头 / 自动封面 / head 覆盖迁移为以上配置；删除前先核对自己的覆盖是否还包含其他专属功能。
+
+回归检查：`python3 scripts/check-home-config.py --hugo /path/to/hugo`。它构建两板块预设并覆盖卡片数量、子栏目计数、统计、品牌、链接、标签 permalink、断行、CSS 扩展与原默认配置。

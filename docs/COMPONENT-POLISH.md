@@ -153,3 +153,12 @@
 - 未进行真机、完整读屏、打印或性能跑分。截图与构建素材保存在本机 runtime 的 depth 目录。
 
 主题 `8e80089` 与博客 `311ac70b` 已推送，主题 Demo／教程与博客 GitHub Pages 工作流均成功。七牛 1,238 个变更对象上传并逐项 hash 核验，CDN 刷新完成；首页、Nacos 长文与新 CSS 线上字节均匹配构建产物。浏览器核验暖纸模式的背景、独立阅读面和目录。线上地址 <https://blog.vishine.top/>。未做真机、完整读屏、打印或性能跑分。
+
+## 首页与品牌公共配置回归（2026-10-11）
+
+- 从 c164e384ca24 修复审查第 1–14 条，每条独立提交；保留工作台结构与默认五板块 `3+3 / 2+2+2`。宽度脱离颜色；增加 AI / 自定义图标、统计、最近更新、Hero 链接、品牌、宿主 CSS 与页脚配置。docs 优先呈现直属子栏目索引。
+- 使用契约在 USAGE 的“首页与品牌配置”；教程 13 与 `exampleSite/presets/internal/` 提供真实配置。AGENTS / COMPONENTS / README 已串联入口，不要求宿主覆盖首页、页头、自动封面或 head。
+- Hugo 0.163.3 extended 构建 exampleSite、tutorialSite、独立两板块预设和实际博客，无 WARN / ERROR。新增 check-home-config 检查七个子栏目、后代计数、草稿排除、1–6 张卡、默认四格统计、跨板块日期排序、SVG 图标、品牌、CSS 扩展、特殊 term 与自定义 taxonomy permalink。
+- 基线对比忽略 CSS / JS 指纹及 integrity 后，默认示例站的 301 个非首页 HTML 相同；只有中英文首页出现预期差异。封面仅改正英文断行与显式品牌配置；教程增加章节及配置示例，首页和页脚是有意变化。
+- 浏览器检查桌面等宽等高、320 / 390px 回流、三套配色、键盘 outline / 箭头及透明行背景。入口、七个子栏目、`bcecmd -c` term 的 HTTP 均为 200；封面完整显示 sslaunch / 是什么与 DevBox。
+- 通过验收服务器 CSP 禁止全部脚本，确认 html 没有 js 类、首页全部八个 reveal 元素 opacity 为 1。打印与 reduced-motion 的回退已检查 CSS；未做真实打印、真机或完整读屏测试。

@@ -51,6 +51,7 @@ sh scripts/theme-dev.sh build exampleSite
 sh scripts/theme-dev.sh build tutorialSite
 python3 scripts/check-section-hub.py
 python3 scripts/check-component-docs.py
+python3 scripts/check-home-config.py
 node --test tests/list-state.test.cjs
 node --check assets/js/main.js
 git diff --check
