@@ -61,6 +61,7 @@
       {{ $cls := $sec.class | default "blog" }}
       {{ $secPage := site.GetPage (printf "/%s" $key) }}
       {{ $pages := where site.RegularPages "Section" $key }}
+      {{ $children := slice }}{{ with $secPage }}{{ $children = .Sections.ByWeight }}{{ end }}
       {{ $span := 2 }}
       {{ if eq $sectionCount 1 }}{{ $span = 6 }}{{ else if or (eq $sectionCount 2) (eq $sectionCount 4) (and (eq $sectionCount 5) (le $d 2)) }}{{ $span = 3 }}{{ end }}
       <article class="mod {{ $cls }} sec-{{ $key | urlize }} span-{{ $span }} reveal d{{ $d }}">
@@ -69,10 +70,14 @@
           {{ with $sec.icon }}{{ if strings.HasPrefix (strings.TrimSpace .) "<svg" }}{{ $icon = . }}{{ end }}{{ end }}
           <div class="mod-ico" aria-hidden="true">{{ $icon | safeHTML }}</div>
           <div class="mod-titles"><h3>{{ $sec.label | default $key }}</h3><span class="en">{{ $sec.en }}</span></div>
-          <div class="mod-count">{{ if eq $key "docs" }}{{ i18n "count_zones" (len $cats) }}{{ else if $pages }}{{ i18n "count_posts" (len $pages) }}{{ else }}—{{ end }}</div>
+          <div class="mod-count">{{ if eq $key "docs" }}{{ i18n "count_zones" (cond (gt (len $children) 0) (len $children) (len $cats)) }}{{ else if $pages }}{{ i18n "count_posts" (len $pages) }}{{ else }}—{{ end }}</div>
         </div>
         <div class="mod-body">
-          {{ if eq $key "docs" }}
+          {{ if and (eq $key "docs") $children }}
+            <div class="mod-index">
+              {{ range $children }}<a class="mod-index-row" href="{{ .RelPermalink }}"><span class="index-dot" aria-hidden="true"></span><span class="index-title">{{ .LinkTitle }}</span><span class="index-count mono">{{ len .RegularPagesRecursive }}</span><span class="index-arrow" aria-hidden="true">→</span></a>{{ end }}
+            </div>
+          {{ else if eq $key "docs" }}
             <div class="mod-chips">
               {{ range first 8 $cats }}<a href="{{ .Page.RelPermalink }}"><span>{{ .Page.Title }}</span></a>{{ end }}
             </div>

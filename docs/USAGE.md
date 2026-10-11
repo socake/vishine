@@ -193,7 +193,7 @@ render hook（标题锚点、代码块、图片、链接）依赖以下设置：
 | `content/docs/` | 运维文档 | `docs` |
 | `content/resources/` | 资源 | `res` |
 
-每个 section 建一个 `_index.md`（带 `title` / `description`）。`docs` 板块在首页以「分类专区」形式展示（chips = 各分类）。
+每个 section 建一个 `_index.md`（带 `title` / `description`）。`docs` 板块首页优先展示直属子栏目与其递归文章数；没有子栏目时回退为全站分类 chips。
 
 ### 4.2 板块色映射
 
@@ -427,3 +427,15 @@ icon = "ai"   # 也可写多行 SVG 字符串
 [params]
 homeStats = [{section="posts", label="入门介绍"}, {section="docs", label="使用手册"}, {kind="categories"}, {kind="tags"}]
 ```
+
+### docs 子栏目索引
+
+首页 docs 卡片优先使用 `content/docs/` 的直属子栏目，按 weight 排序。数量是直属子栏目数；每行文章数包含该子栏目的后代文章。不会混入 posts 分类。不截断子栏目；没有子栏目时才回退原来的前 8 个全站分类。无需额外参数。
+
+可运行的最小站点在 `exampleSite/presets/internal/`：7 个 docs 子栏目与 3 篇 posts，无模板覆盖。主题根目录运行：
+
+```sh
+hugo --source exampleSite/presets/internal --themesDir ../../../.. --minify
+```
+
+`--themesDir` 相对 source 指向主题仓库的父目录。建议把 `--destination` / `--cacheDir` 指向仓库外；或复制此预设为自己的宿主站。
