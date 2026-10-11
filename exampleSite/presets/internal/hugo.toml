@@ -20,3 +20,4 @@ recentSections = ["docs", "posts"]
 recentLimit = 6
 heroLinks = [{name="使用手册", pageRef="/docs"}, {name="入门介绍", pageRef="/posts"}]
 brand = {pre="Dev", hl="Box"}
+customCSS = ["css/site.css", "css/optional-missing.css"]

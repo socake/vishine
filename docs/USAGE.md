@@ -479,3 +479,14 @@ brand = {pre="Dev", hl="Box"}
 ### 子栏目行与 taxonomy 胶囊
 
 docs 子栏目自动使用两列索引行：圆点、标题、右侧文章数与底部分隔线；520px 以下单列。悬停仅改变标题 / 圆点并显示箭头，不填背景；键盘聚焦显示 outline。分类 / 标签继续使用胶囊样式。内部教程预设的七个子栏目演示此区别，无需额外配置。
+
+### 追加站点 CSS
+
+`params.customCSS` 默认 `[]`。路径相对站点 assets（不写 assets/ 前缀）；按数组顺序追加到主题全部 CSS 后，共用 Concat / Minify / Fingerprint 管线。文件不存在时静默跳过；无需覆盖 head.html。不从 static 加载。
+
+```toml
+[params]
+customCSS = ["css/site.css"]   # 对应 assets/css/site.css
+```
+
+内部教程预设同时配置了存在和不存在的文件，演示可选扩展与静默回退。

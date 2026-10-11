@@ -1,0 +1,3 @@
+/* Host customization is bundled after the theme; no template overrides. */
+:root{--internal-site-extension:loaded}
+.sec-posts .mod-titles .en{letter-spacing:.1em}
