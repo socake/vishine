@@ -50,3 +50,15 @@ section 统计这个顶层板块全部已发布文章；kind 统计全站分类�
 在 `content/docs/<子栏目>/_index.md` 写 title 与 weight。主题自动列出这些直属栏目，并在右侧显示每栏递归文章数；没有子栏目时才显示全站分类。
 
 仓库的 `exampleSite/presets/internal/` 是完整的两板块示例，包含七个子栏目与三篇入门介绍。复制为新站即可使用，不需要覆盖 index.html。
+
+## 最近更新
+
+本站实际使用 `recentSections = ["docs"]`。两板块站点可写：
+
+```toml
+[params]
+recentSections = ["docs", "posts"]
+recentLimit = 6
+```
+
+先合并再按 date 倒序取前六条；未配置仍只展示 posts。

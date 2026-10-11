@@ -1,5 +1,8 @@
 {{ define "main" }}
-{{- $posts := where site.RegularPages "Section" "posts" -}}
+{{- $recentSections := site.Params.recentSections | default (slice "posts") -}}
+{{- $recent := (where site.RegularPages "Section" "in" $recentSections).ByDate.Reverse -}}
+{{- $recentLimit := int (site.Params.recentLimit | default 6) -}}
+{{- if lt $recentLimit 1 }}{{ $recentLimit = 6 }}{{ end -}}
 {{- $sd := hugo.Data.sections.sections -}}
 {{- $cats := site.Taxonomies.categories.ByCount -}}
 {{- $tags := site.Taxonomies.tags.ByCount -}}
@@ -130,7 +133,7 @@
         <b><span class="live"></span>{{ i18n "recent_updates" }}</b>
         {{ with site.GetPage "/posts" }}<a href="{{ .RelPermalink }}" class="more" style="font-family:var(--font-mono);font-size:12px;color:var(--accent);font-weight:600">{{ i18n "all_articles" }} →</a>{{ end }}
       </div>
-      {{ range $i, $p := first 6 $posts }}
+      {{ range $i, $p := first $recentLimit $recent }}
         {{ $cls := partial "cat-class.html" $p }}
         <a class="feed-row reveal d{{ add $i 1 }}" href="{{ $p.RelPermalink }}">
           <div class="feed-date"><div class="d">{{ $p.Date.Format "02" }}</div><div class="my">{{ $p.Date.Format "06 Jan" | upper }}</div></div>

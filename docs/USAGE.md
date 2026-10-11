@@ -439,3 +439,13 @@ hugo --source exampleSite/presets/internal --themesDir ../../../.. --minify
 ```
 
 `--themesDir` 相对 source 指向主题仓库的父目录。建议把 `--destination` / `--cacheDir` 指向仓库外；或复制此预设为自己的宿主站。
+
+### 最近更新范围
+
+`params.recentSections` 默认 `["posts"]`；合并配置的顶层板块全部已发布文章，再按 date 倒序排列。`params.recentLimit` 默认 6，须为正整数；非正数回退 6。文章只出现一次。
+
+```toml
+[params]
+recentSections = ["docs", "posts"]
+recentLimit = 6
+```
