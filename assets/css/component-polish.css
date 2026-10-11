@@ -350,3 +350,5 @@ body {background-image:linear-gradient(color-mix(in srgb,var(--grid-line) 72%,tr
 .mod-index-row:focus-visible{outline:2px solid var(--mc);outline-offset:2px}
 @media(max-width:520px){.mod-index{grid-template-columns:1fr}}
 @media(prefers-reduced-motion:reduce){.index-dot,.index-title,.index-arrow{transition:none}}
+
+@media print{.js .reveal,.js .reveal.in{opacity:1!important;animation:none!important;transform:none!important}}

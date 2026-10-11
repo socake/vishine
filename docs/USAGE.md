@@ -490,3 +490,7 @@ customCSS = ["css/site.css"]   # 对应 assets/css/site.css
 ```
 
 内部教程预设同时配置了存在和不存在的文件，演示可选扩展与静默回退。
+
+### 无脚本、打印与减少动效
+
+入场动画是渐进增强：默认 HTML 内容可见，仅 main.js 成功初始化 IntersectionObserver 后在 html 加 js 类，启用 reveal 动画。JS 禁用 / 未加载、浏览器不支持 observer、打印以及 `prefers-reduced-motion: reduce` 下保持可见。无配置开关；可在示例站关闭 JS 或打印预览验证最近更新与所有板块。
