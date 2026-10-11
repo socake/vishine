@@ -88,3 +88,7 @@ git diff --check
 - `docs/RUNBOOK-COMPONENTS.md`：步骤、配置选项卡、折叠说明。
 - `docs/COMPONENT-POLISH.md`：现有视觉规则与近期验收状态。
 - `docs/GETTING-STARTED.md`, `docs/USAGE.md`：使用与配置。
+
+## 首页与品牌复用
+
+单板块、两板块与五板块均使用主题首页；配置接口见 `docs/USAGE.md` 的“首页与品牌配置”，可运行最小宿主在 `exampleSite/presets/internal/`。优先使用 homeStats、recentSections、heroLinks、brand、customCSS、footerTagline，不复制 index/header/cover/head 模板。taxonomy URL 必须来自 Hugo term 页面；板块颜色不得决定卡片宽度。新增接口同时维护教程 13 与最小宿主回归。

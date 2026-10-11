@@ -7,7 +7,7 @@
 | 你想做什么 | 在博客里写什么 | 主题自动提供什么 | 完整说明 / 可运行示例 |
 | --- | --- | --- | --- |
 | 写文章 | `content/posts/*.md`，title / date / summary / categories / tags | 标题、元信息、封面、正文、分享、相关文章 | [快速开始](GETTING-STARTED.md)，`exampleSite/content/posts/` |
-| 展示首页入口 | hugo.toml 的 homeSections / featureZone、data/sections.toml | 首页工作台、板块卡片、统计和最近更新 | [配置参考](USAGE.md)，`exampleSite/hugo.toml` |
+| 展示首页入口 | hugo.toml 的 homeSections / featureZone、data/sections.toml | 首页工作台、自适应板块卡、子栏目索引、可配置统计和最近更新 | [配置参考](USAGE.md)，`exampleSite/hugo.toml` |
 | 列表筛选 | 内容分类标签；pagination.pagerSize | 完整集合筛选、数量、分页、URL 与后退恢复 | [配置参考](USAGE.md)；示例站 `/posts/` |
 | 多层栏目 | `_index.md`、目录层级、sectionNav | 子栏目卡片、直属文章、面包屑、栏目浏览 | [栏目契约](SECTION-NAVIGATION.md)；示例站 `/docs/` |
 | 学习路线 | `content/roadmap/<路线>/`，weight / group / stage；章节加 track | 配置分组、章节上下篇和返回目录 | 下方路线配方；`exampleSite/content/roadmap/` |

@@ -503,3 +503,29 @@ customCSS = ["css/site.css"]   # 对应 assets/css/site.css
 [params]
 footerTagline = "团队共享的工具使用手册。"
 ```
+
+### 默认配色与读者选择
+
+`params.defaultScheme` 默认 `"paper"`，可选 `paper / clean / dark`。切换器固定顺序是暖纸、纯白、暗色，不表示每个站点的默认项；`aria-pressed` 表示当前选择。首次访问使用 defaultScheme，读者在浏览器保存的配色选择优先。更改站点默认色不会强制重置读者偏好；验收新默认色时清除该站点的 `vishine-scheme` localStorage 或使用新浏览器配置。
+
+```toml
+[params]
+defaultScheme = "paper"
+```
+
+### 参数默认值速查
+
+| 参数 | 默认值 |
+| --- | --- |
+| homeSections | posts / playbook / docs / roadmap / resources |
+| homeSectionsTitle / homeSectionsDescription | 原 i18n 的板块标题与说明 |
+| homeStats | posts 数 / playbook 数 / 全站分类数 / 全站标签数 |
+| recentSections / recentLimit | `["posts"]` / `6` |
+| heroLinks | 无；回退 role 文字 |
+| brand | site.Title，最后 vishine |
+| customCSS | `[]` |
+| footerTagline | 原作者、技术索引与 description 文案 |
+| defaultScheme | `paper`；已保存的读者选择优先 |
+| sections.<key>.icon（data） | class 对应内置图标，未知名称回退 blog |
+
+板块宽度、docs 索引、term 链接、封面断行与无脚本可见性由主题自动处理。升级后，宿主可把等效首页 / 页头 / 自动封面 / head 覆盖迁移为以上配置；删除前先核对自己的覆盖是否还包含其他专属功能。

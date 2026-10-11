@@ -115,3 +115,14 @@ customCSS = ["css/site.css"]
 ## 页脚简介
 
 本教程使用 `footerTagline = "从安装到维护，手把手使用 vishine。"`。不配时保留博客默认简介；设为空字符串时只显示站点标题。
+
+## 默认配色
+
+```toml
+[params]
+defaultScheme = "paper"   # 或 clean / dark
+```
+
+切换器顺序固定；首次访问使用站点默认色，读者保存的选择优先。测试修改后的默认色请用未保存配色的浏览器配置。
+
+两板块站点还可用 `homeSectionsTitle` 与 `homeSectionsDescription` 定制入口区文案；未配置保留主题原文案。
