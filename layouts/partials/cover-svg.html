@@ -71,9 +71,8 @@
 {{- else -}}
 {{- /* ===== 详情页横幅 hero ===== */ -}}
 {{- $mfs := cond (le (strings.RuneCount $mark) 2) 34 (cond (le (strings.RuneCount $mark) 3) 27 20) -}}
-{{- $len := strings.RuneCount $title -}}
-{{- $l1 := $title -}}{{- $l2 := "" -}}{{- $maxlen := $len -}}
-{{- if gt $len 11 -}}{{- $half := math.Ceil (div $len 2.0) | int -}}{{- $l1 = substr $title 0 $half -}}{{- $l2 = substr $title $half -}}{{- $maxlen = $half -}}{{- end -}}
+{{- $lines := partial "cover-title-lines.html" $title -}}
+{{- $l1 := $lines.first -}}{{- $l2 := $lines.second -}}{{- $maxlen := $lines.maxlen -}}
 {{- $fs := cond (le $maxlen 6) 74 (cond (le $maxlen 9) 56 44) -}}
 {{- $y1 := 360 -}}{{- $y2 := 0 -}}{{- if $l2 -}}{{ $y1 = 336 }}{{ $y2 = add $y1 (add $fs 12) }}{{- end -}}
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630" role="img" aria-label="{{ $cat }} · {{ $title }}">

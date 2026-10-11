@@ -88,3 +88,7 @@ brand = {pre="Dev", hl="Box"}
 ## 特殊字符标签
 
 文章 front matter 可直接写 `tags: ["bcecmd -c"]`。主题使用 Hugo 生成的 term 页面 URL，不自行改写字符。内部教程示例的第一篇入门文章演示了这个标签。
+
+## 封面断行
+
+内部教程示例第一篇标题是「sslaunch 是什么」，封面会分为「sslaunch」和「是什么」。标题超过十一字时优先在空格分行；纯中文在中点分行，ASCII 单词保持完整。

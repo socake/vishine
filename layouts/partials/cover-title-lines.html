@@ -1,0 +1,28 @@
+{{- /* Prefer the nearest space, otherwise a boundary outside an ASCII word. */ -}}
+{{- $title := strings.TrimSpace . -}}
+{{- $length := strings.RuneCount $title -}}
+{{- $l1 := $title -}}{{- $l2 := "" -}}
+{{- if gt $length 11 -}}
+  {{- $half := int (math.Ceil (div $length 2.0)) -}}
+  {{- $cut := 0 -}}{{- $distance := $length -}}
+  {{- range $i := seq 1 (sub $length 1) -}}
+    {{- if eq (substr $title $i 1) " " -}}
+      {{- $d := math.Abs (sub $i $half) -}}
+      {{- if lt $d $distance }}{{ $distance = $d }}{{ $cut = $i }}{{ end -}}
+    {{- end -}}
+  {{- end -}}
+  {{- if eq $cut 0 -}}
+    {{- range $i := seq 1 (sub $length 1) -}}
+      {{- $left := substr $title (sub $i 1) 1 -}}{{- $right := substr $title $i 1 -}}
+      {{- if not (and (findRE `[A-Za-z0-9_]` $left) (findRE `[A-Za-z0-9_]` $right)) -}}
+        {{- $d := math.Abs (sub $i $half) -}}
+        {{- if lt $d $distance }}{{ $distance = $d }}{{ $cut = $i }}{{ end -}}
+      {{- end -}}
+    {{- end -}}
+  {{- end -}}
+  {{- if gt $cut 0 -}}
+    {{- $l1 = strings.TrimSpace (substr $title 0 $cut) -}}
+    {{- $l2 = strings.TrimSpace (substr $title $cut) -}}
+  {{- end -}}
+{{- end -}}
+{{- return (dict "first" $l1 "second" $l2 "maxlen" (math.Max (strings.RuneCount $l1) (strings.RuneCount $l2))) -}}
