@@ -68,7 +68,8 @@ If you're serious about writing a technical blog too, I hope it helps.
 **Writing Power**
 - Self-hosted Mermaid: rendered automatically from ` ```mermaid ` fences, recoloring with the scheme, **no CDN dependency**, usable on intranets / offline.
 - Blowfish-compatible shortcodes: `badge` / `lead` / `callout` / `typeit` / `timeline` / `sponsor`.
-- One-click copy on code blocks, automatic `figure` wrapping for images with click-to-zoom, and auto-scaling for extra-wide bitmaps.
+- One-click copy on code blocks, automatic `figure` wrapping for images, original image resources in the article, and zoom / pan controls.
+- Embed authored HTML diagrams with `html-embed`, preserving SVG / HTML text and a readable minimum width. Standalone SVG files remain ordinary Markdown images. See [HTML embedding](docs/HTML-EMBED.md) (Chinese) for parameters and Archify support.
 - Multilingual i18n: UI strings ship in **26 languages** (Chinese / English / Japanese / Korean / French / German / Spanish / Portuguese / Russian / Arabic / Traditional Chinese…), switchable from the top bar with one click and extensible further.
 
 ---
@@ -122,7 +123,7 @@ enableEmoji = true
 # ⚠ Required: render hooks depend on these goldmark / highlight settings
 [markup]
   [markup.goldmark.renderer]
-    unsafe = true            # ⚠ shortcodes emit inline HTML, this is required
+    unsafe = true            # For raw HTML in Markdown; theme shortcodes do not require this
   [markup.goldmark.parser]
     autoHeadingID = true
     [markup.goldmark.parser.attribute]

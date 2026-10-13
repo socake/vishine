@@ -41,7 +41,7 @@
 | `reading-details` | title 必填；id 可选且唯一；open=true 默认展开，否则收起 | 补充原理，不折叠必做步骤或风险限制 |
 | `html-embed` | src / title 必填；height 默认 480，minWidth 默认 0；mode 为 page（默认）/ archify；单标签 | 直接嵌入宿主维护的本地 HTML 图表，限制与失败行为见 [HTML-EMBED](HTML-EMBED.md) |
 
-步骤、选项卡和折叠说明的完整可复制语法见 [RUNBOOK-COMPONENTS.md](RUNBOOK-COMPONENTS.md)。基础组件见教程 06；新组件在教程 11 同时展示源码和效果。
+步骤、选项卡和折叠说明的完整可复制语法见 [RUNBOOK-COMPONENTS.md](RUNBOOK-COMPONENTS.md)，教程 11 同时展示源码和效果。HTML 图表见 [HTML-EMBED.md](HTML-EMBED.md) 与教程 14；基础组件见教程 06。
 
 ### 赞助参数
 

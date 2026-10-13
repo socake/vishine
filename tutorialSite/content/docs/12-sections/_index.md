@@ -44,8 +44,12 @@ cascade:
 本博客的公共渲染由 vishine 主题负责。
 开始组件或视觉任务前，确认构建实际使用的主题位置，
 读取该目录的 AGENTS.md 和 docs/COMPONENTS.md。
-博客只保存内容、图片和配置；公共组件在主题开发，并补用法与示例。
+博客保存内容、图片、自有图表文件和配置；公共组件在主题开发，并补用法与示例。
 默认主题位置为 themes/vishine；外部 themesDir 以启动命令为准。
+已有 HTML 图表先读主题 docs/HTML-EMBED.md，放入 static/diagrams/ 并用 html-embed，保留矢量文字；独立 SVG 用 Markdown 图片。
+密集图按可读尺寸设置 minWidth，检查窄屏局部滚动、底部完整性和键盘；只嵌入自己维护并信任的 HTML。
+目录、栏目切换和上下章导航读 docs/THEME-APIS.md，不另造公共导航。
+发布前同步宿主 submodule 到已验收的主题提交，并以仓库内主题构建。
 保留现有修改；提交、推送、部署须有用户授权。
 ```
 
@@ -53,6 +57,6 @@ cascade:
 
 ## 区分可以配置与尚未支持的能力
 
-先查组件目录再写参数。当前 `assets/css/custom.css` 不自动加载；`toc: false` 尚未作为目录隐藏开关实现。不要照抄其他主题配置后假定已经生效。
+先查组件目录再写参数。`assets/css/custom.css` 需要显式加入 `params.customCSS` 才会加载；默认文章模板支持 `toc: false` 关闭本页目录，也支持 `readingNav` 在悬浮目录内切换栏目。具体配置见[阅读、搜索与扩展]({{< relref "14-reading-search" >}})。不要照抄其他主题配置后假定已经生效。
 
 通用组件的改动应同时更新：主题实现、参数说明、可复制示例和必要验证。这样未来更新主题时，文章不需要重新写一遍。

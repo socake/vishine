@@ -94,7 +94,7 @@ quickCount = 3
 
 ## 5. 图片与 Mermaid 查看
 
-已有独立 HTML / SVG 图表时，可用 `html-embed` 直接嵌入，保留矢量文字；参数、可读宽度与 Archify 配色接入见 [HTML-EMBED.md](HTML-EMBED.md)。
+已有包含 SVG／HTML 文字的独立 HTML 图表时，可用 `html-embed` 直接嵌入，保留矢量文字；独立 `.svg` 文件继续使用普通 Markdown 图片。参数、可读宽度与 Archify 配色接入见 [HTML-EMBED.md](HTML-EMBED.md)。
 
 正文普通 Markdown 图片自动提供点击和键盘 Enter/空格放大。正文直接显示原始资源，保留像素尺寸、格式与透明度，不再统一缩到 1280px 或进行有损转码；CSS 按阅读区域等比缩小，浏览器按需懒加载。page bundle / assets 中的位图输出原始宽高以预留空间，SVG 保留矢量。查看器复用相同原图。图片传输体积取决于源文件，作者可在上传前优化文件；主题不会修复源图本身的模糊，也无法让密集大图在手机缩小显示时仍具有原尺寸的字号。外部图片使用作者提供的 URL，远端服务不可用时显示加载失败提示，保留已有预览。
 

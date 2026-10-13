@@ -11,7 +11,7 @@
 
 ## 内容与主题的职责契约
 
-常规博客呈现以至少 95% 由主题公共能力承担为目标；这是职责约束，不用代码行数虚构覆盖率。宿主负责 Markdown、front matter、栏目层级、配置与图片；主题负责布局、组件、样式、交互、可访问性和渲染。不要为一次博客需求在宿主堆公共 CSS/JS 或复制主题模板。
+常规博客呈现以至少 95% 由主题公共能力承担为目标；这是职责约束，不用代码行数虚构覆盖率。宿主负责 Markdown、front matter、栏目层级、配置、图片与自有图表文件；主题负责布局、组件、样式、交互、可访问性和渲染。不要为一次博客需求在宿主堆公共 CSS/JS 或复制主题模板。
 
 - 使用组件前先读 `docs/COMPONENTS.md`，按需求选择自动渲染、配置或 shortcode；查源码确认参数真的生效。
 - 若能力缺失，先在主题形成可复用接口，再让博客调用。站点专属例外须记录原因、路径、升级风险。
@@ -20,6 +20,14 @@
 - 不把内部 CSS 类、DOM ID、绝对机器路径当公共 API；保留旧用法，破坏性变化给迁移说明。
 - 在宿主博客中工作的 Agent 可能不会自动读主题指令。检查宿主 AGENTS.md 是否指向实际主题；通用接入模板在 `docs/AGENTS-HOST.example.md`。不要覆盖宿主原规则，也不要假定 submodule 与预览工作副本相同。
 - `docs/` 保存参数与契约；`tutorialSite/` 保存可浏览的源码／效果教程；`exampleSite/` 验证成品组合。现场验收记录不是公共 API 文档。
+
+## 图表与阅读组件的选择
+
+- 先检查已有源文件：简单流程可用 Mermaid 围栏；独立 SVG、照片与截图用 Markdown 图片；已有包含 SVG／HTML 文字的独立 HTML 图表用 `html-embed`，保留源文件，不默认转成 PNG 再嵌入。
+- HTML 图表放在宿主 `static/diagrams/`，先读 `docs/HTML-EMBED.md`。`src` 只接受本地 `.html` 地址，不能直接传 `.svg`；`title` 必填。只有支持 Archify 嵌入约定的文件才用 `mode="archify"`。
+- 密集图按实际可读尺寸设置 `minWidth`，窄屏仅图表区域横向浏览；不要把文字缩到不可读，也不要撑宽整页。普通 HTML 的高度由 `height` 指定，不能假定所有 HTML 都会自动调高或同步配色。
+- 嵌入文件必须由宿主维护并信任；iframe 可运行同源脚本，不是执行不可信代码的沙箱。主题负责外框、入口和适配，不把图内 CSS/JS 复制进文章，也不接管作者事实内容。
+- 新增／调整嵌入行为时维护教程 14 的可复制示例并运行 `check-component-docs.py`；界面验收还需检查文字可读性、底部无裁切、局部滚动、键盘、配色和打开完整图表。
 
 ## 仓库地图
 
@@ -33,6 +41,7 @@
 | `assets/js/main.js` | 搜索、菜单、配色、阅读宽度、目录、代码复制等通用交互 |
 | `assets/js/list-state.js`, `list.js` | 普通博客列表的完整集合筛选、分页与 URL 状态 |
 | `assets/js/reading-components.js` | 配置选项卡与折叠说明增强，仅相关文章加载 |
+| `layouts/shortcodes/html-embed.html`, `assets/js/html-embed.js` | 本地 HTML 图表嵌入；Archify 配色与高度适配，仅使用该 shortcode 的默认文章页加载脚本 |
 | `i18n` | 界面文案，新增文案至少提供中文和英文；不要把栏目名称当翻译键硬编码 |
 | `exampleSite`, `tutorialSite` | 可独立构建的示例与教程宿主站 |
 | `archetypes/hub.md` | 新建栏目内容模板 |
@@ -65,7 +74,7 @@ git diff --check
 - 分层表面由 `params.layeredSurfaces` 控制（默认开启），契约见 `docs/DEPTH-SURFACES.md`。背景固定且不接收输入；保留整页滚动，不给文章添加固定高度、嵌套滚动或 transform 外壳；移动端减轻阴影。
 - 有侧栏时正文和侧栏整体平衡。阅读宽度切换不应隐藏切回按钮；侧栏断点不能依赖当前宽度模式。
 - 栏目页的子栏目和直属文章分开呈现；递归后代集合只用于总数，不能铺平成当前层的文章。未知分组、未分组、空栏目都必须有确定行为。
-- 栏目导航（跨页面）和本页目录（文章标题）是两种职责；不要混成同一棵树。
+- 栏目导航（跨页面）和本页目录（文章标题）是两种职责；开启 readingNav 的文章在右侧悬浮目录／手机目录抽屉里切换“本页目录 / 浏览栏目”，保持两份独立导航。没有目录时保留面包屑旁的栏目入口；参数与无脚本回退见 `docs/THEME-APIS.md`。
 - 文章排序／学习顺序根据显式 weight 和分组；不要根据标题中的数字猜顺序。移动内容时保留旧 URL／锚点或补重定向。
 - 新界面文本走 i18n；内容中的说明、命令、事实属于作者，不为视觉效果擅自改写。
 - 优先原生链接、details、button。交互增强应处理焦点、Esc、选中态和无脚本回退；避免新增依赖。
@@ -84,7 +93,8 @@ git diff --check
 
 - `docs/COMPONENTS.md`：全部组件的选择、启用、参数与责任边界。
 - `docs/AGENTS-HOST.example.md`：博客侧 Agent 的主题发现入口。
-
+- `docs/THEME-APIS.md`：文章显示、目录与栏目切换、搜索、图片查看、扩展点和缓存契约。
+- `docs/HTML-EMBED.md`：HTML 图表选型、参数、Archify 适配与限制；教程 14 提供源码和效果。
 - `docs/SECTION-NAVIGATION.md`：栏目组件数据契约、启用与迁移。
 - `docs/RUNBOOK-COMPONENTS.md`：步骤、配置选项卡、折叠说明。
 - `docs/COMPONENT-POLISH.md`：现有视觉规则与近期验收状态。

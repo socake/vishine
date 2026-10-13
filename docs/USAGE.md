@@ -234,7 +234,7 @@ render hook（标题锚点、代码块、图片、链接）依赖以下设置：
 | `categories` | []string | 分类数组；**`index 0`（首个）决定板块色 + 自动封面配色** |
 | `tags` | []string | 标签数组；卡片显示前 3 个 |
 | `summary` | string | 摘要；卡片、搜索、meta description 用它。不写则取正文自动摘要 |
-| `toc` | bool | 当前模板自动挂载目录，此字段尚未实现关闭控制 |
+| `toc` | bool | 默认文章模板显示本页目录；false 可关闭，阅读宽度按钮仍保留 |
 | `cover` | string | 手动封面 URL，优先级高于自动封面（低于 `featured.*` 资源） |
 | `author` | string | 覆盖站点 `params.author` |
 
@@ -257,7 +257,7 @@ toc: true
 
 ### 6.1 标准 Markdown
 
-标题、列表、表格、引用、任务列表、删除线均按 `MARKDOWN.md` 的 prose 规范统一渲染（换页面不换渲染）。`##`/`###` 自动生成锚点并进 TOC。
+标题、列表、表格、引用、任务列表、删除线均按 `MARKDOWN.md` 的 prose 规范统一渲染（换页面不换渲染）。标题自动生成锚点，在配置的深度范围内进入 TOC。
 
 ### 6.2 Callout 提示框
 
@@ -296,7 +296,45 @@ render hook 自动包成 `<figure>`，可点击放大（lightbox）。正文直�
 
 ### 6.6 TOC
 
-当前文章模板自动挂载，`toc` 字段尚不控制关闭。右侧目录由 main.js 从正文 `h2/h3` 构建，含 scrollspy 高亮、折叠树、阅读宽度切换按钮。
+默认文章模板在构建时从实际正文标题生成目录，包含 shortcode 输出的标题；脚本增强定位高亮与折叠。单篇 front matter 写 `toc: false` 可关闭目录，正文居中，阅读宽度按钮仍可用。
+
+站点默认值可写在 `hugo.toml`：
+
+```toml
+[params.article]
+toc = true
+tocStart = 2
+tocEnd = 4
+```
+
+未显式设置深度时沿用 `[markup.tableOfContents]`；显式设置要求整数 `1 <= tocStart <= tocEnd <= 6`，只填一端时另一端默认 2 / 3。单篇或栏目 cascade 的 `article` 映射可覆盖站点默认值。
+
+需要跨文章连续阅读，在栏目的 `_index.md` 设置：
+
+```yaml
+cascade:
+  params:
+    readingNav:
+      enabled: true
+    sectionNav:
+      order: weight
+```
+
+每篇文章设置显式 `weight`。右侧悬浮目录和手机目录抽屉提供“本页目录 / 浏览栏目”切换，分别定位本页标题和访问栏目文章；不会合并两棵导航树。切换状态在当前标签页内按根栏目记忆，方向键与 Home/End 切换，Tab 进入链接列表。关闭目录或没有有效标题时，栏目入口保留在面包屑旁。完整选项与无脚本回退见 [阅读契约](THEME-APIS.md)。
+
+### 6.7 已有 HTML 图表
+
+先按源文件选择：简单流程用 Mermaid，独立 `.svg` 用普通 Markdown 图片；已有包含 SVG／HTML 文字的 `.html` 图表，用 `html-embed` 保留矢量内容，不需要截图。
+
+将可信、自行维护的图表放到宿主 `static/diagrams/flow.html`，正文写：
+
+```markdown
+{{< html-embed src="/diagrams/flow.html" title="请求处理流程" height=480 minWidth=960 >}}
+```
+
+`src` 是站点根目录下的本地 `.html` 路径（不含 `static/`），`title` 必填。`height` 默认 480px；`minWidth` 默认 0，密集图应按文字可读的宽度设置，让窄屏读者在图表内横向浏览。普通 `page` 模式不会自动调整高度或同步配色。
+
+支持 Archify 嵌入约定的 HTML 可增加 `mode="archify"`，隐藏独立页外围工具栏，同步深浅配色并按内容调整高度；切换配色会重新加载图表。所有模式保留“打开完整图表”入口。此组件可以运行同源脚本，仅用于可信文件；HTML 内原本的位图不会因此变成矢量。参数范围、失败行为和限制见 [HTML-EMBED.md](HTML-EMBED.md)，可复制源码与效果见教程 14。
 
 ---
 

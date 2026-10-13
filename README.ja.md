@@ -122,7 +122,7 @@ enableEmoji = true
 # ⚠ 必須：render hook はこれらの goldmark / highlight 設定に依存
 [markup]
   [markup.goldmark.renderer]
-    unsafe = true            # ⚠ shortcode がインライン HTML を出力するために必要
+    unsafe = true            # Markdown 内の生 HTML 用。テーマの shortcode には不要
   [markup.goldmark.parser]
     autoHeadingID = true
     [markup.goldmark.parser.attribute]
@@ -274,3 +274,5 @@ vishine は **[Blowfish](https://github.com/nunocoracao/blowfish)**（© Nuno Co
 ## Reading, search and extension contracts
 
 See [THEME-APIS.md](docs/THEME-APIS.md) for article options, generic reading navigation, full-text search, complete filters, image zoom, extension hooks and scoped PWA caches. Runnable examples are in tutorial chapter 14. Release checks cover Hugo extended 0.146.0 and 0.163.3. New runtime messages include Chinese, English and Japanese.
+
+既存の HTML 図表は `html-embed` で埋め込み、SVG / HTML の文字と読みやすい幅を保てます。単独の SVG ファイルには通常の Markdown 画像を使います。パラメータと Archify 対応は [HTML 図表の埋め込み](docs/HTML-EMBED.md)（中国語）、Agent の接続ルールは [宿主テンプレート](docs/AGENTS-HOST.example.md)を参照してください。

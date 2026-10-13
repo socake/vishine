@@ -32,6 +32,7 @@
 | 代码块 ` ``` ` | `.code-block`（`.code-head` 语言标签+复制 + `pre`） | 语法用 `--code-*`；遵守 **DESIGN §2.4 代码清晰度规约**（注释不斜体、中文走 sans、13.5px/1.7、AA 对比） |
 | 表格 `|` | `.table-wrap`（包裹横向滚动）`> table` | 表头 `--paper-2`，行分隔 `--line-2`，可斑马；窄屏横向滚动不撑破 |
 | 图片 `![]()` | `<figure class="fig">`（render-hook）`> img + figcaption` | 居中、圆角、`--line` 边；点击 zoom（INTERACTION §3.1）；caption `--ink-3` |
+| HTML 图表 | `html-embed` shortcode | 宿主的独立 HTML 文件；主题提供外框、标题、局部横向滚动和完整页面入口，见 §1.2 |
 | 分隔 `---` | `<hr>` | 细线 `--line`，上下留白 |
 | 脚注 `[^1]` | `.footnotes` | 编号 + 回链；hover 气泡预览 ⏳（暂未做） |
 | Callout/提示 | shortcode → `.callout(.warn/.info/.tip)` | 见 §1.1 |
@@ -44,6 +45,17 @@ Markdown 无原生提示框，**统一用 shortcode**，不准在正文写裸 HT
 {{< /callout >}}
 ```
 渲染成 `.callout.warn`（也有 `.info` / `.tip`）：左图标 + 板块/accent 软底 + 标题。颜色走 token。
+
+### 1.2 图表按源格式选择
+
+| 已有内容 | 写法 | 阅读要求 |
+| --- | --- | --- |
+| 简单流程／时序关系 | Mermaid 围栏 | 由主题渲染 SVG，支持查看器 |
+| 独立 SVG 文件 | 普通 Markdown 图片 | 保留矢量；无需包装成 HTML |
+| 照片／截图／位图 | 普通 Markdown 图片 | 正文保留原始资源，避免重复有损转码；源图模糊需要更换源图 |
+| 包含 SVG／HTML 文字的独立 HTML 图表 | `html-embed` | 保留源文件，按可读尺寸设置 `minWidth`，窄屏局部横向浏览 |
+
+HTML 放在宿主 `static/diagrams/`，正文通过 shortcode 引用，不能把整份 HTML 的 style/script 粘贴到正文。组件仅接受可信本地 `.html` 文件；普通 `page` 模式固定高度，Archify 模式的配色与自动高度有明确适用条件。HTML 内的位图不会自动变成矢量。完整参数、尺寸范围与回退行为见 [HTML-EMBED.md](HTML-EMBED.md)，实际源码和效果见教程 14。
 
 ---
 
@@ -85,7 +97,9 @@ Markdown 无原生提示框，**统一用 shortcode**，不准在正文写裸 HT
 
 ### 2.3 Shortcodes（`layouts/shortcodes/`）
 - `callout.html` → `.callout`（§1.1）。
-- 后续如需 `figure`/`tabs`/`details` 等，一律走 shortcode 并在本规范登记，**不散落裸 HTML**。
+- 步骤用 `runbook-step` / `step-part`，方案切换用 `config-tabs` / `config-tab`，补充说明用 `reading-details`，见 [正文组件契约](RUNBOOK-COMPONENTS.md)。
+- HTML 图表用 `html-embed`（§1.2）。shortcode 本身不要求 `goldmark.renderer.unsafe = true`；该开关针对 Markdown 正文中的原始 HTML。
+- 全部组件及参数入口以 [COMPONENTS.md](COMPONENTS.md) 为准；新增公共能力同步维护组件目录与可复制教程，**不散落裸 HTML**。
 
 ---
 
@@ -95,7 +109,8 @@ Markdown 无原生提示框，**统一用 shortcode**，不准在正文写裸 HT
   - 正文/标题/UI：`--font-sans` = `"Noto Sans SC", system-ui, -apple-system, "PingFang SC", "Microsoft YaHei", sans-serif`
   - 代码/数字/标签：`--font-mono` = `"JetBrains Mono", ui-monospace, "SF Mono", Menlo, monospace`
 - **加载**：Web 字体（Noto Sans SC / JetBrains Mono）self-host 或 CDN，**必须带完整 fallback**（离线/失败时优雅降级到系统字体，不糊）。中文务必有 `PingFang SC`/`Microsoft YaHei` 兜底。
-- **铁律**：任何页面、任何组件、Markdown 正文**都不得另设或页面级覆盖字体**。代码块内中文（如注释）按 DESIGN §2.4 回退到 sans，避免等宽中文发糊。
+- **正文与主题组件**：不得另设或页面级覆盖字体。代码块内中文（如注释）按 DESIGN §2.4 回退到 sans，避免等宽中文发糊。
+- **独立 HTML 图表**：`html-embed` 的标题、外框和入口沿用主题字体；iframe 内是作者维护的独立文档，可保留图表自己的字体与布局。不得把图内样式注入父页面；需要在嵌入尺寸下确认文字可读。
 
 ---
 

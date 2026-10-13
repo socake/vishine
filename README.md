@@ -21,7 +21,9 @@ Agent 从 [AGENTS.md](AGENTS.md) 开始，了解组件边界、启动命令与�
 
 ## 从内容到组件
 
-博客提供文章、图片、栏目和配置；主题承担公共渲染与交互。写作者先看 [组件目录](docs/COMPONENTS.md)，按“我想做什么”找到配置、shortcode 和实际示例。Agent 开发主题读 [AGENTS.md](AGENTS.md)；在博客中使用主题，则按 [宿主入口模板](docs/AGENTS-HOST.example.md) 接入。
+博客提供文章、图片、自有图表文件、栏目和配置；主题承担公共渲染与交互。写作者先看 [组件目录](docs/COMPONENTS.md)，按“我想做什么”找到配置、shortcode 和实际示例。Agent 开发主题读 [AGENTS.md](AGENTS.md)；在博客中使用主题，则按 [宿主入口模板](docs/AGENTS-HOST.example.md) 接入。
+
+已有 HTML 图表可按 [HTML 嵌入指南](docs/HTML-EMBED.md) 放入宿主 `static/diagrams/`，通过 `html-embed` 引用；独立 SVG 仍用 Markdown 图片。密集图保留可读宽度，在窄屏局部横向浏览。
 
 本地运行 `sh scripts/theme-dev.sh serve tutorialSite` 可查看“组件与维护”：每个新正文组件同时展示可复制源码与真实效果；栏目教程演示自动卡片与多层导航。线上 Demo 与教程随 main 分支的发布工作流更新。
 
@@ -79,7 +81,7 @@ Agent 从 [AGENTS.md](AGENTS.md) 开始，了解组件边界、启动命令与�
 - Mermaid 自托管：用 ` ```mermaid ` 围栏自动渲染，随配色翻色，**不依赖 CDN**，内网 / 离线可用。
 - Blowfish 兼容 shortcodes：`badge` / `lead` / `callout` / `typeit` / `timeline` / `sponsor`。
 - 代码块一键复制、图片自动 `figure`，正文保留原图清晰度并适配宽度，支持原图缩放 / 平移；Mermaid 复用查看器。
-- 已有 HTML / SVG 图表可通过 `html-embed` 直接嵌入，保留矢量文字与可读尺寸；支持 Archify 嵌入模式。[参数与示例](docs/HTML-EMBED.md)。
+- 已有包含 SVG／HTML 文字的 HTML 图表可通过 `html-embed` 直接嵌入，保留矢量文字与可读尺寸；支持 Archify 嵌入模式。[参数与示例](docs/HTML-EMBED.md)。
 - 多语言 i18n：界面文案内置 **26 种语言**（中 / 英 / 日 / 韩 / 法 / 德 / 西 / 葡 / 俄 / 阿 / 繁中…），顶栏一键切换，可继续扩展。
 
 **离线与安装（PWA）**
@@ -248,6 +250,7 @@ hugo server -D
 | `runbook-step` / `step-part` | [写法与参数](docs/RUNBOOK-COMPONENTS.md) | 前置、执行、验证、回退 |
 | `config-tabs` / `config-tab` | [写法与参数](docs/RUNBOOK-COMPONENTS.md) | 可切换的互斥方案 |
 | `reading-details` | [写法与参数](docs/RUNBOOK-COMPONENTS.md) | 可展开的补充说明 |
+| `html-embed` | [写法与参数](docs/HTML-EMBED.md) | 本地 HTML 图表、可读宽度与 Archify 适配 |
 | `sponsor` | `{{< sponsor >}}` | 赞助 / 打赏区（收款码走 `params.sponsor` 配置） |
 
 `mermaid` 图表用 ` ```mermaid ` 围栏书写，自动渲染、随配色翻色、自托管不依赖 CDN。
@@ -262,6 +265,8 @@ hugo server -D
 | [组件目录](docs/COMPONENTS.md) | 自动页面组件、全部 shortcode、配置入口与限制 |
 | [栏目导航](docs/SECTION-NAVIGATION.md) | 自动子栏目、直属文章、分组与排序 |
 | [正文组件](docs/RUNBOOK-COMPONENTS.md) | 实战步骤、选项卡与折叠说明 |
+| [HTML 图表嵌入](docs/HTML-EMBED.md) | 图表选型、参数、清晰度、尺寸与验收 |
+| [阅读、搜索与扩展](docs/THEME-APIS.md) | 悬浮目录切换、文章选项、搜索、查看器与扩展点 |
 | [宿主 Agent 接入](docs/AGENTS-HOST.example.md) | 让博客侧 Agent 发现并复用主题 |
 | [`docs/GETTING-STARTED.md`](docs/GETTING-STARTED.md) | 从零到上线的快速指引 |
 | [`docs/USAGE.md`](docs/USAGE.md) | 详细使用文档（配置逐项说明、写作、排坑、FAQ） |
