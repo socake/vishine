@@ -25,6 +25,8 @@ Agent 从 [AGENTS.md](AGENTS.md) 开始，了解组件边界、启动命令与�
 
 已有 HTML 图表可按 [HTML 嵌入指南](docs/HTML-EMBED.md) 放入宿主 `static/diagrams/`，通过 `html-embed` 引用；独立 SVG 仍用 Markdown 图片。`fit="width"` 让全图适应正文，配合 `minWidth` 可切换到细节视图。
 
+更新日志可在正文放入 `{{< changelog sections="posts" >}}`，自动按文章日期生成月份、篇数和可点击文章列表；站点升级说明继续写 Markdown。[参数与迁移](docs/CHANGELOG.md)，可复制源码与效果见教程 15。
+
 外观接入：首页 `homeCardLayout` 可选择标准卡／紧凑入口；自动封面以短主题标识形成视觉重点，正文默认显示宽幅主题图，可用 `cover.autoArticle=false` 关闭；Archify 的 `surface="theme"` 同步中性表面，`surface="source"` 保留原图配色。参数与升级说明见 [使用文档](docs/USAGE.md)，可复制效果见教程 13、14。
 
 本地运行 `sh scripts/theme-dev.sh serve tutorialSite` 可查看“组件与维护”：每个新正文组件同时展示可复制源码与真实效果；栏目教程演示自动卡片与多层导航。线上 Demo 与教程随 main 分支的发布工作流更新。

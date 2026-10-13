@@ -1,8 +1,7 @@
 {{- /*
   changelog/list.html — 更新日志【时间线】。
-  渲染 changelog/_index.md 的 .Content（按月 ## 标题）为左竖线时间线：
-  每个 H2（月份）作节点（CSS 在 H2::before 画圆点），prose 风格正文。
-  纯 token 着色，节点圆点用 --accent。
+  未使用 changelog shortcode 时保留手写时间线。
+  使用自动归档时由组件承担月份卡片，避免叠加旧时间线的竖线与节点。
 */ -}}
 {{ define "main" }}
 <main class="wrap">
@@ -13,8 +12,7 @@
       {{ with .Description }}<p class="list-desc">{{ . }}</p>{{ end }}
     </header>
 
-    <!-- 时间线容器：.Content 的 ## 月份 = 节点（见 special.css .changelog-timeline） -->
-    <div class="changelog-timeline prose">
+    <div class="{{ if .HasShortcode "changelog" }}changelog-page{{ else }}changelog-timeline{{ end }} prose">
       {{ .Content }}
     </div>
   </section>

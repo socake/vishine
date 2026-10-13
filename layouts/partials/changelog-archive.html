@@ -1,0 +1,25 @@
+{{- $groups := .GroupByDate "2006-01" "desc" -}}
+<div class="changelog-archive">
+  {{ if len . }}
+  <p class="changelog-overview">{{ i18n "changelog_overview" (dict "Count" (len .) "Months" (len $groups)) }}</p>
+  {{ range $groups }}
+  <section class="changelog-month" aria-labelledby="{{ .Key }}">
+    <header class="changelog-month-head">
+      <h2 id="{{ .Key }}">{{ .Key }}</h2>
+      <span class="changelog-count">{{ i18n "changelog_added" (len .Pages) }}</span>
+    </header>
+    <ul class="changelog-entries">
+      {{ range .Pages.ByDate.Reverse }}
+      <li><a href="{{ .RelPermalink }}">
+        <time datetime="{{ .Date.Format "2006-01-02" }}">{{ .Date.Format "01-02" }}</time>
+        <span class="changelog-entry-title">{{ .Title }}</span>
+        <span class="changelog-entry-arrow" aria-hidden="true">→</span>
+      </a></li>
+      {{ end }}
+    </ul>
+  </section>
+  {{ end }}
+  {{ else }}
+  <p class="changelog-empty">{{ i18n "changelog_empty" }}</p>
+  {{ end }}
+</div>

@@ -469,3 +469,14 @@ other = "Fit width"
 
 [embed_detail]
 other = "View details"
+
+[changelog_overview]
+one = "{{ .Count }} article across {{ .Months }} {{ if eq .Months 1 }}month{{ else }}months{{ end }}, organized by article date"
+other = "{{ .Count }} articles across {{ .Months }} {{ if eq .Months 1 }}month{{ else }}months{{ end }}, organized by article date"
+
+[changelog_added]
+one = "{{ .Count }} new article"
+other = "{{ .Count }} new articles"
+
+[changelog_empty]
+other = "No published articles yet."

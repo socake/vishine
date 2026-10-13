@@ -464,3 +464,12 @@ other = "适应宽度"
 
 [embed_detail]
 other = "放大细节"
+
+[changelog_overview]
+other = "共 {{ .Count }} 篇文章 · {{ .Months }} 个月份，按文章日期归档"
+
+[changelog_added]
+other = "新增 {{ .Count }} 篇"
+
+[changelog_empty]
+other = "暂无已发布的文章。"

@@ -8,6 +8,7 @@
 | --- | --- | --- | --- |
 | 写文章 | `content/posts/*.md`，title / date / summary / categories / tags | 标题、元信息、封面、正文、分享、相关文章 | [快速开始](GETTING-STARTED.md)，`exampleSite/content/posts/` |
 | 展示首页入口 | hugo.toml 的 homeSections / homeCardLayout / featureZone、data/sections.toml | 首页工作台、按密度选择标准卡或紧凑入口、子栏目索引、可配置统计和最近更新 | [配置参考](USAGE.md)，教程 13 与 `exampleSite/hugo.toml` |
+| 自动更新日志 | 正文插入 changelog；文章维护 date | 按月归档、真实篇数、文章链接、文章页月份目录 | [更新日志契约](CHANGELOG.md)；教程 15 与示例站 `/changelog/` |
 | 列表筛选 | 内容分类标签；pagination.pagerSize | 常用分类与可搜索的全部筛选、分页、URL 与后退恢复 | [配置参考](USAGE.md)；示例站 `/posts/` |
 | 多层栏目 | `_index.md`、目录层级、sectionNav | 子栏目卡片、直属文章、面包屑、栏目浏览 | [栏目契约](SECTION-NAVIGATION.md)；示例站 `/docs/` |
 | 连续阅读 / 学习路线 | 任意栏目 readingNav；weight / group / stage | 悬浮目录内切换本页 / 栏目、同级文章、章节上下篇和返回目录；兼容旧 track | [阅读契约](THEME-APIS.md#1-任意栏目的章节导航)；教程 12 的示例分支 |
@@ -32,6 +33,7 @@
 | `lead` | 无必填参数，成对 | 简短导语 |
 | `callout` | type 为 info（默认）/ warn / tip；非法值回退 info；title 可选 | 需要突出但仍应直接可见的信息 |
 | `typeit` | 无有效配置参数，成对；当前为静态强调文本 | 短句强调；不是打字机动画 |
+| `changelog` | 单标签；sections 默认为 posts，多栏目用逗号分隔；每页一次，独立放置；文章 changelog: false 可排除 | 自动按月列出已发布文章，详见 [完整契约](CHANGELOG.md) |
 | `timeline` | 成对；每行 `节点 \| 阶段 \| 说明`，后两项可省 | 人工编写时间线，不用于自动列出子栏目 |
 | `sponsor` | 单标签；title / desc / wechat / alipay 可覆盖站点参数；无码不渲染 | 赞助区 |
 | `runbook-step` | title 必填；number 可选；id 推荐显式指定且页内唯一 | 组织一项操作；标题为 H3，应位于 H2 下 |

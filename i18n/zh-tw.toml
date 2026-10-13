@@ -246,3 +246,12 @@ other = "語言"
 
 [sponsor]
 other = "贊助"
+
+[changelog_overview]
+other = "共 {{ .Count }} 篇文章 · {{ .Months }} 個月份，依文章日期歸檔"
+
+[changelog_added]
+other = "新增 {{ .Count }} 篇"
+
+[changelog_empty]
+other = "暫無已發佈的文章。"

@@ -1,0 +1,25 @@
+{{- /* Build the archive from page metadata, never from another page's Content. */ -}}
+{{- $source := "posts" -}}
+{{- if .IsNamedParams -}}
+  {{- if isset .Params "sections" }}{{ $source = .Get "sections" }}{{ end -}}
+{{- else if len .Params -}}
+  {{- errorf "changelog requires named parameters, e.g. sections=\"posts\": %s" .Position -}}
+{{- end -}}
+{{- $sections := slice -}}
+{{- range split $source "," -}}
+  {{- $section := strings.TrimSpace . -}}
+  {{- if or (not $section) (in $section "/") (in $section "\\") (in (slice "." "..") $section) -}}
+    {{- errorf "changelog sections must be comma-separated top-level section names: %s" $.Position -}}
+  {{- end -}}
+  {{- $sections = $sections | append $section -}}
+{{- end -}}
+{{- $pages := where .Page.Site.RegularPages "Section" "in" ($sections | uniq) -}}
+{{- $excluded := slice .Page -}}
+{{- $now := now -}}
+{{- range $pages -}}
+  {{- if or .Draft .Date.IsZero (.Date.After $now) (.PublishDate.After $now) (and (not .ExpiryDate.IsZero) (not (.ExpiryDate.After $now))) (eq .Params.changelog false) (not .RelPermalink) -}}
+    {{- $excluded = $excluded | append . -}}
+  {{- end -}}
+{{- end -}}
+{{- $pages = $pages | complement $excluded -}}
+{{- partial "changelog-archive.html" $pages -}}
