@@ -53,7 +53,7 @@ Markdown 无原生提示框，**统一用 shortcode**，不准在正文写裸 HT
 | 简单流程／时序关系 | Mermaid 围栏 | 由主题渲染 SVG，支持查看器 |
 | 独立 SVG 文件 | 普通 Markdown 图片 | 保留矢量；无需包装成 HTML |
 | 照片／截图／位图 | 普通 Markdown 图片 | 正文保留原始资源，避免重复有损转码；源图模糊需要更换源图 |
-| 包含 SVG／HTML 文字的独立 HTML 图表 | `html-embed` | 保留源文件，按可读尺寸设置 `minWidth`，窄屏局部横向浏览 |
+| 包含 SVG／HTML 文字的独立 HTML 图表 | `html-embed` | `fit="width"` 先适应正文，`minWidth` 供细节视图使用；保留矢量，局部横向浏览 |
 
 HTML 放在宿主 `static/diagrams/`，正文通过 shortcode 引用，不能把整份 HTML 的 style/script 粘贴到正文。组件仅接受可信本地 `.html` 文件；普通 `page` 模式固定高度，Archify 模式的配色与自动高度有明确适用条件。HTML 内的位图不会自动变成矢量。完整参数、尺寸范围与回退行为见 [HTML-EMBED.md](HTML-EMBED.md)，实际源码和效果见教程 14。
 

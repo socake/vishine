@@ -329,10 +329,10 @@ cascade:
 将可信、自行维护的图表放到宿主 `static/diagrams/flow.html`，正文写：
 
 ```markdown
-{{< html-embed src="/diagrams/flow.html" title="请求处理流程" height=480 minWidth=960 >}}
+{{< html-embed src="/diagrams/flow.html" title="请求处理流程" fit="width" height=480 minWidth=960 >}}
 ```
 
-`src` 是站点根目录下的本地 `.html` 路径（不含 `static/`），`title` 必填。`height` 默认 480px；`minWidth` 默认 0，密集图应按文字可读的宽度设置，让窄屏读者在图表内横向浏览。普通 `page` 模式不会自动调整高度或同步配色。
+`src` 是站点根目录下的本地 `.html` 路径（不含 `static/`），`title` 必填。`fit="width"` 让全图先适应正文宽度；配合非零 `minWidth`，窄屏可切换“放大细节 / 适应宽度”，细节视图只在图表内横向滚动。旧调用只写 minWidth 时仍保留原来的宽度下限。`height` 默认 480px；普通 `page` 模式不会自动调整高度或同步配色。
 
 支持 Archify 嵌入约定的 HTML 可增加 `mode="archify"`，隐藏独立页外围工具栏，同步深浅配色并按内容调整高度；切换配色会重新加载图表。所有模式保留“打开完整图表”入口。此组件可以运行同源脚本，仅用于可信文件；HTML 内原本的位图不会因此变成矢量。参数范围、失败行为和限制见 [HTML-EMBED.md](HTML-EMBED.md)，可复制源码与效果见教程 14。
 

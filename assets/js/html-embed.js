@@ -6,12 +6,28 @@
     const viewport = figure.querySelector('.html-embed-viewport');
     const hint = figure.querySelector('.html-embed-hint');
     if (!hint) return;
+    const frame = figure.querySelector('iframe');
+    const button = figure.querySelector('.html-embed-fit');
+    const minWidth = Number(figure.dataset.embedMinWidth) || 0;
+    let fitWidth = figure.dataset.embedFit === 'width';
     const update = () => {
       const overflow = viewport.scrollWidth > viewport.clientWidth;
       hint.hidden = !overflow;
       viewport.tabIndex = overflow ? 0 : -1;
-      viewport.setAttribute('aria-label', figure.querySelector('iframe').title + (overflow ? ' — ' + hint.textContent : ''));
+      viewport.setAttribute('aria-label', frame.title + (overflow ? ' — ' + hint.textContent : ''));
+      if (button) {
+        // Keep a focused control available if resizing makes both views equal.
+        button.hidden = minWidth <= viewport.clientWidth && fitWidth && document.activeElement !== button;
+        button.textContent = fitWidth ? button.dataset.detailLabel : button.dataset.fitLabel;
+      }
     };
+    if (button) button.addEventListener('click', () => {
+      fitWidth = !fitWidth;
+      figure.dataset.embedFit = fitWidth ? 'width' : 'scroll';
+      frame.style.minWidth = (fitWidth ? 0 : minWidth) + 'px';
+      viewport.scrollLeft = 0;
+      update();
+    });
     update();
     if ('ResizeObserver' in window) new ResizeObserver(update).observe(viewport);
   });
@@ -28,7 +44,9 @@
       if (!doc?.body || doc.documentElement.dataset.embed !== 'true') return;
       const resize = () => {
         const height = Math.ceil(doc.body.getBoundingClientRect().height);
-        if (height > 0) frame.style.height = Math.min(1600, Math.max(160, height)) + 'px';
+        // The configured minimum is a loading fallback, not a floor for a
+        // responsive diagram that can legitimately become shorter on phones.
+        if (height > 0) frame.style.height = Math.min(1600, height) + 'px';
       };
       resize();
       if ('ResizeObserver' in window) {

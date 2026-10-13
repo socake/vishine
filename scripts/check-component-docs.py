@@ -101,13 +101,20 @@ noClasses=false
         html = (work/'embed-recipes/posts/html-embed/index.html').read_text()
         assert '<iframe' in html and 'src="/lab/diagrams/embed-example.html"' in html
         assert 'title="从输入到结果"' in html and 'loading="lazy"' in html
-        assert 'height:260px;min-width:760px' in html and 'html-embed.' in html
+        assert 'height:260px;min-width:0px' in html and 'html-embed.' in html
+        assert 'data-embed-fit="width"' in html and 'data-embed-min-width="760"' in html
+        assert 'class="html-embed-fit" hidden' in html and 'class="html-embed-hint" hidden' in html
         assert (work/'embed-recipes/diagrams/embed-example.html').is_file()
+        recipe.write_text('---\ntitle: Legacy embed\n---\n{{< html-embed src="/diagrams/embed-example.html" title="Diagram" minWidth=760 >}}')
+        build(host, work/'embed-legacy')
+        html = (work/'embed-legacy/posts/html-embed/index.html').read_text()
+        assert 'data-embed-fit="scroll"' in html and 'min-width:760px' in html
         recipe.write_text('---\ntitle: Archify embed\n---\n{{< html-embed src="/diagrams/embed-example.html" title="Diagram" mode="archify" >}}')
         build(host, work/'embed-archify')
         html = (work/'embed-archify/posts/html-embed/index.html').read_text()
         assert 'embed=1&amp;theme=light' in html and 'data-embed-mode="archify"' in html
-        for bad in ['src="https://example.com/file.html" title="Remote"', 'src="/file.html"', 'src="/file.html" title="Bad size" height=0', 'src="/file.html" title="Bad mode" mode="unknown"']:
+        assert 'data-embed-fit="width"' in html and 'min-width:0px' in html
+        for bad in ['src="https://example.com/file.html" title="Remote"', 'src="/file.html"', 'src="/file.html" title="Bad size" height=0', 'src="/file.html" title="Bad mode" mode="unknown"', 'src="/file.html" title="Bad fit" fit="unknown"']:
             recipe.write_text('---\ntitle: Invalid embed\n---\n{{< html-embed '+bad+' >}}')
             try:
                 build(host, work/'embed-invalid')

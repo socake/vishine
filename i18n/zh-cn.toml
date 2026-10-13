@@ -458,3 +458,9 @@ other = "打开完整图表"
 
 [embed_scroll]
 other = "可左右滚动查看完整图表"
+
+[embed_fit]
+other = "适应宽度"
+
+[embed_detail]
+other = "放大细节"

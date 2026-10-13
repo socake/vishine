@@ -22,7 +22,7 @@
 图表与阅读导航：
 - 简单流程用 Mermaid；独立 SVG、照片和截图用 Markdown 图片。
 - 已有可信的 HTML 图表时，先读主题 docs/HTML-EMBED.md，文件放 static/diagrams/，正文使用 html-embed；不默认转成位图，也不复制 iframe/CSS/JS 到文章。
-- html-embed 的 src 只接受本地 .html，title 必填；支持 Archify 嵌入约定才用 mode="archify"。按可读尺寸设置 minWidth，窄屏仅图表局部横向滚动；普通 page 模式用 height 控制高度。
+- html-embed 的 src 只接受本地 .html，title 必填；支持 Archify 嵌入约定才用 mode="archify"。优先用 fit="width" 适应正文，minWidth 供“放大细节”切换；旧调用只写 minWidth 仍保留宽度下限。普通 page 模式用 height 控制高度。
 - 嵌入文件可运行同源脚本，必须是自己维护并信任的文件。检查真实文章的文字大小、底部裁切、键盘滚动、配色和完整图表入口。
 - 本页目录、栏目浏览和上下章导航使用主题 docs/THEME-APIS.md 的 article / readingNav 配置；栏目浏览在悬浮目录和手机目录抽屉内切换，不另造一套栏目树。
 ```

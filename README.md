@@ -23,7 +23,7 @@ Agent 从 [AGENTS.md](AGENTS.md) 开始，了解组件边界、启动命令与�
 
 博客提供文章、图片、自有图表文件、栏目和配置；主题承担公共渲染与交互。写作者先看 [组件目录](docs/COMPONENTS.md)，按“我想做什么”找到配置、shortcode 和实际示例。Agent 开发主题读 [AGENTS.md](AGENTS.md)；在博客中使用主题，则按 [宿主入口模板](docs/AGENTS-HOST.example.md) 接入。
 
-已有 HTML 图表可按 [HTML 嵌入指南](docs/HTML-EMBED.md) 放入宿主 `static/diagrams/`，通过 `html-embed` 引用；独立 SVG 仍用 Markdown 图片。密集图保留可读宽度，在窄屏局部横向浏览。
+已有 HTML 图表可按 [HTML 嵌入指南](docs/HTML-EMBED.md) 放入宿主 `static/diagrams/`，通过 `html-embed` 引用；独立 SVG 仍用 Markdown 图片。`fit="width"` 让全图适应正文，配合 `minWidth` 可切换到细节视图。
 
 本地运行 `sh scripts/theme-dev.sh serve tutorialSite` 可查看“组件与维护”：每个新正文组件同时展示可复制源码与真实效果；栏目教程演示自动卡片与多层导航。线上 Demo 与教程随 main 分支的发布工作流更新。
 

@@ -463,3 +463,9 @@ other = "Open full diagram"
 
 [embed_scroll]
 other = "Scroll horizontally to see the full diagram"
+
+[embed_fit]
+other = "Fit width"
+
+[embed_detail]
+other = "View details"

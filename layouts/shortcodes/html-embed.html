@@ -13,16 +13,23 @@
 {{- $height := int $heightValue -}}
 {{- $minWidth := int $widthValue -}}
 {{- if or (lt $height 160) (gt $height 1600) (lt $minWidth 0) (gt $minWidth 2400) }}{{ errorf "html-embed requires height 160..1600 and minWidth 0..2400: %s" .Position }}{{ end -}}
+{{- /* Preserve the width floor of existing minWidth-only calls. */ -}}
+{{- $fit := .Get "fit" | default (cond (gt $minWidth 0) "scroll" "width") -}}
+{{- if not (in (slice "width" "scroll") $fit) }}{{ errorf "html-embed fit must be width or scroll: %s" .Position }}{{ end -}}
+{{- $initialWidth := cond (eq $fit "width") 0 $minWidth -}}
 {{- $url := strings.TrimPrefix "/" $src | relURL -}}
 {{- $frameURL := $url -}}
 {{- if eq $mode "archify" }}{{ $frameURL = printf "%s?embed=1&theme=%s" $url (cond (eq (site.Params.defaultScheme | default "paper") "dark") "dark" "light") }}{{ end -}}
-<figure class="html-embed" data-html-embed data-embed-mode="{{ $mode }}">
+<figure class="html-embed" data-html-embed data-embed-mode="{{ $mode }}" data-embed-fit="{{ $fit }}" data-embed-min-width="{{ $minWidth }}">
   <figcaption class="html-embed-head">
     <span>{{ $title }}</span>
-    <a href="{{ $url }}" target="_blank" rel="noopener">{{ i18n "embed_open" }} <span aria-hidden="true">↗</span></a>
+    <span class="html-embed-actions">
+      {{ if $minWidth }}<button type="button" class="html-embed-fit" hidden data-fit-label="{{ i18n "embed_fit" }}" data-detail-label="{{ i18n "embed_detail" }}">{{ i18n "embed_detail" }}</button>{{ end }}
+      <a href="{{ $url }}" target="_blank" rel="noopener">{{ i18n "embed_open" }} <span aria-hidden="true">↗</span></a>
+    </span>
   </figcaption>
-  {{ if $minWidth }}<p class="html-embed-hint">{{ i18n "embed_scroll" }}</p>{{ end }}
-  <div class="html-embed-viewport"{{ if $minWidth }} tabindex="0" role="region" aria-label="{{ $title }} — {{ i18n "embed_scroll" }}"{{ end }}>
-    <iframe src="{{ $frameURL | safeURL }}" title="{{ $title }}" loading="lazy" referrerpolicy="no-referrer" style="height:{{ $height }}px;min-width:{{ $minWidth }}px" data-embed-src="{{ $url }}"></iframe>
+  {{ if $minWidth }}<p class="html-embed-hint"{{ if eq $fit "width" }} hidden{{ end }}>{{ i18n "embed_scroll" }}</p>{{ end }}
+  <div class="html-embed-viewport"{{ if $minWidth }} tabindex="{{ if $initialWidth }}0{{ else }}-1{{ end }}" role="region" aria-label="{{ $title }}"{{ end }}>
+    <iframe src="{{ $frameURL | safeURL }}" title="{{ $title }}" loading="lazy" referrerpolicy="no-referrer" style="height:{{ $height }}px;min-width:{{ $initialWidth }}px" data-embed-src="{{ $url }}"></iframe>
   </div>
 </figure>

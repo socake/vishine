@@ -47,7 +47,7 @@ cascade:
 博客保存内容、图片、自有图表文件和配置；公共组件在主题开发，并补用法与示例。
 默认主题位置为 themes/vishine；外部 themesDir 以启动命令为准。
 已有 HTML 图表先读主题 docs/HTML-EMBED.md，放入 static/diagrams/ 并用 html-embed，保留矢量文字；独立 SVG 用 Markdown 图片。
-密集图按可读尺寸设置 minWidth，检查窄屏局部滚动、底部完整性和键盘；只嵌入自己维护并信任的 HTML。
+图表用 fit="width" 先适应正文，minWidth 供“放大细节”切换；检查窄屏放大／切回、底部完整性和键盘，只嵌入自己维护并信任的 HTML。
 目录、栏目切换和上下章导航读 docs/THEME-APIS.md，不另造公共导航。
 发布前同步宿主 submodule 到已验收的主题提交，并以仓库内主题构建。
 保留现有修改；提交、推送、部署须有用户授权。

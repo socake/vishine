@@ -290,3 +290,15 @@ other = "元画像を読み込めません。プレビューを表示します"
 
 [ui_zoomviewport]
 other = "画像ビューアー（拡大縮小・移動可能）"
+
+[embed_open]
+other = "図全体を開く"
+
+[embed_scroll]
+other = "左右にスクロールして図全体を表示"
+
+[embed_fit]
+other = "幅に合わせる"
+
+[embed_detail]
+other = "詳細を拡大"

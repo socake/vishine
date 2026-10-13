@@ -81,14 +81,14 @@ flowchart LR
 已有包含 SVG／HTML 文字的独立 HTML 图表时，直接嵌入该文件，避免截图后再缩放。独立 `.svg` 文件仍用普通 Markdown 图片；简单流程可以直接写 Mermaid。将可信、自行维护的 HTML 放到宿主的 `static/diagrams/`，正文写：
 
 ```markdown
-{{</* html-embed src="/diagrams/embed-example.html" title="从输入到结果" height=260 minWidth=760 */>}}
+{{</* html-embed src="/diagrams/embed-example.html" title="从输入到结果" fit="width" height=260 minWidth=760 */>}}
 ```
 
-{{< html-embed src="/diagrams/embed-example.html" title="从输入到结果" height=260 minWidth=760 >}}
+{{< html-embed src="/diagrams/embed-example.html" title="从输入到结果" fit="width" height=260 minWidth=760 >}}
 
-上方展示的正是这段源码。窄屏时图表区域可以左右滚动，Tab 聚焦该区域后也能用方向键滚动；整篇文章保持自然上下滚动。“打开完整图表”在独立页面浏览原文件。
+上方展示的正是这段源码。全图先适应正文宽度；窄屏点击“放大细节”后可左右浏览，再点“适应宽度”恢复完整全图。Tab 聚焦溢出的图表区域后也能用方向键滚动；整篇文章保持自然上下滚动。“打开完整图表”在独立页面浏览原文件。
 
-`src` 和 `title` 必填；src 只接受本地 `.html` 路径，不带 `static/`。`height` 默认 480px，`minWidth` 默认 0（随容器宽度）。复杂图可按实际可读宽度设置 minWidth，避免把字缩得过小。普通 page 模式使用指定高度，不自动同步配色。
+`src` 和 `title` 必填；src 只接受本地 `.html` 路径，不带 `static/`。`height` 默认 480px，`minWidth` 默认 0。`fit="width"` 让初始画面适应正文，minWidth 定义细节视图的宽度下限。只写 minWidth 的旧调用仍默认横向浏览；无脚本时保留作者指定的初始模式。普通 page 模式使用指定高度，不自动同步配色。
 
 支持 Archify 嵌入约定的 HTML 可额外写 `mode="archify"`，使用它自带的嵌入模式，跟随博客的浅色 / 暗色并调整高度；切换配色会重新载入图表。文件可运行同源脚本，必须由站点维护并信任；HTML 内原有的位图不会因此变成矢量。完整限制见 `docs/HTML-EMBED.md`。
 
