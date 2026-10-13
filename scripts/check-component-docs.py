@@ -92,7 +92,7 @@ noClasses=false
         assert 'COPY_BODY_RECIPE_014' in (work/'public-recipes/index.json').read_text()
         embedded = Snippets()
         embedded.feed(rendered)
-        assert len(embedded.items) == 1 and 'html-embed' in embedded.items[0]
+        assert len(embedded.items) == 2 and all('html-embed' in item for item in embedded.items)
         (host/'static/diagrams').mkdir(parents=True)
         shutil.copyfile(theme/'tutorialSite/static/diagrams/embed-example.html', host/'static/diagrams/embed-example.html')
         recipe = host/'content/posts/html-embed.md'
@@ -114,7 +114,15 @@ noClasses=false
         html = (work/'embed-archify/posts/html-embed/index.html').read_text()
         assert 'embed=1&amp;theme=light' in html and 'data-embed-mode="archify"' in html
         assert 'data-embed-fit="width"' in html and 'min-width:0px' in html
-        for bad in ['src="https://example.com/file.html" title="Remote"', 'src="/file.html"', 'src="/file.html" title="Bad size" height=0', 'src="/file.html" title="Bad mode" mode="unknown"', 'src="/file.html" title="Bad fit" fit="unknown"']:
+        assert 'data-embed-surface="theme"' in html
+        shutil.copyfile(theme/'tutorialSite/static/diagrams/archify-surface-example.html', host/'static/diagrams/archify-surface-example.html')
+        recipe.write_text('---\ntitle: Surface recipes\n---\n'+embedded.items[1])
+        build(host, work/'embed-surfaces')
+        html = (work/'embed-surfaces/posts/html-embed/index.html').read_text()
+        assert 'data-embed-surface="theme"' in html and 'data-embed-surface="source"' in html
+        assert html.count('/lab/diagrams/archify-surface-example.html?embed=1') == 2
+        assert (work/'embed-surfaces/diagrams/archify-surface-example.html').is_file()
+        for bad in ['src="https://example.com/file.html" title="Remote"', 'src="/file.html"', 'src="/file.html" title="Bad size" height=0', 'src="/file.html" title="Bad mode" mode="unknown"', 'src="/file.html" title="Bad fit" fit="unknown"', 'src="/file.html" title="Bad surface" surface="unknown"', 'src="/file.html" title="Page cannot adopt theme" surface="theme"']:
             recipe.write_text('---\ntitle: Invalid embed\n---\n{{< html-embed '+bad+' >}}')
             try:
                 build(host, work/'embed-invalid')

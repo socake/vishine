@@ -6,6 +6,8 @@
   {{- errorf "html-embed requires title and a local .html src without query, fragment or traversal: %s" .Position -}}
 {{- end -}}
 {{- if not (in (slice "page" "archify") $mode) }}{{ errorf "html-embed mode must be page or archify: %s" .Position }}{{ end -}}
+{{- $surface := .Get "surface" | default (cond (eq $mode "archify") "theme" "source") -}}
+{{- if or (not (in (slice "theme" "source") $surface)) (and (eq $mode "page") (eq $surface "theme")) }}{{ errorf "html-embed surface must be source, or theme with mode=archify: %s" .Position }}{{ end -}}
 {{- $heightValue := "480" -}}
 {{- if isset .Params "height" }}{{ $heightValue = printf "%v" (.Get "height") }}{{ end -}}
 {{- $widthValue := printf "%v" (.Get "minWidth" | default 0) -}}
@@ -20,7 +22,7 @@
 {{- $url := strings.TrimPrefix "/" $src | relURL -}}
 {{- $frameURL := $url -}}
 {{- if eq $mode "archify" }}{{ $frameURL = printf "%s?embed=1&theme=%s" $url (cond (eq (site.Params.defaultScheme | default "paper") "dark") "dark" "light") }}{{ end -}}
-<figure class="html-embed" data-html-embed data-embed-mode="{{ $mode }}" data-embed-fit="{{ $fit }}" data-embed-min-width="{{ $minWidth }}">
+<figure class="html-embed" data-html-embed data-embed-mode="{{ $mode }}" data-embed-surface="{{ $surface }}" data-embed-fit="{{ $fit }}" data-embed-min-width="{{ $minWidth }}">
   <figcaption class="html-embed-head">
     <span>{{ $title }}</span>
     <span class="html-embed-actions">

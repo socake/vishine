@@ -26,6 +26,7 @@
 - 先检查已有源文件：简单流程可用 Mermaid 围栏；独立 SVG、照片与截图用 Markdown 图片；已有包含 SVG／HTML 文字的独立 HTML 图表用 `html-embed`，保留源文件，不默认转成 PNG 再嵌入。
 - HTML 图表放在宿主 `static/diagrams/`，先读 `docs/HTML-EMBED.md`。`src` 只接受本地 `.html` 地址，不能直接传 `.svg`；`title` 必填。只有支持 Archify 嵌入约定的文件才用 `mode="archify"`。
 - 新嵌入优先显式用 `fit="width"` 适应正文，再按可读尺寸设置 `minWidth` 供“放大细节”切换使用；旧调用只写 minWidth 仍保留宽度下限，不能称为自动适应。窄屏全图与细节视图都要验收，不撑宽整页。普通 HTML 的高度由 `height` 指定，不能假定所有 HTML 都会自动调高或同步配色。
+- Archify 默认 `surface="theme"` 同步已知中性 CSS 变量，保留节点语义色；`surface="source"` 保留源配色。普通 page 不注入样式；不要把同源适配描述成任意 HTML 都支持换肤。
 - 嵌入文件必须由宿主维护并信任；iframe 可运行同源脚本，不是执行不可信代码的沙箱。主题负责外框、入口和适配，不把图内 CSS/JS 复制进文章，也不接管作者事实内容。
 - 新增／调整嵌入行为时维护教程 14 的可复制示例并运行 `check-component-docs.py`；界面验收还需检查文字可读性、底部无裁切、局部滚动、键盘、配色和打开完整图表。
 
@@ -103,3 +104,5 @@ git diff --check
 ## 首页与品牌复用
 
 单板块、两板块与五板块均使用主题首页；配置接口见 `docs/USAGE.md` 的“首页与品牌配置”，可运行最小宿主在 `exampleSite/presets/internal/`。优先使用 homeStats、recentSections、heroLinks、brand、customCSS、footerTagline，不复制 index/header/cover/head 模板。taxonomy URL 必须来自 Hugo term 页面；板块颜色不得决定卡片宽度。新增接口同时维护教程 13 与最小宿主回归。
+
+首页 `homeCardLayout` 根据内容密度选择标准卡或紧凑行；显式 standard 可保留旧组合。自动封面默认用于列表和文章开头，短标识取 coverLabel／首个标签等，完整标题只由 HTML 呈现；cover.autoArticle=false 可单独关闭正文自动横幅，作者封面仍显示。调整这两项时同时检查默认与关闭模式，不通过裁切图片或修改文章标题掩盖长文本问题。网格、表面投影和板块色承担空间层次与视觉重点，不以全面降低对比度代替外观优化。

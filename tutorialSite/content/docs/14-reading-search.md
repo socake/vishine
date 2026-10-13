@@ -92,6 +92,20 @@ flowchart LR
 
 支持 Archify 嵌入约定的 HTML 可额外写 `mode="archify"`，使用它自带的嵌入模式，跟随博客的浅色 / 暗色并调整高度；切换配色会重新载入图表。文件可运行同源脚本，必须由站点维护并信任；HTML 内原有的位图不会因此变成矢量。完整限制见 `docs/HTML-EMBED.md`。
 
+### 中性表面跟随主题
+
+下面的轻量演示文件实现了 Archify 的嵌入与 CSS 变量约定。两次嵌入引用同一文件，切换暖纸、纯白、暗色可比较：第一张同步背景、文字与边界；第二张保留文件原配色。绿色节点的语义色不被主题替换。
+
+```markdown
+{{</* html-embed src="/diagrams/archify-surface-example.html" title="跟随博客表面" mode="archify" surface="theme" fit="width" height=260 */>}}
+{{</* html-embed src="/diagrams/archify-surface-example.html" title="保留源图表面" mode="archify" surface="source" fit="width" height=260 */>}}
+```
+
+{{< html-embed src="/diagrams/archify-surface-example.html" title="跟随博客表面" mode="archify" surface="theme" fit="width" height=260 >}}
+{{< html-embed src="/diagrams/archify-surface-example.html" title="保留源图表面" mode="archify" surface="source" fit="width" height=260 >}}
+
+`mode="archify"` 默认就是 `surface="theme"`；需要旧配色时显式写 source。普通 page 默认 source，不能设置 theme。这个接口不会自动修改任意 HTML 的样式；独立打开源文件也不会被博客改色。
+
 ## 列表中的全部筛选
 
 普通博客列表默认只露出三个常用分类，“全部筛选”包含其余分类和标签并支持搜索。要减少首屏按钮可以设置：

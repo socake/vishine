@@ -1,0 +1,27 @@
+{{- /* Build portal density from the entries actually shown, never from colors. */ -}}
+{{- $cards := slice -}}
+{{- range $key := .keys -}}
+  {{- $section := site.GetPage (printf "/%s" $key) -}}
+  {{- $pages := where site.RegularPages "Section" $key -}}
+  {{- $children := slice -}}{{ with $section }}{{ $children = .Sections.ByWeight }}{{ end -}}
+  {{- $entries := len $pages -}}
+  {{- if eq $key "docs" }}{{ if $children }}{{ $entries = len $children }}{{ else }}{{ $entries = len site.Taxonomies.categories }}{{ end }}{{ end -}}
+  {{- $layout := index (site.Params.homecardlayout | default dict) $key | default "auto" -}}
+  {{- if not (in (slice "auto" "standard" "compact") $layout) }}{{ errorf "params.homeCardLayout.%s must be auto, standard or compact" $key }}{{ end -}}
+  {{- if eq $layout "auto" }}{{ $layout = cond (le $entries 1) "compact" "standard" }}{{ end -}}
+  {{- $cards = $cards | append (dict "key" $key "section" $section "pages" $pages "children" $children "layout" $layout "config" (index $.sections $key | default dict)) -}}
+{{- end -}}
+{{- /* Group compact destinations after primary cards; retain each group's order. */ -}}
+{{- $ordered := slice -}}
+{{- $standardCount := len (where $cards "layout" "standard") -}}
+{{- range slice "standard" "compact" -}}
+  {{- range $i, $card := where $cards "layout" . -}}
+    {{- $span := 6 -}}
+    {{- if eq $card.layout "standard" -}}
+      {{- $span = 2 -}}
+      {{- if eq $standardCount 1 }}{{ $span = 6 }}{{ else if or (eq $standardCount 2) (eq $standardCount 4) (and (eq $standardCount 5) (lt $i 2)) }}{{ $span = 3 }}{{ end -}}
+    {{- end -}}
+    {{- $ordered = $ordered | append (merge $card (dict "span" $span)) -}}
+  {{- end -}}
+{{- end -}}
+{{- return $ordered -}}

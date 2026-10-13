@@ -79,6 +79,11 @@ def main():
             return [''.join(e.itertext()) for e in svg.iter() if e.tag.endswith('}text')]
 
         home = build()
+        assert Document(public/'posts/intro-1/index.html').root.find('art-cover-fig')
+        home = build('[params.cover]\nautoArticle=false\n')
+        assert not Document(public/'posts/intro-1/index.html').root.find('art-cover-fig')
+        assert Document(public/'posts/index.html').root.find(tag='source'), 'mobile artwork must survive autoArticle=false'
+        home = build('[params.cover]\nautoArticle=true\n')
         cards = home.find('mod')
         assert len(cards) == 2
         assert all('span-3' in c.attrs['class'].split() for c in cards)
@@ -100,7 +105,8 @@ def main():
         tag = [a for a in article.find('art-end')[0].find(tag='a') if a.text() == 'bcecmd -c'][0]
         assert '/tags/bcecmd--c/' in tag.attrs['href'] and target(tag.attrs['href']).is_file(), tag.attrs
         texts = cover_texts(article)
-        assert 'sslaunch' in texts and '是什么' in texts and 'DevBox' in texts, texts
+        assert 'bcecmd -c' in texts and 'DevBox' in texts, texts
+        assert article.find('art-title')[0].text() == 'sslaunch 是什么'
         sheets = [e.attrs['href'] for e in home.find(tag='link') if e.attrs.get('rel') == 'stylesheet']
         css = target(sheets[0]).read_text()
         assert css.index('--internal-site-extension') > css.index('.mod-index-row')
@@ -127,9 +133,24 @@ def main():
         keys = ['docs','posts','playbook','roadmap','resources','extra']
         expected = {1:[6], 2:[3,3], 3:[2,2,2], 4:[3,3,3,3], 5:[3,3,2,2,2], 6:[2]*6}
         for count, spans in expected.items():
-            home = build('[params]\nhomeSections='+repr(keys[:count]).replace("'", '"')+'\n')
+            layouts = '\n[params.homeCardLayout]\n' + '\n'.join(key+'="standard"' for key in keys)
+            home = build('[params]\nhomeSections='+repr(keys[:count]).replace("'", '"')+'\n'+layouts)
             actual = [int(re.search(r'\bspan-(\d)', c.attrs['class'])[1]) for c in home.find('mod')]
             assert actual == spans, (count, actual)
+
+        # Default density groups sparse destinations after the standard cards.
+        home = build('[params]\nhomeSections=["resources","docs","posts"]\n')
+        cards = home.find('mod')
+        assert [c.attrs['class'].split()[2] for c in cards] == ['sec-docs','sec-posts','sec-resources']
+        assert 'mod-compact' in cards[-1].attrs['class'] and 'span-6' in cards[-1].attrs['class']
+        home = build('[params.homeCardLayout]\nposts="compact"\n')
+        assert 'mod-compact' in home.find('mod')[-1].attrs['class']
+        try:
+            build('[params.homeCardLayout]\nposts="unsupported"\n')
+        except AssertionError as error:
+            assert 'homeCardLayout.posts' in str(error)
+        else:
+            raise AssertionError('Invalid home layout must fail')
 
         # Custom taxonomy permalinks and raw SVG icons use Hugo data, not guessed paths.
         (root/'data/sections.toml').write_text('[sections.posts]\nclass="ai"\nicon=\'<svg viewBox="0 0 24 24"><path data-custom="yes" d="M0 0h24"/></svg>\'\n')
@@ -157,15 +178,23 @@ def main():
         (root/'content/docs/_index.md').write_text('---\ntitle: 手册\n---\n')
         home = build()
         assert not home.find('mod-index-row') and home.find('mod-chips')
-        # Chinese and single-token title cases must stay legible.
+        # Preserve full HTML titles; topic labels safely truncate without cropping.
         post = root/'content/posts/intro-1.md'
-        for title, lines in [('中文标题超过十一字保持中点断行', ['中文标题超过十一','字保持中点断行']),
-                             ('LongUnbrokenASCIIWord', ['LongUnbrokenASCIIWord']),
-                             ('sslaunch是什么以及使用指南', ['sslaunch是','什么以及使用指南'])]:
-            post.write_text('---\ntitle: '+title+'\ndate: 2026-01-01\n---\n')
-            build()
-            texts = cover_texts(Document(public/'posts/intro-1/index.html').root)
-            assert all(line in texts for line in lines), (title, texts)
+        for title, label in [('中文标题超过十一字保持中点断行', '中文主题'),
+                             ('LongUnbrokenASCIIWord', 'LongUnbrokenASCIIWord'),
+                             ('sslaunch是什么以及使用指南', 'A & B')]:
+            post.write_text('---\ntitle: '+title+'\ncoverLabel: '+label+'\ndate: 2026-01-01\n---\n')
+            build('[params.cover]\nautoArticle=true\n')
+            article = Document(public/'posts/intro-1/index.html').root
+            texts = cover_texts(article)
+            expected = label if len(label) <= 18 else label[:17]+'…'
+            assert expected in texts, (label, texts)
+            assert article.find('art-title')[0].text() == title
+        post.write_text('---\ntitle: Manual cover\ncover: /manual.svg\ndate: 2026-01-01\n---\n')
+        (root/'static').mkdir(exist_ok=True)
+        (root/'static/manual.svg').write_text('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 100"><rect width="300" height="100"/></svg>')
+        build('[params.cover]\nautoArticle=false\n')
+        assert Document(public/'posts/intro-1/index.html').root.find('art-cover-fig')[0].find(tag='img')[0].attrs['src'] == '/manual.svg'
     print('PASS: two-section preset / 7 child counts / statistics / icons / brands / hero links / recent ordering / term URLs / title wrapping / CSS extension / legacy defaults / 1–6 cards')
 
 if __name__ == '__main__':

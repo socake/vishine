@@ -36,6 +36,10 @@
     class = "res"
     label = "资源"
     en = "resources"
+  [sections.samples]
+    class = "res"
+    label = "外观示例"
+    en = "samples"
 
 
 # ---- 分类 → 板块 class：决定每篇教程卡片/标签/封面的颜色 ----

@@ -30,6 +30,7 @@
   {{- /* kind=post：列表网格卡，含摘要，带筛选数据属性。
         有 featured 资源（或 .Params.cover）则顶部铺封面缩略，否则纯文字卡。 */ -}}
   {{- $coverURL := "" -}}
+  {{- $autoCover := false -}}
   {{- $fr := $page.Resources.GetMatch "featured.*" -}}
   {{- if and $fr (not (index (or site.Params.cover dict) "ignoreFeatured")) -}}
     {{- if and (ne $fr.MediaType.SubType "svg") (gt ($fr.Width | default 0) 900) -}}
@@ -38,6 +39,7 @@
   {{- else if $page.Params.cover -}}
     {{- $coverURL = $page.Params.cover -}}
   {{- else if ne (index (or site.Params.cover dict) "auto") false -}}
+    {{- $autoCover = true -}}
     {{- $svg := partial "cover-svg.html" (dict "page" $page "variant" "thumb") -}}
     {{- $coverURL = ($svg | resources.FromString (printf "covers/%s-t.svg" (substr (md5 $page.RelPermalink) 0 12))).RelPermalink -}}
   {{- end -}}
@@ -45,7 +47,7 @@
     data-categories="{{ delimit ($page.Params.categories | default slice) "|" }}"
     data-tags="{{ delimit ($page.Params.tags | default slice) "|" }}">
     <a class="card-link" href="{{ $page.RelPermalink }}">
-      {{ with $coverURL }}<div class="card-cover"><img src="{{ . | safeURL }}" alt="{{ $page.Title }} {{ i18n "cover_alt" }}" loading="lazy" decoding="async"></div>{{ end }}
+      {{ with $coverURL }}<div class="card-cover{{ if $autoCover }} is-auto-cover{{ end }}"><img src="{{ . | safeURL }}" alt=""{{ if $autoCover }} width="800" height="500"{{ end }} loading="lazy" decoding="async"></div>{{ end }}
       <div class="card-body">
         <div class="card-top">
           {{ with $cat }}<span class="card-cat mono" style="--fc:var(--c-{{ $cls }})">{{ . }}</span>{{ end }}

@@ -25,6 +25,8 @@ Agent 从 [AGENTS.md](AGENTS.md) 开始，了解组件边界、启动命令与�
 
 已有 HTML 图表可按 [HTML 嵌入指南](docs/HTML-EMBED.md) 放入宿主 `static/diagrams/`，通过 `html-embed` 引用；独立 SVG 仍用 Markdown 图片。`fit="width"` 让全图适应正文，配合 `minWidth` 可切换到细节视图。
 
+外观接入：首页 `homeCardLayout` 可选择标准卡／紧凑入口；自动封面以短主题标识形成视觉重点，正文默认显示宽幅主题图，可用 `cover.autoArticle=false` 关闭；Archify 的 `surface="theme"` 同步中性表面，`surface="source"` 保留原图配色。参数与升级说明见 [使用文档](docs/USAGE.md)，可复制效果见教程 13、14。
+
 本地运行 `sh scripts/theme-dev.sh serve tutorialSite` 可查看“组件与维护”：每个新正文组件同时展示可复制源码与真实效果；栏目教程演示自动卡片与多层导航。线上 Demo 与教程随 main 分支的发布工作流更新。
 
 ## 为什么又造一个轮子
@@ -69,7 +71,7 @@ Agent 从 [AGENTS.md](AGENTS.md) 开始，了解组件边界、启动命令与�
 
 **内容呈现**
 - 左图右文 feed 列表：完整集合分类 / 标签筛选 + 分页与 URL 状态恢复。
-- 自动封面生成器：文章无图时按「标题 + 分类」自动生成封面，4 种版式（orbit / grid / diagonal / arc）据哈希轮换、板块色着色，**纯 Hugo 原生、零外部依赖**；`[params.cover]` 可调风格、可锁定版式、可关闭。
+- 自动封面生成器：文章无图时按主题短标识生成封面，列表缩略图有 4 种版式（orbit / grid / diagonal / arc），文章和手机列表使用宽幅主题图；板块色着色，**纯 Hugo 原生、零外部依赖**；`[params.cover]` 可调风格、可关闭。
 
 **交互与导航**
 - ⌘K 命令面板搜索：可配置全文 / 标题 / 分类 / 标签检索，显示命中片段并直达小节。
@@ -197,7 +199,7 @@ hugo server -D
 ```toml
 [params.cover]
   auto  = true        # false = 关闭，纯靠 featured 图
-  style = "auto"      # auto（哈希轮换4版式）| orbit | grid | diagonal | arc
+  style = "auto"      # 缩略图 auto（稳定轮换4版式）| orbit | grid | diagonal | arc
   # ignoreFeatured = false   # true = 即使有 featured 图也强制用自动封面（迁移换风格时好用）
 ```
 

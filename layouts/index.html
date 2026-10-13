@@ -63,19 +63,18 @@
   </div>
 
   {{ $homeSections := site.Params.homeSections | default (slice "posts" "playbook" "docs" "roadmap" "resources") }}
-  {{ $sectionCount := len $homeSections }}
+  {{ $homeCards := partial "home-cards.html" (dict "keys" $homeSections "sections" $sd) }}
   <div class="bento">
     {{ $d := 0 }}
-    {{ range $key := $homeSections }}
+    {{ range $card := $homeCards }}
       {{ $d = add $d 1 }}
-      {{ $sec := index $sd $key | default dict }}
+      {{ $key := $card.key }}
+      {{ $sec := $card.config }}
       {{ $cls := $sec.class | default "blog" }}
-      {{ $secPage := site.GetPage (printf "/%s" $key) }}
-      {{ $pages := where site.RegularPages "Section" $key }}
-      {{ $children := slice }}{{ with $secPage }}{{ $children = .Sections.ByWeight }}{{ end }}
-      {{ $span := 2 }}
-      {{ if eq $sectionCount 1 }}{{ $span = 6 }}{{ else if or (eq $sectionCount 2) (eq $sectionCount 4) (and (eq $sectionCount 5) (le $d 2)) }}{{ $span = 3 }}{{ end }}
-      <article class="mod {{ $cls }} sec-{{ $key | urlize }} span-{{ $span }} reveal d{{ $d }}">
+      {{ $secPage := $card.section }}
+      {{ $pages := $card.pages }}
+      {{ $children := $card.children }}
+      <article class="mod {{ $cls }} sec-{{ $key | urlize }} span-{{ $card.span }} mod-{{ $card.layout }} reveal d{{ $d }}">
         <div class="mod-head">
           {{ $icon := index $icons ($sec.icon | default $cls) | default (index $icons "blog") }}
           {{ with $sec.icon }}{{ if strings.HasPrefix (strings.TrimSpace .) "<svg" }}{{ $icon = . }}{{ end }}{{ end }}

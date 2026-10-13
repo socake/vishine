@@ -11,7 +11,7 @@ tags: [首页, 配置]
 
 ## 板块数量与宽度
 
-本站的 `homeSections = ["docs"]` 会占满一行。两板块无需覆盖首页模板：
+只有一个标准板块时会占满一行。两板块无需覆盖首页模板：
 
 ```toml
 [params]
@@ -91,7 +91,29 @@ brand = {pre="Dev", hl="Box"}
 
 ## 封面断行
 
-内部教程示例第一篇标题是「sslaunch 是什么」，封面会分为「sslaunch」和「是什么」。标题超过十一字时优先在空格分行；纯中文在中点分行，ASCII 单词保持完整。
+列表默认使用几何缩略图，短标识优先取 coverLabel 或首个标签；完整标题显示在图旁边。正文和手机列表使用宽幅主题图，为进入文字内容保留视觉缓冲；作者上传的 featured / cover 图片仍优先显示。
+
+```yaml
+title: 一个完整而具体的文章标题
+coverLabel: GitOps
+tags: [持续交付, Kubernetes]
+```
+
+这段 front matter 的短标识是 GitOps。[实际示例文章]({{< relref "cover-label-example" >}}) 使用同样配置；正文可见宽幅主题图，[示例列表]({{< relref "samples" >}}) 可见桌面缩略图与手机宽幅布局。
+
+需要关闭正文自动封面时，在已有 `[params.cover]` 中增加布尔值 `autoArticle = false`。此开关不影响列表自动图或作者提供的封面；`article.showCover=false` 才会关闭全部正文封面。长标题完整保留在页面 H1，主题图的短标识不承担全文标题。
+
+## 标准卡与紧凑入口
+
+首页默认将最多一个条目的板块渲染为紧凑入口，排列在标准卡之后；两组内部保留配置顺序。可以显式选择：
+
+```toml
+[params.homeCardLayout]
+docs = "standard"
+samples = "compact"
+```
+
+本站首页启用 docs 和 samples，并使用上述配置：教程索引占标准卡，示例列表使用紧凑行。支持 auto / standard / compact，非法值构建失败；空栏目有入口与既有回退说明。需要旧版组合时，将所有启用的板块设为 standard；不会改变栏目 URL、计数或文章排序。
 
 ## 子栏目索引样式
 

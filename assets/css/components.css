@@ -35,16 +35,16 @@
   --overlay: rgba(40,30,20,.34);
 }
 
-/* ---------- scheme: clean（纯白 · C 端产品风）---------- */
+/* ---------- scheme: clean（纯白 · 中性软件界面）---------- */
 [data-scheme="clean"]{
-  --paper:        #fafafb;
-  --paper-2:      #f3f4f6;
+  --paper:        #f2f3f5;
+  --paper-2:      #f5f6f7;
   --card:         #ffffff;
   --ink:          #15181d;
   --ink-2:        #545b66;
-  --ink-3:        #9aa1ad;
-  --line:         #eceef1;
-  --line-2:       #f1f2f4;
+  --ink-3:        #626e7f;
+  --line:         #d1d7e0;
+  --line-2:       #e1e5eb;
   --accent:       #e0552f;   /* 提亮赤陶 */
   --accent-soft:  #fdeee8;
   --accent-ink:   #c4421f;
@@ -209,7 +209,7 @@ a{color:inherit;text-decoration:none}
 }
 .sw-btn.on .sw-sw{box-shadow:inset 0 0 0 1px rgba(0,0,0,.15), 0 0 0 2px var(--accent)}
 .sw-paper{background:radial-gradient(circle at 32% 30%, #f4f1ea 55%, #c75132 56%)}
-.sw-clean{background:radial-gradient(circle at 32% 30%, #ffffff 55%, #e0552f 56%);box-shadow:inset 0 0 0 1px rgba(0,0,0,.14)}
+.sw-clean{background:#ffffff;box-shadow:inset 0 0 0 1px rgba(0,0,0,.14)}
 .sw-dark {background:radial-gradient(circle at 32% 30%, #1a1d23 55%, #e2724f 56%)}
 
 /* ============ HERO / BRAND STRIP ============ */
@@ -266,6 +266,11 @@ a{color:inherit;text-decoration:none}
 .sec-head .desc{font-size:13px;color:var(--ink-3)}
 .sec-head .more{margin-left:auto;font-size:13px;color:var(--accent);font-weight:600;font-family:var(--font-mono)}
 .sec-head .more:hover{text-decoration:underline}
+@media(max-width:600px){
+  .sec-head{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:8px 12px}
+  .sec-head h2,.sec-head .more{white-space:nowrap}
+  .sec-head .desc{grid-column:1/-1;grid-row:2;line-height:1.6}
+}
 
 /* ============ BENTO: 五大板块 ============ */
 .bento{

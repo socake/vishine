@@ -3,7 +3,7 @@
 > **唯一权威来源(Single Source of Truth)。** vishine 主题的所有页面、组件、配色改动，一律以本文件为准。
 > 新增任何页面 / 组件 / 颜色之前，**先读本文 → 复用既有 token 与组件 → 三套 scheme 各验一遍**。
 >
-> 参考实现：`mockups/c-grid.html`（首页基准件，三套配色可切换）。本文所有数值均从该文件提取。
+> 当前实现以 assets/css 的公共变量、component-polish 与 depth 为准；`mockups/c-grid.html` 保留为最初布局参考。2026-10 外观调整保留门户结构，减轻静态装饰并按内容密度组合卡片。
 
 ---
 
@@ -16,7 +16,7 @@
    要用一个新颜色 → 先在 token 表里加，再引用。
 
 2. **三套 scheme 必须同步。**
-   配色方案有三套：`paper`（暖纸）/ `clean`（纯白，默认亮色）/ `dark`（默认暗色）。
+   配色方案有三套：`paper`（暖纸）/ `clean`（纯白，中性亮色）/ `dark`（暗色）。初始项由站点的 `defaultScheme` 决定。
    **任何新增 token，必须同时在 `[data-scheme="paper"]`、`[data-scheme="clean"]`、`[data-scheme="dark"]` 三处都给值。**
    少给一处 → 那个 scheme 下就会"这儿切了那儿没切"。这是硬性验收项。
 
@@ -47,7 +47,7 @@
 | scheme | 定位 | 底色基调 | 何时用 |
 |---|---|---|---|
 | `paper` | 暖纸 · 书卷气 | 暖白纸张 #f4f1ea | 偏阅读、长文气质 |
-| `clean` | 纯白 · C 端产品风 | 近白 #fafafb | **默认亮色** |
+| `clean` | 纯白 · 中性软件界面 | 浅灰 #f2f3f5 衬底、纯白 #ffffff 内容面 | 明亮、清晰的日间界面 |
 | `dark` | 深中性 · 高级暗色 | 深石墨 #111317 | **默认暗色** |
 
 切换由 `<html data-scheme="…">` 驱动，`localStorage` key = `vishine-scheme`，`<head>` 内联脚本在首屏渲染前应用（无闪烁）。
@@ -56,14 +56,14 @@
 
 | Token | 用途 | paper | clean | dark |
 |---|---|---|---|---|
-| `--paper` | 页面底色 | `#f4f1ea` | `#fafafb` | `#111317` |
-| `--paper-2` | 次级底 / 表头 / 填充 | `#efeae0` | `#f3f4f6` | `#181b21` |
+| `--paper` | 页面底色 | `#f4f1ea` | `#f2f3f5` | `#111317` |
+| `--paper-2` | 次级底 / 表头 / 填充 | `#efeae0` | `#f5f6f7` | `#181b21` |
 | `--card` | 卡片 / 面板底 | `#fbfaf6` | `#ffffff` | `#1a1d23` |
 | `--ink` | 主文字 / 标题 | `#20201d` | `#15181d` | `#e6e3dd` |
 | `--ink-2` | 正文 / 次级文字 | `#56544d` | `#545b66` | `#aab1bd` |
-| `--ink-3` | 弱化 / 注释 / 占位 | `#8c887d` | `#9aa1ad` | `#727a87` |
-| `--line` | 主边框 | `#ddd7c9` | `#eceef1` | `#262a31` |
-| `--line-2` | 次级分隔线 | `#e8e3d6` | `#f1f2f4` | `#21252b` |
+| `--ink-3` | 弱化 / 注释 / 占位 | `#8c887d` | `#626e7f` | `#727a87` |
+| `--line` | 主边框 | `#ddd7c9` | `#d1d7e0` | `#262a31` |
+| `--line-2` | 次级分隔线 | `#e8e3d6` | `#e1e5eb` | `#21252b` |
 | `--accent` | 品牌色 / 焦点 | `#c75132` | `#e0552f` | `#e2724f` |
 | `--accent-soft` | 品牌色浅底 | `#f0d9cf` | `#fdeee8` | `#33201a` |
 | `--accent-ink` | 品牌色深 / 文字 | `#9e3d22` | `#c4421f` | `#f0916f` |
@@ -86,8 +86,8 @@
 
 **绑定方式（语义间接层）**：板块卡 `.mod.blog{ --mc:var(--c-blog); --mbg:var(--c-blog-bg) }`，组件内部一律只用 `--mc` / `--mbg`。
 **小元素染色公式**（保证克制、跨 scheme 自适应）：
-- 图标块底：`background: color-mix(in srgb, var(--mc) 9%, var(--card))`，边框 `color-mix(… 20%, transparent)`
-- 计数徽章：底 `color-mix(… 12%, var(--card))`，边 `color-mix(… 22%, transparent)`，字 `var(--mc)`
+- 首页图标块底：`color-mix(in srgb,var(--mc) 15%,var(--card))`，边框混入 23% 板块色；主卡标题区使用 12% 板块色渐变，形成可识别的入口。
+- 首页计数：中性文字 `--ink-2`，透明底和边，不与图标重复强调；交互型分类标签仍可使用浅色底。
 
 **分类 → 板块色 映射表**（feed / 列表 / 详情里的分类标签据此着色，通过 `style="--fc:var(--c-xxx)"` 注入）：
 
@@ -109,7 +109,7 @@
 | `--grid-line` | 背景网格线色 | `#e3ddce` | `transparent` | `#1d2026` |
 | `--grid-size` | 网格步长 | `64px` | `64px` | `64px` |
 
-> 小元素圆角 5–10px（标签 5–6、图标块 10）。阴影**只用** `--shadow` / `--shadow-hi`，不得现写。
+> 小元素圆角 5–10px（标签 5–6、图标块 10）。优先复用 `--surface-shadow`、`--surface-shadow-hover` 和 `--depth-shadow`；旧组件仍有 `--shadow` / `--shadow-hi`，避免为单个页面另建一套投影。
 
 **语法高亮 token**（详情页代码块）：`--code-key` / `--code-str` / `--code-com` / `--code-num` / `--code-fn`，三套 scheme 各取板块色，保持与全站调性一致。接入 highlight.js 等高亮库时，须把其配色**映射到这 5 个 token**，不得引入第三方主题色。代码块底沿用 `--paper-2`。
 > **代码清晰度规约**：注释**不用斜体**（中文斜体发虚）；代码字体族用 `var(--font-mono), var(--font-sans)`，让中文注释回退到 sans 保持锐利；字号 13.5px / `line-height:1.7` / `tab-size:2`；`--code-com`（注释灰）须达 AA 大字对比，别太淡。
@@ -118,10 +118,10 @@
 
 ## 3. 底色与网格（你问的"半深色页面"= dark）
 
-- 页面底 = `--paper`，其上铺一层 **64px 细网格**：两条 `linear-gradient`（横、竖各 1px），线色 = `--grid-line`，`background-position:-1px -1px`。
-- **clean**：`--grid-line: transparent` —— 纯白不显网格，换柔和阴影做层次，保持 C 端通透。
-- **paper / dark**：显极淡网格，强化"控制台 / 索引"的秩序感。
-- 所以 dark（半深色）页底 = `#111317` 深中性 + `#1d2026` 几乎不可见的网格，**不是纯黑**，避免廉价与刺眼。
+- 页面底 = `--paper`，其上铺一层 **64px 细网格**：两条 `linear-gradient`（横、竖各 1px），暖纸线色混入 `--grid-line` 的 78%，`background-position:-1px -1px`。列表卡片与文章使用不透明阅读面；保留可见投影区分前后层次，纯白模式不显示网格。
+- **clean**：页面衬底为 `#f2f3f5`，卡片与独立阅读面为 `#ffffff`，辅助区域为 `#f5f6f7`。背景、边框与投影共同区分内容面；次级分隔线比外边框轻，辅助小字仍保持可读对比。不显示网格、暖色光晕或纸张染色，色彩用于品牌、板块标识、交互状态和内容图。分层开关两态共用这些 token；关闭分层后文章恢复原来的无独立阅读面布局。PWA 状态栏同步页面衬底 `#f2f3f5`。
+- **paper / dark**：保留可见网格，强化技术索引的秩序感；网格位于卡片外侧，不穿过文字。
+- dark 页底为 `#111317` 深中性，网格在 `#1d2026` 上混入少量前景色；内容表面与底层有明确明度差。
 
 ---
 
@@ -129,7 +129,7 @@
 
 - **字体**：`--font-sans` = `"Noto Sans SC", system-ui, -apple-system, "PingFang SC", "Microsoft YaHei", sans-serif`；`--font-mono` = `"JetBrains Mono", ui-monospace, "SF Mono", Menlo, monospace`。
 - **全站唯一字体栈（定版）**：UI / 标题 / Markdown 正文 / 代码一律只用这两个栈，**任何页面、组件、正文都不得另设或页面级覆盖字体**；Web 字体须带完整系统 fallback（离线不糊）。详见 [`MARKDOWN.md`](./MARKDOWN.md) §3。
-- **字号梯度**：H1 46 / 模块标题 16.5 / 正文 13.5–16 / 小字 11–13 / mono 标签 10.5–12。
+- **字号梯度**：首页 Hero 46；文章 H1 36（手机 26）/ 模块标题 16.5 / 正文 13.5–16 / 小字 11–13 / mono 标签 10.5–12。文章标题字重 700、行高 1.4（手机 1.45），优先沿中文标点组织换行；过长片段仍可回流，保留完整标题。
 - **字重**：900（hero 大标题）· 800（品牌 wordmark）· 700（标题 / 强调）· 600·500（次级）· 400（正文）。
 - **字距**：大标题 `-.02em`；品牌 `-.015em`；正文 0；mono 大写标签 `+.08~.16em`。
 - **行高**：正文 1.6–1.7；标题 1.08–1.4。
@@ -157,11 +157,11 @@
 | 顶栏 | `.topbar` `.nav` | sticky + `backdrop-filter` blur；滚动 >10px 加 `.scrolled`（实底 + 阴影）。底 `--paper` 半透，边 `--line`。 |
 | 品牌 | `.brand-mini` `.glyph` | logo 见 §8。wordmark `vi`+`shine`（shine = `--accent`）。 |
 | 下拉菜单 | `.dropdown` `.menu` | hover 展开，底 `--card`、边 `--line`、`--shadow-hi`；项右侧 mono 计数 `--ink-3`。 |
-| 顶栏工具 | `.nav-tools` | 搜索框 `.search-mini`（含 `kbd ⌘K`）+ 配色切换 `.scheme-switch`（三色板）+ RSS `.icon-btn`（SVG，非字符）。gap 9px。 |
+| 顶栏工具 | `.nav-tools` | 搜索保留轻边框；配色、语言与 RSS 为透明表面，保留选中态与键盘焦点。统一高度，gap 8px。 |
 | Hero | `.hero` `.hero-grid` | 左文右"统计面板"，1fr / 360px。kicker 用 `--accent-soft` 胶囊；H1 含 `.hl` 高亮句（accent + 底色块）。 |
 | 统计面板 | `.stat-panel` | 表头 `--paper-2`；2×2 数字（mono tnum），首格 `.accent` 用 `--accent`。 |
 | 区块标题 | `.sec-head` | 小号大写 `--ink-2` + 前导 18×2 accent 短杠 + desc `--ink-3` + 右侧 `.more` mono accent。 |
-| 板块卡 | `.mod`（`.blog/.play/.road/.docs/.res/.ai`） | 左 4px 色条 `--mc`；图标块 9% 染；计数徽章；列表 `.mod-list` / 标签 `.mod-chips`；脚 `.mod-foot`。hover：上浮 + `--shadow-hi` + 色条辉光。bento 6 列：blog/play 各 span3，docs/road/res 各 span2，ai span6。 |
+| 板块卡 | `.mod`（板块 class 只绑定颜色） | 中性轻边界、无侧色条；图标块轻染色，计数中性、页脚透明。标准卡按数量分列；稀疏板块用紧凑行，homeCardLayout 可覆盖。hover 轻上移 1px 与柔和投影，无辉光。 |
 | 最近更新 | `.feed` `.feed-row` | 左 mono 日期块 + 标题 + 分类标签（`--fc` 板块色）+ 时长。hover：底 `--paper-2`、标题转 accent、箭头右移。 |
 | 侧栏面板 | `.panel` | 统一表头 + body。装：量感条 / 标签云。 |
 | 量感条 | `.cat-row` `.cat-bar` | 名 `--ink-2` + 进度条（色 `--cb` 取板块色）+ mono 计数。进场宽度动画。 |
@@ -175,7 +175,7 @@
 ## 7. 微交互规范
 
 - **入场**：`.reveal` + `IntersectionObserver`，`riseIn` fade-up（位移 10px / .45s / `cubic-bezier(.22,.61,.36,1)`），stagger `.d1–.d6`（+60ms 递增），**只首次**。
-- **hover**：卡片 `translateY(-3px)` + `--shadow-hi` + 色条 `scaleY(1.04)` 辉光；链接 / 行箭头位移；列表项左移 5px。
+- **hover**：首页卡片在支持 hover 的设备上轻移 1px，其他卡片以边界和 `--surface-shadow-hover` 反馈；文字与列表项位置保持稳定，无侧线辉光。
 - **顶栏**：`scrollY>10` → `.scrolled`（rAF 节流）。
 - **scheme 切换**：卡片 / 面板 / 顶栏对 `background`、`border-color`、`color` 加 `transition .25s`，三套切换平滑不突兀。
 - **live 点**：`pulse 2s` 呼吸。

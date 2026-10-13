@@ -31,7 +31,7 @@ cascade:
 
 ## 2. 文章显示选项
 
-站点默认值写在 hugo.toml；省略时保留原文章布局：
+站点默认值写在 hugo.toml：
 
 ```toml
 [params.article]
@@ -47,6 +47,10 @@ showNavigation = true
 ```
 
 除 tocStart/tocEnd 外都是布尔值，默认 true；showNavigation 同时控制普通上下篇、章节导航和 series 导航。单篇 front matter 的 article 映射覆盖站点默认，也可在栏目 cascade.params.article 中配置。文章级旧字段 `toc: false` 优先于 article.toc。
+
+`showCover=true` 优先显示作者提供的 featured / cover 图片；缺少作者封面时，默认显示带短主题标识的 1200×420 自动横幅，为正文保留视觉缓冲，完整标题由 H1 呈现一次。`[params.cover] autoArticle=false` 单独关闭正文自动横幅；auto=false 关闭所有自动封面；showCover=false 关闭全部正文封面。作者封面按原比例显示。元信息中的重复分类已移除；分类在文章标题上方保留一次。手机面包屑只显示祖先路径，页面标题仍由 H1 完整呈现。
+
+文末标签与分享在同一工具行，相关布尔选项仍独立生效。普通上下篇仅有一项时占满可用宽度；相关文章在构建时排除自身与已经显示的普通上下篇，不足三篇时按实际数量显示，无候选时不输出该区域。
 
 ```yaml
 title: 一页简短说明

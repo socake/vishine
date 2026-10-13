@@ -342,31 +342,34 @@ cascade:
 
 > **设计理念：能自定义，也能全自动。**
 > 和它的前身 Blowfish 一样，vishine 的封面**完全可自定义**——你想放什么图就放什么（page bundle 里放 `featured.*`，或 frontmatter 用 `cover` 指定 URL），主题绝不抢你的图。
-> 在此之上，vishine **额外提供了一套零配置的自动生成能力**：你不配图，主题也会按「文章标题 + 分类」用 Hugo 原生能力自动渲染一张风格统一的封面。
+> 在此之上，vishine **额外提供了一套零配置的自动生成能力**：你不配图，主题也会按短主题标识和板块色，用 Hugo 原生能力自动渲染一张风格统一的封面。
 > 即 **「想自定义就自定义，不想管就全自动」**，两者并存，你随时用自己的图覆盖自动封面，也可用 `params.cover.auto = false` 彻底关掉自动生成。
 
-封面优先级（list / single / card 一致）：
+作者封面优先级（list / single / card 一致）：
 
 1. **`featured.*` 资源**：page bundle 放 `featured.jpg`/`featured.png`/`featured.svg`，最优先（位图超尺寸自动缩 webp）。
 2. **frontmatter `cover: "url"`**：手动指定。
-3. **自动生成**：以上都没有时，`cover-svg.html` 按「标题 + 首个分类」**纯 Hugo 原生生成 SVG**（`resources.FromString` 缓存到 `/covers/`，零外部依赖、无 JS/脚本/第三方）。
+3. **自动生成**：以上都没有时，桌面列表生成 SVG 缩略图，手机列表与正文默认使用宽幅主题图。文件由 Hugo 原生生成并缓存到 `/covers/`，无需第三方图片服务。完整标题由页面 HTML 呈现，图中使用短主题标识。
 
 ### 两种规格（variant）
-- **hero**（详情页横幅 1200×630）：带文章标题 + 丰富装饰。
-- **thumb**（列表缩略 800×500）：无标题，大分类名 + 几何，**4 种版式据文章哈希轮换**（orbit 同心圆 / grid 点阵 / diagonal 对角 / arc 弧线），列表不重复。
+- **hero**（正文和手机列表 1200×420）：短主题标识与几何图形；作为视觉缓冲，按原比例完整显示，不重复完整标题。
+- **thumb**（列表缩略 800×500）：几何图形与短标识，优先取文章 `coverLabel`，其次首个 tag，再回退首个分类或 section。超过 18 字时缩为 17 字与省略号；它只是辅助图形，完整文章名始终显示在旁边。4 种版式按文章稳定选择（orbit / grid / diagonal / arc），手机保持原比例，不再裁成方图。
 
 ### 配置 `[params.cover]`
 | 参数 | 默认 | 说明 |
 |---|---|---|
-| `auto` | `true` | `false` = 关闭自动封面，纯靠 featured 图 |
-| `style` | `"auto"` | `auto`（轮换 4 版式）｜ `orbit` ｜ `grid` ｜ `diagonal` ｜ `arc`（锁定单一版式） |
-| `ignoreFeatured` | `false` | `true` = **忽略文章里的 `featured.*` 老图，全部用自动封面**。从旧主题迁移、想统一换新风格时用——不必删图，改配置即可，随时关回。 |
+| `auto` | `true` | `false` = 关闭自动封面，仍可用 featured 或 cover |
+| `autoArticle` | `true` | 布尔值；false 单独关闭正文自动横幅。仅在 auto 不为 false、article.showCover=true 且没有作者封面时生效；不影响手机列表宽幅图 |
+| `style` | `"auto"` | 桌面缩略图的 `auto`（轮换 4 版式）｜ `orbit` ｜ `grid` ｜ `diagonal` ｜ `arc`；宽幅主题图使用固定圆环构图 |
+| `ignoreFeatured` | `false` | true 忽略 featured 老图，随后尝试 cover 字段与自动封面规则；文件仍保留，可随时关闭此选项 |
+
+升级说明：自动正文横幅默认保留，但从重复的文章标题改为短主题标识；第一轮外观预览曾默认关闭，若仍需该效果，显式设置 `autoArticle=false`。`article.showCover=false` 仍关闭全部正文封面。`coverLabel` 是可选 front matter 字符串，不修改标题或分类，同时控制自动缩略图与宽幅图；不能嵌套。无自定义值时使用上述回退链。见教程 13 的源码与真实示例。
 
 > **多路线下拉**：路线图 / 文档这类"一个 section 下多个子页"，把顶栏菜单项配成 `identifier`（父，无 `pageRef`）+ 多个 `parent = "<id>"` 的子项（见 `[menu.main]`），即得到和「运维 / AI」一样的顶栏下拉。每个子页是独立文章页（带 TOC 导航），避免长内容挤在一页。
 
 ### 着色与字号
 - 板块色查 `data/sections.toml`（首个分类 → 板块 class → 色），无分类回退 section、兜底 `blog`。
-- 字号按**视觉宽度**计（中文≈1 / 英文≈0.55），不同分类名字号视觉一致；标题（hero）超 11 字按 rune 安全断两行。
+- 短标识按**视觉宽度**计（中文≈1 / 英文≈0.62），字号随长度调整；超过 18 字显示 17 字与省略号。图内辅助分类最多 24 字，正文中的分类与标题均完整保留。
 
 ### 自定义 / 扩展
 - **换配色**：改 `data/sections.toml` 的分类映射 + `cover-svg.html` 顶部 `$pal`/`$palD`/`$palB` 三组调色板。
@@ -380,7 +383,7 @@ cascade:
 | scheme | 名称 | 适用 |
 | --- | --- | --- |
 | `paper` | 暖纸 | 默认，暖色 |
-| `clean` | 纯白 | 干净 |
+| `clean` | 纯白 | 浅中性灰页面衬底、纯白卡片与阅读面、清晰边界及中性阴影，无网格或暖色光晕 |
 | `dark` | 暗色 | 暗环境 |
 
 - **切换**：顶栏右侧三个色块按钮。
@@ -436,7 +439,17 @@ cascade:
 
 ### 首页板块与宽度
 
-`params.homeSections` 默认是 `["posts", "playbook", "docs", "roadmap", "resources"]`，按配置顺序渲染。宽度不依赖板块颜色：1 块占满，2 块各半，3 块各三分之一，4 块两行各半，5 块保持 `3+3 / 2+2+2`；6 块及以上每行三块。可选 featureZone 始终单独占满一行。窄屏全部单列。
+`params.homeSections` 默认是 `["posts", "playbook", "docs", "roadmap", "resources"]`。主题按实际显示的条目数选择标准卡或紧凑入口：普通板块统计文章，docs 子栏目索引统计子栏目，无子栏目时统计其分类入口；不超过一个条目（包括空栏目）使用紧凑入口。标准卡先排列，紧凑入口随后各占一行，两组内部都保留 homeSections 的相对顺序；featureZone 最后占满一行。窄屏全部单列，紧凑入口改为两行排列，不隐藏文章链接。
+
+可选映射 `params.homeCardLayout` 按 section key 覆盖，允许 `auto`（默认或空值）、`standard`、`compact`；非法值导致构建失败，未列入 homeSections 的 key 不参与渲染。只影响呈现，不改变文章顺序、计数或 URL。宽度仍不依赖板块颜色：标准卡数量为 1 时占满、2 时各半、3 时各三分之一、4 时两行各半、5 时 `3+3 / 2+2+2`，6 及以上每行三块。
+
+```toml
+[params.homeCardLayout]
+posts = "standard"
+resources = "compact"
+```
+
+要保留旧版卡片组合，将已启用的所有 homeSections 项显式设置为 standard。紧凑行承载相同入口与真实内容，不增加虚构摘要来填空。教程 13 和示例站的资源入口展示实际效果。
 
 `params.homeSectionsTitle` / `params.homeSectionsDescription` 可替换入口区标题与说明，默认沿用原 i18n 文案，避免两板块站点仍显示“五大板块”。每块提供 `sec-<key>` 类用于宿主微调，例如 `.sec-posts`。教程站只有一块 docs，示范单板块占满；两板块可写：
 

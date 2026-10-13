@@ -109,18 +109,23 @@ summaryLength = 40
   # 所以只列 docs，避免首页出现一堆空板块卡片。
   brand = {pre="vi", hl="shine"}   # 页头与自动封面共用品牌
   footerTagline = "从安装到维护，手把手使用 vishine。"
-  homeSections = ["docs"]
+  homeSections = ["docs", "samples"]
   heroLinks = [{name="开始教程", pageRef="/docs"}, {name="首页配置", pageRef="/docs/13-home-brand"}]
   recentSections = ["docs"]
   recentLimit = 6
   homeStats = [{section="docs", label="教程文章"}, {kind="categories"}, {kind="tags"}]
 
+  [params.homeCardLayout]
+    docs = "standard"
+    samples = "compact"
+
   # ---- 自动封面生成器（params.cover）----
   # 文章若没放 featured 图，主题会按「标题 + 首个分类」纯 Hugo 原生生成一张 SVG 封面。
-  # 详见教程 05。这里给教程站开着，列表页/详情页都会有统一风格的占位封面。
+  # 详见教程 05。自动缩略图用于列表，详情页默认直接进入正文。
   [params.cover]
     auto = true           # true=自动生成兜底封面；false=只用你手放的 featured 图
-    style = "auto"        # auto=按文章哈希在4种版式间轮换；或锁定 orbit/grid/diagonal/arc 之一
+    autoArticle = true    # false 单独关闭正文自动横幅；作者封面不受影响
+    style = "auto"        # 缩略图按文章稳定选择4种版式；或指定 orbit/grid/diagonal/arc
     ignoreFeatured = false # true=忽略文章里的 featured.* 图，全站强制用自动封面（迁移时有用）
 
   # ---- 首页特色横幅（params.featureZone，可选）----

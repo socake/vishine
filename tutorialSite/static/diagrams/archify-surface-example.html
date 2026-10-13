@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="zh-CN" data-theme="light">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>嵌入表面配色契约示例</title>
+<script>
+(function(){
+  var params=new URLSearchParams(location.search),root=document.documentElement;
+  if(params.get('embed')==='1')root.dataset.embed='true';
+  root.dataset.theme=params.get('theme')==='dark'?'dark':'light';
+})();
+</script>
+<style>
+:root{--bg:#f0f5fc;--panel:#ffffff;--text:#18314c;--text-muted:#50627a;--panel-border:#cad6e5;--arrow:#64748b;--lane-fill:#e7eff8;--lane-stroke:#bacbdd;--node-fill:#d7eee5;--node-stroke:#468c70}
+[data-theme="dark"]{--bg:#0b1426;--panel:#13243a;--text:#e5edf9;--text-muted:#9fbbd4;--panel-border:#294462;--arrow:#8facc9;--lane-fill:#12223a;--lane-stroke:#31506e;--node-fill:#183e32;--node-stroke:#6ac59e}
+body{margin:0;padding:20px;background:var(--bg);color:var(--text);font:14px/1.6 system-ui,sans-serif}
+svg{display:block;width:100%;height:auto}text{font-family:system-ui,sans-serif;fill:var(--text)}
+.lane{fill:var(--lane-fill);stroke:var(--lane-stroke)}.node{fill:var(--node-fill);stroke:var(--node-stroke)}
+.edge{stroke:var(--arrow);stroke-width:2;fill:none}.arrow{fill:var(--arrow)}.note{fill:var(--text-muted)}
+</style>
+<svg viewBox="0 0 720 180" role="img" aria-labelledby="title desc">
+<title id="title">同一图表，协调的阅读表面</title>
+<desc id="desc">资料经过处理成为阅读结果。背景与文字跟随宿主配色，绿色节点保持自己的语义色。</desc>
+<defs><marker id="arrow" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path class="arrow" d="M0 0L7 4L0 8Z"/></marker></defs>
+<rect class="lane" x="1" y="1" width="718" height="178" rx="12"/>
+<rect class="node" x="30" y="50" width="170" height="76" rx="10"/><text x="115" y="95" font-size="20" text-anchor="middle">来源资料</text>
+<path class="edge" d="M200 88H270" marker-end="url(#arrow)"/>
+<rect class="node" x="275" y="50" width="170" height="76" rx="10"/><text x="360" y="95" font-size="20" text-anchor="middle">结构化处理</text>
+<path class="edge" d="M445 88H515" marker-end="url(#arrow)"/>
+<rect class="node" x="520" y="50" width="170" height="76" rx="10"/><text x="605" y="95" font-size="20" text-anchor="middle">阅读呈现</text>
+<text class="note" x="30" y="157" font-size="13">表面、边界、文字可同步；节点语义色保持独立。</text>
+</svg>
+</html>

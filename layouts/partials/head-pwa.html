@@ -14,7 +14,7 @@
 {{- /* theme-color 跟随配色方案（paper/clean/dark 手动切），让独立窗口状态栏与页面同色 */ -}}
 <script>
   (function () {
-    var C = { paper: '#f4f1ea', clean: '#fafafb', dark: '#111317' };
+    var C = { paper: '#f4f1ea', clean: '#f2f3f5', dark: '#111317' };
     var m = document.querySelector('meta[name="theme-color"]');
     function sync() { var s = document.documentElement.getAttribute('data-scheme'); if (m && C[s]) m.setAttribute('content', C[s]); }
     sync();

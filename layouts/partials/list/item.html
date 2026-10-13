@@ -3,22 +3,24 @@
         {{ $cat := "" }}{{ with .Params.categories }}{{ $cat = index . 0 }}{{ end }}
         {{- /* 封面：featured 资源 > cover 参数 > 自动生成（thumb） */ -}}
         {{ $cover := "" }}
+        {{ $autoCover := false }}
+        {{ $mobileCover := "" }}
         {{ $fr := .Resources.GetMatch "featured.*" }}
         {{ if and $fr (not (index (or site.Params.cover dict) "ignoreFeatured")) }}{{ if and (ne $fr.MediaType.SubType "svg") (gt ($fr.Width | default 0) 640) }}{{ $cover = ($fr.Resize "640x webp q85").RelPermalink }}{{ else }}{{ $cover = $fr.RelPermalink }}{{ end }}
         {{ else if .Params.cover }}{{ $cover = .Params.cover }}
-        {{ else if ne (index (or site.Params.cover dict) "auto") false }}{{ $svg := partial "cover-svg.html" (dict "page" . "variant" "thumb") }}{{ $cover = ($svg | resources.FromString (printf "covers/%s-t.svg" (substr (md5 .RelPermalink) 0 12))).RelPermalink }}{{ end }}
+        {{ else if ne (index (or site.Params.cover dict) "auto") false }}{{ $autoCover = true }}{{ $svg := partial "cover-svg.html" (dict "page" . "variant" "thumb") }}{{ $cover = ($svg | resources.FromString (printf "covers/%s-t.svg" (substr (md5 .RelPermalink) 0 12))).RelPermalink }}{{ $banner := partial "cover-svg.html" (dict "page" . "variant" "hero") }}{{ $mobileCover = ($banner | resources.FromString (printf "covers/%s-h.svg" (substr (md5 .RelPermalink) 0 12))).RelPermalink }}{{ end }}
         <a class="feed-item {{ $cls }}{{ if $cover }} has-cover{{ end }}" href="{{ .RelPermalink }}" style="--mc:var(--c-{{ $cls }})"
            data-categories="{{ delimit (.Params.categories | default slice) "|" }}"
            data-tags="{{ delimit (.Params.tags | default slice) "|" }}">
-          {{ with $cover }}<div class="fi-cover"><img src="{{ . | safeURL }}" alt="{{ $.Title }} {{ i18n "cover_alt" }}" loading="lazy" decoding="async"></div>{{ end }}
+          {{ with $cover }}<div class="fi-cover{{ if $autoCover }} is-auto-cover{{ end }}"><picture>{{ with $mobileCover }}<source media="(max-width:720px)" srcset="{{ . | safeURL }}" width="1200" height="420">{{ end }}<img src="{{ . | safeURL }}" alt="" width="800" height="500" loading="lazy" decoding="async"></picture></div>{{ end }}
           <div class="fi-body">
             <div class="fi-top">
               {{ with $cat }}<span class="fi-cat" style="--fc:var(--c-{{ $cls }})"><span class="fi-dot"></span>{{ . }}</span>{{ end }}
-              <time class="fi-date mono" datetime="{{ .Date.Format "2006-01-02" }}">{{ .Date.Format "2006-01-02" }}</time>
             </div>
             <h3 class="fi-title">{{ .Title }}</h3>
             {{ with .Summary }}<p class="fi-sum">{{ . | plainify | truncate 130 }}</p>{{ end }}
             <div class="fi-meta mono">
+              {{ if not .Date.IsZero }}<time class="fi-date" datetime="{{ .Date.Format "2006-01-02" }}">{{ .Date.Format "2006-01-02" }}</time>{{ end }}
               <span class="fi-read">◷ {{ i18n "reading_time" .ReadingTime }}</span>
               {{ with .Params.tags }}<span class="fi-tags">{{ delimit (first 3 .) " · " }}</span>{{ end }}
             </div>

@@ -1,5 +1,6 @@
-/* Archify's documented embed/theme URL options; no DOM or code is copied
-   from the child document. Ordinary HTML frames do not need this adapter. */
+/* Archify embed/theme URLs and the opt-out neutral surface adapter.
+   Only known CSS variables in trusted same-origin embeds are synchronized;
+   diagram markup, node colors and ordinary HTML frames remain author-owned. */
 (function () {
   'use strict';
   document.querySelectorAll('[data-html-embed]').forEach(figure => {
@@ -33,6 +34,25 @@
   });
   const frames = [...document.querySelectorAll('[data-embed-mode="archify"] iframe')];
   if (!frames.length) return;
+  function syncSurface(frame) {
+    const figure = frame.closest('[data-html-embed]');
+    if (figure.dataset.embedSurface !== 'theme') return;
+    let doc;
+    try { doc = frame.contentDocument; } catch (_) { return; }
+    if (!doc?.body || doc.documentElement.dataset.embed !== 'true') return;
+    const styles = getComputedStyle(figure);
+    const tokens = {
+      '--bg': '--card', '--panel': '--card', '--mask': '--card',
+      '--text': '--ink', '--text-muted': '--ink-2', '--text-dim': '--ink-2',
+      '--text-faint': '--ink-2', '--grid': '--line-2',
+      '--panel-border': '--line', '--lane-stroke': '--line',
+      '--lane-fill': '--paper-2', '--arrow': '--ink-2'
+    };
+    Object.entries(tokens).forEach(([child, parent]) => {
+      const value = styles.getPropertyValue(parent).trim();
+      if (value) doc.documentElement.style.setProperty(child, value);
+    });
+  }
   // Embed mode has a natural-height body. Observe that body, not the root's
   // viewport-sized scrollHeight, so widening or narrowing can also shrink it.
   frames.forEach(frame => {
@@ -42,6 +62,7 @@
       let doc;
       try { doc = frame.contentDocument; } catch (_) { return; }
       if (!doc?.body || doc.documentElement.dataset.embed !== 'true') return;
+      syncSurface(frame);
       const resize = () => {
         const height = Math.ceil(doc.body.getBoundingClientRect().height);
         // The configured minimum is a loading fallback, not a floor for a
@@ -64,6 +85,7 @@
       url.searchParams.set('embed', '1');
       url.searchParams.set('theme', theme);
       if (frame.src !== url.href) frame.src = url.href;
+      else syncSurface(frame);
     });
   }
   syncTheme();

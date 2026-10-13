@@ -7,7 +7,7 @@
 | 你想做什么 | 在博客里写什么 | 主题自动提供什么 | 完整说明 / 可运行示例 |
 | --- | --- | --- | --- |
 | 写文章 | `content/posts/*.md`，title / date / summary / categories / tags | 标题、元信息、封面、正文、分享、相关文章 | [快速开始](GETTING-STARTED.md)，`exampleSite/content/posts/` |
-| 展示首页入口 | hugo.toml 的 homeSections / featureZone、data/sections.toml | 首页工作台、自适应板块卡、子栏目索引、可配置统计和最近更新 | [配置参考](USAGE.md)，`exampleSite/hugo.toml` |
+| 展示首页入口 | hugo.toml 的 homeSections / homeCardLayout / featureZone、data/sections.toml | 首页工作台、按密度选择标准卡或紧凑入口、子栏目索引、可配置统计和最近更新 | [配置参考](USAGE.md)，教程 13 与 `exampleSite/hugo.toml` |
 | 列表筛选 | 内容分类标签；pagination.pagerSize | 常用分类与可搜索的全部筛选、分页、URL 与后退恢复 | [配置参考](USAGE.md)；示例站 `/posts/` |
 | 多层栏目 | `_index.md`、目录层级、sectionNav | 子栏目卡片、直属文章、面包屑、栏目浏览 | [栏目契约](SECTION-NAVIGATION.md)；示例站 `/docs/` |
 | 连续阅读 / 学习路线 | 任意栏目 readingNav；weight / group / stage | 悬浮目录内切换本页 / 栏目、同级文章、章节上下篇和返回目录；兼容旧 track | [阅读契约](THEME-APIS.md#1-任意栏目的章节导航)；教程 12 的示例分支 |
@@ -18,7 +18,7 @@
 | 顶栏 / 页脚导航 | menu.main 的 pageRef 或 url；父子项用 identifier / parent | 菜单、移动抽屉、当前项和页脚入口 | [配置参考](USAGE.md)；教程 08 |
 | 搜索 | outputs.home 包含 JSON | 全文与标题搜索、小节跳转、片段与范围选择 | [搜索契约](THEME-APIS.md#3-全文搜索)；教程 14 |
 | 页面立体感 | 无需文章配置；params.layeredSurfaces 默认 true | 固定背景、阅读面、目录与卡片层次；三套配色自动适配 | [分层表面](DEPTH-SURFACES.md)；教程 03 的页面即为实际效果 |
-| 配色 / 封面 | defaultScheme；params.cover；featured 图片或 cover 字段 | 暖纸、纯白、暗色；自动封面 | [配置参考](USAGE.md)；读者保存的配色优先于默认值 |
+| 配色 / 封面 | defaultScheme；params.cover；featured 图片、cover 或 coverLabel 字段 | 三套配色；桌面文章列表与分类／标签网格使用 16:10 几何缩略图，手机文章列表和正文使用宽幅主题图；autoArticle=false 可单独关闭正文自动图 | [配置参考](USAGE.md)；教程 13；读者保存的配色优先于默认值 |
 | 系列文章 | taxonomies 增加 `series = "series"`，文章 `series: [系列名]` | 同系列导航，按日期正序 | `layouts/partials/series-nav.html`；不是 weight 排序的学习路线 |
 | 评论 / 赞助 / PWA | params.comments.giscus / params.sponsor / params.pwa | 配置后渲染对应功能 | [配置参考](USAGE.md)、[赞助参数](#赞助参数)；不自动开通第三方服务 |
 
@@ -39,7 +39,7 @@
 | `config-tabs` | id 与 label 必填；内部放 config-tab | 互斥方案，读者选其中一种 |
 | `config-tab` | label 必填；必须放在 config-tabs 内 | 每种方案的 Markdown 内容 |
 | `reading-details` | title 必填；id 可选且唯一；open=true 默认展开，否则收起 | 补充原理，不折叠必做步骤或风险限制 |
-| `html-embed` | src / title 必填；height 默认 480，minWidth 默认 0；fit 为 width / scroll，省略时兼容旧 minWidth；mode 为 page（默认）/ archify；单标签 | 本地 HTML 图表、自适应宽度与细节切换，限制与失败行为见 [HTML-EMBED](HTML-EMBED.md) |
+| `html-embed` | src / title 必填；height 默认 480，minWidth 默认 0；fit 为 width / scroll，省略时兼容旧 minWidth；mode 为 page（默认）/ archify；surface 为 source / theme，Archify 默认 theme；单标签 | 本地 HTML 图表、自适应宽度、细节切换与中性表面配色，限制与失败行为见 [HTML-EMBED](HTML-EMBED.md) |
 
 步骤、选项卡和折叠说明的完整可复制语法见 [RUNBOOK-COMPONENTS.md](RUNBOOK-COMPONENTS.md)，教程 11 同时展示源码和效果。HTML 图表见 [HTML-EMBED.md](HTML-EMBED.md) 与教程 14；基础组件见教程 06。
 

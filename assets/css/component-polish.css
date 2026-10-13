@@ -1,15 +1,21 @@
-/* Shared component surfaces. Preserve the original geometry, density and palette. */
+/* Shared component surfaces: quiet at rest, clear on interaction. */
 :root {
   --surface-highlight: rgba(255,255,255,.78);
-  --surface-edge: color-mix(in srgb,var(--line) 84%,var(--ink) 16%);
-  --surface-shadow: inset 0 1px 0 var(--surface-highlight), 0 1px 2px rgba(48,36,20,.055), 0 8px 22px -12px rgba(48,36,20,.22);
+  --surface-edge: color-mix(in srgb,var(--line) 90%,var(--ink) 10%);
+  --surface-shadow: inset 0 1px 0 var(--surface-highlight),0 2px 4px -2px rgba(48,36,20,.12),0 14px 28px -18px rgba(48,36,20,.25);
   --surface-shadow-hover: inset 0 1px 0 var(--surface-highlight), 0 2px 3px rgba(48,36,20,.06), 0 12px 28px -14px rgba(48,36,20,.28);
   --popover-shadow: inset 0 1px 0 var(--surface-highlight), 0 3px 6px -3px rgba(48,36,20,.16), 0 18px 40px -14px rgba(48,36,20,.26);
 }
+[data-scheme="clean"] {
+  --surface-edge: var(--line);
+  --surface-shadow: inset 0 1px 0 var(--surface-highlight),0 2px 4px rgba(16,24,40,.05),0 10px 24px -14px rgba(16,24,40,.20);
+  --surface-shadow-hover: inset 0 1px 0 var(--surface-highlight),0 3px 6px -3px rgba(16,24,40,.10),0 16px 32px -16px rgba(16,24,40,.22);
+  --popover-shadow: inset 0 1px 0 var(--surface-highlight),0 4px 8px -4px rgba(16,24,40,.14),0 20px 48px -16px rgba(16,24,40,.22);
+}
 [data-scheme="dark"] {
   --surface-highlight: rgba(255,255,255,.055);
-  --surface-edge: color-mix(in srgb,var(--line) 82%,var(--ink) 18%);
-  --surface-shadow: inset 0 1px 0 var(--surface-highlight), 0 2px 4px rgba(0,0,0,.20), 0 10px 24px -14px rgba(0,0,0,.55);
+  --surface-edge: color-mix(in srgb,var(--line) 94%,var(--ink) 6%);
+  --surface-shadow: inset 0 1px 0 var(--surface-highlight),0 3px 5px rgba(0,0,0,.18),0 16px 30px -18px rgba(0,0,0,.65);
   --surface-shadow-hover: inset 0 1px 0 var(--surface-highlight), 0 3px 6px rgba(0,0,0,.24), 0 14px 30px -14px rgba(0,0,0,.65);
   --popover-shadow: inset 0 1px 0 var(--surface-highlight), 0 4px 8px rgba(0,0,0,.20), 0 18px 40px -12px rgba(0,0,0,.70);
 }
@@ -17,16 +23,16 @@
 /* Section modules: a quiet raised surface, with a more precise colored edge. */
 .mod {
   border-color:var(--surface-edge);
-  background:linear-gradient(180deg,color-mix(in srgb,var(--card) 94%,white),var(--card) 60%);
+  background:var(--card);
   box-shadow:var(--surface-shadow);
   transition:transform 160ms ease,box-shadow 160ms ease,border-color 160ms ease;
 }
 .mod.reveal.in {opacity:1;animation-fill-mode:backwards}
 .mod::before {
-  width:3px;
-  background:linear-gradient(180deg,color-mix(in srgb,var(--mc) 86%,white),var(--mc));
-  transform:none;box-shadow:none;transition:none;
+  display:none;
 }
+.mod-standard .mod-head {background:linear-gradient(110deg,color-mix(in srgb,var(--mc) 12%,var(--card)),var(--card) 85%);border-bottom:1px solid color-mix(in srgb,var(--mc) 20%,var(--line-2));margin-bottom:4px}
+.mod .mod-titles h3 {font-size:19px;letter-spacing:.01em}
 .mod:hover,.mod:focus-within {
   transform:none;
   border-color:color-mix(in srgb,var(--mc) 30%,var(--surface-edge));
@@ -34,12 +40,16 @@
 }
 .mod:hover::before {transform:none;box-shadow:none}
 .mod .mod-ico {
-  background:linear-gradient(160deg,var(--card),color-mix(in srgb,var(--mc) 9%,var(--card)));
-  box-shadow:inset 0 1px 0 var(--surface-highlight),0 1px 2px rgba(48,36,20,.04);
+  background:color-mix(in srgb,var(--mc) 15%,var(--card));
+  border-color:color-mix(in srgb,var(--mc) 23%,var(--line));
+  box-shadow:inset 0 1px 0 var(--surface-highlight),0 2px 4px -2px color-mix(in srgb,var(--mc) 25%,transparent);
 }
 .mod .mod-count {
-  background:color-mix(in srgb,var(--mc) 7%,var(--card));
-  border-color:color-mix(in srgb,var(--mc) 17%,var(--line));
+  background:transparent;
+  border-color:transparent;
+  color:var(--ink-2);
+  padding-right:0;
+  font-weight:500;
 }
 .mod .mod-list li {transition:background-color 140ms ease,color 140ms ease}
 .mod .mod-list li:hover,.mod .mod-list li:focus-within {
@@ -47,17 +57,37 @@
   background:color-mix(in srgb,var(--mc) 4%,var(--card));
 }
 .mod .mod-foot {
-  background:color-mix(in srgb,var(--paper-2) 48%,var(--card));
-  box-shadow:inset 0 1px 0 var(--surface-highlight);
+  background:transparent;
+  box-shadow:none;
 }
+.mod .mod-list li .b {background:var(--line);transform:none;border-radius:50%}
 .mod .mod-foot a {text-underline-offset:4px}
 .mod .mod-foot a:hover {text-decoration:underline}
+/* Sparse destinations form a compact row below the primary portal cards. */
+.mod.mod-compact {display:grid;grid-template-columns:minmax(160px,240px) minmax(0,1fr) auto;align-items:center;gap:12px;padding:18px 20px}
+.mod-compact .mod-head {padding:0;align-items:center;gap:12px}
+.mod-compact .mod-count {font-size:11px;align-self:center;padding:0}
+.mod-compact .mod-body {min-width:0;padding:0 20px;border-left:1px solid var(--line-2)}
+.mod-compact .mod-list {margin:0;border-top:0}
+.mod-compact .mod-foot {padding:0;margin:0;border:0;white-space:nowrap}
+.mod-compact .mod-foot .upd {display:none}
+@media(max-width:900px) {
+  .mod.mod-compact {grid-template-columns:minmax(0,1fr) auto;gap:12px 18px}
+  .mod-compact .mod-head {grid-column:1}
+  .mod-compact .mod-body {grid-column:1/-1;grid-row:2;border-left:0;border-top:1px solid var(--line-2);padding:8px 0 0}
+  .mod-compact .mod-foot {grid-column:2;grid-row:1}
+}
+@media(max-width:420px) {
+  .mod.mod-compact {padding:16px}
+  .mod-compact .mod-count {display:none}
+  .mod-compact .mod-titles .en {font-size:10px}
+}
 
 /* Statistics keep their original size; baseline alignment and inset header. */
 .stat-panel {border-color:var(--surface-edge);box-shadow:var(--surface-shadow)}
 .stat-head {
-  background:linear-gradient(180deg,var(--paper-2),color-mix(in srgb,var(--paper-2) 65%,var(--card)));
-  box-shadow:inset 0 1px 2px rgba(48,36,20,.025);
+  background:var(--paper-2);
+  box-shadow:inset 0 1px 0 var(--surface-highlight);
   border-bottom-color:var(--line);
 }
 .stat-head .since {color:var(--ink-2);letter-spacing:.035em}
@@ -108,9 +138,11 @@
   border-color:var(--surface-edge);box-shadow:var(--surface-shadow);
 }
 .feed-head,.panel-head {
-  background:linear-gradient(180deg,var(--paper-2),color-mix(in srgb,var(--paper-2) 65%,var(--card)));
-  box-shadow:inset 0 1px 0 var(--surface-highlight);
+  background:transparent;
+  box-shadow:none;
 }
+.rel-card::before,.card::before {display:none}
+.rel-card .rel-cat {background:transparent;border:0;padding:0}
 .card:hover,.card:focus-within,.pn-card:hover,.pn-card:focus-visible,.rel-card:hover,.rel-card:focus-visible {transform:none;box-shadow:var(--surface-shadow-hover)}
 .card:hover::before,.rel-card:hover::before {transform:none;box-shadow:none}
 .feed-row:hover,.feed-row:focus-visible,.feed-item:hover,.feed-item:focus-visible {
@@ -118,7 +150,6 @@
 }
 .feed-row:focus-visible .feed-main h4,.feed-item:focus-visible .fi-title {color:var(--accent-ink)}
 .feed-row:focus-visible .feed-arrow {color:var(--accent)}
-.feed-item:focus-visible::before {opacity:1}
 .mod-titles .en,.mod-foot .upd,.mod-list li .m,.ai-col p,.ai-lead .sub,
 .panel-head .mono,.cat-row .ct,.feed-meta,.feed-date .my,.fi-date,.fi-meta,.card-date,.card-meta {
   color:var(--ink-2);
@@ -132,6 +163,15 @@
 .icon-btn:hover,.share-btn:hover,.chip:hover,.tags a:hover {transform:none}
 .icon-btn:active,.share-btn:active,.qa-btn:active {box-shadow:inset 0 1px 3px rgba(0,0,0,.09)}
 .sw-btn[aria-pressed="true"] {box-shadow:inset 0 0 0 1px var(--surface-edge)}
+/* Secondary tools share one quiet rail; the search affordance remains explicit. */
+.nav-tools {gap:8px}
+.nav-tools :is(.scheme-switch,.lang-switch) {background:transparent;border-color:transparent;box-shadow:none}
+.nav-tools .lang-btn {color:var(--ink-2);font-weight:500;padding:0 7px}
+.nav-tools .lang-btn.active {color:var(--accent-ink);background:var(--accent-soft)}
+.nav-tools>a.icon-btn {background:transparent;border-color:transparent;box-shadow:none}
+.nav-tools>a.icon-btn:hover {background:var(--paper-2);color:var(--accent-ink)}
+.nav-tools .sw-btn[aria-pressed="true"] {box-shadow:none;background:transparent}
+.nav-tools .search-mini {border-color:var(--line);box-shadow:none}
 .chip,.tags a,.sc-badge,.mod-chips a {
   border-color:var(--line);box-shadow:inset 0 1px 0 var(--surface-highlight);
 }
@@ -172,7 +212,11 @@
 .art-toc {background:color-mix(in srgb,var(--paper) 96%,transparent);border-radius:var(--radius)}
 .toc-head {padding-top:4px;padding-bottom:8px;border-bottom:1px solid var(--line-2)}
 .toc-title,.toc-h3 {color:var(--ink-2)}
-.toc-h2,.toc-h3 {border-radius:0 6px 6px 0;transition:background-color 140ms,color 140ms}
+.toc-h2,.toc-h3 {border-radius:0 4px 4px 0;transition:background-color 140ms,color 140ms}
+.toc-h2 {font-weight:600;line-height:1.5;padding-top:8px;padding-bottom:8px}
+.toc-h3 {line-height:1.5;padding-top:6px;padding-bottom:6px}
+.toc-children {margin-bottom:6px}
+.toc-list {border-left:1px solid var(--line-2)}
 .toc-h2:hover,.toc-h3:hover {transform:none;background:var(--paper-2)}
 .toc-h2.active,.toc-h3.active {background:var(--accent-soft);color:var(--accent-ink);border-left-color:var(--accent)}
 .toc-toggle {width:26px;height:26px;color:var(--ink-2)}
@@ -200,8 +244,8 @@
 .callout .co-body>:last-child {margin-bottom:0}
 .callout .co-title {display:block;color:var(--ink);font-weight:700;margin-bottom:4px}
 
-/* Keep the engineering grid; lower its contrast slightly behind text. */
-body {background-image:linear-gradient(color-mix(in srgb,var(--grid-line) 72%,transparent) 1px,transparent 1px),linear-gradient(90deg,color-mix(in srgb,var(--grid-line) 72%,transparent) 1px,transparent 1px)}
+/* A faint texture at the page edge; content surfaces remain opaque. */
+body {background-image:linear-gradient(color-mix(in srgb,var(--grid-line) 78%,transparent) 1px,transparent 1px),linear-gradient(90deg,color-mix(in srgb,var(--grid-line) 78%,transparent) 1px,transparent 1px)}
 @media(max-width:720px) {
   .cmdk-overlay {padding:16px 10px;align-items:flex-start}
   .cmdk-panel {max-height:calc(100dvh - 32px)}
