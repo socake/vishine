@@ -1,0 +1,10 @@
+{{- /* Read rendered headings, including headings emitted by shortcodes.
+      IDs come from Hugo/render hooks; never manufacture a second set of anchors. */ -}}
+{{- $headings := slice -}}
+{{- range findRE `(?s)<h[1-6]\b[^>]*\bid="[^"]+"[^>]*>.*?</h[1-6]>` .Content -}}
+  {{- $id := replaceRE `(?s)^<h[1-6]\b[^>]*\bid="([^"]+)".*$` "$1" . -}}
+  {{- $level := int (replaceRE `(?s)^<h([1-6]).*$` "$1" .) -}}
+  {{- $title := replaceRE `(?s)<a\b[^>]*class="anchor".*?</a>` "" . | plainify | htmlUnescape | strings.TrimSpace -}}
+  {{- $headings = $headings | append (dict "id" $id "level" $level "title" $title) -}}
+{{- end -}}
+{{- return $headings -}}

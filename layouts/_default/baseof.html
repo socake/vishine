@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="{{ or site.Language.Locale site.Language.Lang "zh-CN" }}" data-scheme="{{ site.Params.defaultScheme | default "paper" }}"{{ if ne site.Params.layeredSurfaces false }} data-depth="layered"{{ end }}>
+<html lang="{{ partial "language-locale.html" site.Language }}" data-scheme="{{ site.Params.defaultScheme | default "paper" }}"{{ if ne site.Params.layeredSurfaces false }} data-depth="layered"{{ end }}>
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,6 +7,7 @@
   {{- /* 无闪烁内联脚本（scheme）：由并行任务产出，缺失时跳过不致命 */ -}}
   {{ if templates.Exists "partials/head-scheme.html" }}{{ partial "head-scheme.html" . }}{{ end }}
   {{ block "head-extra" . }}{{ end }}
+  {{ partial "extensions/head.html" . }}
 </head>
 <body>
   {{ partial "header.html" . }}
@@ -18,13 +19,22 @@
   {{- /* 全局件容器：命令面板 / 抽屉 / 返回顶部 / toast，结构照搬 mockup */ -}}
   {{ partial "globals.html" . }}
 
+  {{ partial "runtime-i18n.html" . }}
+
   {{- /* main.js（全局交互）：由并行任务产出 */ -}}
-  {{ with resources.Get "js/main.js" }}
+  {{ with (slice (resources.Get "js/search-state.js") (resources.Get "js/image-viewer.js") (resources.Get "js/main.js") | resources.Concat "js/main-bundle.js") }}
     {{ if hugo.IsProduction }}{{ $j := . | minify | fingerprint }}<script src="{{ $j.RelPermalink }}" integrity="{{ $j.Data.Integrity }}" defer></script>
     {{ else }}{{ $j := . | fingerprint }}<script src="{{ $j.RelPermalink }}" defer></script>{{ end }}
   {{ end }}
   <script>window.VISHINE_MERMAID_SRC="{{ "js/mermaid.min.js" | relURL }}";</script>
-  {{ with resources.Get "js/diagram.js" }}<script src="{{ .RelPermalink }}" defer></script>{{ end }}
+  {{ with resources.Get "js/diagram.js" }}{{ $script := . | minify | fingerprint }}<script src="{{ $script.RelPermalink }}" integrity="{{ $script.Data.Integrity }}" defer></script>{{ end }}
   {{ block "footer-scripts" . }}{{ end }}
+  {{ range site.Params.customJS }}
+    {{ with resources.Get . }}
+      {{ $script := . }}{{ if hugo.IsProduction }}{{ $script = $script | minify }}{{ end }}{{ $script = $script | fingerprint }}
+      <script src="{{ $script.RelPermalink }}" integrity="{{ $script.Data.Integrity }}" defer></script>
+    {{ else }}{{ warnf "customJS resource does not exist: %s" . }}{{ end }}
+  {{ end }}
+  {{ partial "extensions/footer.html" . }}
 </body>
 </html>

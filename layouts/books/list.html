@@ -3,13 +3,6 @@
   渲染 books/_index.md 的 .Content（markdown 列表，## 分组）为【书卡网格】：
   每个 <li> 一张书卡（CSS 把 ul→grid、li→card），左竖条用资源板块色 --c-res 点缀。
 */ -}}
-{{ define "head-css" }}
-  {{ with resources.Get "css/special.css" }}
-    {{ if hugo.IsProduction }}{{ $c := . | minify | fingerprint }}<link rel="stylesheet" href="{{ $c.RelPermalink }}" integrity="{{ $c.Data.Integrity }}">
-    {{ else }}<link rel="stylesheet" href="{{ .RelPermalink }}">{{ end }}
-  {{ end }}
-{{ end }}
-
 {{ define "main" }}
 <main class="wrap">
   <section class="sec">

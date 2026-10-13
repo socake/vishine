@@ -12,9 +12,9 @@
 
 {{- $cls := "blog" -}}
 {{- with $page.Params.categories -}}
-  {{- $cls = or (index hugo.Data.sections.categories (index . 0)) $cls -}}
+  {{- $cls = or (index (partialCached "theme-data.html" "theme").sections.categories (index . 0)) $cls -}}
 {{- else -}}
-  {{- with index hugo.Data.sections.sections $page.Section -}}{{ $cls = .class }}{{ end -}}
+  {{- with index (partialCached "theme-data.html" "theme").sections.sections $page.Section -}}{{ $cls = .class }}{{ end -}}
 {{- end -}}
 {{- $pal := dict "blog" "#c75132" "play" "#2f6f5e" "road" "#b3892a" "docs" "#3a5e8c" "res" "#7a4f8a" "ai" "#a83a52" -}}
 {{- $palD := dict "blog" "#8f3a22" "play" "#21503f" "road" "#7f6118" "docs" "#284667" "res" "#583a66" "ai" "#7c2a3c" -}}

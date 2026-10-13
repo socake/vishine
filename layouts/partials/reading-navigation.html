@@ -1,0 +1,16 @@
+{{- $page := . -}}
+{{- $config := .Params.readingnav | default dict -}}
+{{- if not $config }}{{ with .CurrentSection.Params.readingnav }}{{ $config = . }}{{ end }}{{ end -}}
+{{- $enabled := or .Params.track (index $config "enabled") -}}
+{{- if isset $config "enabled" }}{{ $enabled = index $config "enabled" }}{{ end -}}
+{{- $pages := slice -}}
+{{- with .CurrentSection -}}
+  {{- $model := partial "section-nav/model.html" . -}}
+  {{- range $model.groups }}{{ $pages = $pages | append .pages }}{{ end -}}
+  {{- $field := index $config "groupby" | default "" -}}
+  {{- if and (not $config) $page.Params.track }}{{ $field = "group" }}{{ end -}}
+  {{- with $field }}{{ $pages = where $pages (printf "Params.%s" .) (index $page.Params . | default "") }}{{ end -}}
+{{- end -}}
+{{- $position := -1 -}}
+{{- range $i, $entry := $pages }}{{ if eq $entry.RelPermalink $page.RelPermalink }}{{ $position = $i }}{{ end }}{{ end -}}
+{{- return (dict "enabled" (and $enabled (ge $position 0)) "pages" $pages "position" $position "section" .CurrentSection) -}}

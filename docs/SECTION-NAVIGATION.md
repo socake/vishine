@@ -48,6 +48,10 @@ hugo new content --kind hub docs/network/_index.md
 - 普通章节沿用已有正文模板；本组件不改变文章页的右侧标题目录。
 - 样式复用主题颜色、边缘和阴影；不引入额外框架。
 
+## 文章间连续阅读
+
+需要章节上下篇和同级文章面板时，在对应栏目配置 `cascade.params.readingNav.enabled: true`。这适用于任意目录，沿用当前栏目 sectionNav 的显式排序；需要限制同一组时配置 readingNav.groupBy。关闭本页目录不影响栏目导航。旧 track 保持兼容。参数、默认值、迁移规则见 [阅读契约](THEME-APIS.md#1-任意栏目的章节导航)，教程 12 的示例分支提供两个实际章节。
+
 ## 组件职责
 
 `section-hub.html` 组合总览；`section-nav/model.html` 提供直接文章、子栏目、分组与数量；`card.html` 展示子栏目；`pages.html` 与 `page-list.html` 展示文章；`context.html` 与 `tree.html` 处理当前分支导航。正文手动插入类组件继续使用 shortcode，不用 shortcode 维护自动栏目结构。

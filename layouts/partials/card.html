@@ -37,7 +37,7 @@
     {{- else -}}{{- $coverURL = $fr.RelPermalink -}}{{- end -}}
   {{- else if $page.Params.cover -}}
     {{- $coverURL = $page.Params.cover -}}
-  {{- else if (index (or site.Params.cover dict) "auto") | default true -}}
+  {{- else if ne (index (or site.Params.cover dict) "auto") false -}}
     {{- $svg := partial "cover-svg.html" (dict "page" $page "variant" "thumb") -}}
     {{- $coverURL = ($svg | resources.FromString (printf "covers/%s-t.svg" (substr (md5 $page.RelPermalink) 0 12))).RelPermalink -}}
   {{- end -}}

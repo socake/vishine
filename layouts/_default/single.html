@@ -8,31 +8,49 @@
 {{ define "main" }}
 {{- $cls := partial "cat-class.html" . -}}
 {{- $cat := "" -}}{{ with .Params.categories }}{{ $cat = index . 0 }}{{ end }}
-{{- $sec := index hugo.Data.sections.sections .Section -}}
+{{- $options := partial "article-options.html" . -}}
+{{- $headings := partialCached "content-headings.html" . .RelPermalink -}}
+{{- $tocEntries := where (where $headings "level" "ge" (int $options.tocstart)) "level" "le" (int $options.tocend) -}}
+{{- if not $options.customdepth -}}
+  {{- $ids := slice -}}
+  {{- range findRE `href="#[^"]+"` .TableOfContents }}{{ $ids = $ids | append (replaceRE `^href="#([^"]+)"$` "$1" . | htmlUnescape) }}{{ end -}}
+  {{- $tocEntries = slice -}}
+  {{- $fragments := .Fragments.Identifiers -}}
+  {{- range $headings }}{{ if or (in $ids .id) (and (not (in $fragments .id)) (ge .level 2) (le .level 3)) }}{{ $tocEntries = $tocEntries | append . }}{{ end }}{{ end -}}
+{{- end -}}
+{{- $hasToc := and $options.toc (gt (len $tocEntries) 0) -}}
+{{- $reading := partial "reading-navigation.html" . -}}
 
-<main class="wrap art-layout">
+<main class="wrap art-layout{{ if not $hasToc }} art-no-toc{{ end }}">
   <article class="art-main">
 
     <!-- 面包屑 -->
-    {{ partial "breadcrumbs.html" . }}
+    <div class="article-context">
+      {{ partial "breadcrumbs.html" . }}
+      {{ if $reading.enabled }}{{ partial "section-nav/context.html" . }}{{ end }}
+      {{ if not $hasToc }}{{ partial "read-width-button.html" (dict "id" "readWidthInlineBtn") }}{{ end }}
+    </div>
 
     <!-- 文章头 -->
     <header class="art-head">
       {{ with .Params.categories }}<span class="kicker"><span class="dot"></span>{{ delimit . " · " }}</span>{{ end }}
       <h1 class="art-title">{{ .Title }}</h1>
-      <div class="art-meta">
+      {{ if $options.showmeta }}<div class="art-meta">
+        {{ if or .Params.author site.Params.author }}
         <span class="mi"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="3.5"/><path d="M5 20a7 7 0 0 1 14 0"/></svg><span class="au">{{ or .Params.author site.Params.author }}</span></span>
         <span class="sep"></span>
-        <span class="mi"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="17" rx="2"/><path d="M3 9h18M8 2v4M16 2v4"/></svg>{{ .Date.Format "2006-01-02" }}</span>
-        <span class="sep"></span>
+        {{ end }}
+        {{ if not .Date.IsZero }}<span class="mi"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="17" rx="2"/><path d="M3 9h18M8 2v4M16 2v4"/></svg>{{ .Date.Format "2006-01-02" }}</span>
+        <span class="sep"></span>{{ end }}
         <span class="mi"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>{{ i18n "read_time_label" .ReadingTime }}</span>
         <span class="sep"></span>
         <span class="mi"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 6h16M4 12h12M4 18h8"/></svg>{{ lang.FormatNumber 0 .WordCount }} {{ i18n "unit_words" }}</span>
         {{ with $cat }}<span class="sep"></span><span class="feed-cat mono" style="--fc:var(--c-{{ $cls }})">{{ . }}</span>{{ end }}
-      </div>
+      </div>{{ end }}
     </header>
 
     {{- /* featured 封面：page bundle 有 featured.* 资源（或 .Params.cover）则铺一张 */ -}}
+    {{ if $options.showcover }}
     {{- $cover := "" -}}
     {{- $fr := .Resources.GetMatch "featured.*" -}}
     {{- if and $fr (not (index (or site.Params.cover dict) "ignoreFeatured")) -}}
@@ -41,26 +59,34 @@
       {{- else -}}{{- $cover = $fr.RelPermalink -}}{{- end -}}
     {{- else if .Params.cover -}}
       {{- $cover = .Params.cover -}}
-    {{- else if (index (or site.Params.cover dict) "auto") | default true -}}
+    {{- else if ne (index (or site.Params.cover dict) "auto") false -}}
       {{- $svg := partial "cover-svg.html" (dict "page" . "variant" "hero") -}}
       {{- $cover = ($svg | resources.FromString (printf "covers/%s-h.svg" (substr (md5 .RelPermalink) 0 12))).RelPermalink -}}
     {{- end -}}
     {{ with $cover }}<figure class="art-cover-fig"><img src="{{ . | safeURL }}" alt="{{ $.Title }} {{ i18n "cover_alt" }}" decoding="async"></figure>{{ end }}
+
+    {{ end }}
+    {{ partial "extensions/article-before.html" . }}
+
+    {{ if $hasToc }}<details class="toc-static">
+      <summary>{{ i18n "toc_article" }}</summary>
+      <ul class="toc-list">{{ partial "toc-items.html" (dict "entries" $tocEntries) }}</ul>
+    </details>{{ end }}
 
     <!-- ============ 正文（prose；render hook / shortcode 由并行任务提供） ============ -->
     <div class="prose{{ if .Params.interview }} is-interview{{ end }}" id="prose">
       {{ .Content }}
     </div>
 
-    {{- /* 路线图页：章节上/下页导航 + 回目录 */ -}}
-    {{ if and .Params.track (eq .Section "roadmap") }}{{ partial "roadmap-navigation.html" . }}{{ end }}
+    {{ partial "extensions/article-after.html" . }}
+    {{ if and $options.shownavigation $reading.enabled }}{{ partial "roadmap-navigation.html" (dict "page" . "model" $reading) }}{{ end }}
 
     {{- /* 本系列文章导航（文章属于某 series 时显示，否则不渲染） */ -}}
-    {{ partial "series-nav.html" . }}
+    {{ if $options.shownavigation }}{{ partial "series-nav.html" . }}{{ end }}
 
     <!-- ============ 文末区 ============ -->
     <footer class="art-end">
-      {{ with .GetTerms "tags" }}
+      {{ if $options.showtags }}{{ with .GetTerms "tags" }}
       <div class="end-block">
         <div class="end-label">{{ i18n "tags" }}</div>
         <div class="tags">
@@ -69,7 +95,8 @@
       </div>
       {{ end }}
 
-      <div class="end-block">
+      {{ end }}
+      {{ if $options.showshare }}<div class="end-block">
         <div class="end-label">{{ i18n "share_this" }}</div>
         <div class="share-row">
           <button class="share-btn primary" id="copyLink" type="button">
@@ -79,7 +106,8 @@
         </div>
       </div>
 
-      {{ if and (not (and .Params.track (eq .Section "roadmap"))) (or .PrevInSection .NextInSection) }}
+      {{ end }}
+      {{ if and $options.shownavigation (not $reading.enabled) (or .PrevInSection .NextInSection) }}
       <div class="end-block">
         <div class="end-label">{{ i18n "continue_reading" }}</div>
         <nav class="pn-nav">
@@ -94,13 +122,14 @@
       {{ with .Params.categories }}
         {{ $related = first 3 (where (where site.RegularPages "Params.categories" "intersect" $.Params.categories) "Permalink" "!=" $.Permalink) }}
       {{ end }}
-      {{ with $related }}
+      {{ if $options.showrelated }}{{ with $related }}
       <div class="end-block">
         <div class="end-label">{{ i18n "related_articles" }}</div>
         <div class="rel-grid">
           {{ range . }}{{ partial "card.html" (dict "page" . "kind" "related") }}{{ end }}
         </div>
       </div>
+      {{ end }}
       {{ end }}
     </footer>
 
@@ -109,10 +138,11 @@
 
   </article>
 
-  <!-- 右侧 TOC（main.js 从正文构建 scrollspy + 折叠树） -->
-  {{ partial "toc.html" . }}
+  <!-- 目录由 Hugo 输出；main.js 增强定位和折叠 -->
+  {{ if $hasToc }}{{ partial "toc.html" (dict "page" . "entries" $tocEntries) }}{{ end }}
 </main>
 
+{{ if $hasToc }}
 <!-- TOC 移动悬浮按钮 + 抽屉 -->
 <button class="toc-fab" id="tocFab" type="button" aria-label="{{ i18n "toc_open" }}" aria-haspopup="true" aria-expanded="false">
   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 6h13M8 12h13M8 18h13M3 6h.01M3 12h.01M3 18h.01"/></svg>
@@ -127,17 +157,12 @@
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg>
       </button>
     </div>
-    <ul class="toc-list" id="tocListMobile"></ul>
+    <ul class="toc-list" id="tocListMobile">{{ partial "toc-items.html" (dict "entries" $tocEntries) }}</ul>
   </aside>
 </div>
 
-<!-- 图片 LIGHTBOX -->
-<div class="lightbox" id="lightbox" hidden>
-  <button class="lightbox-close" id="lightboxClose" type="button" aria-label="{{ i18n "lightbox_close" }}">
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg>
-  </button>
-  <div class="lightbox-inner" id="lightboxInner" role="dialog" aria-modal="true" aria-label="{{ i18n "lightbox_label" }}"></div>
-</div>
+{{ end }}
+{{ partial "image-viewer.html" . }}
 {{ end }}
 
 {{ define "footer-scripts" }}

@@ -19,7 +19,10 @@ defaults:
     shell: bash
 
 jobs:
+  checks:
+    uses: ./.github/workflows/check.yml
   build:
+    needs: checks
     runs-on: ubuntu-latest
     env:
       HUGO_VERSION: 0.163.3

@@ -1,3 +1,8 @@
+// Runtime text is generated from Hugo i18n, including host overrides.
+const vishineWords = JSON.parse(document.getElementById('vishine-i18n')?.textContent || '{}');
+function vishineText(key, values = {}) {
+  return String(vishineWords[key] || key).replace(/\{(\w+)\}/g, (_, name) => values[name] ?? `{${name}}`);
+}
 // Section browser is a non-modal disclosure; native details works without JS.
 document.querySelectorAll('.hub-browser').forEach(browser=>{
   const trigger=browser.querySelector('summary');
@@ -134,20 +139,8 @@ document.querySelectorAll('.hub-browser').forEach(browser=>{
     const resultsEl = document.getElementById('cmdkResults');
     const searchStatus = document.getElementById('cmdkStatus');
     const searchState = document.getElementById('cmdkState');
-    const zh = document.documentElement.lang.toLowerCase().startsWith('zh');
-    const words = zh ? {
-      recent:'最近更新', loading:'正在加载搜索索引…', error:'搜索暂时不可用，请重试。', retry:'重新加载',
-      empty:'没有找到相关内容，试试更短的标题或技术关键词。', results:'条结果', limit:'显示前 50 条', copied:'已复制', failed:'复制失败，请手动选择代码'
-    } : {
-      recent:'Recently updated', loading:'Loading search…', error:'Search is unavailable. Please retry.', retry:'Retry',
-      empty:'No results. Try a shorter title or a technical keyword.', results:'results', limit:'First 50 shown', copied:'Copied', failed:'Copy failed. Please select the code manually.'
-    };
-    const types = {
-      posts:[zh?'文章':'Articles','blog'], playbook:[zh?'实战手册':'Playbooks','play'],
-      docs:[zh?'运维文档':'Documentation','docs'], roadmap:[zh?'学习路线':'Learning paths','road'],
-      resources:[zh?'资源':'Resources','res'], books:[zh?'书籍':'Books','res'],
-      page:[zh?'页面':'Pages','blog']
-    };
+    const searchScope = document.getElementById('cmdkScope');
+    const words = vishineWords;
     const itemIcon='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 3h9l5 5v13H5zM14 3v6h5M8 13h8M8 17h5"/></svg>';
     let searchData = null, loading = null, items = [], activeIndex = -1;
     const normalize = value=>String(value||'').normalize('NFKC').toLocaleLowerCase().trim();
@@ -187,17 +180,15 @@ document.querySelectorAll('.hub-browser').forEach(browser=>{
     function render(raw) {
       if(!searchData) return;
       resetResults();
-      const query=normalize(raw), terms=query.split(/\s+/).filter(Boolean);
-      const matches=query ? searchData.map(d=>({d,score:d.key===query?100:d.key.includes(query)?60:terms.every(t=>d.key.includes(t))?40:10}))
-        .filter(({d})=>terms.every(t=>d.text.includes(t))).sort((a,b)=>b.score-a.score || b.d.date.localeCompare(a.d.date)).map(x=>x.d)
-        : searchData.slice(0,8);
+      const query=normalize(raw);
+      const matches=window.VishineSearch.find(searchData,raw,searchScope?.value || '');
       searchStatus.textContent=query ? matches.length+' '+words.results+(matches.length>50?' · '+words.limit:'') : words.recent;
       if(!matches.length) {message(words.empty);return;}
       matches.slice(0,50).forEach((d,i)=>{
-        const type=types[d.type]||types.page;
+        const type=[d.sectionLabel || d.type || '',d.color || 'blog'];
         const el=document.createElement('div');el.className='cmdk-item';el.id='cmdk-opt-'+i;
         el.setAttribute('role','option');el.style.setProperty('--ci-c','var(--c-'+type[1]+')');
-        el.innerHTML='<div class="ci-ico">'+itemIcon+'</div><div class="ci-body"><div class="ci-title">'+highlight(d.title,raw.trim())+'</div><div class="ci-meta">'+escapeHtml([type[0],d.categories.join(' / '),d.date].filter(Boolean).join(' · '))+'</div></div><span class="ci-enter" aria-hidden="true">↵</span>';
+        el.innerHTML='<div class="ci-ico">'+itemIcon+'</div><div class="ci-body"><div class="ci-title">'+highlight(d.title,raw.trim())+'</div><div class="ci-meta">'+escapeHtml([type[0],d.categories.join(' / '),d.date].filter(Boolean).join(' · '))+'</div><div class="ci-snippet">'+highlight((d.heading ? d.heading+' · ' : '')+d.snippet,raw.trim())+'</div></div><span class="ci-enter" aria-hidden="true">↵</span>';
         el.addEventListener('mousemove',()=>setActive(i,false));el.addEventListener('click',()=>openItem(i));
         items.push({el,data:d});resultsEl.appendChild(el);
       });
@@ -215,20 +206,37 @@ document.querySelectorAll('.hub-browser').forEach(browser=>{
           const response=await fetch(overlay.dataset.index,{signal:abort.signal,cache:'no-cache'});
           if(!response.ok) throw new Error('Index unavailable');
           const data=await response.json();if(!Array.isArray(data)) throw new Error('Invalid index');
-          searchData=data.filter(d=>typeof d.title==='string' && typeof d.url==='string').map(d=>{
+          searchData=window.VishineSearch.prepare(data.filter(d=>typeof d.title==='string' && typeof d.url==='string').map(d=>{
             const url=new URL(d.url,location.href);
             if(url.origin!==location.origin || !['https:','http:'].includes(url.protocol)) return null;
             const categories=Array.isArray(d.categories)?d.categories:[];
             const tags=Array.isArray(d.tags)?d.tags:[];
-            return {...d,url:url.href,categories,date:d.date||'',key:normalize(d.title),text:normalize([d.title,...categories,...tags,d.summary||''].join(' '))};
-          }).filter(Boolean).sort((a,b)=>b.date.localeCompare(a.date));
+            return {...d,url:url.href,categories,tags,date:d.date||''};
+          }).filter(Boolean));
+          if(searchScope) {
+            searchScope.replaceChildren(new Option(words.allSections,''));
+            const sections=new Map(searchData.filter(d=>d.type).map(d=>[d.type,d.sectionLabel || d.type]));
+            sections.forEach((label,value)=>searchScope.add(new Option(label,value)));
+          }
           render(input.value);
         } catch(e) {message(words.error,true);}
         finally {clearTimeout(timer);resultsEl.removeAttribute('aria-busy');loading=null;}
       })();
       return loading;
     }
-    function openItem(index) {if(items[index]) location.assign(items[index].data.url);}
+    function openItem(index) {
+      if(!items[index]) return;
+      const item=items[index].data, url=new URL(item.url);
+      if(item.anchor) url.hash=item.anchor;
+      closeCmdk();
+      const samePage = url.pathname === location.pathname && url.search === location.search;
+      location.assign(url.href);
+      if(samePage && item.anchor) requestAnimationFrame(() => {
+        const target=document.getElementById(item.anchor);
+        if(target) {target.tabIndex=-1;target.focus({preventScroll:true});target.scrollIntoView({block:'start'});}
+      });
+    }
+    searchScope?.addEventListener('change',()=>render(input.value));
     function openCmdk() {
       if(!overlay.hidden && overlay.classList.contains('open')) return;
       input.value='';searchModal.open();loadIndex();
@@ -335,9 +343,8 @@ document.querySelectorAll('.hub-browser').forEach(browser=>{
     /* ---------- 复制 RSS 地址 ---------- */
     const rssCopy = document.getElementById('rssCopy');
     if(rssCopy) rssCopy.addEventListener('click', async ()=>{
-      const url = location.origin + '/index.xml';
-      try{ await navigator.clipboard.writeText(url); }catch(e){}
-      window.toast('已复制 RSS 地址');
+      const ok = await copyText(rssCopy.dataset.rss);
+      window.toast(ok ? words.copyRss : words.failed);
     });
 
     /* ============================================================
@@ -363,10 +370,10 @@ document.querySelectorAll('.hub-browser').forEach(browser=>{
       const wide = w === 'wide';
       readWidthButtons.forEach(button=>{
         button.dataset.width = w;
-        button.title = wide ? (zh?'切换为舒适宽度':'Use comfortable width') : (zh?'切换为宽屏阅读':'Use wide reading');
+        button.title = wide ? words.comfortableTitle : words.wideTitle;
         button.setAttribute('aria-label',button.title);
         const label=button.querySelector('.read-width-label');
-        if(label) label.textContent=wide ? (zh?'切回舒适':'Comfortable') : (zh?'切到宽屏':'Wide reading');
+        if(label) label.textContent=wide ? words.comfortable : words.wide;
       });
       try{ localStorage.setItem('vishine-readwidth', w); }catch(e){}
     }
@@ -382,147 +389,82 @@ document.querySelectorAll('.hub-browser').forEach(browser=>{
     document.querySelectorAll('.prose table').forEach(table=>{
       if(table.closest('.table-wrap,.code-block')) return;
       const wrap=document.createElement('div');wrap.className='table-wrap';wrap.tabIndex=0;
-      wrap.setAttribute('role','region');wrap.setAttribute('aria-label',zh?'表格，可横向滚动':'Table, scroll horizontally');
+      wrap.setAttribute('role','region');wrap.setAttribute('aria-label',words.table);
       table.before(wrap);wrap.appendChild(table);
     });
-    /* ---------- 标题锚点 + TOC 构建 ---------- */
+    /* Heading links and progressive enhancement of the server-rendered outline. */
     const prose = document.getElementById('prose');
-    if(!prose) return; // Home/list pages do not mount article-only controls.
-    const headings = [...prose.querySelectorAll('h2, h3')];
-    const tocList = document.getElementById('tocList');
-    const tocListMobile = document.getElementById('tocListMobile');
-    const linkMap = new Map(); // id -> [全部对应链接（桌面 h2/h3 + 移动 h2/h3）]
-
-    headings.forEach((h, i)=>{
-      const id = h.id || ('sec-' + (i+1));
-      h.id = id;
-      // 去掉 render-heading 钩子在服务端生成的锚点，避免与下面 JS 锚点重复（悬停出现 ##），
-      // 同时防止其 # 文本污染 TOC（textContent 会把锚点的 # 也算进去）。
-      const srvAnchor = h.querySelector('a.anchor'); if(srvAnchor) srvAnchor.remove();
-      const text = h.textContent.trim();
-
-      // 锚点 #
-      const a = document.createElement('a');
-      a.className = 'anchor';
-      a.href = '#' + id;
-      a.setAttribute('aria-label','复制本节链接');
-      a.textContent = '#';
-      a.addEventListener('click', async (e)=>{
-        e.preventDefault();
-        history.replaceState(null,'','#'+id);
-        h.scrollIntoView({behavior: reduce()?'auto':'smooth', block:'start'});
-        await copyText(location.href.split('#')[0] + '#' + id);
-        window.toast('已复制本节链接');
+    if(!prose) return;
+    const headings = [...prose.querySelectorAll('h1[id],h2[id],h3[id],h4[id],h5[id],h6[id]')];
+    headings.forEach(h => {
+      let anchor = h.querySelector('a.anchor');
+      if(!anchor) {
+        anchor = document.createElement('a'); anchor.className = 'anchor';
+        anchor.href = '#' + h.id; anchor.textContent = '#'; h.appendChild(anchor);
+      }
+      anchor.setAttribute('aria-label', words.copySection);
+      anchor.addEventListener('click', async event => {
+        event.preventDefault();
+        const url = new URL(location.href); url.hash = h.id;
+        history.replaceState(null, '', url);
+        h.scrollIntoView({behavior: reduce() ? 'auto' : 'smooth', block:'start'});
+        const ok = await copyText(url.href);
+        window.toast(ok ? words.copiedSection : words.failed);
       });
-      h.appendChild(a);
-
-      // 文本暂存，供后续构建折叠树
-      h._tocText = text;
     });
-
-    /* ---------- 折叠目录树：H2 父 / H3 子 ---------- */
-    const h3Parent = new Map();  // h3 id -> 所属 h2 id
-    const itemReg  = new Map();  // h2 id -> [{li, toggle}]（含桌面 + 移动两份）
-    const CHEV = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>';
-
-    function addLink(id, a){
-      if(!linkMap.has(id)) linkMap.set(id, []);
-      linkMap.get(id).push(a);
+    const linkMap = new Map(), tocGroups = [];
+    let closeTocSheet = () => {};
+    function setCollapsed(item, collapsed) {
+      item.list.hidden = collapsed;
+      item.li.classList.toggle('collapsed', collapsed);
+      item.button.setAttribute('aria-expanded', String(!collapsed));
     }
-    // 手动点击折叠/展开：标记为「干预态」，此后 scrollspy 不再自动管理这一组
-    function toggleItem(li, btn){
-      li.dataset.manual = '1';
-      const collapsed = li.classList.toggle('collapsed');
-      btn.setAttribute('aria-expanded', collapsed ? 'false' : 'true');
-    }
-    function setCollapsed(it, collapsed){
-      it.li.classList.toggle('collapsed', collapsed);
-      if(it.toggle) it.toggle.setAttribute('aria-expanded', collapsed ? 'false' : 'true');
-    }
-    // 自动态（非干预）：只展开当前所在的 H2 组，其余全部收起；
-    // 用户手动开/合过的组带 data-manual，scrollspy 一律不碰，尊重手动操作。
-    function autoManage(id){
-      const activeH2 = h3Parent.has(id) ? h3Parent.get(id) : id;
-      itemReg.forEach((items, h2id)=>{
-        const wantCollapsed = h2id !== activeH2;
-        items.forEach(it=>{
-          if(it.li.dataset.manual) return;   // 干预态：不自动管理
-          if(!it.toggle) return;             // 无子项的 H2 没有折叠器
-          setCollapsed(it, wantCollapsed);
+    [document.getElementById('tocList'), document.getElementById('tocListMobile')].forEach(rootList => {
+      if(!rootList) return;
+      rootList.querySelectorAll('a[data-id]').forEach(link => {
+        const id = link.dataset.id;
+        if(!linkMap.has(id)) linkMap.set(id, []);
+        linkMap.get(id).push(link);
+        link.addEventListener('click', () => {
+          if(rootList.id === 'tocListMobile') closeTocSheet();
+          setActiveToc(id);
         });
       });
-    }
-    function buildTree(rootUl, onNav){
-      if(!rootUl) return;
-      let childrenUl = null, curH2 = null;
-      const pending = [];
-      headings.forEach(h=>{
-        const id = h.id, text = h._tocText || h.textContent.trim();
-        if(h.tagName === 'H2'){
-          const li  = document.createElement('li'); li.className = 'toc-item';
-          const row = document.createElement('div'); row.className = 'toc-row';
-          const a   = document.createElement('a');
-          a.className = 'toc-h2'; a.href = '#'+id; a.textContent = text; a.dataset.id = id;
-          if(onNav) a.addEventListener('click', onNav);
-          row.appendChild(a); li.appendChild(row);
-          childrenUl = document.createElement('ul'); childrenUl.className = 'toc-children';
-          li.appendChild(childrenUl);
-          rootUl.appendChild(li);
-          addLink(id, a);
-          curH2 = id;
-          pending.push({id, li, row, childrenUl, toggle:null});
-        }else{
-          const li = document.createElement('li');
-          const a  = document.createElement('a');
-          a.className = 'toc-h3'; a.href = '#'+id; a.textContent = text; a.dataset.id = id;
-          if(onNav) a.addEventListener('click', onNav);
-          li.appendChild(a);
-          (childrenUl || rootUl).appendChild(li);
-          addLink(id, a);
-          if(curH2) h3Parent.set(id, curH2);
-        }
+      rootList.querySelectorAll('.toc-item').forEach(li => {
+        const list = [...li.children].find(el => el.matches('ul'));
+        if(!list) return;
+        const row = li.querySelector('.toc-row');
+        const button = document.createElement('button'); button.type = 'button'; button.className = 'toc-toggle';
+        button.setAttribute('aria-label', words.toggleSection + ': ' + row.textContent.trim());
+        button.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg>';
+        row.appendChild(button);
+        const item = {li, list, button, manual:false}; tocGroups.push(item);
+        button.addEventListener('click', () => { item.manual = true; setCollapsed(item, !list.hidden); });
+        setCollapsed(item, true);
       });
-      // 仅「有 H3 子项」的 H2 才加折叠触发器（原生 button，Enter/Space 即可触发）
-      pending.forEach(it=>{
-        if(it.childrenUl.children.length){
-          const btn = document.createElement('button');
-          btn.className = 'toc-toggle'; btn.type = 'button';
-          btn.setAttribute('aria-expanded','false');   // 默认折叠（目录当大纲用）
-          btn.setAttribute('aria-label','折叠或展开此节');
-          btn.innerHTML = CHEV;
-          btn.addEventListener('click', ()=>toggleItem(it.li, btn));
-          it.row.appendChild(btn);
-          it.toggle = btn;
-          it.li.classList.add('collapsed');            // 默认折叠态
-        }
-        if(!itemReg.has(it.id)) itemReg.set(it.id, []);
-        itemReg.get(it.id).push({li:it.li, toggle:it.toggle});
+    });
+    function setActiveToc(id) {
+      linkMap.forEach((links, key) => links.forEach(link => {
+        link.classList.toggle('active', key === id);
+        if(key === id) link.setAttribute('aria-current','location'); else link.removeAttribute('aria-current');
+      }));
+      tocGroups.forEach(item => {
+        if(item.manual) return;
+        const contains = [...item.li.querySelectorAll('a[data-id]')].some(link => link.dataset.id === id);
+        setCollapsed(item, !contains);
       });
     }
-
-    let closeTocSheet=()=>{};
-    buildTree(tocList, null);
-    buildTree(tocListMobile, ()=>closeTocSheet());
-
-    function setActiveToc(id){
-      linkMap.forEach((links, key)=>{
-        const on = key===id;
-        links.forEach(l=>{l.classList.toggle('active',on);if(on) l.setAttribute('aria-current','location');else l.removeAttribute('aria-current');});
-      });
-      autoManage(id); // 自动态：只展开当前组、收起其它（干预态除外）
-    }
-
-    /* ---------- TOC scrollspy（IntersectionObserver）---------- */
-    if('IntersectionObserver' in window && headings.length){
-      headings.forEach(h=>{ h._vis=false; });
-      const spy = new IntersectionObserver(entries=>{
-        entries.forEach(e=>{ e.target._vis = e.isIntersecting; });
-        const vis = headings.filter(h=>h._vis);
-        if(vis.length){ setActiveToc(vis[0].id); }
-      }, {rootMargin:'-78px 0px -72% 0px', threshold:0});
-      headings.forEach(h=>spy.observe(h));
-      // 初始：选中第一个
-      setActiveToc(headings[0].id);
+    const tocHeadings = headings.filter(heading => linkMap.has(heading.id));
+    if('IntersectionObserver' in window && tocHeadings.length) {
+      const visible = new Set();
+      const spy = new IntersectionObserver(entries => {
+        entries.forEach(entry => entry.isIntersecting ? visible.add(entry.target) : visible.delete(entry.target));
+        const first = tocHeadings.find(heading => visible.has(heading));
+        if(first) setActiveToc(first.id);
+      }, {rootMargin:'-78px 0px -65% 0px',threshold:0});
+      tocHeadings.forEach(heading => spy.observe(heading));
+      let target = ''; try { target = decodeURIComponent(location.hash.slice(1)); } catch (_) {}
+      setActiveToc(linkMap.has(target) ? target : tocHeadings[0].id);
     }
 
     /* ---------- 代码块复制 ---------- */
@@ -530,16 +472,16 @@ document.querySelectorAll('.hub-browser').forEach(browser=>{
       const btn = block.querySelector('.code-copy');
       const code = block.querySelector('pre');
       if(!btn || !code) return;
-      code.tabIndex=0;code.setAttribute('role','region');code.setAttribute('aria-label',zh?'代码，可横向滚动':'Code, scroll horizontally');
+      code.tabIndex=0;code.setAttribute('role','region');code.setAttribute('aria-label',words.code);
       const label=btn.querySelector('.cc-txt');
-      const original=label?.textContent || (zh?'复制':'Copy');
+      const original=label?.textContent || words.copy;
       let resetTimer;
       btn.addEventListener('click',async()=>{
         const ok=await copyText(code.innerText);
         clearTimeout(resetTimer);
         btn.classList.toggle('done',ok);btn.classList.toggle('failed',!ok);
-        if(label) label.textContent=ok?words.copied:(zh?'重试':'Retry');
-        window.toast(ok?(zh?'已复制代码':'Code copied'):words.failed);
+        if(label) label.textContent=ok?words.copied:words.retry;
+        window.toast(ok?words.copiedCode:words.failed);
         resetTimer=setTimeout(()=>{
           btn.classList.remove('done','failed');if(label) label.textContent=original;
         },1800);
@@ -549,31 +491,18 @@ document.querySelectorAll('.hub-browser').forEach(browser=>{
     /* ---------- 复制本文链接 ---------- */
     const copyLinkBtn = document.getElementById('copyLink');
     if(copyLinkBtn) copyLinkBtn.addEventListener('click', async ()=>{
-      await copyText(location.href.split('#')[0]);
-      window.toast('已复制链接');
+      const ok = await copyText(location.href.split('#')[0]);
+      window.toast(ok ? words.copiedLink : words.failed);
     });
 
     /* ---------- 图片 zoom · Lightbox ---------- */
     const lightbox = document.getElementById('lightbox');
     const lightboxInner = document.getElementById('lightboxInner');
     const lightboxClose = document.getElementById('lightboxClose');
-    const lightboxModal=lightbox && lightboxClose ? modal(lightbox,()=>lightboxClose,()=>{},200) : null;
-    function openLightbox(figEl){
-      const dg=figEl.querySelector('.diagram');
-      if(!dg || !lightboxModal) return;
-      lightboxInner.replaceChildren(dg.cloneNode(true));lightboxModal.open();
-    }
-    function closeLightbox(){lightboxModal?.close();}
-    document.querySelectorAll('.fig[role="button"]').forEach(fig=>{
-      fig.addEventListener('click', ()=>openLightbox(fig));
-      fig.addEventListener('keydown', e=>{
-        if(e.key==='Enter' || e.key===' '){ e.preventDefault(); openLightbox(fig); }
-      });
-    });
-    if(lightbox && lightboxClose) {
-    lightboxClose.addEventListener('click', closeLightbox);
-
-
+    const lightboxModal=lightbox && lightboxClose ? modal(lightbox,()=>document.getElementById('viewerViewport'),()=>{},200) : null;
+    if(lightboxModal) {
+      window.VishineImageViewer({layer:lightbox,open:()=>lightboxModal.open(),words});
+      lightboxClose.addEventListener('click',()=>lightboxModal.close());
     }
 
     /* ---------- 移动 TOC 抽屉 ---------- */
@@ -616,31 +545,40 @@ document.querySelectorAll('.hub-browser').forEach(browser=>{
         chev.setAttribute('stroke-width','2.4'); chev.setAttribute('stroke-linecap','round');
         chev.setAttribute('stroke-linejoin','round'); chev.setAttribute('aria-hidden','true');
         chev.innerHTML = '<path d="m9 6 6 6-6 6"/>';
-        h3.insertBefore(chev, h3.firstChild);
+        var button = document.createElement('button'); button.type = 'button'; button.className = 'qa-question';
+        var anchor = h3.querySelector('a.anchor');
+        [].slice.call(h3.childNodes).forEach(function(node){ if(node !== anchor) button.appendChild(node); });
+        button.insertBefore(chev,button.firstChild); h3.insertBefore(button,h3.firstChild);
+        ans.id = h3.id + '-answer'; button.setAttribute('aria-controls',ans.id);
+        button.setAttribute('aria-expanded','false'); ans.hidden = true;
+        item._setOpen = function(open){ item.classList.toggle('open',open); ans.hidden=!open; button.setAttribute('aria-expanded',String(open)); };
         item.appendChild(h3); item.appendChild(ans);
-        h3.addEventListener('click', function(e){
-          if(e.target.closest && e.target.closest('a.anchor')) return; // 点 # 复制链接，不折叠
-          item.classList.toggle('open');
-        });
+        button.addEventListener('click', function(){ item._setOpen(ans.hidden); });
         items.push(item);
       });
       if(!items.length) return;
       var bar = document.createElement('div'); bar.className = 'qa-controls';
-      bar.innerHTML = '<button class="qa-btn" type="button" data-act="expand">展开全部</button><button class="qa-btn on" type="button" data-act="collapse">收起全部 · 自测</button>';
+      ['expand','collapse'].forEach(function(action){
+        var button = document.createElement('button'); button.type='button'; button.className='qa-btn'; button.dataset.act=action;
+        button.textContent = vishineWords[action === 'expand' ? 'expandAll' : 'collapseAll']; bar.appendChild(button);
+      });
       items[0].parentNode.insertBefore(bar, items[0]);
       bar.addEventListener('click', function(e){
         var b = e.target.closest('.qa-btn'); if(!b) return;
         var open = b.dataset.act === 'expand';
-        items.forEach(function(it){ it.classList.toggle('open', open); });
+        items.forEach(function(it){ it._setOpen(open); });
         bar.querySelector('[data-act=expand]').classList.toggle('on', open);
         bar.querySelector('[data-act=collapse]').classList.toggle('on', !open);
       });
       // 从 TOC / 锚点跳转过来时，自动展开对应题目
       function openFromHash(){
-        var id = decodeURIComponent((location.hash || '').slice(1)); if(!id) return;
+        var id; try { id=decodeURIComponent((location.hash || '').slice(1)); } catch (_) { return; } if(!id) return;
         var h = document.getElementById(id); if(!h) return;
-        var it = h.closest('.qa-item'); if(it) it.classList.add('open');
+        var it = h.closest('.qa-item'); if(it) it._setOpen(true);
       }
+      var printState = [];
+      window.addEventListener('beforeprint',function(){ printState=items.map(function(it){return it.classList.contains('open');});items.forEach(function(it){it._setOpen(true);}); });
+      window.addEventListener('afterprint',function(){ items.forEach(function(it,i){it._setOpen(printState[i]);}); });
       openFromHash();
       window.addEventListener('hashchange', openFromHash);
     });

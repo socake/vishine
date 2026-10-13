@@ -318,3 +318,137 @@ other = "查看栏目说明"
 
 [hub_empty]
 other = "这里还没有子栏目或文章。"
+
+# Shared runtime labels. Rendered once by runtime-i18n.html.
+
+[ui_recent]
+other = "最近内容"
+
+[ui_loading]
+other = "正在加载搜索索引…"
+
+[ui_error]
+other = "搜索暂时不可用，请重试。"
+
+[ui_retry]
+other = "重试"
+
+[ui_empty]
+other = "没有找到相关内容，试试其他关键词。"
+
+[ui_results]
+other = "条结果"
+
+[ui_limit]
+other = "显示前 50 条"
+
+[ui_copied]
+other = "已复制"
+
+[ui_failed]
+other = "复制失败，请手动选择内容"
+
+[ui_copyrss]
+other = "已复制 RSS 地址"
+
+[ui_copysection]
+other = "复制本节链接"
+
+[ui_copiedsection]
+other = "已复制本节链接"
+
+[ui_copiedlink]
+other = "已复制链接"
+
+[ui_copiedcode]
+other = "已复制代码"
+
+[ui_copy]
+other = "复制"
+
+[ui_comfortabletitle]
+other = "切换为舒适宽度"
+
+[ui_widetitle]
+other = "切换为宽屏阅读"
+
+[ui_comfortable]
+other = "切回舒适"
+
+[ui_wide]
+other = "切到宽屏"
+
+[ui_table]
+other = "表格，可横向滚动"
+
+[ui_code]
+other = "代码，可横向滚动"
+
+[ui_togglesection]
+other = "折叠或展开此节"
+
+[ui_expandall]
+other = "展开全部"
+
+[ui_collapseall]
+other = "收起全部 · 自测"
+
+[ui_category]
+other = "分类："
+
+[ui_tag]
+other = "标签："
+
+[ui_removefilter]
+other = "移除筛选："
+
+[ui_listloading]
+other = "正在加载完整列表…"
+
+[ui_listerror]
+other = "完整列表加载失败，筛选结果尚未更新。请重试。"
+
+[ui_pagination]
+other = "第 {page} / {pages} 页 · 显示 {from}–{to} / {total} 篇"
+
+[ui_zeroresults]
+other = "0 篇结果"
+
+[ui_allfilters]
+other = "全部筛选"
+
+[ui_findfilter]
+other = "查找分类或标签"
+
+[ui_filternone]
+other = "没有匹配的分类或标签"
+
+[ui_allsections]
+other = "全部栏目"
+
+[ui_searchscope]
+other = "搜索范围"
+
+[ui_zoomin]
+other = "放大"
+
+[ui_zoomout]
+other = "缩小"
+
+[ui_zoomfit]
+other = "适应屏幕"
+
+[ui_zoomactual]
+other = "原始大小"
+
+[ui_zoomoriginal]
+other = "打开原图"
+
+[ui_zoomhelp]
+other = "滚轮或双指缩放 · 拖动平移 · + / − 缩放 · 方向键移动 · Esc 关闭"
+
+[ui_zoomerror]
+other = "原图加载失败，已显示预览图"
+
+[ui_zoomviewport]
+other = "图片查看器，可缩放和平移"

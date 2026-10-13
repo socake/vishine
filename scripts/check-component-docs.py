@@ -8,11 +8,12 @@ import subprocess
 import tempfile
 
 class Snippets(HTMLParser):
-    def __init__(self):
+    def __init__(self, language='markdown'):
         super().__init__()
+        self.language = language
         self.items, self.current = [], None
     def handle_starttag(self, tag, attrs):
-        if tag == 'code' and dict(attrs).get('data-lang') == 'markdown':
+        if tag == 'code' and dict(attrs).get('data-lang') == self.language:
             self.current = []
     def handle_data(self, value):
         if self.current is not None:
@@ -65,7 +66,30 @@ noClasses=false
             html = (work/f'result/posts/recipe-{i}/index.html').read_text()
             assert marker in html, f'Recipe {i} did not render its component'
         assert 'reading-components' in (work/'result/posts/recipe-2/index.html').read_text()
-    print('PASS: all shortcode names documented; four rendered source recipes build in an independent host; tab enhancement included')
+        # Exercise configuration copied from rendered chapter 14, not a mirror
+        # of those recipes maintained in the test itself.
+        rendered = (work/'tutorial/docs/14-reading-search/index.html').read_text()
+        yaml, toml, extension = Snippets('yaml'), Snippets('toml'), Snippets('go-html-template')
+        for collector in [yaml, toml, extension]: collector.feed(rendered)
+        assert len(yaml.items) == 2 and len(toml.items) == 3 and len(extension.items) == 1
+        (host/'hugo.toml').write_text('baseURL="https://example.test/lab/"\ntitle="Public recipes"\ndefaultContentLanguage="zh-cn"\n'+'\n'.join(toml.items)+'\ngoogleFonts=false\n')
+        (host/'content/courses').mkdir()
+        (host/'content/courses/_index.md').write_text('---\ntitle: Lessons\n'+yaml.items[1]+'\n---\n')
+        for number in [1, 2]:
+            (host/f'content/courses/lesson-{number}.md').write_text(f'---\ntitle: Lesson {number}\nweight: {number}\n'+yaml.items[0]+'\n---\n## Main\n### Detail\n#### Deep\nCOPY_BODY_RECIPE_014\n')
+        for kind in ['css', 'js']:
+            (host/f'assets/{kind}').mkdir(parents=True)
+            (host/f'assets/{kind}/site.{kind}').write_text('/* Site extension */')
+        (host/'layouts/partials/extensions').mkdir(parents=True)
+        (host/'layouts/partials/extensions/article-after.html').write_text(extension.items[0])
+        build(host, work/'public-recipes')
+        html = (work/'public-recipes/courses/lesson-1/index.html').read_text()
+        assert 'data-id="deep"' in html and 'class="art-cover-fig"' not in html
+        assert 'rm-reading-nav' in html and 'lesson-2/' in html
+        assert '<p>本文属于 Public recipes。</p>' in html
+        assert '/lab/js/site.' in html
+        assert 'COPY_BODY_RECIPE_014' in (work/'public-recipes/index.json').read_text()
+    print('PASS: catalog coverage; four component recipes and chapter 14 configuration/extension recipes copied from rendered tutorial build in independent hosts')
 
 if __name__ == '__main__':
     main()

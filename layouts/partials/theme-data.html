@@ -1,0 +1,4 @@
+{{- /* Keep the documented minimum version without deprecation warnings on current Hugo. */ -}}
+{{- $data := dict -}}
+{{- if ge hugo.Version "0.158.0" }}{{ $data = hugo.Data }}{{ else }}{{ $data = site.Data }}{{ end -}}
+{{- return $data -}}

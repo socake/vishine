@@ -175,3 +175,24 @@
   .fi-cover{aspect-ratio:1/1}
   .fi-sum{display:none}
 }
+
+/* Compact complete-collection filters; the page itself remains a normal scroll. */
+.filter-bar{width:100%;gap:8px}
+.filter-quick{display:flex;flex-wrap:wrap;gap:6px}
+.filter-picker{min-width:0}
+.filter-picker > summary{display:flex;gap:8px;align-items:center;list-style:none}
+.filter-picker > summary::-webkit-details-marker{display:none}
+.filter-picker > summary::after{content:'⌄';font-size:13px}
+.filter-picker[open]{flex-basis:100%}
+.filter-picker[open] > summary{width:fit-content}
+.filter-panel{margin-top:10px;padding:14px;background:var(--card);border:1px solid var(--surface-edge);border-radius:10px;box-shadow:var(--surface-shadow)}
+.filter-search-label{display:block;color:var(--ink-2);font-size:12px;margin-bottom:6px}
+.filter-panel input{width:100%;font:inherit;font-size:14px;color:var(--ink);background:var(--paper);border:1px solid var(--line);border-radius:7px;padding:9px 10px;margin-bottom:12px}
+.filter-options{max-height:min(42vh,320px);overflow:auto;overscroll-behavior:contain;padding:3px}
+.filter-group + .filter-group{margin-top:16px}
+.filter-group .filter-label{margin:0 0 8px}
+.filter-chips{display:flex;gap:6px;flex-wrap:wrap}
+.filter-chips .chip{max-width:100%;overflow-wrap:anywhere;text-align:left}
+.filter-panel [hidden],.filter-selection[hidden],.list-empty[hidden]{display:none}
+.filter-none{color:var(--ink-2);font-size:13px;padding:8px}
+@media(max-width:720px){.filter-bar{flex:initial}.filter-quick{gap:5px}.filter-quick .chip{font-size:11px;padding:6px 8px}.filter-panel{padding:10px}}

@@ -1,0 +1,10 @@
+{{- $entries := .entries -}}
+{{- if $entries -}}
+  {{- $first := index $entries 0 }}{{ $end := len $entries -}}
+  {{- range $i, $entry := $entries }}{{ if and (gt $i 0) (eq $end (len $entries)) (le $entry.level $first.level) }}{{ $end = $i }}{{ end }}{{ end -}}
+  <li class="toc-item" data-heading="{{ $first.id }}">
+    <div class="toc-row"><a class="{{ if .nested }}toc-h3{{ else }}toc-h2{{ end }}" href="#{{ $first.id }}" data-id="{{ $first.id }}">{{ $first.title }}</a></div>
+    {{- if gt $end 1 }}<ul class="toc-children">{{ partial "toc-items.html" (dict "entries" (after 1 (first $end $entries)) "nested" true) }}</ul>{{ end -}}
+  </li>
+  {{- if lt $end (len $entries) }}{{ partial "toc-items.html" (dict "entries" (after $end $entries) "nested" .nested) }}{{ end -}}
+{{- end -}}

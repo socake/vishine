@@ -17,7 +17,7 @@
 {{ define "main" }}
 {{- $isCat := eq .Data.Singular "category" -}}
 {{- $cls := "blog" -}}
-{{- if $isCat }}{{ $cls = or (index hugo.Data.sections.categories .Title) "blog" }}{{ else }}{{ $cls = "res" }}{{ end -}}
+{{- if $isCat }}{{ $cls = or (index (partialCached "theme-data.html" "theme").sections.categories .Title) "blog" }}{{ else }}{{ $cls = "res" }}{{ end -}}
 {{- $paginator := .Paginate .Pages -}}
 
 <main class="wrap">

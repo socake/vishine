@@ -7,7 +7,7 @@
   模板里据此注入 style="--mc:var(--c-{{ $cls }})"，绝不写死颜色。
 */ -}}
 {{- $page := . -}}
-{{- $data := hugo.Data.sections -}}
+{{- $data := (partialCached "theme-data.html" "theme").sections -}}
 {{- $cls := "" -}}
 {{- with $page.Params.categories -}}
   {{- $cat := index . 0 -}}

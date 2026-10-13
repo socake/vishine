@@ -156,3 +156,137 @@ other = "言語"
 
 [sponsor]
 other = "スポンサー"
+
+# Shared runtime labels. Rendered once by runtime-i18n.html.
+
+[ui_recent]
+other = "最近のコンテンツ"
+
+[ui_loading]
+other = "検索を読み込み中…"
+
+[ui_error]
+other = "検索を利用できません。再試行してください。"
+
+[ui_retry]
+other = "再試行"
+
+[ui_empty]
+other = "該当する結果がありません。別のキーワードをお試しください。"
+
+[ui_results]
+other = "件"
+
+[ui_limit]
+other = "最初の50件を表示"
+
+[ui_copied]
+other = "コピーしました"
+
+[ui_failed]
+other = "コピーできませんでした。手動で選択してください。"
+
+[ui_copyrss]
+other = "RSS アドレスをコピーしました"
+
+[ui_copysection]
+other = "この節のリンクをコピー"
+
+[ui_copiedsection]
+other = "節のリンクをコピーしました"
+
+[ui_copiedlink]
+other = "リンクをコピーしました"
+
+[ui_copiedcode]
+other = "コードをコピーしました"
+
+[ui_copy]
+other = "コピー"
+
+[ui_comfortabletitle]
+other = "読みやすい幅に変更"
+
+[ui_widetitle]
+other = "幅を広げる"
+
+[ui_comfortable]
+other = "標準幅"
+
+[ui_wide]
+other = "広い幅"
+
+[ui_table]
+other = "表（横スクロール可能）"
+
+[ui_code]
+other = "コード（横スクロール可能）"
+
+[ui_togglesection]
+other = "この節を折りたたむ／展開する"
+
+[ui_expandall]
+other = "すべて展開"
+
+[ui_collapseall]
+other = "すべて折りたたむ · セルフテスト"
+
+[ui_category]
+other = "カテゴリー："
+
+[ui_tag]
+other = "タグ："
+
+[ui_removefilter]
+other = "絞り込みを解除："
+
+[ui_listloading]
+other = "全件を読み込み中…"
+
+[ui_listerror]
+other = "一覧を読み込めません。結果は変更されていません。再試行してください。"
+
+[ui_pagination]
+other = "{page} / {pages} ページ · {total} 件中 {from}–{to} 件"
+
+[ui_zeroresults]
+other = "0 件"
+
+[ui_allfilters]
+other = "すべての絞り込み"
+
+[ui_findfilter]
+other = "カテゴリー・タグを検索"
+
+[ui_filternone]
+other = "一致するカテゴリー・タグがありません"
+
+[ui_allsections]
+other = "すべてのセクション"
+
+[ui_searchscope]
+other = "検索対象"
+
+[ui_zoomin]
+other = "拡大"
+
+[ui_zoomout]
+other = "縮小"
+
+[ui_zoomfit]
+other = "画面に合わせる"
+
+[ui_zoomactual]
+other = "実際のサイズ"
+
+[ui_zoomoriginal]
+other = "元画像を開く"
+
+[ui_zoomhelp]
+other = "ホイール・ピンチで拡大縮小 · ドラッグで移動 · + / − で拡大縮小 · 矢印キーで移動 · Esc で閉じる"
+
+[ui_zoomerror]
+other = "元画像を読み込めません。プレビューを表示します"
+
+[ui_zoomviewport]
+other = "画像ビューアー（拡大縮小・移動可能）"

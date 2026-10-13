@@ -4,13 +4,6 @@
   每个 H2（月份）作节点（CSS 在 H2::before 画圆点），prose 风格正文。
   纯 token 着色，节点圆点用 --accent。
 */ -}}
-{{ define "head-css" }}
-  {{ with resources.Get "css/special.css" }}
-    {{ if hugo.IsProduction }}{{ $c := . | minify | fingerprint }}<link rel="stylesheet" href="{{ $c.RelPermalink }}" integrity="{{ $c.Data.Integrity }}">
-    {{ else }}<link rel="stylesheet" href="{{ .RelPermalink }}">{{ end }}
-  {{ end }}
-{{ end }}
-
 {{ define "main" }}
 <main class="wrap">
   <section class="sec">

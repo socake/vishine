@@ -3,13 +3,6 @@
   渲染 resources/_index.md 的 .Content（markdown 链接列表，## 分组）为【链接卡网格】：
   每个 <li><a> 一张小卡（CSS 把 ul→grid、li→card，免解析），板块色点缀用 --accent 左条。
 */ -}}
-{{ define "head-css" }}
-  {{ with resources.Get "css/special.css" }}
-    {{ if hugo.IsProduction }}{{ $c := . | minify | fingerprint }}<link rel="stylesheet" href="{{ $c.RelPermalink }}" integrity="{{ $c.Data.Integrity }}">
-    {{ else }}<link rel="stylesheet" href="{{ .RelPermalink }}">{{ end }}
-  {{ end }}
-{{ end }}
-
 {{ define "main" }}
 <main class="wrap">
   <section class="sec">

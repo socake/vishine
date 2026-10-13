@@ -323,3 +323,137 @@ other = "About this section"
 
 [hub_empty]
 other = "There are no subsections or articles here yet."
+
+# Shared runtime labels. Rendered once by runtime-i18n.html.
+
+[ui_recent]
+other = "Recent content"
+
+[ui_loading]
+other = "Loading search…"
+
+[ui_error]
+other = "Search is unavailable. Please retry."
+
+[ui_retry]
+other = "Retry"
+
+[ui_empty]
+other = "No matches. Try another keyword."
+
+[ui_results]
+other = "results"
+
+[ui_limit]
+other = "First 50 shown"
+
+[ui_copied]
+other = "Copied"
+
+[ui_failed]
+other = "Copy failed. Please select the text manually."
+
+[ui_copyrss]
+other = "RSS address copied"
+
+[ui_copysection]
+other = "Copy section link"
+
+[ui_copiedsection]
+other = "Section link copied"
+
+[ui_copiedlink]
+other = "Link copied"
+
+[ui_copiedcode]
+other = "Code copied"
+
+[ui_copy]
+other = "Copy"
+
+[ui_comfortabletitle]
+other = "Use comfortable width"
+
+[ui_widetitle]
+other = "Use wide reading"
+
+[ui_comfortable]
+other = "Comfortable"
+
+[ui_wide]
+other = "Wide reading"
+
+[ui_table]
+other = "Table, scroll horizontally"
+
+[ui_code]
+other = "Code, scroll horizontally"
+
+[ui_togglesection]
+other = "Collapse or expand this section"
+
+[ui_expandall]
+other = "Expand all"
+
+[ui_collapseall]
+other = "Collapse all · self-test"
+
+[ui_category]
+other = "Category: "
+
+[ui_tag]
+other = "Tag: "
+
+[ui_removefilter]
+other = "Remove filter: "
+
+[ui_listloading]
+other = "Loading the complete list…"
+
+[ui_listerror]
+other = "The list could not load. Results have not changed. Please retry."
+
+[ui_pagination]
+other = "Page {page} / {pages} · {from}–{to} of {total}"
+
+[ui_zeroresults]
+other = "0 results"
+
+[ui_allfilters]
+other = "All filters"
+
+[ui_findfilter]
+other = "Find a category or tag"
+
+[ui_filternone]
+other = "No matching categories or tags"
+
+[ui_allsections]
+other = "All sections"
+
+[ui_searchscope]
+other = "Search scope"
+
+[ui_zoomin]
+other = "Zoom in"
+
+[ui_zoomout]
+other = "Zoom out"
+
+[ui_zoomfit]
+other = "Fit to screen"
+
+[ui_zoomactual]
+other = "Actual size"
+
+[ui_zoomoriginal]
+other = "Open original"
+
+[ui_zoomhelp]
+other = "Wheel or pinch to zoom · drag to pan · + / − zoom · arrow keys pan · Esc closes"
+
+[ui_zoomerror]
+other = "Original unavailable; showing the preview"
+
+[ui_zoomviewport]
+other = "Image viewer, zoom and pan"

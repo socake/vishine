@@ -6,7 +6,7 @@
         {{ $fr := .Resources.GetMatch "featured.*" }}
         {{ if and $fr (not (index (or site.Params.cover dict) "ignoreFeatured")) }}{{ if and (ne $fr.MediaType.SubType "svg") (gt ($fr.Width | default 0) 640) }}{{ $cover = ($fr.Resize "640x webp q85").RelPermalink }}{{ else }}{{ $cover = $fr.RelPermalink }}{{ end }}
         {{ else if .Params.cover }}{{ $cover = .Params.cover }}
-        {{ else if (index (or site.Params.cover dict) "auto") | default true }}{{ $svg := partial "cover-svg.html" (dict "page" . "variant" "thumb") }}{{ $cover = ($svg | resources.FromString (printf "covers/%s-t.svg" (substr (md5 .RelPermalink) 0 12))).RelPermalink }}{{ end }}
+        {{ else if ne (index (or site.Params.cover dict) "auto") false }}{{ $svg := partial "cover-svg.html" (dict "page" . "variant" "thumb") }}{{ $cover = ($svg | resources.FromString (printf "covers/%s-t.svg" (substr (md5 .RelPermalink) 0 12))).RelPermalink }}{{ end }}
         <a class="feed-item {{ $cls }}{{ if $cover }} has-cover{{ end }}" href="{{ .RelPermalink }}" style="--mc:var(--c-{{ $cls }})"
            data-categories="{{ delimit (.Params.categories | default slice) "|" }}"
            data-tags="{{ delimit (.Params.tags | default slice) "|" }}">

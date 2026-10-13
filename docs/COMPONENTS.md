@@ -8,14 +8,14 @@
 | --- | --- | --- | --- |
 | 写文章 | `content/posts/*.md`，title / date / summary / categories / tags | 标题、元信息、封面、正文、分享、相关文章 | [快速开始](GETTING-STARTED.md)，`exampleSite/content/posts/` |
 | 展示首页入口 | hugo.toml 的 homeSections / featureZone、data/sections.toml | 首页工作台、自适应板块卡、子栏目索引、可配置统计和最近更新 | [配置参考](USAGE.md)，`exampleSite/hugo.toml` |
-| 列表筛选 | 内容分类标签；pagination.pagerSize | 完整集合筛选、数量、分页、URL 与后退恢复 | [配置参考](USAGE.md)；示例站 `/posts/` |
+| 列表筛选 | 内容分类标签；pagination.pagerSize | 常用分类与可搜索的全部筛选、分页、URL 与后退恢复 | [配置参考](USAGE.md)；示例站 `/posts/` |
 | 多层栏目 | `_index.md`、目录层级、sectionNav | 子栏目卡片、直属文章、面包屑、栏目浏览 | [栏目契约](SECTION-NAVIGATION.md)；示例站 `/docs/` |
-| 学习路线 | `content/roadmap/<路线>/`，weight / group / stage；章节加 track | 配置分组、章节上下篇和返回目录 | 下方路线配方；`exampleSite/content/roadmap/` |
+| 连续阅读 / 学习路线 | 任意栏目 readingNav；weight / group / stage | 同级文章、章节上下篇和返回目录；兼容旧 track | [阅读契约](THEME-APIS.md#1-任意栏目的章节导航)；教程 12 的示例分支 |
 | 提示、步骤、方案切换、补充说明 | 下表 shortcode | 统一样式、键盘操作和阅读交互 | [正文组件契约](RUNBOOK-COMPONENTS.md)；教程站 `/docs/11-components/` |
-| 代码、表格、图片、图表 | 普通 Markdown；Mermaid 代码围栏 | 高亮复制、表格局部滚动、图片放大、图表渲染 | [Markdown](MARKDOWN.md)；教程 07 |
-| 本页目录和阅读宽度 | 正文 `##` / `###` | 目录、定位、宽度按钮 | 当前模板自动挂载；`toc: false` 尚未作为关闭开关实现，勿依赖它 |
+| 代码、表格、图片、图表 | 普通 Markdown；Mermaid 代码围栏 | 高亮复制、表格局部滚动、原图缩放和平移、图表渲染 | [Markdown](MARKDOWN.md)；教程 07 |
+| 本页目录和阅读宽度 | article 选项、H1–H6 标题；toc: false 可关闭 | 构建时目录、深度控制、定位、宽度按钮；无目录时居中 | [阅读契约](THEME-APIS.md#2-文章显示选项)；教程 14 |
 | 顶栏 / 页脚导航 | menu.main 的 pageRef 或 url；父子项用 identifier / parent | 菜单、移动抽屉、当前项和页脚入口 | [配置参考](USAGE.md)；教程 08 |
-| 搜索 | outputs.home 包含 JSON | 标题、摘要、分类、标签搜索；加载失败提示 | [配置参考](USAGE.md)；不等同于完整正文搜索 |
+| 搜索 | outputs.home 包含 JSON | 全文与标题搜索、小节跳转、片段与范围选择 | [搜索契约](THEME-APIS.md#3-全文搜索)；教程 14 |
 | 页面立体感 | 无需文章配置；params.layeredSurfaces 默认 true | 固定背景、阅读面、目录与卡片层次；三套配色自动适配 | [分层表面](DEPTH-SURFACES.md)；教程 03 的页面即为实际效果 |
 | 配色 / 封面 | defaultScheme；params.cover；featured 图片或 cover 字段 | 暖纸、纯白、暗色；自动封面 | [配置参考](USAGE.md)；读者保存的配色优先于默认值 |
 | 系列文章 | taxonomies 增加 `series = "series"`，文章 `series: [系列名]` | 同系列导航，按日期正序 | `layouts/partials/series-nav.html`；不是 weight 排序的学习路线 |
@@ -80,7 +80,7 @@ group: 基础
 stage: 入门
 ```
 
-当前章节上下篇仅在顶层 section 为 roadmap 且 track 非空时启用，按当前栏目、同一 group 的 weight 排序。group / stage 的词由作者定义；sectionNav 不要求使用上述示例词。文章 URL 不需要为了分组移动。
+旧 track 继续按当前栏目、同一 group 的 weight 排序。新站可在任意栏目配置 readingNav.enabled=true，无需 track 或 roadmap 目录，完整配置见 [阅读契约](THEME-APIS.md)。group / stage 的词由作者定义；sectionNav 不要求使用上述示例词。文章 URL 不需要为了分组移动。
 
 ## 定制边界
 
@@ -88,9 +88,9 @@ stage: 入门
 2. 新增可复用的呈现、交互或 shortcode：在主题实现，博客只调用；同时补本文、参数文档和可运行示例。
 3. 只属于某站的第三方集成：允许宿主局部扩展，但记录原因、范围和升级检查点，不复制整套模板。
 
-宿主样式通过 `params.customCSS = ["css/site.css"]` 加载，文件位于站点 assets 下；追加到主题 CSS 后一起合并、压缩并指纹化，缺失文件静默跳过。未配置时仅放入文件不会生效。当前没有 customJS 公共配置。Hugo 支持宿主同路径模板覆盖，但这会接管对应主题模板，应作为明确维护的例外。不要为接入一个组件复制整个 head.html / single.html。
+宿主样式通过 `params.customCSS = ["css/site.css"]` 加载，文件位于站点 assets 下；追加到主题 CSS 后一起合并、压缩并指纹化，缺失文件静默跳过。未配置时仅放入文件不会生效。`params.customJS` 支持同样的 assets 路径，按顺序 defer 加载并指纹化。四个公开扩展 partial 支持插入 head、正文前后和页尾，见 [扩展契约](THEME-APIS.md#6-品牌与公开扩展点)。Hugo 支持宿主同路径模板覆盖，但这会接管对应主题模板，应作为明确维护的例外。不要为接入一个组件复制整个 head.html / single.html。
 
-组件新增完成的标准是：**能找到、能复制、能构建、能操作、能维护**。文档不能把计划中的参数写成已支持能力。当前以 Hugo 0.163.3 extended 构建验证；新增界面文案至少覆盖中英文，其他语言不视为已完整验收。
+组件新增完成的标准是：**能找到、能复制、能构建、能操作、能维护**。文档不能把计划中的参数写成已支持能力。发布检查覆盖 Hugo 0.146.0 与 0.163.3 extended；新增界面文案至少覆盖中英文，其他语言不视为已完整验收。
 
 ## 让 Agent 正确使用主题
 

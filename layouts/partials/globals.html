@@ -1,5 +1,8 @@
 {{- /* globals.html — 全局件：⌘K 命令面板 / 移动抽屉 / 返回顶部 / toast 容器。结构照搬 mockup */ -}}
 
+{{- if and .IsHome (not (site.Home.OutputFormats.Get "json")) -}}
+  {{- warnf "vishine search requires JSON in outputs.home (language: %s); see docs/USAGE.md" site.Language.Lang -}}
+{{- end -}}
 <!-- ⌘K 命令面板 -->
 <div class="cmdk-overlay" id="cmdk" data-index="{{ with site.Home.OutputFormats.Get "json" }}{{ .RelPermalink }}{{ end }}" hidden>
   <div class="cmdk-panel" role="dialog" aria-modal="true" aria-label="{{ i18n "cmdk_panel" }}">
@@ -9,6 +12,7 @@
         role="combobox" aria-expanded="true" aria-controls="cmdkResults" aria-autocomplete="list" aria-label="{{ i18n "search" }}">
       <button class="cmdk-close" id="cmdkClose" type="button" aria-label="{{ i18n "cmdk_close" }}">esc</button>
     </div>
+    <div class="cmdk-scope"><label for="cmdkScope">{{ i18n "ui_searchscope" }}</label><select id="cmdkScope"><option value="">{{ i18n "ui_allsections" }}</option></select></div>
     <div id="cmdkState" hidden></div>
     <div class="cmdk-results" id="cmdkResults" role="listbox" aria-label="{{ i18n "search_results" }}"></div>
     <div class="cmdk-footer">
@@ -23,7 +27,7 @@
 <div class="drawer-overlay" id="drawer" hidden>
   <aside class="drawer-panel" role="dialog" aria-modal="true" aria-label="{{ i18n "nav_menu" }}">
     <div class="drawer-head">
-      <b>vi<span>shine</span></b>
+      {{ $brand := partial "brand.html" . }}<b>{{ $brand.pre }}{{ with $brand.hl }}<span>{{ . }}</span>{{ end }}</b>
       <button class="icon-btn drawer-close" aria-label="{{ i18n "close_menu" }}">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg>
       </button>
@@ -56,14 +60,7 @@
         <button class="sw-btn" data-set="clean" title="{{ i18n "scheme_clean" }}" aria-label="{{ i18n "scheme_clean" }}"><span class="sw-sw sw-clean"></span></button>
         <button class="sw-btn" data-set="dark" title="{{ i18n "scheme_dark" }}" aria-label="{{ i18n "scheme_dark" }}"><span class="sw-sw sw-dark"></span></button>
       </div>
-      {{- $homes := site.Home.AllTranslations -}}
-      {{- if gt (len $homes) 1 }}
-      <div class="lang-switch" role="group" aria-label="{{ i18n "language" }}">
-        {{- range $homes }}{{ $short := index (split .Language.Lang "-") 0 | upper }}
-        <a class="lang-btn{{ if eq .Language.Lang site.Language.Lang }} active{{ end }}" href="{{ .RelPermalink }}" hreflang="{{ .Language.Lang }}" title="{{ .Language.Label | default .Language.Lang }}">{{ $short }}</a>
-        {{- end }}
-      </div>
-      {{- end }}
+      {{ partial "language-switch.html" . }}
       {{ with site.Home.OutputFormats.Get "rss" }}
       <a class="icon-btn" href="{{ .RelPermalink }}" title="RSS" aria-label="RSS"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 11a9 9 0 0 1 9 9"/><path d="M4 4a16 16 0 0 1 16 16"/><circle cx="5" cy="19" r="1.4" fill="currentColor" stroke="none"/></svg></a>
       {{ end }}

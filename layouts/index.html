@@ -3,7 +3,7 @@
 {{- $recent := (where site.RegularPages "Section" "in" $recentSections).ByDate.Reverse -}}
 {{- $recentLimit := int (site.Params.recentLimit | default 6) -}}
 {{- if lt $recentLimit 1 }}{{ $recentLimit = 6 }}{{ end -}}
-{{- $sd := hugo.Data.sections.sections -}}
+{{- $sd := (partialCached "theme-data.html" "theme").sections.sections -}}
 {{- $cats := site.Taxonomies.categories.ByCount -}}
 {{- $tags := site.Taxonomies.tags.ByCount -}}
 
@@ -159,7 +159,7 @@
         <div class="panel-body">
           {{ $max := 1 }}{{ range first 1 $cats }}{{ $max = .Count }}{{ end }}
           {{ range first 12 $cats }}
-            {{ $ccls := or (index hugo.Data.sections.categories .Page.Title) "blog" }}
+            {{ $ccls := or (index (partialCached "theme-data.html" "theme").sections.categories .Page.Title) "blog" }}
             <a class="cat-row" href="{{ .Page.RelPermalink }}">
               <span class="name">{{ .Page.Title }}</span>
               <div class="cat-bar"><i style="width:{{ div (mul .Count 100) $max }}%;--cb:var(--c-{{ $ccls }})"></i></div>

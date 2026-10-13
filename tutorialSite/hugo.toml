@@ -300,3 +300,14 @@ summaryLength = 40
     parent = "components"
     pageRef = "/docs/12-sections"
     weight = 52
+
+  [[menu.main]]
+    name = "13 · 首页与品牌"
+    parent = "components"
+    pageRef = "/docs/13-home-brand"
+    weight = 53
+  [[menu.main]]
+    name = "14 · 阅读与搜索"
+    parent = "components"
+    pageRef = "/docs/14-reading-search"
+    weight = 54

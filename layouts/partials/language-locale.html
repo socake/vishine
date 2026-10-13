@@ -1,0 +1,4 @@
+{{- /* Locale/Label replaced LanguageCode/LanguageName in Hugo 0.158. */ -}}
+{{- $locale := .Lang -}}
+{{- if ge hugo.Version "0.158.0" }}{{ with .Locale }}{{ $locale = . }}{{ end }}{{ else }}{{ with .LanguageCode }}{{ $locale = . }}{{ end }}{{ end -}}
+{{- return $locale -}}

@@ -1,0 +1,11 @@
+{{- /* Site defaults < cascade/front matter. Explicit false is always respected. */ -}}
+{{- $options := dict "toc" true "tocstart" 2 "tocend" 3 "showcover" true "showmeta" true "showrelated" true "showshare" true "showtags" true "shownavigation" true -}}
+{{- with site.Params.article }}{{ $options = merge $options . }}{{ end -}}
+{{- with .Params.article }}{{ $options = merge $options . }}{{ end -}}
+{{- if isset .Params "toc" }}{{ $options = merge $options (dict "toc" .Params.toc) }}{{ end -}}
+{{- $start := int (index $options "tocstart") }}{{ $end := int (index $options "tocend") -}}
+{{- if or (lt $start 1) (gt $end 6) (gt $start $end) -}}
+  {{- errorf "article.tocStart/tocEnd must satisfy 1 <= start <= end <= 6: %s" .RelPermalink -}}
+{{- end -}}
+{{- $customDepth := or (isset (site.Params.article | default dict) "tocstart") (isset (site.Params.article | default dict) "tocend") (isset (.Params.article | default dict) "tocstart") (isset (.Params.article | default dict) "tocend") -}}
+{{- return (merge $options (dict "customdepth" $customDepth)) -}}

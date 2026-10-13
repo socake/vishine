@@ -1,18 +1,24 @@
-{{- /*
-  index.json — ⌘K 搜索索引（home JSON output；config outputs.home 含 JSON）。
-  main.js fetch /index.json 驱动命令面板。每个 RegularPage 一项。
-  板块色由前端按 type/categories 经 data/sections 自行映射，这里只出原始字段。
-*/ -}}
 {{- $items := slice -}}
-{{- range (where site.RegularPages "Kind" "page") -}}
-  {{- $items = $items | append (dict
-      "title"      .Title
-      "url"        .RelPermalink
-      "type"       .Section
-      "summary"    (.Summary | plainify | truncate 140)
-      "categories" (.Params.categories | default slice)
-      "tags"       (.Params.tags | default slice)
-      "date"       (.Date.Format "2006-01-02")
-  ) -}}
+{{- $config := site.Params.search | default dict -}}
+{{- range site.RegularPages -}}
+  {{- if and (ne .Params.search false) (or (not $config.sections) (in $config.sections .Section)) (not (in ($config.excludesections | default slice) .Section)) -}}
+    {{- $passages := slice -}}
+    {{- if ne $config.includebody false -}}
+      {{- $headings := partialCached "content-headings.html" . .RelPermalink -}}
+      {{- $delimiter := printf "VISHINE_FRAGMENT_%s" (md5 .RelPermalink) -}}
+      {{- $chunks := split (replaceRE `(?s)<h[1-6]\b[^>]*\bid="[^"]+"[^>]*>.*?</h[1-6]>` $delimiter .Content) $delimiter -}}
+      {{- range $i, $chunk := $chunks -}}
+        {{- $heading := "" }}{{ $anchor := "" -}}
+        {{- if and (gt $i 0) (le $i (len $headings)) }}{{ $h := index $headings (sub $i 1) }}{{ $heading = $h.title }}{{ $anchor = $h.id }}{{ end -}}
+        {{- $text := $chunk | plainify | htmlUnescape | replaceRE `\s+` " " | strings.TrimSpace -}}
+        {{- if or $text $heading }}{{ $passages = $passages | append (dict "heading" $heading "anchor" $anchor "text" $text) }}{{ end -}}
+      {{- end -}}
+    {{- end -}}
+    {{- $label := .Section -}}
+    {{- with index (partialCached "theme-data.html" "theme").sections.sections .Section }}{{ with .label }}{{ $label = . }}{{ end }}{{ end -}}
+    {{- with .FirstSection }}{{ $label = .LinkTitle }}{{ end -}}
+    {{- $date := "" }}{{ if not .Lastmod.IsZero }}{{ $date = .Lastmod.Format "2006-01-02" }}{{ end -}}
+    {{- $items = $items | append (dict "title" .Title "url" .RelPermalink "type" .Section "sectionLabel" $label "color" (partial "cat-class.html" .) "summary" (.Summary | replaceRE `(?s)<a\b[^>]*class="anchor".*?</a>` "" | plainify | htmlUnescape | truncate 180 | htmlUnescape) "categories" (.Params.categories | default slice) "tags" (.Params.tags | default slice) "date" $date "passages" $passages) -}}
+  {{- end -}}
 {{- end -}}
-{{- $items | jsonify (dict "indent" "  ") -}}
+{{- $items | jsonify -}}

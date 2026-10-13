@@ -357,7 +357,7 @@ render hook 自动包成 `<figure>`，可点击放大（lightbox）。超过 128
 优先修改宿主配置，通用呈现能力在主题实现。宿主 `assets/css/custom.css` 当前不会自动加载；模板覆盖是需自行维护的例外。详见 [组件定制边界](COMPONENTS.md#定制边界)。
 
 - **板块色**：改 `data/sections.toml`（映射）+ `assets/css` 的 `--c-*` token（实际色值）。
-- **字体**：`googleFonts = false` 关 CDN，改用 `Noto Sans SC` / `JetBrains Mono` 的系统回退栈。也可自托管字体后改 `head.html`。
+- **字体**：`googleFonts = false` 关 CDN，改用 `Noto Sans SC` / `JetBrains Mono` 的系统回退栈。也可自托管字体并通过 extensions/head.html 引用。
 - **favicon**：替换 `static/favicon.svg`。
 - **菜单**：见 §2.5，支持二级下拉。
 - **首页板块顺序 / 特色横幅**：`homeSections` / `featureZone`（§3）。
@@ -367,7 +367,7 @@ render hook 自动包成 `<figure>`，可点击放大（lightbox）。超过 128
 ## 10. 搜索（⌘K）
 
 - 快捷键 `⌘K` / `Ctrl+K`，或点顶栏「搜索…」。
-- 数据源 `/index.json`，由 home 的 JSON output 生成，每个 RegularPage 一项（title / url / section / summary / categories / tags / date）。
+- 数据源 `/index.json`，由 home 的 JSON output 生成，每个纳入范围的 RegularPage 一项，包含标题、元数据和按小节分段的全文。命中片段可直达标题锚点；可用 params.search 控制范围和正文索引，见 [搜索契约](THEME-APIS.md#3-全文搜索)。
 - **前提**：`[outputs] home` 含 `"JSON"`。漏掉则无法加载索引，面板显示错误提示；恢复 JSON 后重新构建。
 
 ---
@@ -389,7 +389,7 @@ render hook 自动包成 `<figure>`，可点击放大（lightbox）。超过 128
 | 顶栏没有导航 | 没配 `[menu.main]` |
 | 卡片 / 标签颜色不对、都灰扑扑 | `data/sections.toml` 的 `[categories]` 分类名没**精确匹配**（空格、大小写），或没在站点侧配映射 |
 | 代码高亮三套 scheme 不换色 | `[markup.highlight] noClasses` 不是 `false` |
-| 标题没锚点 / TOC 空 | `[markup.goldmark.parser] autoHeadingID` 没开，或正文没有 H2/H3 标题 |
+| 标题没锚点 / TOC 空 | `[markup.goldmark.parser] autoHeadingID` 没开，或标题不在设定目录深度内、toc 被关闭 |
 | 首页大标题 / 头衔 chips 空 | 没配 `params.tagline` / `params.role` |
 | 构建报资源处理错误 | 用的不是 Hugo **extended** 版本 |
 | 首页某板块缺失 | `homeSections` 里没列该 section，或 `data/sections.toml [sections]` 缺对应项 |
@@ -531,3 +531,7 @@ defaultScheme = "paper"
 板块宽度、docs 索引、term 链接、封面断行与无脚本可见性由主题自动处理。升级后，宿主可把等效首页 / 页头 / 自动封面 / head 覆盖迁移为以上配置；删除前先核对自己的覆盖是否还包含其他专属功能。
 
 回归检查：`python3 scripts/check-home-config.py --hugo /path/to/hugo`。它构建两板块预设并覆盖卡片数量、子栏目计数、统计、品牌、链接、标签 permalink、断行、CSS 扩展与原默认配置。
+
+## 阅读与扩展参数
+
+任意栏目连续阅读、article 布局开关、目录深度、全文搜索、全部筛选、图片查看、customJS / 扩展 partial、运行时 i18n 和 PWA 缓存策略见 [THEME-APIS.md](THEME-APIS.md)。教程 14 提供可复制源码与实际效果；教程 12 的示例分支演示普通目录中的章节导航。

@@ -41,7 +41,7 @@
       <!-- 分类量感条卡网格 -->
       <div class="tax-grid">
         {{ range $terms }}
-          {{- $cls := or (index hugo.Data.sections.categories .Page.Title) "blog" -}}
+          {{- $cls := or (index (partialCached "theme-data.html" "theme").sections.categories .Page.Title) "blog" -}}
           <a class="tax-card reveal" href="{{ .Page.RelPermalink }}" style="--tc:var(--c-{{ $cls }})">
             <div class="tc-head">
               <span class="tc-name">{{ .Page.Title }}</span>

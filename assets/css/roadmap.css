@@ -70,3 +70,9 @@
   .rm-cards{grid-template-columns:1fr}
   .rm-track-head h1{font-size:24px}
 }
+
+.prose.is-interview h3.qa-q{padding:0;align-items:center}
+.qa-question{display:flex;align-items:flex-start;gap:10px;flex:1;min-width:0;width:100%;border:0;background:none;color:inherit;font:inherit;text-align:left;padding:14px 16px;cursor:pointer}
+.qa-question:focus-visible{outline-offset:-3px}
+.qa-a[hidden]{display:none}
+.qa-item.open .qa-a{max-height:none}

@@ -8,6 +8,8 @@
 */ -}}
 {{- $dest := .Destination -}}
 {{- $src := $dest -}}
+{{- $original := $dest -}}
+{{- $width := 0 }}{{ $height := 0 -}}
 {{- $res := "" -}}
 {{- with .Page.Resources.GetMatch $dest -}}
   {{- $res = . -}}
@@ -16,14 +18,16 @@
 {{- end -}}
 {{- with $res -}}
   {{- $src = .RelPermalink -}}
+  {{- $original = .RelPermalink -}}
+  {{- if ne .MediaType.SubType "svg" }}{{ $width = .Width }}{{ $height = .Height }}{{ end -}}
   {{- if and (ne .MediaType.SubType "svg") (gt (.Width | default 0) 1280) -}}
     {{- $src = (.Resize "1280x webp q88").RelPermalink -}}
   {{- end -}}
 {{- end -}}
 {{- $alt := .Text | default .Title -}}
-<figure class="fig" role="button" tabindex="0"{{ with $alt }} aria-label="{{ i18n "zoom_view" }} {{ . | plainify }}"{{ end }}>
+<figure class="fig" role="button" tabindex="0" data-original="{{ $original | safeURL }}" data-image-width="{{ $width }}" data-image-height="{{ $height }}"{{ with $alt }} aria-label="{{ i18n "zoom_view" }} {{ . | plainify }}"{{ end }}>
   <div class="diagram diagram-img">
-    <img src="{{ $src | safeURL }}" alt="{{ .Text | plainify }}"{{ with .Title }} title="{{ . }}"{{ end }} loading="lazy" decoding="async">
+    <img src="{{ $src | safeURL }}" alt="{{ .Text | plainify }}"{{ with .Title }} title="{{ . }}"{{ end }}{{ if $width }} width="{{ $width }}" height="{{ $height }}"{{ end }} loading="lazy" decoding="async">
   </div>
   {{- with .Text }}<figcaption>{{ . | safeHTML }}<span class="zoom-hint">{{ i18n "click_zoom" }} ⤢</span></figcaption>{{ end -}}
 </figure>

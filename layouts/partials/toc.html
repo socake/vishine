@@ -5,5 +5,5 @@
     <span class="toc-title">{{ i18n "toc_title" }}</span>
     {{ partial "read-width-button.html" (dict "id" "readWidthBtn") }}
   </div>
-  <ul class="toc-list" id="tocList"></ul>
+  <ul class="toc-list" id="tocList">{{ partial "toc-items.html" (dict "entries" .entries) }}</ul>
 </aside>

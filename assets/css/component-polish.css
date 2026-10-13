@@ -177,7 +177,7 @@
 .toc-h2.active,.toc-h3.active {background:var(--accent-soft);color:var(--accent-ink);border-left-color:var(--accent)}
 .toc-toggle {width:26px;height:26px;color:var(--ink-2)}
 .toc-children {max-height:none}
-.toc-item.collapsed .toc-children {visibility:hidden}
+.toc-item.collapsed > .toc-children {display:none}
 .toc-sheet-panel {overscroll-behavior:contain}
 .toc-sheet-head {position:sticky;top:-18px;background:var(--card);z-index:1;padding:8px 0;border-bottom:1px solid var(--line)}
 .toc-fab,.to-top {background:var(--card);color:var(--ink-2);border-color:var(--surface-edge);box-shadow:var(--surface-shadow)}

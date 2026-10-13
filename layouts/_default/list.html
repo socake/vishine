@@ -1,17 +1,10 @@
-{{ define "head-css" }}
-  {{ with resources.Get "css/list.css" }}
-    {{ if hugo.IsProduction }}{{ $c := . | minify | fingerprint }}<link rel="stylesheet" href="{{ $c.RelPermalink }}" integrity="{{ $c.Data.Integrity }}">
-    {{ else }}<link rel="stylesheet" href="{{ .RelPermalink }}">{{ end }}
-  {{ end }}
-{{ end }}
-
 {{ define "main" }}
 {{ if and (eq .Kind "section") (or .Sections .Params.sectionnav.enabled) }}
   {{ partial "section-hub.html" . }}
 {{ else }}
 {{- $pages := .Pages -}}
 {{- if eq .Kind "section" }}{{ $pages = .RegularPagesRecursive }}{{ end -}}
-{{- $sec := index hugo.Data.sections.sections .Section -}}
+{{- $sec := index (partialCached "theme-data.html" "theme").sections.sections .Section -}}
 {{- $en := "" -}}{{ with $sec }}{{ $en = .en }}{{ else }}{{ $en = .Data.Singular | default "index" }}{{ end -}}
 {{- $paginator := .Paginate $pages -}}
 {{- $index := partialCached "list/index.html" (dict "page" . "pages" $pages) .RelPermalink -}}
@@ -39,18 +32,29 @@
     <!-- 筛选栏 -->
     <div class="list-toolbar">
       <div class="filter-bar" id="filterBar" hidden role="group" aria-label="{{ i18n "filter" }}">
-        {{ if $allCats }}
-          <span class="filter-label mono">{{ i18n "categories" }}</span>
-          {{ range $allCats }}
-            {{ $n := len (where $pages "Params.categories" "intersect" (slice .)) }}
-            <button class="chip" type="button" data-type="category" data-value="{{ . }}" aria-pressed="false">{{ . }}<span class="n">{{ $n }}</span></button>
-          {{ end }}
-        {{ end }}
-        {{ if $allTags }}
-          <span class="filter-label mono">{{ i18n "tags" }}</span>
-          {{ range first 16 $allTags }}
-            <button class="chip" type="button" data-type="tag" data-value="{{ . }}" aria-pressed="false">{{ . }}</button>
-          {{ end }}
+        {{- $counts := slice -}}
+        {{- range $allCats }}{{ $counts = $counts | append (dict "name" . "count" (len (where $pages "Params.categories" "intersect" (slice .)))) }}{{ end -}}
+        {{- $quickCount := 3 -}}{{ with site.Params.listfilters }}{{ if isset . "quickcount" }}{{ $quickCount = int .quickcount }}{{ end }}{{ end -}}
+        <div class="filter-quick">
+          {{ range first (math.Max 0 (math.Min 6 $quickCount)) (sort $counts "count" "desc") }}<button class="chip" type="button" data-type="category" data-value="{{ .name }}" aria-pressed="false">{{ .name }}<span class="n">{{ .count }}</span></button>{{ end }}
+        </div>
+        {{ if or $allCats $allTags }}
+        <details class="filter-picker" id="filterPicker">
+          <summary class="chip">{{ i18n "ui_allfilters" }} <span class="n">{{ add (len $allCats) (len $allTags) }}</span></summary>
+          <div class="filter-panel">
+            <label class="filter-search-label" for="filterSearch">{{ i18n "ui_findfilter" }}</label>
+            <input id="filterSearch" type="search" placeholder="{{ i18n "ui_findfilter" }}" autocomplete="off">
+            <div class="filter-options">
+              {{ if $allCats }}<div class="filter-group"><div class="filter-label">{{ i18n "categories" }}</div><div class="filter-chips">
+                {{ range $counts }}<button class="chip" type="button" data-type="category" data-value="{{ .name }}" aria-pressed="false">{{ .name }}<span class="n">{{ .count }}</span></button>{{ end }}
+              </div></div>{{ end }}
+              {{ if $allTags }}<div class="filter-group"><div class="filter-label">{{ i18n "tags" }}</div><div class="filter-chips">
+                {{ range $allTags }}<button class="chip" type="button" data-type="tag" data-value="{{ . }}" aria-pressed="false">{{ . }}</button>{{ end }}
+              </div></div>{{ end }}
+              <p class="filter-none" id="filterNone" hidden role="status">{{ i18n "ui_filternone" }}</p>
+            </div>
+          </div>
+        </details>
         {{ end }}
         <button class="chip chip-clear" type="button" id="filterClear" hidden>{{ i18n "filter_clear" }} ✕</button>
       </div>

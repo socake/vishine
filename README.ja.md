@@ -270,3 +270,7 @@ vishine は **[Blowfish](https://github.com/nunocoracao/blowfish)**（© Nuno Co
 ---
 
 **Xinghui（星輝, Wenzhuo Huang）** が愛を込めて作りました · [github.com/socake/vishine](https://github.com/socake/vishine)
+
+## Reading, search and extension contracts
+
+See [THEME-APIS.md](docs/THEME-APIS.md) for article options, generic reading navigation, full-text search, complete filters, image zoom, extension hooks and scoped PWA caches. Runnable examples are in tutorial chapter 14. Release checks cover Hugo extended 0.146.0 and 0.163.3. New runtime messages include Chinese, English and Japanese.

@@ -1,9 +1,13 @@
 {{- /* head-pwa.html — PWA：manifest / theme-color / iOS 图标与元信息 / SW 注册。
        由 params.pwa 控制（默认开启）；主题色可用 params.pwaThemeColor 覆盖。 */ -}}
-{{- if site.Params.pwa | default true -}}
+{{- $prefix := site.LanguagePrefix | strings.TrimPrefix "/" -}}
+{{- $swPath := path.Join $prefix "sw.js" -}}
+{{- if and (ne site.Params.pwa false) (not hugo.IsServer) -}}
+{{- $maxPages := int (site.Params.pwaMaxPages | default 80) -}}
+{{- if or (lt $maxPages 1) (gt $maxPages 500) }}{{ errorf "params.pwaMaxPages must be between 1 and 500" }}{{ end -}}
 {{- $theme := site.Params.pwaThemeColor | default "#c75132" -}}
 {{- with resources.Get "pwa/manifest.webmanifest" -}}
-  {{- $manifest := . | resources.ExecuteAsTemplate "manifest.webmanifest" $ -}}
+  {{- $manifest := . | resources.ExecuteAsTemplate (path.Join $prefix "manifest.webmanifest") $ -}}
   <link rel="manifest" href="{{ $manifest.RelPermalink }}">
 {{- end }}
 <meta name="theme-color" content="{{ $theme }}">
@@ -23,13 +27,24 @@
 <meta name="apple-mobile-web-app-title" content="{{ site.Title }}">
 <link rel="apple-touch-icon" href="{{ "apple-touch-icon.png" | relURL }}">
 {{- with resources.Get "pwa/sw.js" -}}
-  {{- $sw := . | resources.ExecuteAsTemplate "sw.js" $ -}}
+  {{- $sw := . | resources.ExecuteAsTemplate $swPath $ -}}
 <script>
   if ('serviceWorker' in navigator) {
     window.addEventListener('load', function () {
-      navigator.serviceWorker.register("{{ $sw.RelPermalink }}").catch(function () {});
+      navigator.serviceWorker.register("{{ $sw.RelPermalink }}", {updateViaCache:"none"}).catch(function () {});
     });
   }
 </script>
 {{- end -}}
+{{- else -}}
+<script>
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.getRegistrations().then(function (registrations) {
+      var script = new URL({{ $swPath | relURL }}, location.href).href;
+      registrations.forEach(function (registration) {
+        if (registration.active && registration.active.scriptURL === script) registration.unregister();
+      });
+    }).catch(function () {});
+  }
+</script>
 {{- end -}}

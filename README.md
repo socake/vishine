@@ -17,6 +17,8 @@
 
 Agent 从 [AGENTS.md](AGENTS.md) 开始，了解组件边界、启动命令与验证约定。首页与品牌配置见 [USAGE](docs/USAGE.md#首页与品牌配置)，两板块最小宿主在 `exampleSite/presets/internal/`。无需安装前端依赖；使用 `sh scripts/theme-dev.sh serve exampleSite` 启动示例站。通用栏目导航用法见 [SECTION-NAVIGATION.md](docs/SECTION-NAVIGATION.md)。
 
+新增能力的参数与回退行为统一见 [阅读、搜索与扩展契约](docs/THEME-APIS.md)。发布前运行 `sh scripts/check-theme.sh`（可指定 HUGO_BIN）；CI 在 Hugo 0.146.0 和 0.163.3 extended 上检查后才发布。
+
 ## 从内容到组件
 
 博客提供文章、图片、栏目和配置；主题承担公共渲染与交互。写作者先看 [组件目录](docs/COMPONENTS.md)，按“我想做什么”找到配置、shortcode 和实际示例。Agent 开发主题读 [AGENTS.md](AGENTS.md)；在博客中使用主题，则按 [宿主入口模板](docs/AGENTS-HOST.example.md) 接入。
@@ -68,15 +70,15 @@ Agent 从 [AGENTS.md](AGENTS.md) 开始，了解组件边界、启动命令与�
 - 自动封面生成器：文章无图时按「标题 + 分类」自动生成封面，4 种版式（orbit / grid / diagonal / arc）据哈希轮换、板块色着色，**纯 Hugo 原生、零外部依赖**；`[params.cover]` 可调风格、可锁定版式、可关闭。
 
 **交互与导航**
-- ⌘K 命令面板搜索：全站搜索标题 / 摘要 / 分类 / 标签。
-- 可折叠目录树 + 阅读进度条，scrollspy 高亮。
+- ⌘K 命令面板搜索：可配置全文 / 标题 / 分类 / 标签检索，显示命中片段并直达小节。
+- 构建时目录支持层级与关闭配置；任意栏目可开启章节导航，配合阅读进度与定位高亮。
 - 顶栏多级下拉菜单：`identifier` 父项 + `parent` 子项。
 - 响应式 + 无障碍：移动端抽屉导航、`prefers-reduced-motion` 适配、键盘可达。
 
 **写作能力**
 - Mermaid 自托管：用 ` ```mermaid ` 围栏自动渲染，随配色翻色，**不依赖 CDN**，内网 / 离线可用。
 - Blowfish 兼容 shortcodes：`badge` / `lead` / `callout` / `typeit` / `timeline` / `sponsor`。
-- 代码块一键复制、图片自动 `figure` + 点击放大、超宽位图自动缩放。
+- 代码块一键复制、图片自动 `figure` + 原图缩放 / 平移，Mermaid 复用查看器、超宽位图自动缩放。
 - 多语言 i18n：界面文案内置 **26 种语言**（中 / 英 / 日 / 韩 / 法 / 德 / 西 / 葡 / 俄 / 阿 / 繁中…），顶栏一键切换，可继续扩展。
 
 **离线与安装（PWA）**
@@ -228,7 +230,7 @@ hugo server -D
 ```
 
 - **图标**：主题自带 `static/android-chrome-{192,512,512-maskable}.png` + `apple-touch-icon.png` 作 fallback；站点在自己的 `static/` 放同名文件即可覆盖成品牌图标。
-- **离线策略**：HTML 页 network-first（看得到最新文章）、静态资源 stale-while-revalidate、断网回落 `offline.html`；缓存带版本号、每次构建自动清旧缓存。
+- **离线策略**：HTML 与搜索联网优先、静态资源后台更新；断网回退已缓存文章或 `offline.html`。缓存按站点路径隔离，保留阅读页及其指纹资源，缓存格式升级只清理自己的旧资源；页数默认上限 80。详见 [缓存契约](docs/THEME-APIS.md#8-子路径与离线缓存)。
 - **前提**：service worker 只在 **HTTPS**（或 localhost）下生效，务必保证站点 HTTPS 正常。
 
 ---

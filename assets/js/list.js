@@ -7,7 +7,7 @@
   const pageSize = Number(grid.dataset.pageSize);
   const initialPath = location.pathname;
   const initialPage = Number(grid.dataset.page);
-  const zh = document.documentElement.lang.toLowerCase().startsWith('zh');
+  const words = vishineWords;
   const bar = document.getElementById('filterBar');
   const chips = [...bar.querySelectorAll('.chip[data-type]')];
   const clear = document.getElementById('filterClear');
@@ -24,6 +24,25 @@
   let items, loading, transaction = 0, pendingRetry;
   let state = { category: [], tag: [], page: initialPage };
   bar.hidden = false;
+  const picker = document.getElementById('filterPicker');
+  const finder = document.getElementById('filterSearch');
+  finder?.addEventListener('input', () => {
+    const query = window.VishineSearch.normalize(finder.value);
+    let visible = 0;
+    picker.querySelectorAll('.filter-group').forEach(group => {
+      let count = 0;
+      group.querySelectorAll('[data-value]').forEach(chip => {
+        chip.hidden = !window.VishineSearch.normalize(chip.dataset.value).includes(query);
+        if(!chip.hidden) count++;
+      });
+      group.hidden = !count; visible += count;
+    });
+    document.getElementById('filterNone').hidden = visible > 0;
+  });
+  picker?.addEventListener('keydown', event => {
+    if(event.key === 'Escape' && picker.open) {picker.open = false;picker.querySelector('summary').focus();}
+  });
+
 
   function readURL() { return model.read(new URL(location.href), initialPath, initialPage); }
   function urlFor(value) { return model.address(location.href, grid.dataset.baseUrl, value); }
@@ -56,8 +75,8 @@
     ['category', 'tag'].forEach(type => state[type].forEach(value => {
       const button = document.createElement('button');
       button.className = 'chip selected-filter'; button.type = 'button';
-      button.textContent = (type === 'category' ? (zh ? '分类：' : 'Category: ') : (zh ? '标签：' : 'Tag: ')) + value + ' ×';
-      button.setAttribute('aria-label', (zh ? '移除筛选：' : 'Remove filter: ') + value);
+      button.textContent = (type === 'category' ? words.category : words.tag) + value + ' ×';
+      button.setAttribute('aria-label', words.removeFilter + value);
       button.addEventListener('click', () => update({ ...state, [type]: state[type].filter(v => v !== value), page: 1 }, 'push'));
       selection.appendChild(button);
     }));
@@ -72,7 +91,7 @@
   async function update(desired, historyMode = 'push', focusResults = false) {
     const id = ++transaction;
     setBusy(true); feedback.hidden = false; retry.hidden = true;
-    message.textContent = zh ? '正在加载完整列表…' : 'Loading the complete list…';
+    message.textContent = words.listLoading;
     try {
       const collection = await loadCollection();
       if (id !== transaction) return;
@@ -86,10 +105,7 @@
       next.hidden = state.page >= result.pages;
       prev.href = urlFor({ ...state, page: state.page - 1 });
       next.href = urlFor({ ...state, page: state.page + 1 });
-      pageStatus.textContent = result.total
-        ? (zh ? `第 ${state.page} / ${result.pages} 页 · 显示 ${result.from}–${result.to} / ${result.total} 篇`
-          : `Page ${state.page} / ${result.pages} · ${result.from}–${result.to} of ${result.total}`)
-        : (zh ? '0 篇结果' : '0 results');
+      pageStatus.textContent = result.total ? vishineText('pagination', {page:state.page, pages:result.pages, from:result.from, to:result.to, total:result.total}) : words.zeroResults;
       syncControls(); feedback.hidden = true; grid.hidden = false;
       const url = urlFor(state);
       if (historyMode === 'push' && url !== location.pathname + location.search + location.hash) history.pushState(null, '', url);
@@ -101,7 +117,7 @@
     } catch (error) {
       if (id !== transaction) return;
       grid.hidden = historyMode !== 'push';
-      message.textContent = zh ? '完整列表加载失败，筛选结果尚未更新。请重试。' : 'The list could not load. Results have not been updated. Please retry.';
+      message.textContent = words.listError;
       retry.hidden = false;
       pendingRetry = () => update(desired, historyMode, focusResults);
     } finally { if (id === transaction) setBusy(false); }
