@@ -319,6 +319,7 @@ body {background-image:linear-gradient(color-mix(in srgb,var(--grid-line) 78%,tr
 
 /* Center the complete reading composition; width changes never hide its TOC. */
 .wrap.art-layout {max-width:calc(var(--read-w) + 320px);grid-template-columns:minmax(0,1fr) 232px;gap:32px;padding:26px 28px 10px}
+.wrap.art-layout.art-no-toc {max-width:calc(var(--read-w) + 64px);grid-template-columns:minmax(0,1fr);gap:0}
 .art-layout .art-main {grid-column:1}
 .art-layout .art-head {max-width:none}
 .art-layout .art-toc {grid-column:2;width:232px;max-width:100%}
