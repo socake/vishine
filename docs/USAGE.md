@@ -288,7 +288,7 @@ graph LR
 ![架构图](nacos-arch.svg "Nacos 架构")
 ```
 
-render hook 自动包成 `<figure>`，可点击放大（lightbox）。超过 1280px 宽的位图自动缩放为 webp；SVG 原样用。`alt` 作图注，`title` 作放大时的描述。
+render hook 自动包成 `<figure>`，可点击放大（lightbox）。正文直接使用原图，保留像素尺寸和格式，不再固定缩到 1280px 或转成有损 WebP；CSS 适配阅读宽度，图片按需懒加载。SVG 原样用。`alt` 作图注，`title` 作放大时的描述。
 
 ### 6.5 代码复制
 

@@ -1,9 +1,8 @@
-{{- /* toc.html — 右侧目录容器。列表项由 main.js 从正文 h2/h3 构建（scrollspy + 折叠树）。
-       含标题行 + 阅读宽度切换按钮（#readWidthBtn），结构照搬 d-article.html。 */ -}}
+{{- /* Sticky reading rail; Hugo owns headings and section relationships. */ -}}
 <aside class="art-toc" aria-label="{{ i18n "toc" }}">
   <div class="toc-head">
-    <span class="toc-title">{{ i18n "toc_title" }}</span>
+    <span class="toc-title">{{ if .browse }}{{ i18n "toc" }}{{ else }}{{ i18n "toc_title" }}{{ end }}</span>
     {{ partial "read-width-button.html" (dict "id" "readWidthBtn") }}
   </div>
-  <ul class="toc-list" id="tocList">{{ partial "toc-items.html" (dict "entries" .entries) }}</ul>
+  {{ partial "reading-outline.html" (dict "page" .page "entries" .entries "browse" .browse "id" "outlineDesktop" "listID" "tocList") }}
 </aside>

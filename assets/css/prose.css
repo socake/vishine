@@ -352,7 +352,7 @@ a:focus-visible, button:focus-visible, input:focus-visible,
 }
 
 /* ============ TOC（sticky · scrollspy）============ */
-.art-toc{position:sticky;top:84px;align-self:start;max-height:calc(100vh - 104px);overflow-y:auto;padding-bottom:20px}
+.art-toc{position:sticky;top:84px;align-self:start;max-height:calc(100vh - 104px);display:flex;flex-direction:column;overflow:hidden;padding-bottom:20px}
 /* 标题行：mono 大写小字 + 右侧宽窄切换 */
 .toc-head{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:10px;padding-left:14px}
 .toc-title{font-family:var(--font-mono);font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-3);font-weight:700}
@@ -415,7 +415,7 @@ a:focus-visible, button:focus-visible, input:focus-visible,
 .toc-sheet-panel{
   position:absolute;left:0;top:0;bottom:0;width:min(82vw,300px);
   background:var(--card);border-right:1px solid var(--line);box-shadow:var(--shadow-hi);
-  display:flex;flex-direction:column;overflow-y:auto;padding:18px 16px;
+  display:flex;flex-direction:column;overflow:hidden;padding:18px 16px;
   transform:translateX(-100%);transition:transform .24s cubic-bezier(.22,.61,.36,1);
 }
 .toc-sheet.open .toc-sheet-panel{transform:none}
@@ -568,4 +568,22 @@ a:focus-visible, button:focus-visible, input:focus-visible,
 .hub-tree-articles{border-top:1px solid var(--line);margin-top:8px;padding-top:8px}
 .hub-tree-articles > a{display:block;padding:6px 10px;font-size:12px;line-height:1.5;color:var(--ink-2)}
 .hub-tree-articles > a[aria-current]{color:var(--accent-ink);background:var(--accent-soft);border-radius:6px}
+.hub-tree-articles:first-child{border-top:0;margin-top:0;padding-top:0;margin-bottom:14px}
 .toc-row > a{flex:1;min-width:0;overflow-wrap:anywhere}
+
+/* Shared sticky-rail / drawer navigation. Only the active list scrolls;
+   the section switch and reading-width control remain in reach. */
+.toc-head,.toc-sheet-head{flex-shrink:0}
+.reading-outline{display:flex;flex-direction:column;min-height:0}
+.outline-tabs{display:flex;flex-shrink:0;gap:3px;padding:3px;margin-bottom:12px;background:var(--paper-2);border:1px solid var(--line-2);border-radius:8px}
+.outline-tabs[hidden],.outline-panels>[hidden]{display:none}
+.outline-tabs button{flex:1;min-width:0;border:0;border-radius:5px;background:transparent;color:var(--ink-3);padding:8px 4px;font:inherit;font-size:12px;cursor:pointer}
+.outline-tabs button[aria-selected="true"]{background:var(--card);color:var(--accent-ink);font-weight:600;box-shadow:0 1px 3px var(--line)}
+.outline-tabs button:focus-visible,.outline-panels>[role="tabpanel"]:focus-visible{outline:2px solid var(--accent);outline-offset:-2px}
+.outline-panels{min-height:0;overflow-y:auto;overscroll-behavior:contain}
+.outline-fallback-title{font-size:13px;margin:16px 0 8px;color:var(--ink-2)}
+.reading-outline[data-enhanced] .outline-fallback-title{display:none}
+.hub-tree.hub-tree-inline{position:static;width:auto;max-width:none;max-height:none;overflow:visible;padding:0;border:0;border-radius:0;background:transparent;box-shadow:none}
+.toc-sheet .outline-tabs button{min-height:44px}
+.toc-static .hub-browser{margin-top:12px}
+.toc-static .hub-tree{position:static;width:auto;max-width:none;max-height:none}

@@ -27,7 +27,7 @@
     <!-- 面包屑 -->
     <div class="article-context">
       {{ partial "breadcrumbs.html" . }}
-      {{ if $reading.enabled }}{{ partial "section-nav/context.html" . }}{{ end }}
+      {{ if and $reading.enabled (not $hasToc) }}{{ partial "section-nav/context.html" . }}{{ end }}
       {{ if not $hasToc }}{{ partial "read-width-button.html" (dict "id" "readWidthInlineBtn") }}{{ end }}
     </div>
 
@@ -71,6 +71,7 @@
     {{ if $hasToc }}<details class="toc-static">
       <summary>{{ i18n "toc_article" }}</summary>
       <ul class="toc-list">{{ partial "toc-items.html" (dict "entries" $tocEntries) }}</ul>
+      {{ if $reading.enabled }}{{ partial "section-nav/context.html" . }}{{ end }}
     </details>{{ end }}
 
     <!-- ============ 正文（prose；render hook / shortcode 由并行任务提供） ============ -->
@@ -139,7 +140,7 @@
   </article>
 
   <!-- 目录由 Hugo 输出；main.js 增强定位和折叠 -->
-  {{ if $hasToc }}{{ partial "toc.html" (dict "page" . "entries" $tocEntries) }}{{ end }}
+  {{ if $hasToc }}{{ partial "toc.html" (dict "page" . "entries" $tocEntries "browse" $reading.enabled) }}{{ end }}
 </main>
 
 {{ if $hasToc }}
@@ -151,13 +152,13 @@
 <div class="toc-sheet" id="tocSheet" hidden>
   <aside class="toc-sheet-panel" role="dialog" aria-modal="true" aria-label="{{ i18n "toc_article" }}">
     <div class="toc-sheet-head">
-      <b>{{ i18n "toc_title" }}</b>
+      <b>{{ if $reading.enabled }}{{ i18n "toc" }}{{ else }}{{ i18n "toc_title" }}{{ end }}</b>
       {{ partial "read-width-button.html" (dict "id" "readWidthMobileBtn") }}
       <button class="icon-btn" id="tocSheetClose" aria-label="{{ i18n "toc_close" }}">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg>
       </button>
     </div>
-    <ul class="toc-list" id="tocListMobile">{{ partial "toc-items.html" (dict "entries" $tocEntries) }}</ul>
+    {{ partial "reading-outline.html" (dict "page" . "entries" $tocEntries "browse" $reading.enabled "id" "outlineMobile" "listID" "tocListMobile") }}
   </aside>
 </div>
 

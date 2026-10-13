@@ -395,6 +395,52 @@ document.querySelectorAll('.hub-browser').forEach(browser=>{
     /* Heading links and progressive enhancement of the server-rendered outline. */
     const prose = document.getElementById('prose');
     if(!prose) return;
+    // Keep cross-page browsing alongside the local outline in the sticky rail
+    // and mobile drawer. Native links and both lists survive without JS.
+    const outlines = [...document.querySelectorAll('[data-reading-outline]')];
+    if(outlines.length) {
+      const preferenceKey = 'vishine-outline:' + outlines[0].dataset.outlineKey;
+      let selected = 'toc';
+      try { if(sessionStorage.getItem(preferenceKey) === 'section') selected = 'section'; } catch (_) {}
+      function selectOutline(value) {
+        outlines.forEach(outline => {
+          outline.querySelectorAll('[data-outline-tab]').forEach(tab => {
+            const active = tab.dataset.outlineTab === value;
+            tab.setAttribute('aria-selected', String(active));
+            tab.tabIndex = active ? 0 : -1;
+          });
+          outline.querySelectorAll('[data-outline-panel]').forEach(panel => {
+            panel.hidden = panel.dataset.outlinePanel !== value;
+          });
+        });
+        try { sessionStorage.setItem(preferenceKey, value); } catch (_) {}
+      }
+      outlines.forEach(outline => {
+        const tabs = [...outline.querySelectorAll('[data-outline-tab]')];
+        outline.querySelectorAll('[data-outline-panel]').forEach(panel => {
+          panel.setAttribute('role', 'tabpanel');
+          panel.setAttribute('aria-labelledby', panel.id + '-tab');
+          panel.tabIndex = 0;
+        });
+        tabs.forEach((tab, index) => {
+          tab.addEventListener('click', () => selectOutline(tab.dataset.outlineTab));
+          tab.addEventListener('keydown', event => {
+            let next;
+            if(event.key === 'ArrowRight') next = (index + 1) % tabs.length;
+            else if(event.key === 'ArrowLeft') next = (index + tabs.length - 1) % tabs.length;
+            else if(event.key === 'Home') next = 0;
+            else if(event.key === 'End') next = tabs.length - 1;
+            else return;
+            event.preventDefault();
+            selectOutline(tabs[next].dataset.outlineTab);
+            tabs[next].focus();
+          });
+        });
+        outline.dataset.enhanced = '';
+        outline.querySelector('[role="tablist"]').hidden = false;
+      });
+      selectOutline(selected);
+    }
     const headings = [...prose.querySelectorAll('h1[id],h2[id],h3[id],h4[id],h5[id],h6[id]')];
     headings.forEach(h => {
       let anchor = h.querySelector('a.anchor');

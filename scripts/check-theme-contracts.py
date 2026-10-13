@@ -109,6 +109,7 @@ A fifth-level detail.
         image.write_bytes(png(1600, 900))
         content(language, 'courses/second.md', 'title: Second lesson\nweight: 20\ngroup: Start\ndate: 2026-01-02', '## Second\nSecond lesson content.')
         content(language, 'courses/third.md', 'title: Third lesson\nweight: 30\ngroup: Next\ndate: 2026-01-03', '## Third\nThird lesson content.')
+    content('en','courses/no-outline.md','title: No outline\ntoc: false\nweight: 40','A short note.')
     content('en','posts/_index.md','title: Articles')
     tags = [f'Tag{i:02}' for i in range(35)]
     content('en','posts/all-terms.md','title: All terms\ndate: 2026-01-01\ntags: '+json.dumps(tags)+'\ncategories: '+json.dumps([f'Group{i:02}' for i in range(20)]),'## Content\nAll filters should be reachable.')
@@ -136,13 +137,24 @@ A fifth-level detail.
     sheets = [link.attrs['href'].removeprefix('/lab/') for link in article.find(tag='link') if link.attrs.get('rel') == 'stylesheet']
     assert all('fonts.googleapis.com' not in text(sheet) for sheet in sheets), 'CSS must not bypass the font setting'
     assert article.find('rm-reading-nav'), 'A courses section must support reading navigation'
-    assert '1 / 3' in article.find('rm-reading-context')[0].text()
+    assert '1 / 4' in article.find('rm-reading-context')[0].text()
     assert article.find('hub-tree-articles') and 'Second lesson' in article.find('hub-tree-articles')[0].text()
+    assert not article.find('article-context')[0].find('hub-browser'), 'Chapter switch belongs in the sticky rail'
+    for container in [article.find('art-toc')[0], by_id(article, 'tocSheet')]:
+        assert container.find('hub-tree-inline') and 'Second lesson' in container.text()
+        tabs = [el for el in container.find(tag='button') if el.attrs.get('role') == 'tab']
+        assert len(tabs) == 2
+        for tab in tabs:
+            assert by_id(article, tab.attrs['aria-controls'])
+    ids = [el.attrs['id'] for el in article.find() if 'id' in el.attrs]
+    assert len(ids) == len(set(ids)), 'Desktop/mobile tab IDs must be unique'
     toc = by_id(article, 'tocList')
     toc_links = [a.attrs.get('data-id') for a in toc.find(tag='a')]
     assert 'deep-detail' in toc_links and 'fifth-level' not in toc_links, toc_links
     assert 'reusable-step' in toc_links, 'Shortcode headings must remain in the outline'
     assert len(toc_links) == len(set(toc_links))
+    no_outline = page('courses/no-outline')
+    assert no_outline.find('art-no-toc') and no_outline.find('article-context')[0].find('hub-browser')
     hidden = page('posts/hidden')
     assert hidden.find('art-no-toc') and not hidden.find('art-toc') and not hidden.find('toc-fab')
     assert not hidden.find('art-cover-fig') and not hidden.find('art-meta') and not hidden.find('share-row')
@@ -170,7 +182,10 @@ A fifth-level detail.
     figure = article.find('fig')[0]
     assert figure.attrs['data-original'].endswith('/diagram.png')
     assert figure.attrs['data-image-width'] == '1600'
-    assert '_hu_' in figure.find(tag='img')[0].attrs['src']
+    inline_image = figure.find(tag='img')[0]
+    assert inline_image.attrs['src'] == figure.attrs['data-original'], 'Inline technical images must retain the original pixels and format'
+    assert inline_image.attrs['loading'] == 'lazy'
+    assert (public/inline_image.attrs['src'].removeprefix('/lab/')).read_bytes() == (root/'content/en/courses/first/diagram.png').read_bytes()
     assert by_id(article,'viewerViewport') and by_id(article,'viewerOriginal')
     index = json.loads(text('index.json'))
     assert not any(entry['title'] in ['Hidden layout','Draft fixture','Excluded search page'] for entry in index)

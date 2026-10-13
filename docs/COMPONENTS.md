@@ -10,9 +10,9 @@
 | 展示首页入口 | hugo.toml 的 homeSections / featureZone、data/sections.toml | 首页工作台、自适应板块卡、子栏目索引、可配置统计和最近更新 | [配置参考](USAGE.md)，`exampleSite/hugo.toml` |
 | 列表筛选 | 内容分类标签；pagination.pagerSize | 常用分类与可搜索的全部筛选、分页、URL 与后退恢复 | [配置参考](USAGE.md)；示例站 `/posts/` |
 | 多层栏目 | `_index.md`、目录层级、sectionNav | 子栏目卡片、直属文章、面包屑、栏目浏览 | [栏目契约](SECTION-NAVIGATION.md)；示例站 `/docs/` |
-| 连续阅读 / 学习路线 | 任意栏目 readingNav；weight / group / stage | 同级文章、章节上下篇和返回目录；兼容旧 track | [阅读契约](THEME-APIS.md#1-任意栏目的章节导航)；教程 12 的示例分支 |
+| 连续阅读 / 学习路线 | 任意栏目 readingNav；weight / group / stage | 悬浮目录内切换本页 / 栏目、同级文章、章节上下篇和返回目录；兼容旧 track | [阅读契约](THEME-APIS.md#1-任意栏目的章节导航)；教程 12 的示例分支 |
 | 提示、步骤、方案切换、补充说明 | 下表 shortcode | 统一样式、键盘操作和阅读交互 | [正文组件契约](RUNBOOK-COMPONENTS.md)；教程站 `/docs/11-components/` |
-| 代码、表格、图片、图表 | 普通 Markdown；Mermaid 代码围栏 | 高亮复制、表格局部滚动、原图缩放和平移、图表渲染 | [Markdown](MARKDOWN.md)；教程 07 |
+| 代码、表格、图片、图表 | 普通 Markdown；Mermaid 代码围栏 | 高亮复制、表格局部滚动、正文原图清晰呈现、原图缩放和平移、图表渲染 | [Markdown](MARKDOWN.md)；教程 07 |
 | 本页目录和阅读宽度 | article 选项、H1–H6 标题；toc: false 可关闭 | 构建时目录、深度控制、定位、宽度按钮；无目录时居中 | [阅读契约](THEME-APIS.md#2-文章显示选项)；教程 14 |
 | 顶栏 / 页脚导航 | menu.main 的 pageRef 或 url；父子项用 identifier / parent | 菜单、移动抽屉、当前项和页脚入口 | [配置参考](USAGE.md)；教程 08 |
 | 搜索 | outputs.home 包含 JSON | 全文与标题搜索、小节跳转、片段与范围选择 | [搜索契约](THEME-APIS.md#3-全文搜索)；教程 14 |

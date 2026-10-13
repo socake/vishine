@@ -1,0 +1,24 @@
+{{- /* Two separate navigation scopes, enhanced to tabs only when JS succeeds.
+      Without JS both server-rendered lists remain available. */ -}}
+{{- $id := .id -}}
+<div class="reading-outline"{{ if .browse }} data-reading-outline data-outline-key="{{ .page.FirstSection.RelPermalink }}"{{ end }}>
+  {{ if .browse }}
+  <div class="outline-tabs" role="tablist" aria-label="{{ i18n "toc" }}" hidden>
+    <button type="button" role="tab" id="{{ $id }}-toc-tab" aria-controls="{{ $id }}-toc" data-outline-tab="toc">{{ i18n "toc_title" }}</button>
+    <button type="button" role="tab" id="{{ $id }}-section-tab" aria-controls="{{ $id }}-section" data-outline-tab="section">{{ i18n "hub_browse" }}</button>
+  </div>
+  {{ end }}
+  <div class="outline-panels">
+    <div id="{{ $id }}-toc" data-outline-panel="toc">
+      <ul class="toc-list" id="{{ .listID }}">{{ partial "toc-items.html" (dict "entries" .entries) }}</ul>
+    </div>
+    {{ if .browse }}
+    <div id="{{ $id }}-section" data-outline-panel="section">
+      <h2 class="outline-fallback-title">{{ i18n "hub_browse" }}</h2>
+      <nav class="hub-tree hub-tree-inline" aria-label="{{ i18n "hub_browse" }}">
+        {{ partial "section-nav/links.html" .page }}
+      </nav>
+    </div>
+    {{ end }}
+  </div>
+</div>

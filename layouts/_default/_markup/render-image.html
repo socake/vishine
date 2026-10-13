@@ -1,10 +1,8 @@
 {{- /*
-  Markdown 图片 → <figure class="fig">（role=button 供 main.js zoom/lightbox）。
-  - 优先把 .Destination 当成 page bundle / 页面资源解析（拿 RelPermalink）；
-    位图（png/jpg/...）超宽时用 Hugo image processing 缩到 1280 宽；SVG 直接用。
-  - 图包在 .diagram 里：复用 prose.css 的 figure 卡片样式，且 main.js 的
-    openLightbox 会克隆 .diagram 放大，无需额外 JS。
-  - alt → <figcaption>；title → 放大时的 aria 描述。
+  Markdown images retain their source pixels and format in the article as well
+  as the viewer. A fixed 1280px lossy preview blurs technical diagrams on HiDPI
+  screens and in wide reading mode. CSS fits the original without upscaling;
+  native lazy loading defers offscreen images.
 */ -}}
 {{- $dest := .Destination -}}
 {{- $src := $dest -}}
@@ -20,9 +18,6 @@
   {{- $src = .RelPermalink -}}
   {{- $original = .RelPermalink -}}
   {{- if ne .MediaType.SubType "svg" }}{{ $width = .Width }}{{ $height = .Height }}{{ end -}}
-  {{- if and (ne .MediaType.SubType "svg") (gt (.Width | default 0) 1280) -}}
-    {{- $src = (.Resize "1280x webp q88").RelPermalink -}}
-  {{- end -}}
 {{- end -}}
 {{- $alt := .Text | default .Title -}}
 <figure class="fig" role="button" tabindex="0" data-original="{{ $original | safeURL }}" data-image-width="{{ $width }}" data-image-height="{{ $height }}"{{ with $alt }} aria-label="{{ i18n "zoom_view" }} {{ . | plainify }}"{{ end }}>
