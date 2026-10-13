@@ -452,3 +452,9 @@ other = "原图加载失败，已显示预览图"
 
 [ui_zoomviewport]
 other = "图片查看器，可缩放和平移"
+
+[embed_open]
+other = "打开完整图表"
+
+[embed_scroll]
+other = "可左右滚动查看完整图表"

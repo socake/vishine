@@ -167,6 +167,13 @@
 {{ end }}
 
 {{ define "footer-scripts" }}
+  {{ if .HasShortcode "html-embed" }}
+    {{ with resources.Get "js/html-embed.js" }}
+      {{ $script := . }}{{ if hugo.IsProduction }}{{ $script = $script | minify }}{{ end }}
+      {{ $script = $script | fingerprint }}
+      <script src="{{ $script.RelPermalink }}" integrity="{{ $script.Data.Integrity }}" defer></script>
+    {{ end }}
+  {{ end }}
   {{ if or (.HasShortcode "config-tabs") (.HasShortcode "reading-details") }}
     {{ with resources.Get "js/reading-components.js" }}
       {{ $script := . }}{{ if hugo.IsProduction }}{{ $script = $script | minify }}{{ end }}

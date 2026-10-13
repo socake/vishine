@@ -13,6 +13,7 @@
 | 连续阅读 / 学习路线 | 任意栏目 readingNav；weight / group / stage | 悬浮目录内切换本页 / 栏目、同级文章、章节上下篇和返回目录；兼容旧 track | [阅读契约](THEME-APIS.md#1-任意栏目的章节导航)；教程 12 的示例分支 |
 | 提示、步骤、方案切换、补充说明 | 下表 shortcode | 统一样式、键盘操作和阅读交互 | [正文组件契约](RUNBOOK-COMPONENTS.md)；教程站 `/docs/11-components/` |
 | 代码、表格、图片、图表 | 普通 Markdown；Mermaid 代码围栏 | 高亮复制、表格局部滚动、正文原图清晰呈现、原图缩放和平移、图表渲染 | [Markdown](MARKDOWN.md)；教程 07 |
+| 嵌入已有 HTML 图表 | static 下的 HTML 文件；html-embed | 独立 iframe、矢量文字、局部横向浏览和完整页面入口 | [嵌入契约](HTML-EMBED.md)；教程 14 |
 | 本页目录和阅读宽度 | article 选项、H1–H6 标题；toc: false 可关闭 | 构建时目录、深度控制、定位、宽度按钮；无目录时居中 | [阅读契约](THEME-APIS.md#2-文章显示选项)；教程 14 |
 | 顶栏 / 页脚导航 | menu.main 的 pageRef 或 url；父子项用 identifier / parent | 菜单、移动抽屉、当前项和页脚入口 | [配置参考](USAGE.md)；教程 08 |
 | 搜索 | outputs.home 包含 JSON | 全文与标题搜索、小节跳转、片段与范围选择 | [搜索契约](THEME-APIS.md#3-全文搜索)；教程 14 |
@@ -38,6 +39,7 @@
 | `config-tabs` | id 与 label 必填；内部放 config-tab | 互斥方案，读者选其中一种 |
 | `config-tab` | label 必填；必须放在 config-tabs 内 | 每种方案的 Markdown 内容 |
 | `reading-details` | title 必填；id 可选且唯一；open=true 默认展开，否则收起 | 补充原理，不折叠必做步骤或风险限制 |
+| `html-embed` | src / title 必填；height 默认 480，minWidth 默认 0；mode 为 page（默认）/ archify；单标签 | 直接嵌入宿主维护的本地 HTML 图表，限制与失败行为见 [HTML-EMBED](HTML-EMBED.md) |
 
 步骤、选项卡和折叠说明的完整可复制语法见 [RUNBOOK-COMPONENTS.md](RUNBOOK-COMPONENTS.md)。基础组件见教程 06；新组件在教程 11 同时展示源码和效果。
 

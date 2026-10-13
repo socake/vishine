@@ -457,3 +457,9 @@ other = "Original unavailable; showing the preview"
 
 [ui_zoomviewport]
 other = "Image viewer, zoom and pan"
+
+[embed_open]
+other = "Open full diagram"
+
+[embed_scroll]
+other = "Scroll horizontally to see the full diagram"

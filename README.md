@@ -79,6 +79,7 @@ Agent 从 [AGENTS.md](AGENTS.md) 开始，了解组件边界、启动命令与�
 - Mermaid 自托管：用 ` ```mermaid ` 围栏自动渲染，随配色翻色，**不依赖 CDN**，内网 / 离线可用。
 - Blowfish 兼容 shortcodes：`badge` / `lead` / `callout` / `typeit` / `timeline` / `sponsor`。
 - 代码块一键复制、图片自动 `figure`，正文保留原图清晰度并适配宽度，支持原图缩放 / 平移；Mermaid 复用查看器。
+- 已有 HTML / SVG 图表可通过 `html-embed` 直接嵌入，保留矢量文字与可读尺寸；支持 Archify 嵌入模式。[参数与示例](docs/HTML-EMBED.md)。
 - 多语言 i18n：界面文案内置 **26 种语言**（中 / 英 / 日 / 韩 / 法 / 德 / 西 / 葡 / 俄 / 阿 / 繁中…），顶栏一键切换，可继续扩展。
 
 **离线与安装（PWA）**

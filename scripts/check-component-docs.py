@@ -5,6 +5,7 @@ from html.parser import HTMLParser
 import os
 from pathlib import Path
 import subprocess
+import shutil
 import tempfile
 
 class Snippets(HTMLParser):
@@ -89,7 +90,32 @@ noClasses=false
         assert '<p>本文属于 Public recipes。</p>' in html
         assert '/lab/js/site.' in html
         assert 'COPY_BODY_RECIPE_014' in (work/'public-recipes/index.json').read_text()
-    print('PASS: catalog coverage; four component recipes and chapter 14 configuration/extension recipes copied from rendered tutorial build in independent hosts')
+        embedded = Snippets()
+        embedded.feed(rendered)
+        assert len(embedded.items) == 1 and 'html-embed' in embedded.items[0]
+        (host/'static/diagrams').mkdir(parents=True)
+        shutil.copyfile(theme/'tutorialSite/static/diagrams/embed-example.html', host/'static/diagrams/embed-example.html')
+        recipe = host/'content/posts/html-embed.md'
+        recipe.write_text('---\ntitle: Vector embed\n---\n'+embedded.items[0])
+        build(host, work/'embed-recipes')
+        html = (work/'embed-recipes/posts/html-embed/index.html').read_text()
+        assert '<iframe' in html and 'src="/lab/diagrams/embed-example.html"' in html
+        assert 'title="从输入到结果"' in html and 'loading="lazy"' in html
+        assert 'height:260px;min-width:760px' in html and 'html-embed.' in html
+        assert (work/'embed-recipes/diagrams/embed-example.html').is_file()
+        recipe.write_text('---\ntitle: Archify embed\n---\n{{< html-embed src="/diagrams/embed-example.html" title="Diagram" mode="archify" >}}')
+        build(host, work/'embed-archify')
+        html = (work/'embed-archify/posts/html-embed/index.html').read_text()
+        assert 'embed=1&amp;theme=light' in html and 'data-embed-mode="archify"' in html
+        for bad in ['src="https://example.com/file.html" title="Remote"', 'src="/file.html"', 'src="/file.html" title="Bad size" height=0', 'src="/file.html" title="Bad mode" mode="unknown"']:
+            recipe.write_text('---\ntitle: Invalid embed\n---\n{{< html-embed '+bad+' >}}')
+            try:
+                build(host, work/'embed-invalid')
+            except RuntimeError as error:
+                assert 'html-embed' in str(error)
+            else:
+                raise AssertionError('Invalid embed parameters must fail: '+bad)
+    print('PASS: catalog coverage; four component recipes, chapter 14 configuration/extensions and HTML embed copied from rendered tutorial; embed parameters and subpaths')
 
 if __name__ == '__main__':
     main()

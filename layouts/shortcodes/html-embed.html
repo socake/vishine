@@ -1,0 +1,28 @@
+{{- /* Local authored HTML stays in its own document; the theme owns the frame. */ -}}
+{{- $src := .Get "src" | default "" -}}
+{{- $title := .Get "title" | default "" -}}
+{{- $mode := .Get "mode" | default "page" -}}
+{{- if or (not $title) (not (findRE `^/?[^:/?#]+(?:/[^/?#]+)*\.html$` $src)) (in $src "..") (in $src "\\") -}}
+  {{- errorf "html-embed requires title and a local .html src without query, fragment or traversal: %s" .Position -}}
+{{- end -}}
+{{- if not (in (slice "page" "archify") $mode) }}{{ errorf "html-embed mode must be page or archify: %s" .Position }}{{ end -}}
+{{- $heightValue := "480" -}}
+{{- if isset .Params "height" }}{{ $heightValue = printf "%v" (.Get "height") }}{{ end -}}
+{{- $widthValue := printf "%v" (.Get "minWidth" | default 0) -}}
+{{- if or (not (findRE `^[0-9]+$` $heightValue)) (not (findRE `^[0-9]+$` $widthValue)) }}{{ errorf "html-embed dimensions must be integers: %s" .Position }}{{ end -}}
+{{- $height := int $heightValue -}}
+{{- $minWidth := int $widthValue -}}
+{{- if or (lt $height 160) (gt $height 1600) (lt $minWidth 0) (gt $minWidth 2400) }}{{ errorf "html-embed requires height 160..1600 and minWidth 0..2400: %s" .Position }}{{ end -}}
+{{- $url := strings.TrimPrefix "/" $src | relURL -}}
+{{- $frameURL := $url -}}
+{{- if eq $mode "archify" }}{{ $frameURL = printf "%s?embed=1&theme=%s" $url (cond (eq (site.Params.defaultScheme | default "paper") "dark") "dark" "light") }}{{ end -}}
+<figure class="html-embed" data-html-embed data-embed-mode="{{ $mode }}">
+  <figcaption class="html-embed-head">
+    <span>{{ $title }}</span>
+    <a href="{{ $url }}" target="_blank" rel="noopener">{{ i18n "embed_open" }} <span aria-hidden="true">↗</span></a>
+  </figcaption>
+  {{ if $minWidth }}<p class="html-embed-hint">{{ i18n "embed_scroll" }}</p>{{ end }}
+  <div class="html-embed-viewport"{{ if $minWidth }} tabindex="0" role="region" aria-label="{{ $title }} — {{ i18n "embed_scroll" }}"{{ end }}>
+    <iframe src="{{ $frameURL | safeURL }}" title="{{ $title }}" loading="lazy" referrerpolicy="no-referrer" style="height:{{ $height }}px;min-width:{{ $minWidth }}px" data-embed-src="{{ $url }}"></iframe>
+  </div>
+</figure>

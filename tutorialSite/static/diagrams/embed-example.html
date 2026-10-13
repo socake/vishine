@@ -1,0 +1,22 @@
+<!doctype html>
+<html lang="zh-CN">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>HTML 图表示例</title>
+<style>
+body{margin:0;padding:20px;font:14px/1.6 system-ui,sans-serif;color:#24333a;background:#f7f9fb}
+svg{display:block;width:100%;height:auto}text{font-family:system-ui,sans-serif;fill:currentColor}
+rect{fill:#e8f4f0;stroke:#789e91}path{fill:none;stroke:#52756b;stroke-width:2}
+@media(prefers-color-scheme:dark){body{background:#20252c;color:#e7ecef}rect{fill:#283c36;stroke:#8db9a9}}
+</style>
+<svg viewBox="0 0 720 160" role="img" aria-labelledby="title desc">
+<title id="title">从输入到结果</title><desc id="desc">输入内容经过处理，形成可核对的结果。文字和线条均为矢量。</desc>
+<defs><marker id="arrow" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0 0L7 4L0 8"/></marker></defs>
+<rect x="10" y="35" width="180" height="80" rx="12"/><text x="100" y="80" font-size="18" text-anchor="middle">输入内容</text>
+<path d="M190 75H265" marker-end="url(#arrow)"/>
+<rect x="270" y="35" width="180" height="80" rx="12"/><text x="360" y="80" font-size="18" text-anchor="middle">处理与检查</text>
+<path d="M450 75H525" marker-end="url(#arrow)"/>
+<rect x="530" y="35" width="180" height="80" rx="12"/><text x="620" y="80" font-size="18" text-anchor="middle">可核对的结果</text>
+</svg>
+<p>这是独立 HTML 中的 SVG；嵌入后仍保留矢量文字。</p>
+</html>

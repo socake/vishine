@@ -76,6 +76,20 @@ flowchart LR
     D --> E
 ```
 
+## 直接嵌入 HTML 图表
+
+已经有 HTML / SVG 图表时，直接嵌入该文件，避免截图后再缩放。将文件放到宿主的 `static/diagrams/`，正文写：
+
+```markdown
+{{</* html-embed src="/diagrams/embed-example.html" title="从输入到结果" height=260 minWidth=760 */>}}
+```
+
+{{< html-embed src="/diagrams/embed-example.html" title="从输入到结果" height=260 minWidth=760 >}}
+
+上方展示的正是这段源码。窄屏时图表区域可以左右滚动，Tab 聚焦该区域后也能用方向键滚动；整篇文章保持自然上下滚动。“打开完整图表”在独立页面浏览原文件。
+
+`src` 和 `title` 必填；`height` 默认 480px，`minWidth` 默认 0（随容器宽度）。复杂图可按原始设计宽度设置 minWidth，避免把字缩得过小。Archify 生成的 HTML 可额外写 `mode="archify"`，使用它自带的嵌入模式，并跟随博客的浅色 / 暗色；切换配色会重新载入图表。完整限制见 `docs/HTML-EMBED.md`。
+
 ## 列表中的全部筛选
 
 普通博客列表默认只露出三个常用分类，“全部筛选”包含其余分类和标签并支持搜索。要减少首屏按钮可以设置：
