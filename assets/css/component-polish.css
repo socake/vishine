@@ -163,14 +163,12 @@
 .icon-btn:hover,.share-btn:hover,.chip:hover,.tags a:hover {transform:none}
 .icon-btn:active,.share-btn:active,.qa-btn:active {box-shadow:inset 0 1px 3px rgba(0,0,0,.09)}
 .sw-btn[aria-pressed="true"] {box-shadow:inset 0 0 0 1px var(--surface-edge)}
-/* Secondary tools share one quiet rail; the search affordance remains explicit. */
+/* Color and language controls keep separate framed trays and a visible selected state. */
 .nav-tools {gap:8px}
-.nav-tools :is(.scheme-switch,.lang-switch) {background:transparent;border-color:transparent;box-shadow:none}
 .nav-tools .lang-btn {color:var(--ink-2);font-weight:500;padding:0 7px}
 .nav-tools .lang-btn.active {color:var(--accent-ink);background:var(--accent-soft)}
 .nav-tools>a.icon-btn {background:transparent;border-color:transparent;box-shadow:none}
 .nav-tools>a.icon-btn:hover {background:var(--paper-2);color:var(--accent-ink)}
-.nav-tools .sw-btn[aria-pressed="true"] {box-shadow:none;background:transparent}
 .nav-tools .search-mini {border-color:var(--line);box-shadow:none}
 .chip,.tags a,.sc-badge,.mod-chips a {
   border-color:var(--line);box-shadow:inset 0 1px 0 var(--surface-highlight);
