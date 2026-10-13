@@ -465,8 +465,10 @@ summaryLength = 30
 [params.sponsor]
   title  = "请我喝杯咖啡"
   desc   = "如果这个主题帮到了你，欢迎赞助支持～"
-  wechat = "/img/sponsor/wechat.png"
-  alipay = "/img/sponsor/alipay.jpg"
+  wechat = "/img/sponsor/wechat-qr.svg"
+  wechatOriginal = "/img/sponsor/wechat.png"
+  alipay = "/img/sponsor/alipay-qr.svg"
+  alipayOriginal = "/img/sponsor/alipay.jpg"
 
   [[menu.main]]
     name = "赞助"

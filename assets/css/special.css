@@ -224,18 +224,29 @@
 .tl-kw{font-size:12.5px;color:var(--ink-3);line-height:1.55}
 
 /* 赞助 / 打赏（sponsor shortcode） */
-.sc-sponsor{margin:24px 0;padding:20px 22px;border-radius:14px;background:var(--accent-soft);border:1px solid color-mix(in srgb,var(--accent) 18%,transparent)}
-.sp-head{display:flex;gap:12px;align-items:center;margin-bottom:16px}
-.sp-ico{font-size:30px;line-height:1;flex:none}
-.sp-title{font-size:17px;font-weight:800;color:var(--ink);margin-bottom:2px}
-.sp-desc{font-size:13.5px;color:var(--ink-3);line-height:1.55}
-.sp-codes{display:flex;gap:18px;flex-wrap:wrap}
-.sp-code{margin:0;text-align:center;background:var(--card);padding:10px;border-radius:10px;border:1px solid var(--line)}
-.sp-code img{display:block;width:200px;height:auto;border-radius:6px}
-.sp-code figcaption{margin-top:6px;font-size:12.5px;font-weight:600;color:var(--ink-2);font-family:var(--font-mono)}
-.sp-code{transition:transform .16s,border-color .16s}
-.sp-code:hover{border-color:var(--accent);transform:translateY(-2px)}
-@media(max-width:560px){.sp-code img{width:150px}}
+/* Keep the QR surface white in every scheme; never crop images with object-fit:cover. */
+.sc-sponsor{margin:28px auto;padding:28px;max-width:680px;border-radius:20px;background:var(--card);border:1px solid var(--surface-edge);box-shadow:var(--surface-shadow);text-align:center}
+.sp-head{margin:0 auto 24px;max-width:520px}
+.sp-title{font-size:21px;font-weight:750;color:var(--ink);line-height:1.4;margin-bottom:10px;text-wrap:balance}
+.sp-desc{font-size:14px;color:var(--ink-2);line-height:1.75;text-wrap:pretty}
+.sp-codes{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:20px;align-items:stretch}
+.sc-sponsor .sp-code{--sp-brand:#087a48;display:flex;flex-direction:column;min-width:0;margin:0;padding:0;border-radius:14px;overflow:hidden;background:var(--card);border:1px solid var(--surface-edge);box-shadow:var(--surface-shadow);transition:border-color .16s,box-shadow .16s}
+.sc-sponsor .sp-code--alipay{--sp-brand:#1264d6}
+.sc-sponsor .sp-code:only-child{grid-column:1/-1;width:100%;max-width:300px;justify-self:center}
+.sc-sponsor .sp-brand{display:flex;align-items:center;justify-content:center;gap:9px;min-height:52px;margin:0;padding:12px;color:#fff;background:var(--sp-brand);font-size:16px;font-weight:650;line-height:1.5}
+.sp-badge{display:inline-flex;align-items:center;justify-content:center;width:24px;height:24px;border-radius:7px;background:rgba(255,255,255,.18);font-size:13px}
+.sp-body{display:flex;flex:1;flex-direction:column;align-items:center;gap:12px;padding:18px 14px 20px}
+.sp-qr{display:grid;place-items:center;aspect-ratio:1;width:100%;max-width:240px;background:#fff;border:1px solid #e6e8eb;border-radius:12px;overflow:hidden}
+.sc-sponsor .sp-qr img{display:block;width:100%;height:100%;min-width:0;margin:0;padding:0;object-fit:contain;border:0;border-radius:0;box-shadow:none}
+.sp-hint{font-size:13px;line-height:1.6;color:var(--ink-2)}
+.sc-sponsor a.sp-original{display:flex;align-items:center;justify-content:center;gap:8px;min-height:46px;padding:10px 14px;border-top:1px solid var(--line);background:color-mix(in srgb,var(--sp-brand) 5%,var(--card));color:var(--ink);font-size:13px;font-weight:650;line-height:1.5;text-decoration:none;transition:background .16s}
+.sc-sponsor a.sp-original:hover{background:color-mix(in srgb,var(--sp-brand) 12%,var(--card));text-decoration:underline;text-underline-offset:4px}
+.sc-sponsor a.sp-original:focus-visible{outline:3px solid var(--accent);outline-offset:-4px;text-decoration:underline}
+.sc-sponsor .sp-code:focus-within{border-color:var(--sp-brand);box-shadow:var(--surface-shadow-hover)}
+.sp-note{margin-top:18px;color:var(--ink-2);font-size:12px;line-height:1.7}
+@media(hover:hover){.sc-sponsor .sp-code:hover{border-color:var(--sp-brand);box-shadow:var(--surface-shadow-hover)}}
+@media(max-width:540px){.sc-sponsor{padding:22px 14px;border-radius:16px}.sp-head{margin-bottom:20px}.sp-title{font-size:19px}.sp-codes{grid-template-columns:minmax(0,1fr);gap:18px;max-width:300px;margin-inline:auto}.sp-body{padding:14px 10px 16px}.sc-sponsor .sp-code{box-shadow:0 2px 6px rgba(0,0,0,.06)}}
+@media(prefers-reduced-motion:reduce){.sc-sponsor .sp-code,.sc-sponsor a.sp-original{transition:none}}
 /* footer 赞助入口（药丸链接） */
 .foot-sponsor{display:inline-flex;align-items:center;gap:4px;font-size:13px;font-weight:600;color:var(--accent);text-decoration:none;padding:3px 13px;border:1px solid color-mix(in srgb,var(--accent) 30%,transparent);border-radius:20px;transition:.16s;white-space:nowrap}
 .foot-sponsor:hover{background:var(--accent-soft);border-color:var(--accent);transform:translateY(-1px)}

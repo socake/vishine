@@ -238,9 +238,14 @@ Write `mermaid` diagrams in a ` ```mermaid ` fence — they render automatically
 vishine is something I've been tinkering together bit by bit in my spare time, and the docs and demo site are an ongoing work too. If it saved you some time, or you simply appreciate the effort behind it, feel free to buy me a coffee ☕
 
 <table>
+  <tr><th align="center">🟢 WeChat Pay</th><th align="center">🔵 Alipay</th></tr>
   <tr>
-    <td align="center"><img src="docs/images/sponsor-wechat.png" width="220" alt="WeChat sponsor"><br><b>WeChat</b></td>
-    <td align="center"><img src="docs/images/sponsor-alipay.jpg" width="220" alt="Alipay sponsor"><br><b>Alipay</b></td>
+    <td align="center"><img src="docs/images/sponsor-wechat-qr.svg" width="220" height="220" alt="WeChat Pay"><br>Scan with WeChat</td>
+    <td align="center"><img src="docs/images/sponsor-alipay-qr.svg" width="220" height="220" alt="Alipay"><br>Scan with Alipay</td>
+  </tr>
+  <tr>
+    <td align="center"><a href="docs/images/sponsor-wechat.png">View original image ↗</a></td>
+    <td align="center"><a href="docs/images/sponsor-alipay.jpg">View original image ↗</a></td>
   </tr>
 </table>
 

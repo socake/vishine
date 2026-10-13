@@ -237,9 +237,14 @@ hugo server -D
 vishine は余暇の時間を使って少しずつ作り上げてきたもので、ドキュメントやサンプルサイトも継続的に充実させています。もしこれがあなたの時間を節約できたなら、あるいは単純にこの作り込みへの情熱を気に入ってくれたなら、コーヒーを一杯おごっていただけると嬉しいです ☕
 
 <table>
+  <tr><th align="center">🟢 WeChat Pay</th><th align="center">🔵 Alipay</th></tr>
   <tr>
-    <td align="center"><img src="docs/images/sponsor-wechat.png" width="220" alt="WeChat スポンサー"><br><b>WeChat</b></td>
-    <td align="center"><img src="docs/images/sponsor-alipay.jpg" width="220" alt="Alipay スポンサー"><br><b>Alipay</b></td>
+    <td align="center"><img src="docs/images/sponsor-wechat-qr.svg" width="220" height="220" alt="WeChat Pay"><br>WeChat でスキャン</td>
+    <td align="center"><img src="docs/images/sponsor-alipay-qr.svg" width="220" height="220" alt="Alipay"><br>Alipay でスキャン</td>
+  </tr>
+  <tr>
+    <td align="center"><a href="docs/images/sponsor-wechat.png">元の画像を開く ↗</a></td>
+    <td align="center"><a href="docs/images/sponsor-alipay.jpg">元の画像を開く ↗</a></td>
   </tr>
 </table>
 

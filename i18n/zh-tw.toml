@@ -255,3 +255,39 @@ other = "新增 {{ .Count }} 篇"
 
 [changelog_empty]
 other = "暫無已發佈的文章。"
+
+[sponsor_title]
+other = "請我喝杯咖啡"
+
+[sponsor_desc]
+other = "如果這個專案幫到了你，歡迎贊助支持，讓它走得更遠。"
+
+[sponsor_wechat]
+other = "微信支付"
+
+[sponsor_alipay]
+other = "支付寶"
+
+[sponsor_wechat_badge]
+other = "微"
+
+[sponsor_alipay_badge]
+other = "支"
+
+[sponsor_wechat_scan]
+other = "開啟微信掃一掃"
+
+[sponsor_alipay_scan]
+other = "開啟支付寶掃一掃"
+
+[sponsor_qr_alt]
+other = "{{ .Provider }}收款碼"
+
+[sponsor_original]
+other = "檢視原圖"
+
+[sponsor_original_label]
+other = "檢視{{ .Provider }}收款碼原圖"
+
+[sponsor_mobile_hint]
+other = "手機瀏覽可開啟原圖，儲存後在對應 App 中識別。"

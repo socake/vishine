@@ -1,35 +1,43 @@
 {{- /*
-  sponsor.html — 赞助 / 打赏区（"请我喝杯咖啡"）
-
-  用法：在文章或「关于」页里写  {{< sponsor >}}
-  收款码图片路径在站点 hugo.toml 里配置：
-
-    [params.sponsor]
-      title  = "请我喝杯咖啡"
-      desc   = "如果这个项目帮到了你，欢迎赞助支持～"
-      wechat = "/img/sponsor/wechat.png"   # 微信收款码（图片放在 static/ 下）
-      alipay = "/img/sponsor/alipay.jpg"   # 支付宝收款码
-
-  也可用参数临时覆盖：{{< sponsor title="支持作者" >}}
-  没配任何收款码时整块不渲染。
+  Sponsor cards: optional title / desc / wechat / alipay overrides.
+  wechatOriginal / alipayOriginal optionally link to the original payment poster.
+  See docs/SPONSOR.md for the public contract. No image means no card.
 */ -}}
 {{- $s := site.Params.sponsor | default dict -}}
-{{- $title  := .Get "title"  | default ($s.title  | default "请我喝杯咖啡") -}}
-{{- $desc   := .Get "desc"   | default ($s.desc   | default "如果这个项目帮到了你，欢迎赞助支持，让它走得更远。") -}}
+{{- $title := .Get "title" | default ($s.title | default (i18n "sponsor_title")) -}}
+{{- $desc := .Get "desc" | default ($s.desc | default (i18n "sponsor_desc")) -}}
 {{- $wechat := .Get "wechat" | default $s.wechat -}}
 {{- $alipay := .Get "alipay" | default $s.alipay -}}
+{{- $wechatOriginal := .Get "wechatOriginal" | default $s.wechatoriginal | default $wechat -}}
+{{- $alipayOriginal := .Get "alipayOriginal" | default $s.alipayoriginal | default $alipay -}}
+{{- /* A page-level image override must never inherit a different payee's original. */ -}}
+{{- if .Get "wechat" }}{{ $wechatOriginal = .Get "wechatOriginal" | default $wechat }}{{ end -}}
+{{- if .Get "alipay" }}{{ $alipayOriginal = .Get "alipayOriginal" | default $alipay }}{{ end -}}
 {{- if or $wechat $alipay -}}
 <div class="sc-sponsor">
   <div class="sp-head">
-    <span class="sp-ico" aria-hidden="true">☕</span>
-    <div class="sp-text">
-      <div class="sp-title">{{ $title }}</div>
-      <div class="sp-desc">{{ $desc }}</div>
-    </div>
+    <div class="sp-title"><span aria-hidden="true">☕</span> {{ $title }}</div>
+    <div class="sp-desc">{{ $desc }}</div>
   </div>
   <div class="sp-codes">
-    {{- with $wechat }}<figure class="sp-code"><img src="{{ . | relURL }}" alt="微信赞助码" loading="lazy"><figcaption>微信</figcaption></figure>{{ end -}}
-    {{- with $alipay }}<figure class="sp-code"><img src="{{ . | relURL }}" alt="支付宝赞助码" loading="lazy"><figcaption>支付宝</figcaption></figure>{{ end -}}
+    {{- range slice (dict "brand" "wechat" "image" $wechat "original" $wechatOriginal) (dict "brand" "alipay" "image" $alipay "original" $alipayOriginal) -}}
+      {{- if .image -}}
+      {{- $name := i18n (printf "sponsor_%s" .brand) -}}
+      {{- $imageURL := .image -}}
+      {{- $originalURL := .original -}}
+      {{- if not (hasPrefix $imageURL "//") }}{{ $imageURL = strings.TrimPrefix "/" $imageURL }}{{ end -}}
+      {{- if not (hasPrefix $originalURL "//") }}{{ $originalURL = strings.TrimPrefix "/" $originalURL }}{{ end -}}
+      <figure class="sp-code sp-code--{{ .brand }}">
+        <figcaption class="sp-brand"><span class="sp-badge" aria-hidden="true">{{ i18n (printf "sponsor_%s_badge" .brand) }}</span>{{ $name }}</figcaption>
+        <div class="sp-body">
+          <div class="sp-qr"><img src="{{ $imageURL | relURL }}" alt="{{ i18n "sponsor_qr_alt" (dict "Provider" $name) }}" loading="lazy" decoding="async"></div>
+          <span class="sp-hint">{{ i18n (printf "sponsor_%s_scan" .brand) }}</span>
+        </div>
+        <a class="sp-original" href="{{ $originalURL | relURL }}" aria-label="{{ i18n "sponsor_original_label" (dict "Provider" $name) }}">{{ i18n "sponsor_original" }}<span aria-hidden="true">↗</span></a>
+      </figure>
+      {{- end -}}
+    {{- end -}}
   </div>
+  <div class="sp-note">{{ i18n "sponsor_mobile_hint" }}</div>
 </div>
 {{- end -}}

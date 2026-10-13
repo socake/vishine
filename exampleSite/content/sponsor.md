@@ -1,7 +1,12 @@
 ---
 title: "赞助支持"
 description: "如果 vishine 帮到了你，欢迎以任何方式支持它继续走下去。"
-showTableOfContents: false
+toc: false
+article:
+  showMeta: false
+  showCover: false
+  showNavigation: false
+  showRelated: false
 ---
 
 {{< lead >}}

@@ -35,7 +35,7 @@
 | `typeit` | 无有效配置参数，成对；当前为静态强调文本 | 短句强调；不是打字机动画 |
 | `changelog` | 单标签；sections 默认为 posts，多栏目用逗号分隔；每页一次，独立放置；文章 changelog: false 可排除 | 自动按月列出已发布文章，详见 [完整契约](CHANGELOG.md) |
 | `timeline` | 成对；每行 `节点 \| 阶段 \| 说明`，后两项可省 | 人工编写时间线，不用于自动列出子栏目 |
-| `sponsor` | 单标签；title / desc / wechat / alipay 可覆盖站点参数；无码不渲染 | 赞助区 |
+| `sponsor` | 单标签；title / desc / wechat / alipay 及两渠道 Original 参数可覆盖站点配置；无码不渲染 | 等高赞助卡片；[完整契约](SPONSOR.md)、教程 16 |
 | `runbook-step` | title 必填；number 可选；id 推荐显式指定且页内唯一 | 组织一项操作；标题为 H3，应位于 H2 下 |
 | `step-part` | 必须放在 runbook-step 内；kind 为 action（默认）/ prerequisites / verify / rollback | 前置、执行、验证、回退，不需要时可省略该部分 |
 | `config-tabs` | id 与 label 必填；内部放 config-tab | 互斥方案，读者选其中一种 |
@@ -56,6 +56,8 @@
 ```
 
 在宿主站 `static/img/` 放自己的图片，再写 `{{< sponsor >}}`。不要复制示例站作者的收款码。
+
+推荐方形二维码展示图；`wechatOriginal` / `alipayOriginal` 可链接到原始海报，省略时链接到展示图。单渠道居中、窄屏上下排列，旧配置继续可用。[图片准备、参数与回退](SPONSOR.md)，可复制页面和实际效果见教程 16。
 
 ## 栏目与路线配方
 

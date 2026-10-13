@@ -27,6 +27,8 @@ Agent 从 [AGENTS.md](AGENTS.md) 开始，了解组件边界、启动命令与�
 
 更新日志可在正文放入 `{{< changelog sections="posts" >}}`，自动按文章日期生成月份、篇数和可点击文章列表；站点升级说明继续写 Markdown。[参数与迁移](docs/CHANGELOG.md)，可复制源码与效果见教程 15。
 
+赞助区用 `{{< sponsor >}}` 显示等高微信／支付宝卡片，支持方形二维码与独立原图入口，兼容旧图片配置。[赞助参数与图片准备](docs/SPONSOR.md)，源码与效果见教程 16。
+
 外观接入：首页 `homeCardLayout` 可选择标准卡／紧凑入口；自动封面以短主题标识形成视觉重点，正文默认显示宽幅主题图，可用 `cover.autoArticle=false` 关闭；Archify 的 `surface="theme"` 同步中性表面，`surface="source"` 保留原图配色。参数与升级说明见 [使用文档](docs/USAGE.md)，可复制效果见教程 13、14。
 
 本地运行 `sh scripts/theme-dev.sh serve tutorialSite` 可查看“组件与维护”：每个新正文组件同时展示可复制源码与真实效果；栏目教程演示自动卡片与多层导航。线上 Demo 与教程随 main 分支的发布工作流更新。
@@ -286,9 +288,14 @@ hugo server -D
 vishine 是我用业余时间一点点折腾出来的，文档和示例站也都在持续补。如果它帮你省下了时间，或者你单纯欣赏这份折腾劲儿，欢迎请我喝杯咖啡 ☕
 
 <table>
+  <tr><th align="center">🟢 微信支付</th><th align="center">🔵 支付宝</th></tr>
   <tr>
-    <td align="center"><img src="docs/images/sponsor-wechat.png" width="220" alt="微信赞助"><br><b>微信</b></td>
-    <td align="center"><img src="docs/images/sponsor-alipay.jpg" width="220" alt="支付宝赞助"><br><b>支付宝</b></td>
+    <td align="center"><img src="docs/images/sponsor-wechat-qr.svg" width="220" height="220" alt="微信支付"><br>打开微信扫一扫</td>
+    <td align="center"><img src="docs/images/sponsor-alipay-qr.svg" width="220" height="220" alt="支付宝"><br>打开支付宝扫一扫</td>
+  </tr>
+  <tr>
+    <td align="center"><a href="docs/images/sponsor-wechat.png">查看原图 ↗</a></td>
+    <td align="center"><a href="docs/images/sponsor-alipay.jpg">查看原图 ↗</a></td>
   </tr>
 </table>
 

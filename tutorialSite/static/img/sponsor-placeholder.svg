@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="0 0 512 512">
+  <title>Layout placeholder — not a payment code</title>
+  <rect width="512" height="512" fill="white"/>
+  <rect x="64" y="64" width="384" height="384" rx="20" fill="#f5f7fa" stroke="#d9dfe6" stroke-width="2" stroke-dasharray="8 8"/>
+  <path d="M152 192v-40h40m128 0h40v40m0 128v40h-40m-128 0h-40v-40" fill="none" stroke="#748092" stroke-width="8"/>
+  <text x="256" y="250" text-anchor="middle" font-family="sans-serif" font-size="26" fill="#364152">YOUR QR CODE</text>
+  <text x="256" y="289" text-anchor="middle" font-family="sans-serif" font-size="18" fill="#5b687a">Layout preview only</text>
+</svg>

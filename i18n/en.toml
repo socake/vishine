@@ -480,3 +480,39 @@ other = "{{ .Count }} new articles"
 
 [changelog_empty]
 other = "No published articles yet."
+
+[sponsor_title]
+other = "Buy me a coffee"
+
+[sponsor_desc]
+other = "If this project helped you, consider supporting its continued development."
+
+[sponsor_wechat]
+other = "WeChat Pay"
+
+[sponsor_alipay]
+other = "Alipay"
+
+[sponsor_wechat_badge]
+other = "W"
+
+[sponsor_alipay_badge]
+other = "A"
+
+[sponsor_wechat_scan]
+other = "Scan with WeChat"
+
+[sponsor_alipay_scan]
+other = "Scan with Alipay"
+
+[sponsor_qr_alt]
+other = "{{ .Provider }} payment QR code"
+
+[sponsor_original]
+other = "View original image"
+
+[sponsor_original_label]
+other = "View original {{ .Provider }} payment QR code"
+
+[sponsor_mobile_hint]
+other = "On mobile, open and save the original image, then scan it in the matching app."

@@ -302,3 +302,39 @@ other = "幅に合わせる"
 
 [embed_detail]
 other = "詳細を拡大"
+
+[sponsor_title]
+other = "コーヒーを一杯ごちそうしてください"
+
+[sponsor_desc]
+other = "このプロジェクトが役に立ったら、継続的な開発へのご支援をお願いします。"
+
+[sponsor_wechat]
+other = "WeChat Pay"
+
+[sponsor_alipay]
+other = "Alipay"
+
+[sponsor_wechat_badge]
+other = "W"
+
+[sponsor_alipay_badge]
+other = "A"
+
+[sponsor_wechat_scan]
+other = "WeChat でスキャン"
+
+[sponsor_alipay_scan]
+other = "Alipay でスキャン"
+
+[sponsor_qr_alt]
+other = "{{ .Provider }} の支払い QR コード"
+
+[sponsor_original]
+other = "元の画像を開く"
+
+[sponsor_original_label]
+other = "{{ .Provider }} の元の支払い QR コードを開く"
+
+[sponsor_mobile_hint]
+other = "スマートフォンでは元の画像を保存し、対応するアプリで読み取れます。"

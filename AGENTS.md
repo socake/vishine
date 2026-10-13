@@ -93,6 +93,7 @@ git diff --check
 ## 按需阅读
 
 - `docs/COMPONENTS.md`：全部组件的选择、启用、参数与责任边界。
+- `docs/SPONSOR.md`：赞助卡片、二维码展示图与原图链接；更换图片时核对实际扫码结果。
 - `docs/CHANGELOG.md`：自动按月归档、文章排除、日期与手写更新日志迁移。
 - `docs/AGENTS-HOST.example.md`：博客侧 Agent 的主题发现入口。
 - `docs/THEME-APIS.md`：文章显示、目录与栏目切换、搜索、图片查看、扩展点和缓存契约。

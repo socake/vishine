@@ -473,3 +473,39 @@ other = "新增 {{ .Count }} 篇"
 
 [changelog_empty]
 other = "暂无已发布的文章。"
+
+[sponsor_title]
+other = "请我喝杯咖啡"
+
+[sponsor_desc]
+other = "如果这个项目帮到了你，欢迎赞助支持，让它走得更远。"
+
+[sponsor_wechat]
+other = "微信支付"
+
+[sponsor_alipay]
+other = "支付宝"
+
+[sponsor_wechat_badge]
+other = "微"
+
+[sponsor_alipay_badge]
+other = "支"
+
+[sponsor_wechat_scan]
+other = "打开微信扫一扫"
+
+[sponsor_alipay_scan]
+other = "打开支付宝扫一扫"
+
+[sponsor_qr_alt]
+other = "{{ .Provider }}收款码"
+
+[sponsor_original]
+other = "查看原图"
+
+[sponsor_original_label]
+other = "查看{{ .Provider }}收款码原图"
+
+[sponsor_mobile_hint]
+other = "手机浏览可打开原图，保存后在对应 App 中识别。"

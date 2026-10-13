@@ -130,7 +130,36 @@ noClasses=false
                 assert 'html-embed' in str(error)
             else:
                 raise AssertionError('Invalid embed parameters must fail: '+bad)
-    print('PASS: catalog coverage; four component recipes, chapter 14 configuration/extensions and HTML embed copied from rendered tutorial; embed parameters and subpaths')
+        # Sponsor recipes must work when copied into a host deployed under a subpath.
+        recipe.unlink()  # Remove the intentionally invalid embed fixture above.
+        rendered = (work/'tutorial/docs/16-sponsor/index.html').read_text()
+        sponsor_config, sponsor_pages = Snippets('toml'), Snippets()
+        sponsor_config.feed(rendered)
+        sponsor_pages.feed(rendered)
+        assert len(sponsor_config.items) == 1 and len(sponsor_pages.items) == 2
+        base_config = 'baseURL="https://example.test/lab/"\ntitle="Sponsor recipes"\ndefaultContentLanguage="en"\n[params]\ngoogleFonts=false\n'
+        (host/'hugo.toml').write_text(base_config + sponsor_config.items[0])
+        (host/'static/img').mkdir(parents=True)
+        shutil.copyfile(theme/'tutorialSite/static/img/sponsor-placeholder.svg', host/'static/img/sponsor-placeholder.svg')
+        (host/'content/sponsor.md').write_text(sponsor_pages.items[0])
+        (host/'content/sponsor-override.md').write_text('---\ntitle: Override\n---\n'+sponsor_pages.items[1])
+        build(host, work/'sponsor-recipes')
+        html = (work/'sponsor-recipes/sponsor/index.html').read_text()
+        assert html.count('class="sp-code sp-code--') == 2
+        assert 'src="/lab/img/sponsor/wechat-qr.svg"' in html and 'href="/lab/img/sponsor/wechat.png"' in html
+        assert 'Scan with WeChat' in html and 'View original image' in html
+        assert 'class="art-cover-fig"' not in html
+        html = (work/'sponsor-recipes/sponsor-override/index.html').read_text()
+        assert html.count('href="/lab/img/sponsor-placeholder.svg"') == 2
+        assert '/lab/img/sponsor/wechat.png' not in html
+        (host/'hugo.toml').write_text(base_config)
+        (host/'content/sponsor-override.md').write_text('---\ntitle: Legacy single code\n---\n{{< sponsor wechat="https://example.test/legacy.png" >}}')
+        build(host, work/'sponsor-fallbacks')
+        assert 'class="sc-sponsor"' not in (work/'sponsor-fallbacks/sponsor/index.html').read_text()
+        html = (work/'sponsor-fallbacks/sponsor-override/index.html').read_text()
+        assert html.count('class="sp-code sp-code--') == 1
+        assert 'src="https://example.test/legacy.png"' in html and 'href="https://example.test/legacy.png"' in html
+    print('PASS: catalog coverage; component recipes, chapter 14 and 16 copied from rendered tutorial; embed/sponsor parameters, fallbacks and subpaths')
 
 if __name__ == '__main__':
     main()
