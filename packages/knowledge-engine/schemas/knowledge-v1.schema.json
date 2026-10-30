@@ -1,0 +1,2990 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://vishine.local/schemas/knowledge-v1",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "schemaVersion": {
+      "const": 1
+    },
+    "id": {
+      "type": "string",
+      "pattern": "^[a-z][a-z0-9-]{0,63}$"
+    },
+    "title": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 200
+    },
+    "description": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 4000
+    },
+    "state": {
+      "type": "object",
+      "maxProperties": 64,
+      "additionalProperties": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "type": {
+            "enum": [
+              "number",
+              "string",
+              "boolean"
+            ]
+          },
+          "initial": {
+            "type": [
+              "number",
+              "string",
+              "boolean"
+            ]
+          },
+          "label": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 100
+          },
+          "min": {
+            "type": "number"
+          },
+          "max": {
+            "type": "number"
+          },
+          "options": {
+            "type": "array",
+            "maxItems": 100
+          }
+        },
+        "required": [
+          "type",
+          "initial"
+        ]
+      }
+    },
+    "data": {
+      "type": "object"
+    },
+    "derived": {
+      "type": "object",
+      "maxProperties": 64,
+      "additionalProperties": {
+        "$ref": "#/$defs/expression"
+      }
+    },
+    "scene": {
+      "$ref": "#/$defs/scene"
+    },
+    "steps": {
+      "type": "array",
+      "maxItems": 512,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "title": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "actions": {
+            "type": "array",
+            "maxItems": 32,
+            "items": {
+              "$ref": "#/$defs/action"
+            }
+          }
+        },
+        "required": [
+          "id",
+          "title",
+          "description",
+          "actions"
+        ]
+      }
+    }
+  },
+  "required": [
+    "schemaVersion",
+    "id",
+    "title",
+    "description",
+    "state",
+    "scene"
+  ],
+  "$defs": {
+    "expression": {
+      "anyOf": [
+        {
+          "type": [
+            "number",
+            "string",
+            "boolean",
+            "null"
+          ]
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "ref": {
+              "type": "string",
+              "pattern": "^(state|data|derived)\\.[a-zA-Z][a-zA-Z0-9_-]*$|^event\\.value$|^step$"
+            }
+          },
+          "required": [
+            "ref"
+          ]
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "op": {
+              "enum": [
+                "add",
+                "subtract",
+                "multiply",
+                "divide",
+                "eq",
+                "gt",
+                "lt",
+                "and",
+                "or",
+                "not",
+                "if",
+                "concat",
+                "get",
+                "at",
+                "length",
+                "round",
+                "gpu",
+                "gpuInfo",
+                "gpuGroup",
+                "ring",
+                "ringInfo",
+                "ringBlocks",
+                "quadratic"
+              ]
+            },
+            "args": {
+              "type": "array",
+              "maxItems": 32,
+              "items": {
+                "$ref": "#/$defs/expression"
+              }
+            }
+          },
+          "required": [
+            "op",
+            "args"
+          ]
+        }
+      ]
+    },
+    "action": {
+      "oneOf": [
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "action": {
+              "const": "set"
+            },
+            "target": {
+              "type": "string"
+            },
+            "value": {
+              "$ref": "#/$defs/expression"
+            }
+          },
+          "required": [
+            "action",
+            "target",
+            "value"
+          ]
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "action": {
+              "const": "toggle"
+            },
+            "target": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "action",
+            "target"
+          ]
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "action": {
+              "enum": [
+                "reset",
+                "next",
+                "previous",
+                "play",
+                "pause"
+              ]
+            }
+          },
+          "required": [
+            "action"
+          ]
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "action": {
+              "const": "goto"
+            },
+            "index": {
+              "type": "integer",
+              "minimum": 0
+            }
+          },
+          "required": [
+            "action",
+            "index"
+          ]
+        }
+      ]
+    },
+    "scene": {
+      "oneOf": [
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "id": {
+              "type": "string",
+              "pattern": "^[a-zA-Z][a-zA-Z0-9_-]*$"
+            },
+            "type": {
+              "const": "Workbench"
+            },
+            "props": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [],
+              "properties": {
+                "side": {
+                  "anyOf": [
+                    {
+                      "enum": [
+                        "start",
+                        "end"
+                      ]
+                    },
+                    {
+                      "type": "object",
+                      "additionalProperties": false,
+                      "required": [
+                        "bind"
+                      ],
+                      "properties": {
+                        "bind": {
+                          "$ref": "#/$defs/expression"
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            },
+            "visible": {
+              "$ref": "#/$defs/expression"
+            },
+            "children": {
+              "type": "array",
+              "maxItems": 2,
+              "minItems": 2,
+              "items": {
+                "$ref": "#/$defs/scene"
+              }
+            }
+          },
+          "required": [
+            "id",
+            "type",
+            "children"
+          ]
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "id": {
+              "type": "string",
+              "pattern": "^[a-zA-Z][a-zA-Z0-9_-]*$"
+            },
+            "type": {
+              "const": "DataBlocks"
+            },
+            "props": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [],
+              "properties": {
+                "items": {
+                  "anyOf": [
+                    {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "additionalProperties": false,
+                        "properties": {
+                          "label": {
+                            "type": "string"
+                          },
+                          "value": {
+                            "type": "number"
+                          },
+                          "detail": {
+                            "type": "string"
+                          },
+                          "complete": {
+                            "type": "boolean"
+                          }
+                        },
+                        "required": [
+                          "label",
+                          "value",
+                          "detail",
+                          "complete"
+                        ]
+                      }
+                    },
+                    {
+                      "type": "object",
+                      "additionalProperties": false,
+                      "required": [
+                        "bind"
+                      ],
+                      "properties": {
+                        "bind": {
+                          "$ref": "#/$defs/expression"
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            },
+            "visible": {
+              "$ref": "#/$defs/expression"
+            }
+          },
+          "required": [
+            "id",
+            "type"
+          ]
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "id": {
+              "type": "string",
+              "pattern": "^[a-zA-Z][a-zA-Z0-9_-]*$"
+            },
+            "type": {
+              "const": "ControlPanel"
+            },
+            "props": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [],
+              "properties": {
+                "label": {
+                  "anyOf": [
+                    {
+                      "type": "string"
+                    },
+                    {
+                      "type": "object",
+                      "additionalProperties": false,
+                      "required": [
+                        "bind"
+                      ],
+                      "properties": {
+                        "bind": {
+                          "$ref": "#/$defs/expression"
+                        }
+                      }
+                    }
+                  ]
+                },
+                "gap": {
+                  "anyOf": [
+                    {
+                      "type": "number"
+                    },
+                    {
+                      "type": "object",
+                      "additionalProperties": false,
+                      "required": [
+                        "bind"
+                      ],
+                      "properties": {
+                        "bind": {
+                          "$ref": "#/$defs/expression"
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            },
+            "visible": {
+              "$ref": "#/$defs/expression"
+            },
+            "children": {
+              "type": "array",
+              "maxItems": 256,
+              "items": {
+                "$ref": "#/$defs/scene"
+              }
+            }
+          },
+          "required": [
+            "id",
+            "type"
+          ]
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "id": {
+              "type": "string",
+              "pattern": "^[a-zA-Z][a-zA-Z0-9_-]*$"
+            },
+            "type": {
+              "const": "Container"
+            },
+            "props": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [],
+              "properties": {
+                "gap": {
+                  "anyOf": [
+                    {
+                      "type": "number"
+                    },
+                    {
+                      "type": "object",
+                      "additionalProperties": false,
+                      "required": [
+                        "bind"
+                      ],
+                      "properties": {
+                        "bind": {
+                          "$ref": "#/$defs/expression"
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            },
+            "visible": {
+              "$ref": "#/$defs/expression"
+            },
+            "children": {
+              "type": "array",
+              "maxItems": 256,
+              "items": {
+                "$ref": "#/$defs/scene"
+              }
+            }
+          },
+          "required": [
+            "id",
+            "type"
+          ]
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "id": {
+              "type": "string",
+              "pattern": "^[a-zA-Z][a-zA-Z0-9_-]*$"
+            },
+            "type": {
+              "const": "Row"
+            },
+            "props": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [],
+              "properties": {
+                "gap": {
+                  "anyOf": [
+                    {
+                      "type": "number"
+                    },
+                    {
+                      "type": "object",
+                      "additionalProperties": false,
+                      "required": [
+                        "bind"
+                      ],
+                      "properties": {
+                        "bind": {
+                          "$ref": "#/$defs/expression"
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            },
+            "visible": {
+              "$ref": "#/$defs/expression"
+            },
+            "children": {
+              "type": "array",
+              "maxItems": 256,
+              "items": {
+                "$ref": "#/$defs/scene"
+              }
+            }
+          },
+          "required": [
+            "id",
+            "type"
+          ]
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "id": {
+              "type": "string",
+              "pattern": "^[a-zA-Z][a-zA-Z0-9_-]*$"
+            },
+            "type": {
+              "const": "Column"
+            },
+            "props": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [],
+              "properties": {
+                "gap": {
+                  "anyOf": [
+                    {
+                      "type": "number"
+                    },
+                    {
+                      "type": "object",
+                      "additionalProperties": false,
+                      "required": [
+                        "bind"
+                      ],
+                      "properties": {
+                        "bind": {
+                          "$ref": "#/$defs/expression"
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            },
+            "visible": {
+              "$ref": "#/$defs/expression"
+            },
+            "children": {
+              "type": "array",
+              "maxItems": 256,
+              "items": {
+                "$ref": "#/$defs/scene"
+              }
+            }
+          },
+          "required": [
+            "id",
+            "type"
+          ]
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "id": {
+              "type": "string",
+              "pattern": "^[a-zA-Z][a-zA-Z0-9_-]*$"
+            },
+            "type": {
+              "const": "Grid"
+            },
+            "props": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [],
+              "properties": {
+                "columns": {
+                  "anyOf": [
+                    {
+                      "type": "number"
+                    },
+                    {
+                      "type": "object",
+                      "additionalProperties": false,
+                      "required": [
+                        "bind"
+                      ],
+                      "properties": {
+                        "bind": {
+                          "$ref": "#/$defs/expression"
+                        }
+                      }
+                    }
+                  ]
+                },
+                "gap": {
+                  "anyOf": [
+                    {
+                      "type": "number"
+                    },
+                    {
+                      "type": "object",
+                      "additionalProperties": false,
+                      "required": [
+                        "bind"
+                      ],
+                      "properties": {
+                        "bind": {
+                          "$ref": "#/$defs/expression"
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            },
+            "visible": {
+              "$ref": "#/$defs/expression"
+            },
+            "children": {
+              "type": "array",
+              "maxItems": 256,
+              "items": {
+                "$ref": "#/$defs/scene"
+              }
+            }
+          },
+          "required": [
+            "id",
+            "type"
+          ]
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "id": {
+              "type": "string",
+              "pattern": "^[a-zA-Z][a-zA-Z0-9_-]*$"
+            },
+            "type": {
+              "const": "Card"
+            },
+            "props": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [],
+              "properties": {
+                "title": {
+                  "anyOf": [
+                    {
+                      "type": "string"
+                    },
+                    {
+                      "type": "object",
+                      "additionalProperties": false,
+                      "required": [
+                        "bind"
+                      ],
+                      "properties": {
+                        "bind": {
+                          "$ref": "#/$defs/expression"
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            },
+            "visible": {
+              "$ref": "#/$defs/expression"
+            },
+            "children": {
+              "type": "array",
+              "maxItems": 256,
+              "items": {
+                "$ref": "#/$defs/scene"
+              }
+            }
+          },
+          "required": [
+            "id",
+            "type"
+          ]
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "id": {
+              "type": "string",
+              "pattern": "^[a-zA-Z][a-zA-Z0-9_-]*$"
+            },
+            "type": {
+              "const": "Tabs"
+            },
+            "props": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [],
+              "properties": {
+                "labels": {
+                  "anyOf": [
+                    {
+                      "type": "array",
+                      "items": {
+                        "type": "string"
+                      }
+                    },
+                    {
+                      "type": "object",
+                      "additionalProperties": false,
+                      "required": [
+                        "bind"
+                      ],
+                      "properties": {
+                        "bind": {
+                          "$ref": "#/$defs/expression"
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            },
+            "visible": {
+              "$ref": "#/$defs/expression"
+            },
+            "children": {
+              "type": "array",
+              "maxItems": 256,
+              "items": {
+                "$ref": "#/$defs/scene"
+              }
+            }
+          },
+          "required": [
+            "id",
+            "type"
+          ]
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "id": {
+              "type": "string",
+              "pattern": "^[a-zA-Z][a-zA-Z0-9_-]*$"
+            },
+            "type": {
+              "const": "Text"
+            },
+            "props": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [],
+              "properties": {
+                "text": {
+                  "anyOf": [
+                    {
+                      "type": "string"
+                    },
+                    {
+                      "type": "object",
+                      "additionalProperties": false,
+                      "required": [
+                        "bind"
+                      ],
+                      "properties": {
+                        "bind": {
+                          "$ref": "#/$defs/expression"
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            },
+            "visible": {
+              "$ref": "#/$defs/expression"
+            }
+          },
+          "required": [
+            "id",
+            "type"
+          ]
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "id": {
+              "type": "string",
+              "pattern": "^[a-zA-Z][a-zA-Z0-9_-]*$"
+            },
+            "type": {
+              "const": "Heading"
+            },
+            "props": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [],
+              "properties": {
+                "text": {
+                  "anyOf": [
+                    {
+                      "type": "string"
+                    },
+                    {
+                      "type": "object",
+                      "additionalProperties": false,
+                      "required": [
+                        "bind"
+                      ],
+                      "properties": {
+                        "bind": {
+                          "$ref": "#/$defs/expression"
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            },
+            "visible": {
+              "$ref": "#/$defs/expression"
+            }
+          },
+          "required": [
+            "id",
+            "type"
+          ]
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "id": {
+              "type": "string",
+              "pattern": "^[a-zA-Z][a-zA-Z0-9_-]*$"
+            },
+            "type": {
+              "const": "RichText"
+            },
+            "props": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [],
+              "properties": {
+                "tokens": {
+                  "anyOf": [
+                    {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "additionalProperties": false,
+                        "properties": {
+                          "id": {
+                            "type": "string"
+                          },
+                          "text": {
+                            "type": "string"
+                          },
+                          "label": {
+                            "type": "string"
+                          }
+                        },
+                        "required": [
+                          "id",
+                          "text"
+                        ]
+                      }
+                    },
+                    {
+                      "type": "object",
+                      "additionalProperties": false,
+                      "required": [
+                        "bind"
+                      ],
+                      "properties": {
+                        "bind": {
+                          "$ref": "#/$defs/expression"
+                        }
+                      }
+                    }
+                  ]
+                },
+                "selected": {
+                  "anyOf": [
+                    {
+                      "type": "string"
+                    },
+                    {
+                      "type": "object",
+                      "additionalProperties": false,
+                      "required": [
+                        "bind"
+                      ],
+                      "properties": {
+                        "bind": {
+                          "$ref": "#/$defs/expression"
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            },
+            "visible": {
+              "$ref": "#/$defs/expression"
+            },
+            "on": {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "select": {
+                  "type": "array",
+                  "maxItems": 16,
+                  "items": {
+                    "$ref": "#/$defs/action"
+                  }
+                }
+              },
+              "required": []
+            }
+          },
+          "required": [
+            "id",
+            "type"
+          ]
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "id": {
+              "type": "string",
+              "pattern": "^[a-zA-Z][a-zA-Z0-9_-]*$"
+            },
+            "type": {
+              "const": "Markdown"
+            },
+            "props": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [],
+              "properties": {
+                "text": {
+                  "anyOf": [
+                    {
+                      "type": "string"
+                    },
+                    {
+                      "type": "object",
+                      "additionalProperties": false,
+                      "required": [
+                        "bind"
+                      ],
+                      "properties": {
+                        "bind": {
+                          "$ref": "#/$defs/expression"
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            },
+            "visible": {
+              "$ref": "#/$defs/expression"
+            }
+          },
+          "required": [
+            "id",
+            "type"
+          ]
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "id": {
+              "type": "string",
+              "pattern": "^[a-zA-Z][a-zA-Z0-9_-]*$"
+            },
+            "type": {
+              "const": "CodeBlock"
+            },
+            "props": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [],
+              "properties": {
+                "code": {
+                  "anyOf": [
+                    {
+                      "type": "string"
+                    },
+                    {
+                      "type": "object",
+                      "additionalProperties": false,
+                      "required": [
+                        "bind"
+                      ],
+                      "properties": {
+                        "bind": {
+                          "$ref": "#/$defs/expression"
+                        }
+                      }
+                    }
+                  ]
+                },
+                "language": {
+                  "anyOf": [
+                    {
+                      "type": "string"
+                    },
+                    {
+                      "type": "object",
+                      "additionalProperties": false,
+                      "required": [
+                        "bind"
+                      ],
+                      "properties": {
+                        "bind": {
+                          "$ref": "#/$defs/expression"
+                        }
+                      }
+                    }
+                  ]
+                },
+                "highlight": {
+                  "anyOf": [
+                    {
+                      "type": "number"
+                    },
+                    {
+                      "type": "object",
+                      "additionalProperties": false,
+                      "required": [
+                        "bind"
+                      ],
+                      "properties": {
+                        "bind": {
+                          "$ref": "#/$defs/expression"
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            },
+            "visible": {
+              "$ref": "#/$defs/expression"
+            },
+            "on": {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "select": {
+                  "type": "array",
+                  "maxItems": 16,
+                  "items": {
+                    "$ref": "#/$defs/action"
+                  }
+                }
+              },
+              "required": []
+            }
+          },
+          "required": [
+            "id",
+            "type"
+          ]
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "id": {
+              "type": "string",
+              "pattern": "^[a-zA-Z][a-zA-Z0-9_-]*$"
+            },
+            "type": {
+              "const": "Callout"
+            },
+            "props": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [],
+              "properties": {
+                "text": {
+                  "anyOf": [
+                    {
+                      "type": "string"
+                    },
+                    {
+                      "type": "object",
+                      "additionalProperties": false,
+                      "required": [
+                        "bind"
+                      ],
+                      "properties": {
+                        "bind": {
+                          "$ref": "#/$defs/expression"
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            },
+            "visible": {
+              "$ref": "#/$defs/expression"
+            }
+          },
+          "required": [
+            "id",
+            "type"
+          ]
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "id": {
+              "type": "string",
+              "pattern": "^[a-zA-Z][a-zA-Z0-9_-]*$"
+            },
+            "type": {
+              "const": "Badge"
+            },
+            "props": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [],
+              "properties": {
+                "text": {
+                  "anyOf": [
+                    {
+                      "type": "string"
+                    },
+                    {
+                      "type": "object",
+                      "additionalProperties": false,
+                      "required": [
+                        "bind"
+                      ],
+                      "properties": {
+                        "bind": {
+                          "$ref": "#/$defs/expression"
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            },
+            "visible": {
+              "$ref": "#/$defs/expression"
+            }
+          },
+          "required": [
+            "id",
+            "type"
+          ]
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "id": {
+              "type": "string",
+              "pattern": "^[a-zA-Z][a-zA-Z0-9_-]*$"
+            },
+            "type": {
+              "const": "Table"
+            },
+            "props": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [],
+              "properties": {
+                "columns": {
+                  "anyOf": [
+                    {
+                      "type": "array"
+                    },
+                    {
+                      "type": "object",
+                      "additionalProperties": false,
+                      "required": [
+                        "bind"
+                      ],
+                      "properties": {
+                        "bind": {
+                          "$ref": "#/$defs/expression"
+                        }
+                      }
+                    }
+                  ]
+                },
+                "rows": {
+                  "anyOf": [
+                    {
+                      "type": "array",
+                      "items": {
+                        "type": "array"
+                      }
+                    },
+                    {
+                      "type": "object",
+                      "additionalProperties": false,
+                      "required": [
+                        "bind"
+                      ],
+                      "properties": {
+                        "bind": {
+                          "$ref": "#/$defs/expression"
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            },
+            "visible": {
+              "$ref": "#/$defs/expression"
+            }
+          },
+          "required": [
+            "id",
+            "type"
+          ]
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "id": {
+              "type": "string",
+              "pattern": "^[a-zA-Z][a-zA-Z0-9_-]*$"
+            },
+            "type": {
+              "const": "Formula"
+            },
+            "props": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [],
+              "properties": {
+                "latex": {
+                  "anyOf": [
+                    {
+                      "type": "string"
+                    },
+                    {
+                      "type": "object",
+                      "additionalProperties": false,
+                      "required": [
+                        "bind"
+                      ],
+                      "properties": {
+                        "bind": {
+                          "$ref": "#/$defs/expression"
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            },
+            "visible": {
+              "$ref": "#/$defs/expression"
+            }
+          },
+          "required": [
+            "id",
+            "type"
+          ]
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "id": {
+              "type": "string",
+              "pattern": "^[a-zA-Z][a-zA-Z0-9_-]*$"
+            },
+            "type": {
+              "const": "Button"
+            },
+            "props": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "label"
+              ],
+              "properties": {
+                "label": {
+                  "anyOf": [
+                    {
+                      "type": "string",
+                      "minLength": 1
+                    },
+                    {
+                      "type": "object",
+                      "additionalProperties": false,
+                      "required": [
+                        "bind"
+                      ],
+                      "properties": {
+                        "bind": {
+                          "$ref": "#/$defs/expression"
+                        }
+                      }
+                    }
+                  ]
+                },
+                "disabled": {
+                  "anyOf": [
+                    {
+                      "type": "boolean"
+                    },
+                    {
+                      "type": "object",
+                      "additionalProperties": false,
+                      "required": [
+                        "bind"
+                      ],
+                      "properties": {
+                        "bind": {
+                          "$ref": "#/$defs/expression"
+                        }
+                      }
+                    }
+                  ]
+                },
+                "primary": {
+                  "anyOf": [
+                    {
+                      "type": "boolean"
+                    },
+                    {
+                      "type": "object",
+                      "additionalProperties": false,
+                      "required": [
+                        "bind"
+                      ],
+                      "properties": {
+                        "bind": {
+                          "$ref": "#/$defs/expression"
+                        }
+                      }
+                    }
+                  ]
+                },
+                "variant": {
+                  "anyOf": [
+                    {
+                      "enum": [
+                        "primary",
+                        "secondary",
+                        "ghost"
+                      ]
+                    },
+                    {
+                      "type": "object",
+                      "additionalProperties": false,
+                      "required": [
+                        "bind"
+                      ],
+                      "properties": {
+                        "bind": {
+                          "$ref": "#/$defs/expression"
+                        }
+                      }
+                    }
+                  ]
+                },
+                "size": {
+                  "anyOf": [
+                    {
+                      "enum": [
+                        "small",
+                        "regular"
+                      ]
+                    },
+                    {
+                      "type": "object",
+                      "additionalProperties": false,
+                      "required": [
+                        "bind"
+                      ],
+                      "properties": {
+                        "bind": {
+                          "$ref": "#/$defs/expression"
+                        }
+                      }
+                    }
+                  ]
+                },
+                "busy": {
+                  "anyOf": [
+                    {
+                      "type": "boolean"
+                    },
+                    {
+                      "type": "object",
+                      "additionalProperties": false,
+                      "required": [
+                        "bind"
+                      ],
+                      "properties": {
+                        "bind": {
+                          "$ref": "#/$defs/expression"
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            },
+            "visible": {
+              "$ref": "#/$defs/expression"
+            },
+            "on": {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "click": {
+                  "type": "array",
+                  "maxItems": 16,
+                  "items": {
+                    "$ref": "#/$defs/action"
+                  }
+                }
+              },
+              "required": []
+            }
+          },
+          "required": [
+            "id",
+            "type",
+            "props"
+          ]
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "id": {
+              "type": "string",
+              "pattern": "^[a-zA-Z][a-zA-Z0-9_-]*$"
+            },
+            "type": {
+              "const": "Slider"
+            },
+            "props": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "label",
+                "value"
+              ],
+              "properties": {
+                "label": {
+                  "anyOf": [
+                    {
+                      "type": "string",
+                      "minLength": 1
+                    },
+                    {
+                      "type": "object",
+                      "additionalProperties": false,
+                      "required": [
+                        "bind"
+                      ],
+                      "properties": {
+                        "bind": {
+                          "$ref": "#/$defs/expression"
+                        }
+                      }
+                    }
+                  ]
+                },
+                "value": {
+                  "anyOf": [
+                    {
+                      "type": "number"
+                    },
+                    {
+                      "type": "object",
+                      "additionalProperties": false,
+                      "required": [
+                        "bind"
+                      ],
+                      "properties": {
+                        "bind": {
+                          "$ref": "#/$defs/expression"
+                        }
+                      }
+                    }
+                  ]
+                },
+                "min": {
+                  "anyOf": [
+                    {
+                      "type": "number"
+                    },
+                    {
+                      "type": "object",
+                      "additionalProperties": false,
+                      "required": [
+                        "bind"
+                      ],
+                      "properties": {
+                        "bind": {
+                          "$ref": "#/$defs/expression"
+                        }
+                      }
+                    }
+                  ]
+                },
+                "max": {
+                  "anyOf": [
+                    {
+                      "type": "number"
+                    },
+                    {
+                      "type": "object",
+                      "additionalProperties": false,
+                      "required": [
+                        "bind"
+                      ],
+                      "properties": {
+                        "bind": {
+                          "$ref": "#/$defs/expression"
+                        }
+                      }
+                    }
+                  ]
+                },
+                "step": {
+                  "anyOf": [
+                    {
+                      "type": "number"
+                    },
+                    {
+                      "type": "object",
+                      "additionalProperties": false,
+                      "required": [
+                        "bind"
+                      ],
+                      "properties": {
+                        "bind": {
+                          "$ref": "#/$defs/expression"
+                        }
+                      }
+                    }
+                  ]
+                },
+                "disabled": {
+                  "anyOf": [
+                    {
+                      "type": "boolean"
+                    },
+                    {
+                      "type": "object",
+                      "additionalProperties": false,
+                      "required": [
+                        "bind"
+                      ],
+                      "properties": {
+                        "bind": {
+                          "$ref": "#/$defs/expression"
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            },
+            "visible": {
+              "$ref": "#/$defs/expression"
+            },
+            "on": {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "change": {
+                  "type": "array",
+                  "maxItems": 16,
+                  "items": {
+                    "$ref": "#/$defs/action"
+                  }
+                }
+              },
+              "required": []
+            }
+          },
+          "required": [
+            "id",
+            "type",
+            "props"
+          ]
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "id": {
+              "type": "string",
+              "pattern": "^[a-zA-Z][a-zA-Z0-9_-]*$"
+            },
+            "type": {
+              "const": "NumberInput"
+            },
+            "props": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "label",
+                "value"
+              ],
+              "properties": {
+                "label": {
+                  "anyOf": [
+                    {
+                      "type": "string",
+                      "minLength": 1
+                    },
+                    {
+                      "type": "object",
+                      "additionalProperties": false,
+                      "required": [
+                        "bind"
+                      ],
+                      "properties": {
+                        "bind": {
+                          "$ref": "#/$defs/expression"
+                        }
+                      }
+                    }
+                  ]
+                },
+                "value": {
+                  "anyOf": [
+                    {
+                      "type": "number"
+                    },
+                    {
+                      "type": "object",
+                      "additionalProperties": false,
+                      "required": [
+                        "bind"
+                      ],
+                      "properties": {
+                        "bind": {
+                          "$ref": "#/$defs/expression"
+                        }
+                      }
+                    }
+                  ]
+                },
+                "min": {
+                  "anyOf": [
+                    {
+                      "type": "number"
+                    },
+                    {
+                      "type": "object",
+                      "additionalProperties": false,
+                      "required": [
+                        "bind"
+                      ],
+                      "properties": {
+                        "bind": {
+                          "$ref": "#/$defs/expression"
+                        }
+                      }
+                    }
+                  ]
+                },
+                "max": {
+                  "anyOf": [
+                    {
+                      "type": "number"
+                    },
+                    {
+                      "type": "object",
+                      "additionalProperties": false,
+                      "required": [
+                        "bind"
+                      ],
+                      "properties": {
+                        "bind": {
+                          "$ref": "#/$defs/expression"
+                        }
+                      }
+                    }
+                  ]
+                },
+                "step": {
+                  "anyOf": [
+                    {
+                      "type": "number"
+                    },
+                    {
+                      "type": "object",
+                      "additionalProperties": false,
+                      "required": [
+                        "bind"
+                      ],
+                      "properties": {
+                        "bind": {
+                          "$ref": "#/$defs/expression"
+                        }
+                      }
+                    }
+                  ]
+                },
+                "disabled": {
+                  "anyOf": [
+                    {
+                      "type": "boolean"
+                    },
+                    {
+                      "type": "object",
+                      "additionalProperties": false,
+                      "required": [
+                        "bind"
+                      ],
+                      "properties": {
+                        "bind": {
+                          "$ref": "#/$defs/expression"
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            },
+            "visible": {
+              "$ref": "#/$defs/expression"
+            },
+            "on": {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "change": {
+                  "type": "array",
+                  "maxItems": 16,
+                  "items": {
+                    "$ref": "#/$defs/action"
+                  }
+                }
+              },
+              "required": []
+            }
+          },
+          "required": [
+            "id",
+            "type",
+            "props"
+          ]
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "id": {
+              "type": "string",
+              "pattern": "^[a-zA-Z][a-zA-Z0-9_-]*$"
+            },
+            "type": {
+              "const": "Select"
+            },
+            "props": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "label",
+                "value"
+              ],
+              "properties": {
+                "label": {
+                  "anyOf": [
+                    {
+                      "type": "string",
+                      "minLength": 1
+                    },
+                    {
+                      "type": "object",
+                      "additionalProperties": false,
+                      "required": [
+                        "bind"
+                      ],
+                      "properties": {
+                        "bind": {
+                          "$ref": "#/$defs/expression"
+                        }
+                      }
+                    }
+                  ]
+                },
+                "value": {
+                  "anyOf": [
+                    {
+                      "type": "string"
+                    },
+                    {
+                      "type": "object",
+                      "additionalProperties": false,
+                      "required": [
+                        "bind"
+                      ],
+                      "properties": {
+                        "bind": {
+                          "$ref": "#/$defs/expression"
+                        }
+                      }
+                    }
+                  ]
+                },
+                "options": {
+                  "anyOf": [
+                    {
+                      "type": "array",
+                      "items": {
+                        "type": "string"
+                      }
+                    },
+                    {
+                      "type": "object",
+                      "additionalProperties": false,
+                      "required": [
+                        "bind"
+                      ],
+                      "properties": {
+                        "bind": {
+                          "$ref": "#/$defs/expression"
+                        }
+                      }
+                    }
+                  ]
+                },
+                "disabled": {
+                  "anyOf": [
+                    {
+                      "type": "boolean"
+                    },
+                    {
+                      "type": "object",
+                      "additionalProperties": false,
+                      "required": [
+                        "bind"
+                      ],
+                      "properties": {
+                        "bind": {
+                          "$ref": "#/$defs/expression"
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            },
+            "visible": {
+              "$ref": "#/$defs/expression"
+            },
+            "on": {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "change": {
+                  "type": "array",
+                  "maxItems": 16,
+                  "items": {
+                    "$ref": "#/$defs/action"
+                  }
+                }
+              },
+              "required": []
+            }
+          },
+          "required": [
+            "id",
+            "type",
+            "props"
+          ]
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "id": {
+              "type": "string",
+              "pattern": "^[a-zA-Z][a-zA-Z0-9_-]*$"
+            },
+            "type": {
+              "const": "Toggle"
+            },
+            "props": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "label",
+                "value"
+              ],
+              "properties": {
+                "label": {
+                  "anyOf": [
+                    {
+                      "type": "string",
+                      "minLength": 1
+                    },
+                    {
+                      "type": "object",
+                      "additionalProperties": false,
+                      "required": [
+                        "bind"
+                      ],
+                      "properties": {
+                        "bind": {
+                          "$ref": "#/$defs/expression"
+                        }
+                      }
+                    }
+                  ]
+                },
+                "value": {
+                  "anyOf": [
+                    {
+                      "type": "boolean"
+                    },
+                    {
+                      "type": "object",
+                      "additionalProperties": false,
+                      "required": [
+                        "bind"
+                      ],
+                      "properties": {
+                        "bind": {
+                          "$ref": "#/$defs/expression"
+                        }
+                      }
+                    }
+                  ]
+                },
+                "disabled": {
+                  "anyOf": [
+                    {
+                      "type": "boolean"
+                    },
+                    {
+                      "type": "object",
+                      "additionalProperties": false,
+                      "required": [
+                        "bind"
+                      ],
+                      "properties": {
+                        "bind": {
+                          "$ref": "#/$defs/expression"
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            },
+            "visible": {
+              "$ref": "#/$defs/expression"
+            },
+            "on": {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "change": {
+                  "type": "array",
+                  "maxItems": 16,
+                  "items": {
+                    "$ref": "#/$defs/action"
+                  }
+                }
+              },
+              "required": []
+            }
+          },
+          "required": [
+            "id",
+            "type",
+            "props"
+          ]
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "id": {
+              "type": "string",
+              "pattern": "^[a-zA-Z][a-zA-Z0-9_-]*$"
+            },
+            "type": {
+              "const": "Graph"
+            },
+            "props": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [],
+              "properties": {
+                "nodes": {
+                  "anyOf": [
+                    {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "additionalProperties": false,
+                        "properties": {
+                          "id": {
+                            "type": "string"
+                          },
+                          "label": {
+                            "type": "string"
+                          },
+                          "group": {
+                            "type": "string"
+                          },
+                          "detail": {
+                            "type": "string"
+                          },
+                          "disabled": {
+                            "type": "boolean"
+                          },
+                          "status": {
+                            "enum": [
+                              "idle",
+                              "running",
+                              "complete",
+                              "error"
+                            ]
+                          },
+                          "x": {
+                            "type": "number",
+                            "minimum": 0,
+                            "maximum": 1
+                          },
+                          "y": {
+                            "type": "number",
+                            "minimum": 0,
+                            "maximum": 1
+                          }
+                        },
+                        "required": [
+                          "id",
+                          "label"
+                        ]
+                      }
+                    },
+                    {
+                      "type": "object",
+                      "additionalProperties": false,
+                      "required": [
+                        "bind"
+                      ],
+                      "properties": {
+                        "bind": {
+                          "$ref": "#/$defs/expression"
+                        }
+                      }
+                    }
+                  ]
+                },
+                "edges": {
+                  "anyOf": [
+                    {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "additionalProperties": false,
+                        "properties": {
+                          "from": {
+                            "type": "string"
+                          },
+                          "to": {
+                            "type": "string"
+                          },
+                          "label": {
+                            "type": "string"
+                          },
+                          "active": {
+                            "type": "boolean"
+                          }
+                        },
+                        "required": [
+                          "from",
+                          "to"
+                        ]
+                      }
+                    },
+                    {
+                      "type": "object",
+                      "additionalProperties": false,
+                      "required": [
+                        "bind"
+                      ],
+                      "properties": {
+                        "bind": {
+                          "$ref": "#/$defs/expression"
+                        }
+                      }
+                    }
+                  ]
+                },
+                "layout": {
+                  "anyOf": [
+                    {
+                      "enum": [
+                        "grid",
+                        "ring",
+                        "flow",
+                        "positioned"
+                      ]
+                    },
+                    {
+                      "type": "object",
+                      "additionalProperties": false,
+                      "required": [
+                        "bind"
+                      ],
+                      "properties": {
+                        "bind": {
+                          "$ref": "#/$defs/expression"
+                        }
+                      }
+                    }
+                  ]
+                },
+                "selected": {
+                  "anyOf": [
+                    {
+                      "type": "string"
+                    },
+                    {
+                      "type": "object",
+                      "additionalProperties": false,
+                      "required": [
+                        "bind"
+                      ],
+                      "properties": {
+                        "bind": {
+                          "$ref": "#/$defs/expression"
+                        }
+                      }
+                    }
+                  ]
+                },
+                "active": {
+                  "anyOf": [
+                    {
+                      "type": "array",
+                      "items": {
+                        "type": "string"
+                      }
+                    },
+                    {
+                      "type": "object",
+                      "additionalProperties": false,
+                      "required": [
+                        "bind"
+                      ],
+                      "properties": {
+                        "bind": {
+                          "$ref": "#/$defs/expression"
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            },
+            "visible": {
+              "$ref": "#/$defs/expression"
+            },
+            "children": {
+              "type": "array",
+              "maxItems": 256,
+              "items": {
+                "$ref": "#/$defs/scene"
+              }
+            },
+            "on": {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "select": {
+                  "type": "array",
+                  "maxItems": 16,
+                  "items": {
+                    "$ref": "#/$defs/action"
+                  }
+                }
+              },
+              "required": []
+            }
+          },
+          "required": [
+            "id",
+            "type"
+          ]
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "id": {
+              "type": "string",
+              "pattern": "^[a-zA-Z][a-zA-Z0-9_-]*$"
+            },
+            "type": {
+              "const": "Node"
+            },
+            "props": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [],
+              "properties": {
+                "label": {
+                  "anyOf": [
+                    {
+                      "type": "string"
+                    },
+                    {
+                      "type": "object",
+                      "additionalProperties": false,
+                      "required": [
+                        "bind"
+                      ],
+                      "properties": {
+                        "bind": {
+                          "$ref": "#/$defs/expression"
+                        }
+                      }
+                    }
+                  ]
+                },
+                "detail": {
+                  "anyOf": [
+                    {
+                      "type": "string"
+                    },
+                    {
+                      "type": "object",
+                      "additionalProperties": false,
+                      "required": [
+                        "bind"
+                      ],
+                      "properties": {
+                        "bind": {
+                          "$ref": "#/$defs/expression"
+                        }
+                      }
+                    }
+                  ]
+                },
+                "disabled": {
+                  "anyOf": [
+                    {
+                      "type": "boolean"
+                    },
+                    {
+                      "type": "object",
+                      "additionalProperties": false,
+                      "required": [
+                        "bind"
+                      ],
+                      "properties": {
+                        "bind": {
+                          "$ref": "#/$defs/expression"
+                        }
+                      }
+                    }
+                  ]
+                },
+                "status": {
+                  "anyOf": [
+                    {
+                      "enum": [
+                        "idle",
+                        "running",
+                        "complete",
+                        "error"
+                      ]
+                    },
+                    {
+                      "type": "object",
+                      "additionalProperties": false,
+                      "required": [
+                        "bind"
+                      ],
+                      "properties": {
+                        "bind": {
+                          "$ref": "#/$defs/expression"
+                        }
+                      }
+                    }
+                  ]
+                },
+                "x": {
+                  "anyOf": [
+                    {
+                      "type": "number",
+                      "minimum": 0,
+                      "maximum": 1
+                    },
+                    {
+                      "type": "object",
+                      "additionalProperties": false,
+                      "required": [
+                        "bind"
+                      ],
+                      "properties": {
+                        "bind": {
+                          "$ref": "#/$defs/expression"
+                        }
+                      }
+                    }
+                  ]
+                },
+                "y": {
+                  "anyOf": [
+                    {
+                      "type": "number",
+                      "minimum": 0,
+                      "maximum": 1
+                    },
+                    {
+                      "type": "object",
+                      "additionalProperties": false,
+                      "required": [
+                        "bind"
+                      ],
+                      "properties": {
+                        "bind": {
+                          "$ref": "#/$defs/expression"
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            },
+            "visible": {
+              "$ref": "#/$defs/expression"
+            },
+            "on": {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "select": {
+                  "type": "array",
+                  "maxItems": 16,
+                  "items": {
+                    "$ref": "#/$defs/action"
+                  }
+                }
+              },
+              "required": []
+            }
+          },
+          "required": [
+            "id",
+            "type"
+          ]
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "id": {
+              "type": "string",
+              "pattern": "^[a-zA-Z][a-zA-Z0-9_-]*$"
+            },
+            "type": {
+              "const": "Edge"
+            },
+            "props": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [],
+              "properties": {
+                "from": {
+                  "anyOf": [
+                    {
+                      "type": "string"
+                    },
+                    {
+                      "type": "object",
+                      "additionalProperties": false,
+                      "required": [
+                        "bind"
+                      ],
+                      "properties": {
+                        "bind": {
+                          "$ref": "#/$defs/expression"
+                        }
+                      }
+                    }
+                  ]
+                },
+                "to": {
+                  "anyOf": [
+                    {
+                      "type": "string"
+                    },
+                    {
+                      "type": "object",
+                      "additionalProperties": false,
+                      "required": [
+                        "bind"
+                      ],
+                      "properties": {
+                        "bind": {
+                          "$ref": "#/$defs/expression"
+                        }
+                      }
+                    }
+                  ]
+                },
+                "label": {
+                  "anyOf": [
+                    {
+                      "type": "string"
+                    },
+                    {
+                      "type": "object",
+                      "additionalProperties": false,
+                      "required": [
+                        "bind"
+                      ],
+                      "properties": {
+                        "bind": {
+                          "$ref": "#/$defs/expression"
+                        }
+                      }
+                    }
+                  ]
+                },
+                "active": {
+                  "anyOf": [
+                    {
+                      "type": "boolean"
+                    },
+                    {
+                      "type": "object",
+                      "additionalProperties": false,
+                      "required": [
+                        "bind"
+                      ],
+                      "properties": {
+                        "bind": {
+                          "$ref": "#/$defs/expression"
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            },
+            "visible": {
+              "$ref": "#/$defs/expression"
+            }
+          },
+          "required": [
+            "id",
+            "type"
+          ]
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "id": {
+              "type": "string",
+              "pattern": "^[a-zA-Z][a-zA-Z0-9_-]*$"
+            },
+            "type": {
+              "const": "Group"
+            },
+            "props": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [],
+              "properties": {
+                "label": {
+                  "anyOf": [
+                    {
+                      "type": "string"
+                    },
+                    {
+                      "type": "object",
+                      "additionalProperties": false,
+                      "required": [
+                        "bind"
+                      ],
+                      "properties": {
+                        "bind": {
+                          "$ref": "#/$defs/expression"
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            },
+            "visible": {
+              "$ref": "#/$defs/expression"
+            },
+            "children": {
+              "type": "array",
+              "maxItems": 256,
+              "items": {
+                "$ref": "#/$defs/scene"
+              }
+            }
+          },
+          "required": [
+            "id",
+            "type"
+          ]
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "id": {
+              "type": "string",
+              "pattern": "^[a-zA-Z][a-zA-Z0-9_-]*$"
+            },
+            "type": {
+              "const": "Chart"
+            },
+            "props": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [],
+              "properties": {
+                "kind": {
+                  "anyOf": [
+                    {
+                      "enum": [
+                        "line",
+                        "bar",
+                        "scatter"
+                      ]
+                    },
+                    {
+                      "type": "object",
+                      "additionalProperties": false,
+                      "required": [
+                        "bind"
+                      ],
+                      "properties": {
+                        "bind": {
+                          "$ref": "#/$defs/expression"
+                        }
+                      }
+                    }
+                  ]
+                },
+                "points": {
+                  "anyOf": [
+                    {
+                      "type": "array",
+                      "items": {
+                        "type": "array",
+                        "items": {
+                          "type": "number"
+                        },
+                        "minItems": 2,
+                        "maxItems": 2
+                      }
+                    },
+                    {
+                      "type": "object",
+                      "additionalProperties": false,
+                      "required": [
+                        "bind"
+                      ],
+                      "properties": {
+                        "bind": {
+                          "$ref": "#/$defs/expression"
+                        }
+                      }
+                    }
+                  ]
+                },
+                "label": {
+                  "anyOf": [
+                    {
+                      "type": "string"
+                    },
+                    {
+                      "type": "object",
+                      "additionalProperties": false,
+                      "required": [
+                        "bind"
+                      ],
+                      "properties": {
+                        "bind": {
+                          "$ref": "#/$defs/expression"
+                        }
+                      }
+                    }
+                  ]
+                },
+                "xDomain": {
+                  "anyOf": [
+                    {
+                      "type": "array",
+                      "items": {
+                        "type": "number"
+                      },
+                      "minItems": 2,
+                      "maxItems": 2
+                    },
+                    {
+                      "type": "object",
+                      "additionalProperties": false,
+                      "required": [
+                        "bind"
+                      ],
+                      "properties": {
+                        "bind": {
+                          "$ref": "#/$defs/expression"
+                        }
+                      }
+                    }
+                  ]
+                },
+                "yDomain": {
+                  "anyOf": [
+                    {
+                      "type": "array",
+                      "items": {
+                        "type": "number"
+                      },
+                      "minItems": 2,
+                      "maxItems": 2
+                    },
+                    {
+                      "type": "object",
+                      "additionalProperties": false,
+                      "required": [
+                        "bind"
+                      ],
+                      "properties": {
+                        "bind": {
+                          "$ref": "#/$defs/expression"
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            },
+            "visible": {
+              "$ref": "#/$defs/expression"
+            },
+            "on": {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "select": {
+                  "type": "array",
+                  "maxItems": 16,
+                  "items": {
+                    "$ref": "#/$defs/action"
+                  }
+                }
+              },
+              "required": []
+            }
+          },
+          "required": [
+            "id",
+            "type"
+          ]
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "id": {
+              "type": "string",
+              "pattern": "^[a-zA-Z][a-zA-Z0-9_-]*$"
+            },
+            "type": {
+              "const": "Inspector"
+            },
+            "props": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [],
+              "properties": {
+                "text": {
+                  "anyOf": [
+                    {
+                      "type": "string"
+                    },
+                    {
+                      "type": "object",
+                      "additionalProperties": false,
+                      "required": [
+                        "bind"
+                      ],
+                      "properties": {
+                        "bind": {
+                          "$ref": "#/$defs/expression"
+                        }
+                      }
+                    }
+                  ]
+                },
+                "title": {
+                  "anyOf": [
+                    {
+                      "type": "string"
+                    },
+                    {
+                      "type": "object",
+                      "additionalProperties": false,
+                      "required": [
+                        "bind"
+                      ],
+                      "properties": {
+                        "bind": {
+                          "$ref": "#/$defs/expression"
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            },
+            "visible": {
+              "$ref": "#/$defs/expression"
+            }
+          },
+          "required": [
+            "id",
+            "type"
+          ]
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "id": {
+              "type": "string",
+              "pattern": "^[a-zA-Z][a-zA-Z0-9_-]*$"
+            },
+            "type": {
+              "const": "ExplanationPanel"
+            },
+            "props": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [],
+              "properties": {
+                "text": {
+                  "anyOf": [
+                    {
+                      "type": "string"
+                    },
+                    {
+                      "type": "object",
+                      "additionalProperties": false,
+                      "required": [
+                        "bind"
+                      ],
+                      "properties": {
+                        "bind": {
+                          "$ref": "#/$defs/expression"
+                        }
+                      }
+                    }
+                  ]
+                },
+                "title": {
+                  "anyOf": [
+                    {
+                      "type": "string"
+                    },
+                    {
+                      "type": "object",
+                      "additionalProperties": false,
+                      "required": [
+                        "bind"
+                      ],
+                      "properties": {
+                        "bind": {
+                          "$ref": "#/$defs/expression"
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            },
+            "visible": {
+              "$ref": "#/$defs/expression"
+            }
+          },
+          "required": [
+            "id",
+            "type"
+          ]
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "id": {
+              "type": "string",
+              "pattern": "^[a-zA-Z][a-zA-Z0-9_-]*$"
+            },
+            "type": {
+              "const": "Stepper"
+            },
+            "props": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [],
+              "properties": {}
+            },
+            "visible": {
+              "$ref": "#/$defs/expression"
+            }
+          },
+          "required": [
+            "id",
+            "type"
+          ]
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "id": {
+              "type": "string",
+              "pattern": "^[a-zA-Z][a-zA-Z0-9_-]*$"
+            },
+            "type": {
+              "const": "PlaybackControl"
+            },
+            "props": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [],
+              "properties": {}
+            },
+            "visible": {
+              "$ref": "#/$defs/expression"
+            }
+          },
+          "required": [
+            "id",
+            "type"
+          ]
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "id": {
+              "type": "string",
+              "pattern": "^[a-zA-Z][a-zA-Z0-9_-]*$"
+            },
+            "type": {
+              "const": "Legend"
+            },
+            "props": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [],
+              "properties": {
+                "items": {
+                  "anyOf": [
+                    {
+                      "type": "array",
+                      "items": {
+                        "type": "string"
+                      }
+                    },
+                    {
+                      "type": "object",
+                      "additionalProperties": false,
+                      "required": [
+                        "bind"
+                      ],
+                      "properties": {
+                        "bind": {
+                          "$ref": "#/$defs/expression"
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            },
+            "visible": {
+              "$ref": "#/$defs/expression"
+            }
+          },
+          "required": [
+            "id",
+            "type"
+          ]
+        }
+      ]
+    }
+  }
+}

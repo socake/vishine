@@ -105,3 +105,7 @@ stage: 入门
 本地看教程：主题根目录运行 `sh scripts/theme-dev.sh serve tutorialSite`，打开日志给出的地址并进入“组件与维护”。Hugo 不在 PATH 时设置 HUGO_BIN。线上教程需发布后才会包含本轮新增内容。
 
 维护者验证：运行 `python3 scripts/check-component-docs.py`（或 `--hugo /path/to/hugo`），检查 shortcode 目录覆盖，并将教程中实际显示的四组源码放入独立宿主构建，防止文档能展示但复制后失效。
+
+## 交互式知识讲解
+
+`interactive`：单标签，`src` 必填，引用文章资源或 assets 中的 YAML/JSON。`params` 可选，为仅覆盖已声明状态初值的 JSON 对象。能力、限制、构建步骤与降级见 [交互引擎](interactive/README.md)，教程 17 提供源码和六个实际案例。

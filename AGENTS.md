@@ -50,7 +50,7 @@
 
 ## 启动与检查
 
-当前 CI 使用 Hugo **0.163.3 extended**，建议用同版本；`theme.toml` 声明的最低版本不等于已经完整回归过所有中间版本。需要 Git；测试另需 Python 3 和 Node.js，无需 npm 安装。
+当前 CI 使用 Hugo **0.163.3 extended**，建议用同版本；`theme.toml` 声明的最低版本不等于已经完整回归过所有中间版本。需要 Git；测试另需 Python 3 和 Node.js；交互引擎构建需安装 npm 依赖，完整检查会自动执行 npm ci。
 
 从主题根目录运行：
 
@@ -108,3 +108,25 @@ git diff --check
 单板块、两板块与五板块均使用主题首页；配置接口见 `docs/USAGE.md` 的“首页与品牌配置”，可运行最小宿主在 `exampleSite/presets/internal/`。优先使用 homeStats、recentSections、heroLinks、brand、customCSS、footerTagline，不复制 index/header/cover/head 模板。taxonomy URL 必须来自 Hugo term 页面；板块颜色不得决定卡片宽度。新增接口同时维护教程 13 与最小宿主回归。
 
 首页 `homeCardLayout` 根据内容密度选择标准卡或紧凑行；显式 standard 可保留旧组合。自动封面默认用于列表和文章开头，短标识取 coverLabel／首个标签等，完整标题只由 HTML 呈现；cover.autoArticle=false 可单独关闭正文自动横幅，作者封面仍显示。调整这两项时同时检查默认与关闭模式，不通过裁切图片或修改文章标题掩盖长文本问题。网格、表面投影和板块色承担空间层次与视觉重点，不以全面降低对比度代替外观优化。
+
+## 交互式知识讲解引擎
+
+### 什么时候使用
+
+用户提供文章提纲或材料时，Agent应主动判断交互是否有助于理解，不必等用户点名组件；保留用户的章节、观点和事实，不为展示组件强行添加图解。
+
+- **参数实验**：调整数值后观察公式、统计或图形变化，例如并行度、批量大小、函数参数。使用输入控件、派生状态和结果组件。
+- **架构／关系探索**：点击节点查看职责、分组、连接或详情，例如GPU通信组、Kubernetes组件。使用Graph与Inspector等联动。
+- **过程讲解**：逐步查看状态、数据流和结果，例如TCP握手、Ring AllReduce。使用steps、PlaybackControl／Stepper与同步说明。
+- **文本／代码解释**：点击词元或代码行联动说明，使用RichText／CodeBlock与解释面板；不执行文章中的代码。
+- **无需交互时**：普通说明用Markdown，静态关系／流程优先Mermaid，已有可信HTML图解用html-embed。不要把每篇文章或每个小节都改成交互组件。
+
+### 如何落到文章
+
+先读[Agent使用指南](docs/interactive/AGENT-GUIDE.md)与[场景索引](docs/interactive/recipes.json)，再核对已注册组件、算子和Schema。文章特有YAML／JSON放在文章包的`diagrams/`，用`{{< interactive src="diagrams/example.yaml" >}}`嵌入；输入和动作放ControlPanel，图形与解释作为呈现区。普通组合无需写React，公共能力缺口在主题中扩展，不在文章里塞script／style或任意JS表达式。
+
+示例只是起点：当前Ring课程固定4个Rank，Kubernetes流程为简化教学，不能只改标题就宣称支持新的模拟。修改知识逻辑后，校验配置并在真实文章验证具体操作→结果、重置、手机宽度和主题切换；Schema通过不等于知识正确。能力不足时明确说明，不伪造支持。
+
+### 实现与维护入口
+
+`interactive` 的实现位于 `packages/knowledge-engine`，开发前读该目录 `AGENTS.md`；作者入口为 `docs/interactive/README.md`、`AGENT-GUIDE.md`。注册表和 Schema 在包内 `schemas/`，由协议源码生成。涉及 shortcode、示例配置、教程或 schema 的变更均遵循该协议，即使文件不在包目录。主题检查新增 Node 依赖安装与引擎构建；产物仍被忽略，不提交。首版能力与限制以 `docs/interactive/ACCEPTANCE.md` 为准。

@@ -516,3 +516,15 @@ other = "View original {{ .Provider }} payment QR code"
 
 [sponsor_mobile_hint]
 other = "On mobile, open and save the original image, then scan it in the matching app."
+
+[interactive_loading]
+other = "Loading interactive lesson…"
+
+[interactive_static]
+other = "Text explanation"
+
+[interactive_config_error]
+other = "The lesson configuration could not be read. Check the configuration file."
+
+[interactive_initial]
+other = "Initial configuration (does not change with interaction)"

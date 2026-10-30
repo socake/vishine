@@ -7,6 +7,7 @@
   {{- /* 无闪烁内联脚本（scheme）：由并行任务产出，缺失时跳过不致命 */ -}}
   {{ if templates.Exists "partials/head-scheme.html" }}{{ partial "head-scheme.html" . }}{{ end }}
   {{ block "head-extra" . }}{{ end }}
+  {{ partial "interactive/head.html" . }}
   {{ partial "extensions/head.html" . }}
 </head>
 <body>
@@ -35,6 +36,7 @@
       <script src="{{ $script.RelPermalink }}" integrity="{{ $script.Data.Integrity }}" defer></script>
     {{ else }}{{ warnf "customJS resource does not exist: %s" . }}{{ end }}
   {{ end }}
+  {{ partial "interactive/scripts.html" . }}
   {{ partial "extensions/footer.html" . }}
 </body>
 </html>

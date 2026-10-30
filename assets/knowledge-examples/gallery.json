@@ -1,0 +1,268 @@
+{
+  "schemaVersion": 1,
+  "id": "components-gallery",
+  "title": "组件组合与联动",
+  "description": "同一份配置验证标签页、输入、代码行、节点与解释联动。",
+  "state": {
+    "visible": {
+      "type": "boolean",
+      "initial": true
+    },
+    "line": {
+      "type": "number",
+      "initial": 0,
+      "min": 0,
+      "max": 2
+    },
+    "selected": {
+      "type": "string",
+      "initial": "a"
+    },
+    "nodeExplanation": {
+      "type": "string",
+      "initial": "输入节点：提供原始数据。"
+    }
+  },
+  "scene": {
+    "id": "root",
+    "type": "Container",
+    "props": {},
+    "children": [
+      {
+        "id": "tabs",
+        "type": "Tabs",
+        "props": {
+          "labels": [
+            "内容与控制",
+            "节点与分组"
+          ]
+        },
+        "children": [
+          {
+            "id": "first",
+            "type": "Column",
+            "props": {},
+            "children": [
+              {
+                "id": "heading",
+                "type": "Heading",
+                "props": {
+                  "text": "组件组合"
+                }
+              },
+              {
+                "id": "toggle",
+                "type": "Toggle",
+                "props": {
+                  "label": "显示补充内容",
+                  "value": {
+                    "bind": {
+                      "ref": "state.visible"
+                    }
+                  }
+                },
+                "on": {
+                  "change": [
+                    {
+                      "action": "set",
+                      "target": "visible",
+                      "value": {
+                        "ref": "event.value"
+                      }
+                    }
+                  ]
+                }
+              },
+              {
+                "id": "card",
+                "type": "Card",
+                "props": {
+                  "title": "说明"
+                },
+                "children": [
+                  {
+                    "id": "markdown",
+                    "type": "Markdown",
+                    "props": {
+                      "text": "这里是 **安全强调** 和 `inline code`。\n\n原始 <script> 仅作为文本显示。"
+                    }
+                  }
+                ],
+                "visible": {
+                  "ref": "state.visible"
+                }
+              },
+              {
+                "id": "code",
+                "type": "CodeBlock",
+                "props": {
+                  "language": "python",
+                  "code": "total = 0\nfor x in values:\n    total += x",
+                  "highlight": {
+                    "bind": {
+                      "ref": "state.line"
+                    }
+                  }
+                },
+                "on": {
+                  "select": [
+                    {
+                      "action": "set",
+                      "target": "line",
+                      "value": {
+                        "ref": "event.value"
+                      }
+                    }
+                  ]
+                }
+              },
+              {
+                "id": "info",
+                "type": "Text",
+                "props": {
+                  "text": {
+                    "bind": {
+                      "op": "concat",
+                      "args": [
+                        "选中代码行：",
+                        {
+                          "ref": "state.line"
+                        }
+                      ]
+                    }
+                  }
+                }
+              },
+              {
+                "id": "table",
+                "type": "Table",
+                "props": {
+                  "columns": [
+                    "元素",
+                    "说明"
+                  ],
+                  "rows": [
+                    [
+                      "状态",
+                      "实例隔离"
+                    ],
+                    [
+                      "事件",
+                      "原子提交"
+                    ]
+                  ]
+                }
+              },
+              {
+                "id": "legend",
+                "type": "Legend",
+                "props": {
+                  "items": [
+                    "键盘可选择控件",
+                    "文本独立于颜色传达状态"
+                  ]
+                }
+              }
+            ]
+          },
+          {
+            "id": "second",
+            "type": "Grid",
+            "props": {
+              "columns": 2
+            },
+            "children": [
+              {
+                "id": "graph",
+                "type": "Graph",
+                "props": {
+                  "layout": "flow",
+                  "selected": {
+                    "bind": {
+                      "ref": "state.selected"
+                    }
+                  }
+                },
+                "children": [
+                  {
+                    "id": "group",
+                    "type": "Group",
+                    "props": {
+                      "label": "组 A"
+                    },
+                    "children": [
+                      {
+                        "id": "a",
+                        "type": "Node",
+                        "props": {
+                          "label": "输入"
+                        },
+                        "on": {
+                          "select": [
+                            {
+                              "action": "set",
+                              "target": "nodeExplanation",
+                              "value": "输入节点：提供原始数据。"
+                            }
+                          ]
+                        }
+                      },
+                      {
+                        "id": "b",
+                        "type": "Node",
+                        "props": {
+                          "label": "输出"
+                        },
+                        "on": {
+                          "select": [
+                            {
+                              "action": "set",
+                              "target": "nodeExplanation",
+                              "value": "输出节点：接收处理后的结果。"
+                            }
+                          ]
+                        }
+                      },
+                      {
+                        "id": "edge",
+                        "type": "Edge",
+                        "props": {
+                          "from": "a",
+                          "to": "b",
+                          "label": "处理"
+                        }
+                      }
+                    ]
+                  }
+                ],
+                "on": {
+                  "select": [
+                    {
+                      "action": "set",
+                      "target": "selected",
+                      "value": {
+                        "ref": "event.value"
+                      }
+                    }
+                  ]
+                }
+              },
+              {
+                "id": "inspector",
+                "type": "Inspector",
+                "props": {
+                  "title": "选中节点",
+                  "text": {
+                    "bind": {
+                      "ref": "state.nodeExplanation"
+                    }
+                  }
+                }
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  }
+}

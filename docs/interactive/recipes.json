@@ -1,0 +1,117 @@
+{
+  "formatVersion": 1,
+  "engineSchemaVersion": 1,
+  "purpose": "authoring-discovery-not-runtime-plugin-registry",
+  "pathBase": "theme-root",
+  "recipes": [
+    {
+      "id": "parameter-experiment",
+      "readerTask": "改变参数并观察数值／公式／曲线",
+      "source": "packages/knowledge-engine/examples/math.yaml",
+      "components": [
+        "ControlPanel",
+        "Slider",
+        "Formula",
+        "Chart",
+        "Inspector"
+      ],
+      "boundary": "允许在现有算术／函数算子范围内改编；曲线采样算子和固定坐标范围需核对。"
+    },
+    {
+      "id": "minimal-parameter",
+      "readerTask": "文章内最小参数联动，不需要图表依赖",
+      "source": "docs/interactive/authoring/parameter-lab.yaml",
+      "components": [
+        "ControlPanel",
+        "Slider",
+        "NumberInput",
+        "Text",
+        "ExplanationPanel"
+      ],
+      "boundary": "仅为数量×体积理想模型，不是显存／传输性能预测。"
+    },
+    {
+      "id": "node-exploration",
+      "readerTask": "点节点看架构关系和说明",
+      "source": "packages/knowledge-engine/examples/kubernetes.yaml",
+      "components": [
+        "Graph",
+        "Workbench",
+        "Inspector",
+        "Stepper",
+        "PlaybackControl"
+      ],
+      "boundary": "Pod流程为简化教学；positioned为受限布局，不支持任意拖拽。"
+    },
+    {
+      "id": "step-by-step",
+      "readerTask": "按步骤解释请求或状态变化",
+      "source": "packages/knowledge-engine/examples/tcp.yaml",
+      "components": [
+        "Graph",
+        "Stepper",
+        "PlaybackControl",
+        "Inspector"
+      ],
+      "boundary": "更换协议时重写并核实每一步，不只改节点名字。"
+    },
+    {
+      "id": "gpu-parallel",
+      "readerTask": "并行参数、Rank及通信组",
+      "source": "packages/knowledge-engine/examples/gpu.yaml",
+      "components": [
+        "ControlPanel",
+        "NumberInput",
+        "Select",
+        "Graph",
+        "Inspector"
+      ],
+      "boundary": "物理总数等于并行度乘积；修改初值需同步对应draft_*；上限512GPU。"
+    },
+    {
+      "id": "ring-allreduce",
+      "readerTask": "分块归约与传播",
+      "source": "packages/knowledge-engine/examples/ring.yaml",
+      "components": [
+        "Graph",
+        "DataBlocks",
+        "PlaybackControl",
+        "Inspector"
+      ],
+      "boundary": "现成课程固定4Rank与7个含初态的步骤；改变规模要重建并验证课程。"
+    },
+    {
+      "id": "text-annotation",
+      "readerTask": "点击标注文本看解释",
+      "source": "packages/knowledge-engine/examples/english.yaml",
+      "components": [
+        "RichText",
+        "Inspector"
+      ],
+      "boundary": "标注及解释由作者给定，不自动完成任意句法分析。"
+    },
+    {
+      "id": "code-explanation",
+      "readerTask": "代码行选择、说明和多视图联动",
+      "source": "packages/knowledge-engine/examples/gallery.json",
+      "components": [
+        "CodeBlock",
+        "Tabs",
+        "Text",
+        "Graph",
+        "Inspector"
+      ],
+      "boundary": "可点击行与状态联动，不执行文章代码；不含任意语法高亮引擎。"
+    },
+    {
+      "id": "small-calculator",
+      "readerTask": "只用配置实现新的算术实验",
+      "source": "packages/knowledge-engine/examples/resistor.json",
+      "components": [
+        "Slider",
+        "Text"
+      ],
+      "boundary": "正电阻范围内串并联计算；新领域必须核实公式和单位。"
+    }
+  ]
+}

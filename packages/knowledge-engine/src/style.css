@@ -1,0 +1,1212 @@
+.ki {
+  --ki-focus: var(--accent);
+  --ki-bg: var(--card);
+  --ki-muted: var(--paper-2);
+  --ki-line: var(--line-2);
+  --ki-ink: var(--ink);
+  --ki-control-surface: var(--paper-2);
+  font-family: var(--font-sans);
+  color: var(--ki-ink);
+  background: var(--ki-bg);
+  border: 1px solid var(--ki-line);
+  border-radius: var(--radius);
+  padding: clamp(16px, 2.4vw, 22px);
+  margin: 28px 0;
+  min-width: 0;
+  max-width: 100%;
+  font-size: 14px;
+  line-height: 1.6;
+  container-type: inline-size;
+  font-variant-numeric: tabular-nums;
+}
+.ki * {
+  box-sizing: border-box;
+}
+.ki p {
+  margin: 8px 0;
+  white-space: pre-line;
+}
+.ki button,
+.ki select,
+.ki input {
+  font: inherit;
+  color: var(--ink);
+  accent-color: var(--accent);
+}
+.ki button,
+.ki select,
+.ki input[type="number"] {
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  background: var(--card);
+  padding: 6px 10px;
+  min-height: var(--ki-control-height);
+  max-width: 100%;
+}
+.ki button {
+  cursor: pointer;
+  touch-action: manipulation;
+}
+.ki button:hover {
+  background: var(--paper-2);
+  border-color: var(--accent);
+}
+.ki button:disabled {
+  opacity: 0.5;
+  cursor: default;
+}
+.ki :focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+}
+.ki ::selection {
+  background: var(--accent-soft);
+  color: var(--accent-ink);
+}
+.ki-header {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  column-gap: 12px;
+  row-gap: 4px;
+  align-items: center;
+  margin-bottom: 20px;
+}
+.ki-header strong {
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 1.5;
+}
+.ki-header p {
+  color: var(--ink-2);
+  max-width: 65ch;
+  font-size: 13px;
+  margin: 0;
+  grid-column: 1 / -1;
+  grid-row: 2;
+}
+.ki-header > div:first-child {
+  display: contents;
+}
+.ki-tools {
+  grid-column: 2;
+  grid-row: 1;
+  display: flex;
+  gap: 2px;
+  flex-shrink: 0;
+}
+.ki-container,
+.ki-column {
+  display: flex;
+  flex-direction: column;
+}
+.ki-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: end;
+}
+.ki-row > .ki-component {
+  flex: 1 1 100px;
+  min-width: 0;
+}
+.ki-grid {
+  display: grid;
+  grid-template-columns: repeat(var(--ki-columns, 2), minmax(0, 1fr));
+}
+.ki-component {
+  min-width: 0;
+}
+.ki-card,
+.ki-group {
+  padding: 16px;
+  background: var(--paper-2);
+  border-radius: var(--radius);
+}
+.ki-panel-title,
+.ki-heading {
+  font-weight: 600;
+  font-size: 14px;
+  margin-bottom: 8px;
+}
+.ki-field {
+  display: flex;
+  gap: 6px;
+  flex-direction: column;
+}
+.ki-field label {
+  font-size: 12px;
+  color: var(--ink-2);
+}
+.ki-field output {
+  float: right;
+  color: var(--ink);
+  font-family: var(--font-mono);
+}
+.ki-field input[type="range"] {
+  width: 100%;
+  min-height: var(--ki-control-height);
+}
+.ki-field input[type="checkbox"] {
+  align-self: flex-start;
+  width: 24px;
+  height: 24px;
+}
+.ki-badge {
+  display: inline-block;
+  padding: 2px 7px;
+  font-size: 12px;
+  background: var(--accent-soft);
+  color: var(--accent-ink);
+  border-radius: 5px;
+}
+.ki-callout {
+  padding: 10px 0;
+  border-block: 1px solid var(--line-2);
+  color: var(--ink-2);
+  font-size: 13px;
+}
+.ki-inspector {
+  padding: 0;
+  background: transparent;
+}
+.ki-inspector p {
+  overflow-wrap: anywhere;
+  font-family: var(--font-sans);
+  font-size: 13px;
+}
+.ki-error {
+  padding: 12px;
+  border: 1px solid var(--accent);
+  color: var(--accent-ink);
+  background: var(--accent-soft);
+}
+.ki-narration {
+  margin-top: 20px;
+}
+.ki-steps,
+.ki-playback,
+.ki-zoom {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+.ki-steps {
+  margin: 10px 0;
+}
+.ki-steps button {
+  font-size: 12px;
+  min-height: 40px;
+}
+.ki button[aria-current="step"],
+.ki button[aria-selected="true"],
+.ki button[aria-pressed="true"] {
+  border-color: var(--accent);
+  color: var(--accent-ink);
+  background: var(--accent-soft);
+}
+.ki-playback {
+  align-items: center;
+}
+.ki-playback label {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+.ki-node-groups {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(270px, 100%), 1fr));
+  gap: 16px;
+}
+.ki-node-group {
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 12px;
+}
+.ki-group-toggle {
+  width: 100%;
+  text-align: left;
+  margin-bottom: 10px;
+}
+.ki-node-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 6px;
+}
+.ki .ki-node {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 6px 3px;
+  min-height: 44px;
+}
+.ki-node strong {
+  font-size: 12px;
+  font-weight: 500;
+}
+.ki-node small {
+  font: 10px var(--font-mono);
+  color: var(--ink-2);
+}
+.ki-node[data-active="true"],
+.ki-svg-node[data-active="true"] rect {
+  background: var(--accent-soft);
+  fill: var(--accent-soft);
+  border-color: var(--accent);
+}
+.ki-graph-scroll,
+.ki-table-scroll,
+.ki-formula {
+  overflow: auto;
+  max-width: 100%;
+  overscroll-behavior: contain;
+}
+.ki-graph-scroll svg {
+  display: block;
+  height: auto;
+}
+.ki-edge {
+  color: var(--accent);
+}
+.ki-edge text {
+  font: 11px var(--font-mono);
+  fill: var(--ink-2);
+  paint-order: stroke;
+  stroke: var(--card);
+  stroke-width: 4px;
+  stroke-linejoin: round;
+}
+.ki-svg-node {
+  cursor: pointer;
+}
+.ki-svg-node rect {
+  fill: var(--card);
+  stroke: var(--line);
+  stroke-width: 1;
+}
+.ki-svg-node text {
+  fill: var(--ink);
+  font-size: 13px;
+}
+.ki-svg-node .ki-small {
+  fill: var(--ink-2);
+  font-size: 11px;
+}
+.ki-chart {
+  overflow: hidden;
+  height: 300px;
+  min-width: 0;
+}
+.ki-formula {
+  font-size: 17px;
+  padding: 8px 0;
+}
+.ki-tokens {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.ki-tokens button {
+  display: flex;
+  flex-direction: column;
+  padding: 10px 14px;
+}
+.ki-tokens small {
+  color: var(--ink-2);
+}
+.ki .ki-code {
+  padding: 12px;
+  background: var(--paper-2);
+  overflow: auto;
+  color: var(--ink);
+  margin: 0;
+  border: 0;
+}
+.ki-code code {
+  background: transparent;
+  display: block;
+}
+.ki .ki-code button {
+  display: block;
+  white-space: pre;
+  border: 0;
+  background: transparent;
+  font-family: var(--font-mono);
+  min-width: 100%;
+  text-align: left;
+  font-size: 13px;
+}
+.ki-code button span {
+  display: inline-block;
+  width: 30px;
+  color: var(--ink-2);
+}
+.ki .ki-code button.is-active {
+  background: var(--accent-soft);
+}
+.ki .ki-table-scroll table {
+  width: 100%;
+  min-width: 0;
+  margin: 0;
+  display: table;
+}
+.ki td,
+.ki th {
+  padding: 8px;
+  text-align: left;
+  border-bottom: 1px solid var(--line);
+  font-size: 13px;
+}
+.ki-tabs [role="tablist"] {
+  display: flex;
+  gap: 6px;
+  margin-bottom: 16px;
+}
+.ki-legend {
+  padding-left: 20px !important;
+  margin: 0 !important;
+}
+.ki-legend li {
+  margin: 4px 0 !important;
+}
+.ki .ki-fallback {
+  margin-top: 18px;
+  padding: 10px 0 0;
+  border: 0;
+  border-top: 1px solid var(--line-2);
+  border-radius: 0;
+  color: var(--ink-2);
+  font-size: 12px;
+}
+.ki[data-ready="true"] .ki-fallback-title {
+  display: none;
+}
+.ki-fallback summary {
+  min-height: 32px;
+  padding-block: 6px;
+}
+.ki-fallback summary {
+  cursor: pointer;
+}
+.ki:fullscreen {
+  max-width: none;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  border-radius: 0;
+  overflow: auto;
+  padding: clamp(20px, 4vw, 60px);
+  container-type: inline-size;
+}
+.ki:fullscreen > [data-ki-mount] {
+  max-width: 1400px;
+  margin: auto;
+}
+.ki [hidden] {
+  display: none !important;
+}
+@container (max-width:600px) {
+  .ki-grid {
+    grid-template-columns: 1fr;
+  }
+  .ki-row > .ki-component {
+    flex-basis: calc(50% - 12px);
+  }
+  .ki-node-groups {
+    grid-template-columns: 1fr;
+  }
+  .ki-chart {
+    overflow: hidden;
+    height: 260px;
+  }
+}
+@media (prefers-reduced-motion: no-preference) {
+  @keyframes ki-flow {
+    to {
+      stroke-dashoffset: -20;
+    }
+  }
+}
+@media print {
+  .ki-tools,
+  .ki-playback,
+  .ki-field {
+    display: none;
+  }
+  .ki-fallback {
+    display: block;
+  }
+}
+/* A lesson workspace keeps controls, evidence and explanation in view. */
+.ki-workbench {
+  display: grid;
+  grid-template-columns: minmax(0, 1.8fr) minmax(230px, 1fr);
+  gap: 20px;
+  align-items: start;
+}
+.ki-workbench[data-side="start"] {
+  grid-template-columns: minmax(230px, 1fr) minmax(0, 1.8fr);
+}
+.ki-workbench > .ki-component:last-child {
+  border-left: 1px solid var(--line-2);
+  padding-left: 20px;
+}
+.ki-workbench .ki-inspector {
+  background: transparent;
+  padding: 0;
+}
+.ki-workbench .ki-inspector p {
+  font-family: var(--font-sans);
+  line-height: 1.8;
+}
+.ki-workbench[data-side="start"] .ki-row {
+  flex-direction: column;
+  align-items: stretch;
+}
+.ki-workbench[data-side="start"] .ki-row > .ki-component {
+  flex: auto;
+}
+.ki-selection {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 12px;
+  align-items: center;
+  padding: 0 0 10px;
+  border-bottom: 1px solid var(--line-2);
+  margin-bottom: 12px;
+  font-size: 12px;
+}
+.ki-selection strong {
+  color: var(--accent-ink);
+  font-weight: 600;
+}
+.ki-selection small {
+  flex-basis: 100%;
+  color: var(--ink-2);
+}
+.ki-grid-graph .ki-node-groups {
+  max-height: 384px;
+  overflow: auto;
+  overscroll-behavior: contain;
+  padding: 3px;
+  grid-template-columns: repeat(auto-fit, minmax(min(230px, 100%), 1fr));
+}
+.ki .ki-node[aria-pressed="true"] {
+  outline: 3px double var(--accent);
+  outline-offset: 1px;
+  font-weight: 600;
+}
+
+.ki-node-group {
+  padding: 0;
+}
+.ki-node-group .ki-group-toggle {
+  padding: 5px 8px;
+  margin-bottom: 6px;
+}
+.ki-narration {
+  margin: 0 0 20px;
+  position: relative;
+  border-radius: 0;
+  background: transparent;
+  padding: 0;
+}
+.ki-narration progress {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -7px;
+  width: 100%;
+  height: 2px;
+  accent-color: var(--accent);
+}
+.ki-data-blocks {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px;
+}
+.ki-data-block {
+  display: flex;
+  flex-direction: column;
+  padding: 8px 0;
+  border-bottom: 1px solid var(--line-2);
+  gap: 2px;
+  font-size: 12px;
+}
+.ki-data-block strong {
+  font-size: 22px;
+  font-weight: 500;
+  font-family: var(--font-mono);
+  line-height: 1.5;
+}
+.ki-data-block small {
+  color: var(--ink-2);
+  overflow-wrap: anywhere;
+}
+.ki-data-block[data-complete="true"] {
+  border-color: var(--accent);
+}
+.ki-block-state {
+  font-size: 11px;
+  color: var(--accent-ink);
+  margin-top: 6px;
+}
+.ki-field-error {
+  color: var(--accent-ink);
+}
+.ki [aria-invalid="true"] {
+  border-color: var(--accent);
+  outline: 1px solid var(--accent);
+}
+.ki button[data-primary="true"]:not(:disabled) {
+  color: var(--card);
+  background: var(--ink);
+  border-color: var(--ink);
+  font-weight: 500;
+}
+.ki-status {
+  color: var(--ink-2);
+  font-size: 12px;
+}
+@container (max-width:650px) {
+  .ki-workbench,
+  .ki-workbench[data-side="start"] {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+  .ki-workbench > .ki-component:last-child {
+    border-left: 0;
+    padding-left: 0;
+    border-top: 1px solid var(--line);
+    padding-top: 16px;
+  }
+  .ki-grid-graph .ki-node-groups {
+    max-height: 320px;
+  }
+  .ki-workbench[data-side="start"] .ki-row {
+    flex-direction: row;
+  }
+  .ki-workbench[data-side="start"] .ki-row > .ki-component {
+    flex: 1 1 90px;
+  }
+}
+@media print {
+  .ki-grid-graph .ki-node-groups {
+    max-height: none;
+    overflow: visible;
+  }
+}
+.ki-node strong {
+  white-space: nowrap;
+}
+.ki-node small {
+  white-space: nowrap;
+}
+
+.ki-navigation-hint {
+  font-size: 12px;
+  color: var(--ink-2);
+}
+/* Shared controls retain native semantics; the shell supplies theme geometry. */
+.ki {
+  --ki-control-radius: min(6px, var(--radius));
+}
+.ki .ki-icon {
+  display: inline-block;
+  flex: none;
+  vertical-align: middle;
+  pointer-events: none;
+}
+.ki button:where(:not(.ki-node):not(.ki-group-toggle)),
+.ki select,
+.ki input[type="number"] {
+  border-radius: var(--ki-control-radius);
+  min-height: var(--ki-control-height);
+}
+.ki button:where(:not(.ki-node):not(.ki-group-toggle)) {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  font-weight: 500;
+}
+.ki button:active:not(:disabled) {
+  background: var(--accent-soft);
+}
+.ki button:disabled {
+  opacity: 1;
+  color: var(--ink-2);
+  border-color: var(--line);
+  background: var(--paper-2);
+  cursor: not-allowed;
+}
+.ki-select {
+  position: relative;
+  display: inline-flex;
+  min-width: 0;
+}
+.ki-select select {
+  appearance: none;
+  -webkit-appearance: none;
+  width: 100%;
+  padding: 6px 40px 6px 10px;
+  cursor: pointer;
+  text-overflow: ellipsis;
+}
+.ki-select > .ki-icon {
+  position: absolute;
+  right: 14px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--ink-2);
+}
+.ki select:hover,
+.ki input[type="number"]:hover {
+  border-color: var(--ink-3);
+}
+.ki .ki-tools button {
+  background: transparent;
+  border-color: transparent;
+  padding: 8px;
+  min-width: var(--ki-control-height);
+  font-size: 12px;
+  color: var(--ink-2);
+}
+.ki .ki-tools button:hover {
+  color: var(--ink);
+  background: var(--paper-2);
+  border-color: var(--line);
+}
+.ki-playback {
+  gap: 4px;
+  padding: 10px 12px;
+  background: var(--ki-control-surface);
+  border-radius: var(--ki-control-radius);
+}
+.ki-playback > button {
+  background: transparent;
+  border-color: transparent;
+  font-size: 12px;
+}
+.ki-playback > button:disabled {
+  background: transparent;
+  border-color: transparent;
+}
+.ki-playback > button:hover:not(:disabled) {
+  border-color: var(--line);
+}
+.ki-playback > button[data-primary="true"] {
+  min-width: 76px;
+}
+.ki-playback > label {
+  margin-left: auto;
+  font-size: 12px;
+  color: var(--ink-2);
+}
+.ki-playback .ki-select {
+  min-width: 76px;
+}
+.ki-steps {
+  gap: 0;
+  border-bottom: 1px solid var(--line);
+}
+.ki .ki-steps button {
+  border: 0;
+  border-bottom: 2px solid transparent;
+  border-radius: 0;
+  background: transparent;
+  padding: 9px 12px;
+  font-size: 12px;
+}
+.ki .ki-steps button[aria-current="step"] {
+  border-bottom-color: var(--accent);
+  color: var(--accent-ink);
+  background: transparent;
+  font-weight: 600;
+}
+.ki-zoom {
+  gap: 2px;
+  width: max-content;
+  max-width: 100%;
+  margin-bottom: 8px;
+}
+.ki .ki-zoom button {
+  border: 0;
+  border-radius: 0;
+  min-height: var(--ki-control-small);
+  padding: 5px 8px;
+  font-size: 12px;
+  background: transparent;
+  color: var(--ink-2);
+}
+.ki .ki-zoom button:hover:not(:disabled) {
+  background: var(--paper-2);
+  color: var(--ink);
+}
+.ki .ki-zoom button:disabled {
+  background: transparent;
+  color: var(--ink-3);
+}
+.ki .ki-group-toggle {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  border: 0;
+  background: transparent;
+  padding: 4px 0;
+  min-height: 32px;
+  border-radius: 0;
+}
+.ki-group-toggle span {
+  font-weight: 600;
+  font-size: 12px;
+}
+.ki-group-toggle small {
+  margin-left: auto;
+  font-size: 11px;
+  color: var(--ink-2);
+}
+.ki-node-group {
+  background: transparent;
+  border: 0;
+  border-radius: 0;
+}
+.ki-node-group .ki-group-toggle {
+  border-bottom: 1px solid var(--line-2);
+}
+.ki .ki-node {
+  background: var(--card);
+}
+.ki .ki-node[data-active="true"] {
+  background: var(--accent-soft);
+}
+.ki-node small {
+  font-size: 11px;
+}
+.ki-graph-band rect {
+  fill: var(--paper-2);
+  stroke: var(--line);
+  stroke-width: 1;
+}
+.ki-graph-band text {
+  fill: var(--ink-2);
+  font-size: 11px;
+}
+.ki-edge[data-transmitting="false"] {
+  color: var(--ink-3);
+}
+.ki-diagram[data-layout="positioned"] .ki-svg-node rect {
+  fill: var(--card);
+}
+.ki-diagram[data-layout="positioned"] .ki-svg-node[data-active="true"] rect {
+  fill: var(--accent-soft);
+}
+.ki-node-groups,
+.ki-graph-scroll {
+  scrollbar-width: thin;
+  scrollbar-color: var(--line) transparent;
+}
+@container (max-width:450px) {
+  .ki-playback > label {
+    flex-basis: 100%;
+    justify-content: space-between;
+    margin-top: 4px;
+  }
+  .ki .ki-playback > button {
+    flex: 1;
+    padding-inline: 8px;
+    min-height: 44px;
+  }
+  .ki .ki-zoom button {
+    min-height: 44px;
+  }
+}
+@media (prefers-reduced-motion: no-preference) {
+  .ki button,
+  .ki select,
+  .ki input[type="number"] {
+    transition:
+      background-color 0.16s ease,
+      border-color 0.16s ease,
+      color 0.16s ease;
+  }
+}
+
+.ki .ki-code button {
+  font-weight: 400;
+}
+/* Shared control/state contract. Scoped tokens also drive built-in toolbars. */
+.ki {
+  --ki-control-height: 36px;
+  --ki-control-small: 32px;
+  --ki-control-gap: 8px;
+  --ki-node-stroke: var(--line);
+}
+.ki button:where(:not(.ki-node):not(.ki-group-toggle)),
+.ki select,
+.ki input[type="number"] {
+  min-height: var(--ki-control-height);
+}
+.ki .ki-button[data-size="small"] {
+  min-height: var(--ki-control-small);
+  padding: 4px 8px;
+  font-size: 12px;
+}
+.ki .ki-button[data-variant="primary"]:not(:disabled) {
+  background: var(--ink);
+  border-color: var(--ink);
+  color: var(--card);
+  font-weight: 500;
+}
+.ki .ki-button[data-variant="ghost"] {
+  background: transparent;
+  border-color: transparent;
+}
+.ki .ki-button[data-variant="ghost"]:hover:not(:disabled) {
+  background: var(--paper-2);
+  border-color: var(--line);
+}
+.ki input:disabled,
+.ki select:disabled {
+  cursor: not-allowed;
+  color: var(--ink-2);
+  background: var(--paper-2);
+  opacity: 1;
+}
+.ki [aria-busy="true"] {
+  cursor: progress;
+}
+.ki-busy-dot {
+  display: inline-block;
+  width: 14px;
+  height: 14px;
+  border: 2px solid currentColor;
+  border-top-color: transparent;
+  border-radius: 50%;
+}
+.ki .ki-node:not(:disabled):hover {
+  border-color: var(--ink-2);
+}
+.ki .ki-node[data-active="true"]:not([aria-pressed="true"]) {
+  border-color: var(--line);
+}
+.ki .ki-node:disabled {
+  border-style: dashed;
+  background: var(--paper-2);
+}
+.ki-node-status {
+  font: 11px var(--font-sans);
+  border-bottom: 1px dotted currentColor;
+}
+.ki-state-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 14px;
+  font-size: 11px;
+  color: var(--ink-2);
+  margin-top: 12px;
+}
+.ki-graph-scroll {
+  max-height: 520px;
+}
+.ki-svg-node rect {
+  stroke: var(--line);
+}
+.ki-svg-node:hover:not([aria-disabled="true"]) > rect:first-of-type {
+  stroke: var(--ink-2);
+  stroke-width: 2;
+}
+.ki-svg-node[data-active="true"] > rect:first-of-type {
+  stroke: var(--line);
+}
+.ki-svg-node[aria-pressed="true"] > rect:first-of-type {
+  stroke: var(--accent);
+  stroke-width: 1.5;
+}
+.ki-svg-node .ki-selected-outline {
+  fill: none !important;
+  stroke: var(--accent);
+  stroke-width: 1;
+  pointer-events: none;
+}
+.ki-svg-node:focus-visible > rect:first-of-type {
+  stroke: var(--ink);
+  stroke-width: 2;
+  stroke-dasharray: 3 2;
+}
+.ki-svg-node[aria-disabled="true"] {
+  cursor: not-allowed;
+}
+.ki-svg-node[aria-disabled="true"] > rect:first-of-type {
+  fill: var(--paper-2);
+  stroke: var(--ink-3);
+  stroke-dasharray: 3 3;
+}
+.ki-svg-node[aria-disabled="true"] text {
+  fill: var(--ink-2);
+}
+.ki-svg-node[data-status="running"] .ki-small {
+  fill: var(--accent-ink);
+  text-decoration: underline;
+}
+.ki-svg-node[data-status="error"] > rect:first-of-type {
+  stroke: var(--ink);
+  stroke-dasharray: 6 2;
+}
+.ki-edge-line {
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.7;
+  stroke-dasharray: 5 4;
+  stroke-linejoin: round;
+}
+.ki-edge[data-transmitting="false"] .ki-edge-line {
+  stroke-dasharray: none;
+  stroke-width: 1.2;
+  animation: none !important;
+}
+.ki-edge[data-related="true"] .ki-edge-line {
+  stroke-width: 2.2;
+}
+.ki-edge-label rect {
+  fill: var(--card);
+  stroke: none;
+}
+.ki-edge-label text {
+  font: 11px var(--font-mono);
+  fill: var(--ink-2);
+  stroke: none;
+}
+.ki-edge-notes {
+  color: var(--ink-2);
+  font-size: 12px;
+  margin-top: 12px;
+}
+.ki-edge-notes summary {
+  cursor: pointer;
+}
+.ki-empty {
+  padding: 20px 0;
+  border-block: 1px dashed var(--line);
+  font-size: 13px;
+  color: var(--ink-2);
+}
+@container (max-width:450px) {
+  .ki-zoom {
+    width: 100%;
+  }
+  .ki .ki-zoom button {
+    flex: 1;
+    padding-inline: 7px;
+  }
+  .ki .ki-button[data-size="small"] {
+    min-height: 44px;
+  }
+}
+@media (prefers-reduced-motion: no-preference) {
+  .ki-busy-dot {
+    animation: ki-spin 0.8s linear infinite;
+  }
+  .ki[data-playing="true"] .ki-edge[data-transmitting="true"] .ki-edge-line {
+    animation: ki-flow 1s linear infinite;
+  }
+  @keyframes ki-spin {
+    to {
+      transform: rotate(360deg);
+    }
+  }
+}
+.ki-svg-node[aria-pressed="true"] .ki-selected-outline {
+  fill: none;
+  stroke-width: 1;
+}
+@container (max-width:450px) {
+  .ki .ki-zoom button {
+    flex: 0 0 44px;
+  }
+  .ki .ki-zoom button[aria-label="恢复缩放"],
+  .ki .ki-zoom button[aria-label="Reset zoom"] {
+    flex: 1 1 auto;
+    min-width: 0;
+    padding-inline: 4px;
+    white-space: nowrap;
+  }
+  .ki-zoom button[aria-label="恢复缩放"] > svg,
+  .ki-zoom button[aria-label="Reset zoom"] > svg {
+    display: none;
+  }
+}
+
+.ki-zoom {
+  flex-wrap: nowrap;
+}
+
+/* Reading surfaces stay compact; touch input retains generous hit areas. */
+@media (pointer: coarse) {
+  .ki {
+    --ki-control-height: 44px;
+    --ki-control-small: 44px;
+  }
+  .ki .ki-group-toggle,
+  .ki-fallback summary {
+    min-height: 44px;
+  }
+}
+@container (max-width: 450px) {
+  .ki-header {
+    column-gap: 8px;
+    row-gap: 6px;
+  }
+  .ki-tools {
+    margin-left: auto;
+  }
+  .ki .ki-tools button {
+    min-width: 36px;
+    min-height: 36px;
+  }
+  .ki .ki-playback > label {
+    flex-basis: auto;
+    margin-top: 0;
+    margin-left: auto;
+  }
+  .ki-speed-label,
+  .ki-step-label {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+  }
+  .ki-playback {
+    gap: 2px;
+  }
+  .ki-playback .ki-select {
+    width: 72px;
+    min-width: 72px;
+  }
+  .ki-playback .ki-select select {
+    min-height: 44px;
+  }
+  .ki .ki-playback > button {
+    flex: 0 0 44px;
+    min-width: 44px;
+  }
+  .ki .ki-playback > button[data-primary="true"] {
+    flex-basis: 64px;
+  }
+  .ki-playback > button[data-primary="true"] .ki-icon {
+    display: none;
+  }
+}
+
+@media (pointer: coarse) {
+  .ki .ki-tools button {
+    min-width: 44px;
+    min-height: 44px;
+  }
+}
+
+/* A quiet operation surface separates changing inputs from reading results. */
+.ki-control-panel {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  padding: 14px;
+  background: var(--ki-control-surface);
+  border-radius: var(--ki-control-radius);
+}
+.ki-control-panel .ki-control-panel,
+.ki-control-panel .ki-playback {
+  background: transparent;
+  padding: 0;
+}
+.ki-control-panel .ki-text {
+  margin: 0;
+  font-size: 13px;
+  color: var(--ink-2);
+}
+@container (max-width: 450px) {
+  .ki-control-panel {
+    padding: 12px;
+  }
+  .ki-playback {
+    margin-inline: -8px;
+    padding: 8px;
+  }
+  .ki-control-panel .ki-playback {
+    margin: 0;
+  }
+}
+
+[data-scheme="dark"] .ki {
+  --ki-control-surface: color-mix(in srgb, var(--paper-2) 92%, var(--ink));
+}
+
+/* Labels are the toggle hit target; keep the native indicator compact. */
+.ki-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  min-height: 44px;
+  min-width: 44px;
+  cursor: pointer;
+}
+.ki-toggle input[type="checkbox"] {
+  width: 20px;
+  height: 20px;
+  margin: 0;
+  flex: none;
+}
+.ki-toggle[data-disabled="true"] {
+  color: var(--ink-2);
+  cursor: not-allowed;
+}
+.ki-control-panel
+  .ki-row:has(> [data-component="NumberInput"]:nth-child(6):last-child):not(
+    :has(> :not([data-component="NumberInput"]))
+  ) {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+@container (min-width: 750px) {
+  .ki-control-panel
+    .ki-row:has(> [data-component="NumberInput"]:nth-child(6):last-child):not(
+      :has(> :not([data-component="NumberInput"]))
+    ) {
+    grid-template-columns: repeat(6, minmax(0, 1fr));
+  }
+}
+@container (max-width: 450px) {
+  .ki-control-panel
+    .ki-row:has(> [data-component="NumberInput"]:nth-child(6):last-child):not(
+      :has(> :not([data-component="NumberInput"]))
+    ) {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+@media (pointer: coarse) {
+  .ki button {
+    min-width: 44px;
+  }
+  .ki input[type="number"],
+  .ki select {
+    font-size: 16px;
+  }
+  .ki .ki-node-groups,
+  .ki .ki-graph-scroll {
+    overscroll-behavior-y: auto;
+  }
+  .ki:fullscreen {
+    padding: max(16px, env(safe-area-inset-top))
+      max(16px, env(safe-area-inset-right))
+      max(16px, env(safe-area-inset-bottom))
+      max(16px, env(safe-area-inset-left));
+  }
+}
+@container (max-width: 450px) {
+  .ki-playback .ki-select {
+    min-width: 92px;
+    width: 92px;
+  }
+  .ki .ki-playback > button[data-primary="true"] {
+    flex-basis: 44px;
+  }
+}

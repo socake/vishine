@@ -1,0 +1,221 @@
+schemaVersion: 1
+id: quadratic-lab
+title: 二次函数 · 参数怎样改变曲线
+description: 拖动参数，公式与曲线共同变化。a=0 时函数退化为一次函数或常数函数。
+state:
+  a:
+    type: number
+    initial: 1
+    min: -5
+    max: 5
+    label: 二次项系数 a
+  b:
+    type: number
+    initial: 0
+    min: -10
+    max: 10
+    label: 一次项系数 b
+  c:
+    type: number
+    initial: 0
+    min: -10
+    max: 10
+    label: 常数项 c
+derived:
+  points:
+    op: quadratic
+    args:
+      - ref: state.a
+      - ref: state.b
+      - ref: state.c
+  formula:
+    op: concat
+    args:
+      - f(x)=
+      - ref: state.a
+      - x^2 + (
+      - ref: state.b
+      - )x + (
+      - ref: state.c
+      - )
+  explanation:
+    op: if
+    args:
+      - op: eq
+        args:
+          - ref: state.a
+          - 0
+      - a=0：此时不是二次函数。
+      - op: if
+        args:
+          - op: gt
+            args:
+              - ref: state.a
+              - 0
+          - a>0：抛物线开口向上。
+          - a<0：抛物线开口向下。
+  sample:
+    op: add
+    args:
+      - op: add
+        args:
+          - op: multiply
+            args:
+              - ref: state.a
+              - 4
+          - op: multiply
+            args:
+              - ref: state.b
+              - 2
+      - ref: state.c
+data: {}
+scene:
+  id: root
+  type: Container
+  props: {}
+  children:
+    - id: math-workbench
+      type: Workbench
+      props:
+        side: start
+      children:
+        - id: math-controls
+          type: Column
+          props: {}
+          children:
+            - id: formula
+              type: Formula
+              props:
+                latex:
+                  bind:
+                    ref: derived.formula
+            - id: function-controls
+              type: ControlPanel
+              props:
+                label: 函数参数
+              children:
+                - id: parameters
+                  type: Row
+                  props: {}
+                  children:
+                    - id: a
+                      type: Slider
+                      props:
+                        label: a
+                        value:
+                          bind:
+                            ref: state.a
+                        min: -5
+                        max: 5
+                        step: 1
+                      on:
+                        change:
+                          - action: set
+                            target: a
+                            value:
+                              ref: event.value
+                    - id: b
+                      type: Slider
+                      props:
+                        label: b
+                        value:
+                          bind:
+                            ref: state.b
+                        min: -10
+                        max: 10
+                        step: 1
+                      on:
+                        change:
+                          - action: set
+                            target: b
+                            value:
+                              ref: event.value
+                    - id: c
+                      type: Slider
+                      props:
+                        label: c
+                        value:
+                          bind:
+                            ref: state.c
+                        min: -10
+                        max: 10
+                        step: 1
+                      on:
+                        change:
+                          - action: set
+                            target: c
+                            value:
+                              ref: event.value
+                - id: presets
+                  type: Grid
+                  props:
+                    columns: 2
+                  children:
+                    - id: open-up
+                      type: Button
+                      props:
+                        label: 向上开口
+                      on:
+                        click:
+                          - action: set
+                            target: a
+                            value: 1
+                          - action: set
+                            target: b
+                            value: 0
+                          - action: set
+                            target: c
+                            value: 0
+                    - id: open-down
+                      type: Button
+                      props:
+                        label: 向下开口
+                      on:
+                        click:
+                          - action: set
+                            target: a
+                            value: -1
+                          - action: set
+                            target: b
+                            value: 0
+                          - action: set
+                            target: c
+                            value: 0
+            - id: explain
+              type: ExplanationPanel
+              props:
+                title: 参数说明
+                text:
+                  bind:
+                    ref: derived.explanation
+            - id: sample
+              type: Text
+              props:
+                text:
+                  bind:
+                    op: concat
+                    args:
+                      - "代入 x = 2 → f(2) = "
+                      - ref: derived.sample
+        - id: math-visual
+          type: Column
+          props: {}
+          children:
+            - id: plot
+              type: Chart
+              props:
+                kind: line
+                points:
+                  bind:
+                    ref: derived.points
+                label: f(x)
+                xDomain:
+                  - -5
+                  - 5
+                yDomain:
+                  - -30
+                  - 30
+            - id: axes-help
+              type: Text
+              props:
+                text: 固定坐标范围：x ∈ [−5, 5]，y ∈ [−30, 30]。变化超出范围时曲线会裁切；可在图内缩放探索，点击顶部重置恢复。

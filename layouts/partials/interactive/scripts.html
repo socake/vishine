@@ -1,0 +1,11 @@
+{{ if .HasShortcode "interactive" }}
+  {{ with resources.Get "knowledge-dist/manifest.json" }}
+    {{ $manifest := . | transform.Unmarshal }}
+    {{ range resources.Match "knowledge-dist/**" }}{{ $published := .RelPermalink }}{{ end }}
+    {{ with index $manifest "src/loader.ts" }}
+      {{ with resources.Get (printf "knowledge-dist/%s" .file) }}<script type="module" src="{{ .RelPermalink }}"></script>{{ end }}
+    {{ end }}
+  {{ else }}
+    {{ warnf "Interactive runtime missing. Run npm ci && npm run build in packages/knowledge-engine. Static explanations remain available." }}
+  {{ end }}
+{{ end }}

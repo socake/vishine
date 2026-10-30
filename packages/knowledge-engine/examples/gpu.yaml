@@ -1,0 +1,446 @@
+schemaVersion: 1
+id: gpu-parallel
+title: 128 GPU · 并行策略实验室
+description: 选择 GPU，检查逻辑 Rank、模型分片与通信组。修改参数时，物理 GPU 总数必须等于并行度乘积。
+state:
+  nodes:
+    type: number
+    initial: 16
+    min: 1
+    max: 64
+    label: 计算节点数
+  gpus:
+    type: number
+    initial: 8
+    min: 1
+    max: 16
+    label: 每节点 GPU 数
+  dp:
+    type: number
+    initial: 16
+    min: 1
+    max: 512
+    label: DP · 数据并行
+  tp:
+    type: number
+    initial: 8
+    min: 1
+    max: 512
+    label: TP · 张量并行
+  pp:
+    type: number
+    initial: 1
+    min: 1
+    max: 512
+    label: PP · 流水线并行
+  cp:
+    type: number
+    initial: 1
+    min: 1
+    max: 512
+    label: CP · 上下文并行
+  selected:
+    type: string
+    initial: "19"
+  dimension:
+    type: string
+    initial: TP
+    options:
+      - DP
+      - TP
+      - PP
+      - CP
+  draft_nodes:
+    type: number
+    initial: 16
+    min: 1
+    max: 64
+  draft_gpus:
+    type: number
+    initial: 8
+    min: 1
+    max: 16
+  draft_dp:
+    type: number
+    initial: 16
+    min: 1
+    max: 512
+  draft_tp:
+    type: number
+    initial: 8
+    min: 1
+    max: 512
+  draft_pp:
+    type: number
+    initial: 1
+    min: 1
+    max: 512
+  draft_cp:
+    type: number
+    initial: 1
+    min: 1
+    max: 512
+derived:
+  model:
+    op: gpu
+    args:
+      - ref: state.nodes
+      - ref: state.gpus
+      - ref: state.dp
+      - ref: state.tp
+      - ref: state.pp
+      - ref: state.cp
+  info:
+    op: gpuInfo
+    args:
+      - ref: derived.model
+      - ref: state.selected
+  active:
+    op: gpuGroup
+    args:
+      - ref: derived.model
+      - ref: state.selected
+      - ref: state.dimension
+data: {}
+scene:
+  id: root
+  type: Container
+  props: {}
+  children:
+    - id: gpu-controls
+      type: ControlPanel
+      props:
+        label: 并行参数
+      children:
+        - id: parameters
+          type: Row
+          props: {}
+          children:
+            - id: nodes
+              type: NumberInput
+              props:
+                label: 节点数
+                value:
+                  bind:
+                    ref: state.draft_nodes
+                min: 1
+                max: 64
+                step: 1
+              on:
+                change:
+                  - action: set
+                    target: draft_nodes
+                    value:
+                      ref: event.value
+            - id: gpus
+              type: NumberInput
+              props:
+                label: GPU / Node
+                value:
+                  bind:
+                    ref: state.draft_gpus
+                min: 1
+                max: 16
+                step: 1
+              on:
+                change:
+                  - action: set
+                    target: draft_gpus
+                    value:
+                      ref: event.value
+            - id: dp
+              type: NumberInput
+              props:
+                label: DP
+                value:
+                  bind:
+                    ref: state.draft_dp
+                min: 1
+                max: 512
+                step: 1
+              on:
+                change:
+                  - action: set
+                    target: draft_dp
+                    value:
+                      ref: event.value
+            - id: tp
+              type: NumberInput
+              props:
+                label: TP
+                value:
+                  bind:
+                    ref: state.draft_tp
+                min: 1
+                max: 512
+                step: 1
+              on:
+                change:
+                  - action: set
+                    target: draft_tp
+                    value:
+                      ref: event.value
+            - id: pp
+              type: NumberInput
+              props:
+                label: PP
+                value:
+                  bind:
+                    ref: state.draft_pp
+                min: 1
+                max: 512
+                step: 1
+              on:
+                change:
+                  - action: set
+                    target: draft_pp
+                    value:
+                      ref: event.value
+            - id: cp
+              type: NumberInput
+              props:
+                label: CP
+                value:
+                  bind:
+                    ref: state.draft_cp
+                min: 1
+                max: 512
+                step: 1
+              on:
+                change:
+                  - action: set
+                    target: draft_cp
+                    value:
+                      ref: event.value
+        - id: apply-row
+          type: Row
+          props: {}
+          children:
+            - id: apply
+              type: Button
+              props:
+                label:
+                  bind:
+                    op: if
+                    args:
+                      - op: and
+                        args:
+                          - op: and
+                            args:
+                              - op: and
+                                args:
+                                  - op: and
+                                    args:
+                                      - op: and
+                                        args:
+                                          - op: eq
+                                            args:
+                                              - ref: state.nodes
+                                              - ref: state.draft_nodes
+                                          - op: eq
+                                            args:
+                                              - ref: state.gpus
+                                              - ref: state.draft_gpus
+                                      - op: eq
+                                        args:
+                                          - ref: state.dp
+                                          - ref: state.draft_dp
+                                  - op: eq
+                                    args:
+                                      - ref: state.tp
+                                      - ref: state.draft_tp
+                              - op: eq
+                                args:
+                                  - ref: state.pp
+                                  - ref: state.draft_pp
+                          - op: eq
+                            args:
+                              - ref: state.cp
+                              - ref: state.draft_cp
+                      - 参数已应用
+                      - 应用并行参数
+                disabled:
+                  bind:
+                    op: and
+                    args:
+                      - op: and
+                        args:
+                          - op: and
+                            args:
+                              - op: and
+                                args:
+                                  - op: and
+                                    args:
+                                      - op: eq
+                                        args:
+                                          - ref: state.nodes
+                                          - ref: state.draft_nodes
+                                      - op: eq
+                                        args:
+                                          - ref: state.gpus
+                                          - ref: state.draft_gpus
+                                  - op: eq
+                                    args:
+                                      - ref: state.dp
+                                      - ref: state.draft_dp
+                              - op: eq
+                                args:
+                                  - ref: state.tp
+                                  - ref: state.draft_tp
+                          - op: eq
+                            args:
+                              - ref: state.pp
+                              - ref: state.draft_pp
+                      - op: eq
+                        args:
+                          - ref: state.cp
+                          - ref: state.draft_cp
+                primary: true
+              on:
+                click:
+                  - action: set
+                    target: nodes
+                    value:
+                      ref: state.draft_nodes
+                  - action: set
+                    target: gpus
+                    value:
+                      ref: state.draft_gpus
+                  - action: set
+                    target: dp
+                    value:
+                      ref: state.draft_dp
+                  - action: set
+                    target: tp
+                    value:
+                      ref: state.draft_tp
+                  - action: set
+                    target: pp
+                    value:
+                      ref: state.draft_pp
+                  - action: set
+                    target: cp
+                    value:
+                      ref: state.draft_cp
+            - id: draft-status
+              type: Text
+              props:
+                text:
+                  bind:
+                    op: if
+                    args:
+                      - op: and
+                        args:
+                          - op: and
+                            args:
+                              - op: and
+                                args:
+                                  - op: and
+                                    args:
+                                      - op: and
+                                        args:
+                                          - op: eq
+                                            args:
+                                              - ref: state.nodes
+                                              - ref: state.draft_nodes
+                                          - op: eq
+                                            args:
+                                              - ref: state.gpus
+                                              - ref: state.draft_gpus
+                                      - op: eq
+                                        args:
+                                          - ref: state.dp
+                                          - ref: state.draft_dp
+                                  - op: eq
+                                    args:
+                                      - ref: state.tp
+                                      - ref: state.draft_tp
+                              - op: eq
+                                args:
+                                  - ref: state.pp
+                                  - ref: state.draft_pp
+                          - op: eq
+                            args:
+                              - ref: state.cp
+                              - ref: state.draft_cp
+                      - 当前布局与参数一致。
+                      - 参数尚未应用；图中仍显示上一次有效布局。
+    - id: equation
+      type: Callout
+      props:
+        text:
+          bind:
+            op: get
+            args:
+              - ref: derived.model
+              - summary
+    - id: gpu-workbench
+      type: Workbench
+      props: {}
+      children:
+        - id: diagram
+          type: Graph
+          props:
+            nodes:
+              bind:
+                op: get
+                args:
+                  - ref: derived.model
+                  - nodes
+            edges:
+              bind:
+                op: get
+                args:
+                  - ref: derived.model
+                  - edges
+            layout: grid
+            selected:
+              bind:
+                ref: state.selected
+            active:
+              bind:
+                ref: derived.active
+          on:
+            select:
+              - action: set
+                target: selected
+                value:
+                  ref: event.value
+        - id: gpu-inspection
+          type: Column
+          props: {}
+          children:
+            - id: group-controls
+              type: ControlPanel
+              props:
+                label: 通信组视图
+              children:
+                - id: dimension
+                  type: Select
+                  props:
+                    label: 高亮所选 Rank 的通信组
+                    value:
+                      bind:
+                        ref: state.dimension
+                    options:
+                      - DP
+                      - TP
+                      - PP
+                      - CP
+                  on:
+                    change:
+                      - action: set
+                        target: dimension
+                        value:
+                          ref: event.value
+            - id: details
+              type: Inspector
+              props:
+                title: Rank 与通信组
+                text:
+                  bind:
+                    ref: derived.info
+            - id: group-help
+              type: Text
+              props:
+                text: 填色表示同一通信组，双线框标记当前 GPU。切换 DP / TP / PP / CP 可对比成员。

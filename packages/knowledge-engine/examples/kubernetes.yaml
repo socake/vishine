@@ -1,0 +1,192 @@
+schemaVersion: 1
+id: pod-scheduling
+title: Kubernetes · 一个 Pod 如何找到节点
+description: 调度器选择节点；kubelet 在被选节点启动容器。图中的关系表示控制流程。
+state:
+  selected:
+    type: string
+    initial: api
+  frame:
+    type: number
+    initial: 0
+    min: 0
+    max: 3
+derived:
+  current:
+    op: at
+    args:
+      - ref: data.frames
+      - ref: state.frame
+  model:
+    op: get
+    args:
+      - ref: derived.current
+      - model
+  explanation:
+    op: get
+    args:
+      - ref: data.explanations
+      - ref: state.selected
+data:
+  nodes:
+    - id: api
+      label: API Server
+      detail: 控制平面
+      x: 0
+      y: 0
+      group: 控制平面
+    - id: scheduler
+      label: Scheduler
+      detail: 控制平面
+      x: 1
+      y: 0
+      group: 控制平面
+    - id: node-a
+      label: Node A
+      detail: kubelet
+      x: 0
+      y: 0.5
+      group: 工作节点
+    - id: node-b
+      label: Node B
+      detail: kubelet
+      x: 1
+      y: 0.5
+      group: 工作节点
+    - id: pod
+      label: Pod
+      detail: 待调度工作负载
+      x: 1
+      y: 1
+      group: 工作负载
+  frames:
+    - model:
+        edges:
+          - from: pod
+            to: api
+            label: 创建对象
+        active:
+          - pod
+          - api
+    - model:
+        edges:
+          - from: api
+            to: scheduler
+            label: 观察对象
+          - from: scheduler
+            to: node-a
+            label: 候选
+          - from: scheduler
+            to: node-b
+            label: 候选
+        active:
+          - scheduler
+          - node-a
+          - node-b
+    - model:
+        edges:
+          - from: scheduler
+            to: api
+            label: 绑定 Node B
+          - from: api
+            to: node-b
+            label: 已绑定Pod
+        active:
+          - api
+          - node-b
+    - model:
+        edges:
+          - from: node-b
+            to: pod
+            label: 运行容器
+          - from: node-b
+            to: api
+            label: 报告状态
+        active:
+          - node-b
+          - pod
+  explanations:
+    api: API Server 接收并校验 Pod 对象，提供控制平面的读写接口。它不转发 Pod 的业务流量。
+    scheduler: 调度器观察尚未绑定节点的 Pod，筛选、评分候选节点，然后通过 API 写入绑定结果；它不直接启动容器。
+    node-a: Node A 是候选工作节点。本例最终选择 Node B，因此 Node A 不启动该 Pod。
+    node-b: Node B 的 kubelet 观察到分配给本节点的 Pod 后，协调容器运行时启动工作负载，并向 API Server 报告状态。
+    pod: Pod 是本例的待调度工作负载。它先被创建为 API 对象，再绑定 Node B，最后由该节点的 kubelet 启动。
+scene:
+  id: root
+  type: Container
+  props: {}
+  children:
+    - id: transport
+      type: PlaybackControl
+      props: {}
+    - id: steps
+      type: Stepper
+      props: {}
+    - id: kubernetes-workbench
+      type: Workbench
+      props: {}
+      children:
+        - id: diagram
+          type: Graph
+          props:
+            nodes:
+              bind:
+                ref: data.nodes
+            edges:
+              bind:
+                op: get
+                args:
+                  - ref: derived.model
+                  - edges
+            active:
+              bind:
+                op: get
+                args:
+                  - ref: derived.model
+                  - active
+            selected:
+              bind:
+                ref: state.selected
+            layout: positioned
+          on:
+            select:
+              - action: set
+                target: selected
+                value:
+                  ref: event.value
+        - id: selected
+          type: Inspector
+          props:
+            title: 选中对象 · 职责与边界
+            text:
+              bind:
+                ref: derived.explanation
+steps:
+  - id: s0
+    title: 提交
+    description: 客户端向 API Server 提交 Pod，对象尚未绑定节点。
+    actions:
+      - action: set
+        target: frame
+        value: 0
+  - id: s1
+    title: 筛选与评分
+    description: 调度器观察未调度 Pod，根据资源与约束筛选、评分候选节点。
+    actions:
+      - action: set
+        target: frame
+        value: 1
+  - id: s2
+    title: 绑定
+    description: 调度器通过 API Server 记录 Pod 与 Node B 的绑定。调度器不直接启动容器。
+    actions:
+      - action: set
+        target: frame
+        value: 2
+  - id: s3
+    title: 启动
+    description: Node B 的 kubelet 观察到分配结果，协调运行时和网络组件启动 Pod，并回报状态。业务流量不经过 API Server。
+    actions:
+      - action: set
+        target: frame
+        value: 3

@@ -1,0 +1,143 @@
+{
+  "schemaVersion": 1,
+  "id": "resistor-lab",
+  "title": "电阻 · 配置扩展实验",
+  "description": "该例只增加JSON配置，复用输入、公式和表达式；没有新增渲染器或计算插件。单位为Ω。",
+  "state": {
+    "r1": {
+      "type": "number",
+      "initial": 10,
+      "min": 1,
+      "max": 100
+    },
+    "r2": {
+      "type": "number",
+      "initial": 20,
+      "min": 1,
+      "max": 100
+    }
+  },
+  "derived": {
+    "series": {
+      "op": "add",
+      "args": [
+        {
+          "ref": "state.r1"
+        },
+        {
+          "ref": "state.r2"
+        }
+      ]
+    },
+    "parallel": {
+      "op": "divide",
+      "args": [
+        {
+          "op": "multiply",
+          "args": [
+            {
+              "ref": "state.r1"
+            },
+            {
+              "ref": "state.r2"
+            }
+          ]
+        },
+        {
+          "ref": "derived.series"
+        }
+      ]
+    }
+  },
+  "scene": {
+    "id": "root",
+    "type": "Container",
+    "props": {},
+    "children": [
+      {
+        "id": "controls",
+        "type": "Row",
+        "props": {},
+        "children": [
+          {
+            "id": "r1",
+            "type": "Slider",
+            "props": {
+              "label": "r1",
+              "value": {
+                "bind": {
+                  "ref": "state.r1"
+                }
+              },
+              "min": 1,
+              "max": 100
+            },
+            "on": {
+              "change": [
+                {
+                  "action": "set",
+                  "target": "r1",
+                  "value": {
+                    "ref": "event.value"
+                  }
+                }
+              ]
+            }
+          },
+          {
+            "id": "r2",
+            "type": "Slider",
+            "props": {
+              "label": "r2",
+              "value": {
+                "bind": {
+                  "ref": "state.r2"
+                }
+              },
+              "min": 1,
+              "max": 100
+            },
+            "on": {
+              "change": [
+                {
+                  "action": "set",
+                  "target": "r2",
+                  "value": {
+                    "ref": "event.value"
+                  }
+                }
+              ]
+            }
+          }
+        ]
+      },
+      {
+        "id": "value",
+        "type": "Text",
+        "props": {
+          "text": {
+            "bind": {
+              "op": "concat",
+              "args": [
+                "串联：",
+                {
+                  "ref": "derived.series"
+                },
+                " Ω；并联：",
+                {
+                  "op": "round",
+                  "args": [
+                    {
+                      "ref": "derived.parallel"
+                    }
+                  ]
+                },
+                " Ω"
+              ]
+            }
+          }
+        }
+      }
+    ]
+  }
+}

@@ -1,0 +1,153 @@
+schemaVersion: 1
+id: tcp-handshake
+title: TCP · 三次握手
+description: 教学序列展示客户端与服务端的连接建立，不模拟丢包、重传与全部TCP状态。
+state:
+  selected:
+    type: string
+    initial: client
+  frame:
+    type: number
+    initial: 0
+    min: 0
+    max: 3
+derived:
+  current:
+    op: at
+    args:
+      - ref: data.frames
+      - ref: state.frame
+  model:
+    op: get
+    args:
+      - ref: derived.current
+      - model
+  explanation:
+    op: get
+    args:
+      - ref: data.explanations
+      - ref: state.selected
+data:
+  nodes:
+    - id: client
+      label: 客户端
+      detail: 主动打开
+      x: 0
+      y: 0.5
+    - id: server
+      label: 服务端
+      detail: 监听连接
+      x: 1
+      y: 0.5
+  frames:
+    - model:
+        edges: []
+        active:
+          - server
+    - model:
+        edges:
+          - from: client
+            to: server
+            label: SYN · seq=x
+        active:
+          - client
+          - server
+    - model:
+        edges:
+          - from: server
+            to: client
+            label: SYN+ACK · ack=x+1
+        active:
+          - server
+          - client
+    - model:
+        edges:
+          - from: client
+            to: server
+            label: ACK · ack=y+1
+        active:
+          - client
+          - server
+  explanations:
+    client: 客户端主动发起连接。先发送 SYN，收到 SYN+ACK 后发送 ACK；此时客户端进入 ESTABLISHED。
+    network: 网络负责承载报文。图中箭头表示端到端通信方向；本教学序列省略实际路由器以及丢包、重传。
+    server: 服务端先监听连接，收到 SYN 后回复 SYN+ACK；收到最后的 ACK 后连接建立。
+scene:
+  id: root
+  type: Container
+  props: {}
+  children:
+    - id: transport
+      type: PlaybackControl
+      props: {}
+    - id: steps
+      type: Stepper
+      props: {}
+    - id: tcp-workbench
+      type: Workbench
+      props: {}
+      children:
+        - id: diagram
+          type: Graph
+          props:
+            nodes:
+              bind:
+                ref: data.nodes
+            edges:
+              bind:
+                op: get
+                args:
+                  - ref: derived.model
+                  - edges
+            active:
+              bind:
+                op: get
+                args:
+                  - ref: derived.model
+                  - active
+            selected:
+              bind:
+                ref: state.selected
+            layout: positioned
+          on:
+            select:
+              - action: set
+                target: selected
+                value:
+                  ref: event.value
+        - id: selected
+          type: Inspector
+          props:
+            title: 选中对象 · 职责与边界
+            text:
+              bind:
+                ref: derived.explanation
+steps:
+  - id: s0
+    title: 准备
+    description: 服务端处于 LISTEN，客户端准备发起连接。
+    actions:
+      - action: set
+        target: frame
+        value: 0
+  - id: s1
+    title: SYN
+    description: 客户端发送 SYN，进入 SYN-SENT；服务端收到后进入 SYN-RECEIVED。
+    actions:
+      - action: set
+        target: frame
+        value: 1
+  - id: s2
+    title: SYN + ACK
+    description: 服务端确认客户端序列号，同时发送自己的初始序列号。
+    actions:
+      - action: set
+        target: frame
+        value: 2
+  - id: s3
+    title: ACK
+    description: 客户端发送 ACK，进入 ESTABLISHED；服务端收到确认后也进入 ESTABLISHED。
+    actions:
+      - action: set
+        target: frame
+        value: 3

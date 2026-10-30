@@ -1,0 +1,60 @@
+{{- $src := .Get "src" | default "" -}}
+{{- $config := dict -}}
+{{- $problem := "" -}}
+{{- if or (not (findRE `^[a-zA-Z0-9_/-]+\.(yaml|yml|json)$` $src)) (in $src "..") -}}
+  {{- $problem = "interactive requires a local YAML or JSON resource path" -}}
+{{- else -}}
+  {{- $resource := or (.Page.Resources.Get $src) (resources.Get $src) -}}
+  {{- with $resource -}}
+    {{- with try (transform.Unmarshal .) -}}
+      {{- with .Err }}{{ $problem = "Cannot parse interactive configuration" }}{{ else }}{{ $config = .Value }}{{ end -}}
+    {{- end -}}
+  {{- else }}{{ $problem = "Interactive configuration not found" }}{{ end -}}
+{{- end -}}
+{{- if not (reflect.IsMap $config) }}{{ $problem = "Interactive configuration must be an object" }}{{ $config = dict }}{{ end -}}
+{{- if isset $config "state" }}
+  {{- if reflect.IsMap $config.state }}
+    {{- range $config.state }}{{ if not (reflect.IsMap .) }}{{ $problem = "Interactive state declaration must be an object" }}{{ end }}{{ end }}
+  {{- else }}{{ $problem = "Interactive state must be an object" }}{{ end }}
+{{- end -}}
+{{- if not $problem -}}
+{{- with .Get "params" -}}
+  {{- with try (transform.Unmarshal .) -}}
+    {{- with .Err -}}{{ $problem = "Invalid interactive params JSON" }}
+    {{- else -}}
+      {{- $state := $config.state | default dict -}}
+      {{- if not (reflect.IsMap .Value) }}{{ $problem = "Interactive params must be an object" }}{{ else }}
+      {{- range $key, $value := .Value -}}
+        {{- if isset $state $key -}}
+          {{- $state = merge $state (dict $key (merge (index $state $key) (dict "initial" $value))) -}}
+        {{- else }}{{ $problem = "Interactive override references an unknown state" }}{{ end -}}
+      {{- end -}}
+      {{- end }}
+      {{- $config = merge $config (dict "state" $state) -}}
+    {{- end -}}
+  {{- end -}}
+{{- end -}}
+{{- end -}}
+{{- if not (reflect.IsMap $config) }}{{ $problem = "Interactive configuration must be an object" }}{{ $config = dict }}{{ end -}}
+{{- $title := $config.title | default "Interactive lesson" -}}
+{{- if $problem -}}
+  {{- warnf "%s: %s" $problem .Position -}}
+  <aside class="ki-fallback" role="note">{{ i18n "interactive_config_error" }}</aside>
+{{- else -}}
+<section class="ki" data-knowledge aria-label="{{ $title }}">
+  <p data-ki-loading>{{ i18n "interactive_loading" }}</p>
+  <div data-ki-mount></div>
+  <details class="ki-fallback" data-ki-fallback open>
+    <summary><span class="ki-fallback-title">{{ $title }} · </span>{{ i18n "interactive_static" }}</summary>
+    <p>{{ $config.description }}</p>
+    {{- $facts := slice -}}
+    {{- range $config.state -}}{{- if .label -}}{{- $facts = $facts | append (dict "label" .label "value" .initial) -}}{{- end -}}{{- end -}}
+    {{- with $facts }}
+    <p>{{ i18n "interactive_initial" }}</p>
+    <dl class="ki-static-facts">{{ range . }}<dt>{{ .label }}</dt><dd>{{ .value }}</dd>{{ end }}</dl>
+    {{- end }}
+    {{ with $config.steps }}{{ if reflect.IsSlice . }}<ol>{{ range . }}{{ if reflect.IsMap . }}<li><strong>{{ .title }}</strong> — {{ .description }}</li>{{ end }}{{ end }}</ol>{{ end }}{{ end }}
+  </details>
+  <script type="application/json" data-ki-config>{{ $config | jsonify | safeJS }}</script>
+</section>
+{{- end -}}

@@ -509,3 +509,15 @@ other = "查看{{ .Provider }}收款码原图"
 
 [sponsor_mobile_hint]
 other = "手机浏览可打开原图，保存后在对应 App 中识别。"
+
+[interactive_loading]
+other = "交互图解加载中…"
+
+[interactive_static]
+other = "文字说明"
+
+[interactive_config_error]
+other = "图解配置无法读取，请检查配置文件。"
+
+[interactive_initial]
+other = "初始配置（不随交互变化）"

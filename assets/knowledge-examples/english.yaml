@@ -1,0 +1,60 @@
+schemaVersion: 1
+id: english-analysis
+title: 英语 · 句子成分探索
+description: 点击词语查看作者提供的成分说明。本例展示标注，不执行自动语法分析。
+state:
+  selected:
+    type: string
+    initial: subject
+derived:
+  explanation:
+    op: get
+    args:
+      - ref: data.explanations
+      - ref: state.selected
+data:
+  tokens:
+    - id: subject
+      text: The curious student
+      label: 主语
+    - id: verb
+      text: reads
+      label: 谓语
+    - id: object
+      text: a book
+      label: 宾语
+    - id: adverb
+      text: every evening.
+      label: 时间状语
+  explanations:
+    subject: The curious student 是名词短语，充当主语。curious 修饰 student。
+    verb: reads 是一般现在时，主语为第三人称单数，因此使用 -s 形式。
+    object: a book 是名词短语，充当 reads 的宾语。
+    adverb: every evening 表示习惯性动作发生的时间。
+scene:
+  id: root
+  type: Container
+  props: {}
+  children:
+    - id: sentence
+      type: RichText
+      props:
+        selected:
+          bind:
+            ref: state.selected
+        tokens:
+          bind:
+            ref: data.tokens
+      on:
+        select:
+          - action: set
+            target: selected
+            value:
+              ref: event.value
+    - id: explain
+      type: ExplanationPanel
+      props:
+        title: 句子成分
+        text:
+          bind:
+            ref: derived.explanation

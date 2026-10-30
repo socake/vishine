@@ -8,6 +8,7 @@ case "$VISHINE_SITE" in exampleSite|tutorialSite) ;; *) echo 'Site must be examp
 case "$VISHINE_MODE" in build|serve) ;; *) echo 'Usage: sh scripts/theme-dev.sh [build|serve] [exampleSite|tutorialSite]' >&2; exit 2;; esac
 VISHINE_RUN_DIR=${VISHINE_RUNTIME_DIR:-"$VISHINE_THEME_ROOT/.local"}
 HUGO_BIN=${HUGO_BIN:-hugo}
+if [ ! -f "$VISHINE_THEME_ROOT/assets/knowledge-dist/manifest.json" ]; then sh "$VISHINE_THEME_ROOT/scripts/build-interactive.sh"; fi
 mkdir -p "$VISHINE_RUN_DIR/$VISHINE_SITE/resources" "$VISHINE_RUN_DIR/cache"
 export HUGO_RESOURCEDIR="$VISHINE_RUN_DIR/$VISHINE_SITE/resources"
 if [ "$VISHINE_MODE" = serve ]; then

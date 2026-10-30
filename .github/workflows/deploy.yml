@@ -36,6 +36,11 @@ jobs:
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Build interactive resources
+        run: sh scripts/build-interactive.sh
       - name: Setup Pages
         id: pages
         uses: actions/configure-pages@v5
@@ -50,6 +55,8 @@ jobs:
           hugo --source exampleSite --gc --minify --baseURL "$BASE/"
           # 教程文档站 → /tutorial/ 子路径，输出合并进 demo 的 public/tutorial
           hugo --source tutorialSite --gc --minify --baseURL "$BASE/tutorial/" -d "$PWD/exampleSite/public/tutorial"
+      - name: Validate rendered interactive lessons
+        run: npm --prefix packages/knowledge-engine run validate:html -- "$GITHUB_WORKSPACE/exampleSite/public"
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:

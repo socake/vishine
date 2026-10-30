@@ -1,0 +1,141 @@
+schemaVersion: 1
+id: ring-allreduce
+title: Ring AllReduce · 数据如何汇合
+description: 四个 Rank，每个输入分成四块。示例中 Rank r 的每块值为 r+1；最终每块应为10。
+state:
+  selected:
+    type: string
+    initial: "0"
+derived:
+  model:
+    op: ring
+    args:
+      - 4
+      - 2
+      - ref: step
+  info:
+    op: ringInfo
+    args:
+      - ref: derived.model
+      - ref: state.selected
+  blocks:
+    op: ringBlocks
+    args:
+      - ref: derived.model
+      - ref: state.selected
+data: {}
+scene:
+  id: root
+  type: Container
+  props: {}
+  children:
+    - id: transport
+      type: PlaybackControl
+      props: {}
+    - id: ring-workbench
+      type: Workbench
+      props: {}
+      children:
+        - id: ring-visual
+          type: Column
+          props: {}
+          children:
+            - id: phase
+              type: Badge
+              props:
+                text:
+                  bind:
+                    op: get
+                    args:
+                      - ref: derived.model
+                      - phase
+            - id: diagram
+              type: Graph
+              props:
+                nodes:
+                  bind:
+                    op: get
+                    args:
+                      - ref: derived.model
+                      - nodes
+                edges:
+                  bind:
+                    op: get
+                    args:
+                      - ref: derived.model
+                      - edges
+                layout: ring
+                selected:
+                  bind:
+                    ref: state.selected
+              on:
+                select:
+                  - action: set
+                    target: selected
+                    value:
+                      ref: event.value
+            - id: summary
+              type: Text
+              props:
+                text:
+                  bind:
+                    op: get
+                    args:
+                      - ref: derived.model
+                      - summary
+        - id: ring-inspection
+          type: Column
+          props: {}
+          children:
+            - id: rank-label
+              type: Heading
+              props:
+                text:
+                  bind:
+                    op: concat
+                    args:
+                      - "Rank "
+                      - ref: state.selected
+                      - " · 当前分块"
+            - id: block-view
+              type: DataBlocks
+              props:
+                items:
+                  bind:
+                    ref: derived.blocks
+            - id: chunks
+              type: Inspector
+              props:
+                title: 数据块的贡献来源
+                text:
+                  bind:
+                    ref: derived.info
+steps:
+  - id: s0
+    title: 初态
+    description: 每个 Rank 拥有自己的四个数据块。
+    actions: []
+  - id: s1
+    title: 归约分发 1
+    description: 所有 Rank 同时发送一个分块，接收方与本地分块相加。
+    actions: []
+  - id: s2
+    title: 归约分发 2
+    description: 所有 Rank 同时发送一个分块，接收方与本地分块相加。
+    actions: []
+  - id: s3
+    title: 归约分发 3
+    description: 所有 Rank 同时发送一个分块，接收方与本地分块相加。
+    actions: []
+  - id: s4
+    title: 全量收集 1
+    description: 转发已经完成归约的数据块，最终每个 Rank 都拥有完整结果。
+    actions: []
+  - id: s5
+    title: 全量收集 2
+    description: 转发已经完成归约的数据块，最终每个 Rank 都拥有完整结果。
+    actions: []
+  - id: s6
+    title: 全量收集 3
+    description: 转发已经完成归约的数据块，最终每个 Rank 都拥有完整结果。
+    actions: []

@@ -6,9 +6,11 @@ cd "$VISHINE_CHECK_ROOT"
 HUGO_BIN=${HUGO_BIN:-hugo}
 export HUGO_BIN
 "$HUGO_BIN" version
+(cd packages/knowledge-engine && npm ci && npm run check && npm run build)
 sh scripts/theme-dev.sh build exampleSite
 sh scripts/theme-dev.sh build tutorialSite
 python3 scripts/check-section-hub.py --hugo "$HUGO_BIN"
+python3 scripts/check-interactive.py --hugo "$HUGO_BIN"
 python3 scripts/check-component-docs.py --hugo "$HUGO_BIN"
 python3 scripts/check-home-config.py --hugo "$HUGO_BIN"
 python3 scripts/check-theme-contracts.py --hugo "$HUGO_BIN"

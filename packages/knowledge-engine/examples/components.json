@@ -1,0 +1,432 @@
+{
+  "schemaVersion": 1,
+  "id": "component-kit",
+  "title": "公共组件 · 状态与布局",
+  "description": "检查控件层级、选中与高亮、长标签、禁用状态和连线避让。",
+  "state": {
+    "selected": {
+      "type": "string",
+      "initial": "a"
+    },
+    "count": {
+      "type": "number",
+      "initial": 0
+    },
+    "variant": {
+      "type": "string",
+      "initial": "secondary",
+      "options": [
+        "primary",
+        "secondary",
+        "ghost"
+      ]
+    },
+    "keyboardMode": {
+      "type": "string",
+      "initial": "首项",
+      "options": [
+        "首项",
+        "中间项"
+      ]
+    },
+    "gridSelected": {
+      "type": "string",
+      "initial": "g-c"
+    }
+  },
+  "scene": {
+    "id": "root",
+    "type": "Container",
+    "props": {},
+    "children": [
+      {
+        "id": "controls",
+        "type": "ControlPanel",
+        "props": {
+          "label": "组件操作"
+        },
+        "children": [
+          {
+            "id": "buttons",
+            "type": "Row",
+            "props": {},
+            "children": [
+              {
+                "id": "primary",
+                "type": "Button",
+                "props": {
+                  "label": "主要操作",
+                  "variant": "primary"
+                },
+                "on": {
+                  "click": [
+                    {
+                      "action": "set",
+                      "target": "count",
+                      "value": {
+                        "op": "add",
+                        "args": [
+                          {
+                            "ref": "state.count"
+                          },
+                          1
+                        ]
+                      }
+                    }
+                  ]
+                }
+              },
+              {
+                "id": "secondary",
+                "type": "Button",
+                "props": {
+                  "label": "次要操作",
+                  "variant": {
+                    "bind": {
+                      "ref": "state.variant"
+                    }
+                  }
+                },
+                "on": {
+                  "click": [
+                    {
+                      "action": "set",
+                      "target": "count",
+                      "value": {
+                        "op": "add",
+                        "args": [
+                          {
+                            "ref": "state.count"
+                          },
+                          1
+                        ]
+                      }
+                    }
+                  ]
+                }
+              },
+              {
+                "id": "ghost",
+                "type": "Button",
+                "props": {
+                  "label": "轻量操作",
+                  "variant": "ghost",
+                  "size": "small"
+                },
+                "on": {
+                  "click": [
+                    {
+                      "action": "set",
+                      "target": "count",
+                      "value": 0
+                    }
+                  ]
+                }
+              },
+              {
+                "id": "disabled-button",
+                "type": "Button",
+                "props": {
+                  "label": "暂不可用",
+                  "disabled": true
+                }
+              },
+              {
+                "id": "busy-button",
+                "type": "Button",
+                "props": {
+                  "label": "处理中",
+                  "busy": true
+                }
+              }
+            ]
+          },
+          {
+            "id": "result",
+            "type": "Text",
+            "props": {
+              "text": {
+                "bind": {
+                  "op": "concat",
+                  "args": [
+                    "操作次数：",
+                    {
+                      "ref": "state.count"
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          {
+            "id": "inputs",
+            "type": "Row",
+            "props": {},
+            "children": [
+              {
+                "id": "appearance",
+                "type": "Select",
+                "props": {
+                  "label": "次要按钮样式",
+                  "value": {
+                    "bind": {
+                      "ref": "state.variant"
+                    }
+                  },
+                  "options": [
+                    "primary",
+                    "secondary",
+                    "ghost"
+                  ]
+                },
+                "on": {
+                  "change": [
+                    {
+                      "action": "set",
+                      "target": "variant",
+                      "value": {
+                        "ref": "event.value"
+                      }
+                    }
+                  ]
+                }
+              },
+              {
+                "id": "disabled-input",
+                "type": "NumberInput",
+                "props": {
+                  "label": "禁用输入",
+                  "value": 8,
+                  "disabled": true
+                }
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "graph",
+        "type": "Graph",
+        "props": {
+          "layout": "positioned",
+          "selected": {
+            "bind": {
+              "ref": "state.selected"
+            }
+          },
+          "active": [
+            "b"
+          ],
+          "nodes": [
+            {
+              "id": "a",
+              "label": "当前选中",
+              "detail": "双线框",
+              "x": 0,
+              "y": 0
+            },
+            {
+              "id": "b",
+              "label": "高亮对象",
+              "detail": "仅底色强调",
+              "x": 1,
+              "y": 0
+            },
+            {
+              "id": "c",
+              "label": "较长的节点名称会自动换行",
+              "detail": "完整内容可查看提示",
+              "status": "running",
+              "x": 0,
+              "y": 0.5
+            },
+            {
+              "id": "d",
+              "label": "已完成对象",
+              "status": "complete",
+              "x": 1,
+              "y": 0.5
+            },
+            {
+              "id": "e",
+              "label": "暂不可用",
+              "disabled": true,
+              "detail": "不可点击",
+              "x": 0,
+              "y": 1
+            },
+            {
+              "id": "f",
+              "label": "异常状态",
+              "status": "error",
+              "x": 1,
+              "y": 1
+            }
+          ],
+          "edges": [
+            {
+              "from": "a",
+              "to": "f",
+              "label": "绕开中间节点"
+            },
+            {
+              "from": "b",
+              "to": "d",
+              "label": "正常传输"
+            },
+            {
+              "from": "c",
+              "to": "a",
+              "label": "返回路径"
+            },
+            {
+              "from": "d",
+              "to": "f",
+              "label": "静态关系",
+              "active": false
+            }
+          ]
+        },
+        "on": {
+          "select": [
+            {
+              "action": "set",
+              "target": "selected",
+              "value": {
+                "ref": "event.value"
+              }
+            }
+          ]
+        }
+      },
+      {
+        "id": "selected-info",
+        "type": "Inspector",
+        "props": {
+          "title": "当前选择",
+          "text": {
+            "bind": {
+              "ref": "state.selected"
+            }
+          }
+        }
+      },
+      {
+        "id": "empty",
+        "type": "Graph",
+        "props": {
+          "nodes": [],
+          "edges": []
+        }
+      },
+      {
+        "id": "keyboard-mode",
+        "type": "Select",
+        "props": {
+          "label": "禁用位置 · 方向键导航验证",
+          "value": {
+            "bind": {
+              "ref": "state.keyboardMode"
+            }
+          },
+          "options": [
+            "首项",
+            "中间项"
+          ]
+        },
+        "on": {
+          "change": [
+            {
+              "action": "set",
+              "target": "keyboardMode",
+              "value": {
+                "ref": "event.value"
+              }
+            }
+          ]
+        }
+      },
+      {
+        "id": "keyboard-grid",
+        "type": "Graph",
+        "props": {
+          "layout": "grid",
+          "selected": {
+            "bind": {
+              "ref": "state.gridSelected"
+            }
+          },
+          "nodes": {
+            "bind": {
+              "op": "get",
+              "args": [
+                {
+                  "ref": "data.keyboardSets"
+                },
+                {
+                  "ref": "state.keyboardMode"
+                }
+              ]
+            }
+          },
+          "edges": []
+        },
+        "on": {
+          "select": [
+            {
+              "action": "set",
+              "target": "gridSelected",
+              "value": {
+                "ref": "event.value"
+              }
+            }
+          ]
+        }
+      }
+    ]
+  },
+  "data": {
+    "keyboardSets": {
+      "首项": [
+        {
+          "id": "g-a",
+          "label": "节点 A",
+          "group": "键盘导航",
+          "disabled": true
+        },
+        {
+          "id": "g-b",
+          "label": "节点 B",
+          "group": "键盘导航",
+          "disabled": false
+        },
+        {
+          "id": "g-c",
+          "label": "节点 C",
+          "group": "键盘导航",
+          "disabled": false
+        }
+      ],
+      "中间项": [
+        {
+          "id": "g-a",
+          "label": "节点 A",
+          "group": "键盘导航",
+          "disabled": false
+        },
+        {
+          "id": "g-b",
+          "label": "节点 B",
+          "group": "键盘导航",
+          "disabled": true
+        },
+        {
+          "id": "g-c",
+          "label": "节点 C",
+          "group": "键盘导航",
+          "disabled": false
+        }
+      ]
+    }
+  }
+}

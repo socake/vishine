@@ -1,0 +1,60 @@
+schemaVersion: 1
+id: batch-size-lab
+title: 批量数据体积实验
+description: 调整数量与单项体积，观察理想总量。这里仅计算数量乘体积，不包含压缩、协议头或内存对齐开销。
+state:
+  count: { type: number, initial: 8, min: 1, max: 64, label: 每批数量 }
+  size: { type: number, initial: 4, min: 1, max: 128, label: 单项体积（MiB） }
+derived:
+  total:
+    op: multiply
+    args: [{ ref: state.count }, { ref: state.size }]
+scene:
+  id: lesson
+  type: Container
+  children:
+    - id: controls
+      type: ControlPanel
+      props: { label: 批量参数 }
+      children:
+        - id: inputs
+          type: Row
+          children:
+            - id: count-input
+              type: Slider
+              props:
+                label: 每批数量
+                value: { bind: { ref: state.count } }
+                min: 1
+                max: 64
+                step: 1
+              on:
+                change: [{ action: set, target: count, value: { ref: event.value } }]
+            - id: size-input
+              type: NumberInput
+              props:
+                label: 单项体积（MiB）
+                value: { bind: { ref: state.size } }
+                min: 1
+                max: 128
+                step: 1
+              on:
+                change: [{ action: set, target: size, value: { ref: event.value } }]
+    - id: result
+      type: Text
+      props:
+        text:
+          bind:
+            op: concat
+            args:
+              - { ref: state.count }
+              - ' × '
+              - { ref: state.size }
+              - ' MiB = '
+              - { ref: derived.total }
+              - ' MiB'
+    - id: explanation
+      type: ExplanationPanel
+      props:
+        title: 如何解读
+        text: 固定单项体积时，数量翻倍则理想总量翻倍。实际传输量或设备内存用量还需单独考虑额外开销。

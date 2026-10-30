@@ -326,3 +326,7 @@ vishine 二次开发自 **[Blowfish](https://github.com/nunocoracao/blowfish)**�
 ---
 
 由 **星辉 (Wenzhuo Huang)** 用爱发电 · [github.com/socake/vishine](https://github.com/socake/vishine)
+
+## 交互式知识讲解（实验性 v0.1）
+
+新增 `interactive` shortcode：YAML/JSON 组合控件、SVG、公式、图表与分步讲解。需要 Node.js 构建引擎资源，之后由 Hugo 发布静态文件。见 [使用与开发指南](docs/interactive/README.md) 和教程 17。已验证范围与未实现项见 [验收记录](docs/interactive/ACCEPTANCE.md)。

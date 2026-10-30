@@ -1,0 +1,662 @@
+{
+  "engineVersion": "0.1.0",
+  "status": "experimental",
+  "schemaVersion": 1,
+  "components": {
+    "Workbench": {
+      "props": {
+        "side": {
+          "enum": [
+            "start",
+            "end"
+          ]
+        }
+      },
+      "children": true,
+      "description": "图形与解释同屏的双栏讲解区；小屏上下排列"
+    },
+    "DataBlocks": {
+      "props": {
+        "items": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "label": {
+                "type": "string"
+              },
+              "value": {
+                "type": "number"
+              },
+              "detail": {
+                "type": "string"
+              },
+              "complete": {
+                "type": "boolean"
+              }
+            },
+            "required": [
+              "label",
+              "value",
+              "detail",
+              "complete"
+            ]
+          }
+        }
+      },
+      "description": "显示分块值、来源与完成状态"
+    },
+    "ControlPanel": {
+      "props": {
+        "label": {
+          "type": "string"
+        },
+        "gap": {
+          "type": "number"
+        }
+      },
+      "children": true,
+      "description": "轻底色操作区，组合输入、动作与就地反馈，与结果呈现分区"
+    },
+    "Container": {
+      "props": {
+        "gap": {
+          "type": "number"
+        }
+      },
+      "children": true,
+      "description": "垂直容器"
+    },
+    "Row": {
+      "props": {
+        "gap": {
+          "type": "number"
+        }
+      },
+      "children": true,
+      "description": "可换行横向布局"
+    },
+    "Column": {
+      "props": {
+        "gap": {
+          "type": "number"
+        }
+      },
+      "children": true,
+      "description": "垂直布局"
+    },
+    "Grid": {
+      "props": {
+        "columns": {
+          "type": "number"
+        },
+        "gap": {
+          "type": "number"
+        }
+      },
+      "children": true,
+      "description": "响应式网格"
+    },
+    "Card": {
+      "props": {
+        "title": {
+          "type": "string"
+        }
+      },
+      "children": true,
+      "description": "内容面板"
+    },
+    "Tabs": {
+      "props": {
+        "labels": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      },
+      "children": true,
+      "description": "键盘可操作的标签页"
+    },
+    "Text": {
+      "props": {
+        "text": {
+          "type": "string"
+        }
+      },
+      "description": "安全纯文本"
+    },
+    "Heading": {
+      "props": {
+        "text": {
+          "type": "string"
+        }
+      },
+      "description": "组件内标题"
+    },
+    "RichText": {
+      "props": {
+        "tokens": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "id": {
+                "type": "string"
+              },
+              "text": {
+                "type": "string"
+              },
+              "label": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "id",
+              "text"
+            ]
+          }
+        },
+        "selected": {
+          "type": "string"
+        }
+      },
+      "events": [
+        "select"
+      ],
+      "description": "作者标注的可选词元"
+    },
+    "Markdown": {
+      "props": {
+        "text": {
+          "type": "string"
+        }
+      },
+      "description": "受限段落、粗体和行内代码；不支持原始HTML"
+    },
+    "CodeBlock": {
+      "props": {
+        "code": {
+          "type": "string"
+        },
+        "language": {
+          "type": "string"
+        },
+        "highlight": {
+          "type": "number"
+        }
+      },
+      "events": [
+        "select"
+      ],
+      "description": "代码行号与可选行高亮"
+    },
+    "Callout": {
+      "props": {
+        "text": {
+          "type": "string"
+        }
+      },
+      "description": "说明"
+    },
+    "Badge": {
+      "props": {
+        "text": {
+          "type": "string"
+        }
+      },
+      "description": "状态标签"
+    },
+    "Table": {
+      "props": {
+        "columns": {
+          "type": "array"
+        },
+        "rows": {
+          "type": "array",
+          "items": {
+            "type": "array"
+          }
+        }
+      },
+      "description": "可横向滚动的数据表"
+    },
+    "Formula": {
+      "props": {
+        "latex": {
+          "type": "string"
+        }
+      },
+      "description": "按需加载KaTeX"
+    },
+    "Button": {
+      "props": {
+        "label": {
+          "type": "string",
+          "minLength": 1
+        },
+        "disabled": {
+          "type": "boolean"
+        },
+        "primary": {
+          "type": "boolean"
+        },
+        "variant": {
+          "enum": [
+            "primary",
+            "secondary",
+            "ghost"
+          ]
+        },
+        "size": {
+          "enum": [
+            "small",
+            "regular"
+          ]
+        },
+        "busy": {
+          "type": "boolean"
+        }
+      },
+      "events": [
+        "click"
+      ],
+      "description": "派发声明式动作",
+      "required": [
+        "label"
+      ]
+    },
+    "Slider": {
+      "props": {
+        "label": {
+          "type": "string",
+          "minLength": 1
+        },
+        "value": {
+          "type": "number"
+        },
+        "min": {
+          "type": "number"
+        },
+        "max": {
+          "type": "number"
+        },
+        "step": {
+          "type": "number"
+        },
+        "disabled": {
+          "type": "boolean"
+        }
+      },
+      "events": [
+        "change"
+      ],
+      "description": "范围输入",
+      "required": [
+        "label",
+        "value"
+      ]
+    },
+    "NumberInput": {
+      "props": {
+        "label": {
+          "type": "string",
+          "minLength": 1
+        },
+        "value": {
+          "type": "number"
+        },
+        "min": {
+          "type": "number"
+        },
+        "max": {
+          "type": "number"
+        },
+        "step": {
+          "type": "number"
+        },
+        "disabled": {
+          "type": "boolean"
+        }
+      },
+      "events": [
+        "change"
+      ],
+      "description": "数值输入",
+      "required": [
+        "label",
+        "value"
+      ]
+    },
+    "Select": {
+      "props": {
+        "label": {
+          "type": "string",
+          "minLength": 1
+        },
+        "value": {
+          "type": "string"
+        },
+        "options": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "disabled": {
+          "type": "boolean"
+        }
+      },
+      "events": [
+        "change"
+      ],
+      "description": "枚举输入",
+      "required": [
+        "label",
+        "value"
+      ]
+    },
+    "Toggle": {
+      "props": {
+        "label": {
+          "type": "string",
+          "minLength": 1
+        },
+        "value": {
+          "type": "boolean"
+        },
+        "disabled": {
+          "type": "boolean"
+        }
+      },
+      "events": [
+        "change"
+      ],
+      "description": "布尔输入",
+      "required": [
+        "label",
+        "value"
+      ]
+    },
+    "Graph": {
+      "props": {
+        "nodes": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "id": {
+                "type": "string"
+              },
+              "label": {
+                "type": "string"
+              },
+              "group": {
+                "type": "string"
+              },
+              "detail": {
+                "type": "string"
+              },
+              "disabled": {
+                "type": "boolean"
+              },
+              "status": {
+                "enum": [
+                  "idle",
+                  "running",
+                  "complete",
+                  "error"
+                ]
+              },
+              "x": {
+                "type": "number",
+                "minimum": 0,
+                "maximum": 1
+              },
+              "y": {
+                "type": "number",
+                "minimum": 0,
+                "maximum": 1
+              }
+            },
+            "required": [
+              "id",
+              "label"
+            ]
+          }
+        },
+        "edges": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "from": {
+                "type": "string"
+              },
+              "to": {
+                "type": "string"
+              },
+              "label": {
+                "type": "string"
+              },
+              "active": {
+                "type": "boolean"
+              }
+            },
+            "required": [
+              "from",
+              "to"
+            ]
+          }
+        },
+        "layout": {
+          "enum": [
+            "grid",
+            "ring",
+            "flow",
+            "positioned"
+          ]
+        },
+        "selected": {
+          "type": "string"
+        },
+        "active": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      },
+      "events": [
+        "select"
+      ],
+      "description": "节点分组、选择及有向关系"
+    },
+    "Node": {
+      "props": {
+        "label": {
+          "type": "string"
+        },
+        "detail": {
+          "type": "string"
+        },
+        "disabled": {
+          "type": "boolean"
+        },
+        "status": {
+          "enum": [
+            "idle",
+            "running",
+            "complete",
+            "error"
+          ]
+        },
+        "x": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1
+        },
+        "y": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1
+        }
+      },
+      "events": [
+        "select"
+      ],
+      "description": "可选知识节点"
+    },
+    "Edge": {
+      "props": {
+        "from": {
+          "type": "string"
+        },
+        "to": {
+          "type": "string"
+        },
+        "label": {
+          "type": "string"
+        },
+        "active": {
+          "type": "boolean"
+        }
+      },
+      "description": "Graph子节点的有向关系"
+    },
+    "Group": {
+      "props": {
+        "label": {
+          "type": "string"
+        }
+      },
+      "children": true,
+      "description": "语义分组"
+    },
+    "Chart": {
+      "props": {
+        "kind": {
+          "enum": [
+            "line",
+            "bar",
+            "scatter"
+          ]
+        },
+        "points": {
+          "type": "array",
+          "items": {
+            "type": "array",
+            "items": {
+              "type": "number"
+            },
+            "minItems": 2,
+            "maxItems": 2
+          }
+        },
+        "label": {
+          "type": "string"
+        },
+        "xDomain": {
+          "type": "array",
+          "items": {
+            "type": "number"
+          },
+          "minItems": 2,
+          "maxItems": 2
+        },
+        "yDomain": {
+          "type": "array",
+          "items": {
+            "type": "number"
+          },
+          "minItems": 2,
+          "maxItems": 2
+        }
+      },
+      "events": [
+        "select"
+      ],
+      "description": "按需加载ECharts"
+    },
+    "Inspector": {
+      "props": {
+        "text": {
+          "type": "string"
+        },
+        "title": {
+          "type": "string"
+        }
+      },
+      "description": "选中内容详情"
+    },
+    "ExplanationPanel": {
+      "props": {
+        "text": {
+          "type": "string"
+        },
+        "title": {
+          "type": "string"
+        }
+      },
+      "description": "解释内容"
+    },
+    "Stepper": {
+      "props": {},
+      "description": "步骤跳转"
+    },
+    "PlaybackControl": {
+      "props": {},
+      "description": "上一步、下一步、播放、暂停、速度"
+    },
+    "Legend": {
+      "props": {
+        "items": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      },
+      "description": "文字图例"
+    }
+  },
+  "operators": [
+    "add",
+    "subtract",
+    "multiply",
+    "divide",
+    "eq",
+    "gt",
+    "lt",
+    "and",
+    "or",
+    "not",
+    "if",
+    "concat",
+    "get",
+    "at",
+    "length",
+    "round",
+    "gpu",
+    "gpuInfo",
+    "gpuGroup",
+    "ring",
+    "ringInfo",
+    "ringBlocks",
+    "quadratic"
+  ],
+  "actions": [
+    "set",
+    "toggle",
+    "reset",
+    "next",
+    "previous",
+    "play",
+    "pause",
+    "goto"
+  ]
+}

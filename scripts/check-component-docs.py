@@ -159,6 +159,15 @@ noClasses=false
         html = (work/'sponsor-fallbacks/sponsor-override/index.html').read_text()
         assert html.count('class="sp-code sp-code--') == 1
         assert 'src="https://example.test/legacy.png"' in html and 'href="https://example.test/legacy.png"' in html
+        # The new public recipe is copied from the actual rendered tutorial.
+        interactive = Snippets()
+        interactive.feed((work/'tutorial/docs/17-interactive/index.html').read_text())
+        assert len(interactive.items) == 2
+        (host/'content/posts/interactive.md').write_text('---\ntitle: Interactive copied recipe\n---\n'+'\n\n'.join(interactive.items))
+        build(host, work/'interactive')
+        result=(work/'interactive/posts/interactive/index.html').read_text()
+        assert result.count('data-knowledge') == 2 and 'data-ki-fallback' in result
+        assert '/lab/knowledge-dist/loader-' in result
     print('PASS: catalog coverage; component recipes, chapter 14 and 16 copied from rendered tutorial; embed/sponsor parameters, fallbacks and subpaths')
 
 if __name__ == '__main__':
