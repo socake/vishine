@@ -12,6 +12,8 @@ sh scripts/theme-dev.sh build tutorialSite
 python3 scripts/check-section-hub.py --hugo "$HUGO_BIN"
 python3 scripts/check-interactive.py --hugo "$HUGO_BIN"
 python3 scripts/check-component-docs.py --hugo "$HUGO_BIN"
+python3 tests/draft-review.test.py
+python3 scripts/check-draft-review.py --hugo "$HUGO_BIN"
 python3 scripts/check-home-config.py --hugo "$HUGO_BIN"
 python3 scripts/check-theme-contracts.py --hugo "$HUGO_BIN"
 node --test tests/list-state.test.cjs tests/search-state.test.cjs
