@@ -257,7 +257,7 @@
 .ki-formula {
   overflow: auto;
   max-width: 100%;
-  overscroll-behavior: contain;
+  overscroll-behavior: contain auto;
 }
 .ki-graph-scroll svg {
   display: block;
@@ -485,7 +485,7 @@
 .ki-grid-graph .ki-node-groups {
   max-height: 384px;
   overflow: auto;
-  overscroll-behavior: contain;
+  overscroll-behavior: contain auto;
   padding: 3px;
   grid-template-columns: repeat(auto-fit, minmax(min(230px, 100%), 1fr));
 }
@@ -1189,10 +1189,6 @@
   .ki input[type="number"],
   .ki select {
     font-size: 16px;
-  }
-  .ki .ki-node-groups,
-  .ki .ki-graph-scroll {
-    overscroll-behavior-y: auto;
   }
   .ki:fullscreen {
     padding: max(16px, env(safe-area-inset-top))
