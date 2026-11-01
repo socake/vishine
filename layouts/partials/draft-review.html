@@ -1,0 +1,23 @@
+{{- if partial "draft-review-enabled.html" . -}}
+{{- $labels := dict -}}
+{{- range slice "title" "start" "stop" "selection" "selectionHint" "paragraph" "close" "comment" "save" "cancel" "empty" "saved" "error" "conflict" "locate" "resolve" "reopen" "edit" "archive" "stale" "open" "resolved" "hint" "quote" "unmatched" "pending" "refresh" "changed" "discard" "previous" "next" -}}
+  {{- $labels = merge $labels (dict . (i18n (printf "dr_%s" .))) -}}
+{{- end -}}
+<div id="draftReview" class="dr" data-review-ui>
+  <div class="dr-dock"><button type="button" data-dr="toggle" aria-expanded="false">{{ i18n "dr_start" }}</button><button type="button" data-dr="selection" hidden>{{ i18n "dr_selection" }}</button></div>
+  <aside class="dr-panel" aria-label="{{ i18n "dr_title" }}" hidden>
+    <header><strong>{{ i18n "dr_title" }}</strong><button type="button" data-dr="close">{{ i18n "dr_close" }}</button></header>
+    <p class="dr-hint">{{ i18n "dr_hint" }}</p>
+    <p class="dr-status" role="status" aria-live="polite"></p>
+    <form hidden>
+      <label for="drQuote">{{ i18n "dr_quote" }}</label><blockquote id="drQuote"></blockquote>
+      <label for="drComment">{{ i18n "dr_comment" }}</label><textarea id="drComment" rows="4" maxlength="8000" required></textarea>
+      <div class="dr-actions"><button type="submit">{{ i18n "dr_save" }}</button><button type="button" data-dr="cancel">{{ i18n "dr_cancel" }}</button></div>
+    </form>
+    <div class="dr-actions"><button type="button" data-dr="refresh">{{ i18n "dr_refresh" }}</button></div>
+    <div class="dr-list"></div>
+  </aside>
+</div>
+{{- $config := dict "api" (os.Getenv "HUGO_DRAFT_REVIEW_API") "token" (os.Getenv "HUGO_DRAFT_REVIEW_TOKEN") "article" .File.Path "labels" $labels "revision" (sha256 (readFile (printf "content/%s" .File.Path))) -}}
+<script id="draftReviewConfig" type="application/json">{{ $config | jsonify | safeJS }}</script>
+{{- end -}}

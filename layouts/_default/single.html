@@ -3,6 +3,12 @@
   <script>
   (function(){try{var w=localStorage.getItem('vishine-readwidth');if(w==='wide'||w==='comfortable'){document.documentElement.setAttribute('data-readwidth',w);}}catch(e){}})();
   </script>
+  {{ if partial "draft-review-enabled.html" . }}
+    {{ with resources.Get "css/draft-review.css" }}
+      {{ $style := . | minify | fingerprint }}
+      <link rel="stylesheet" href="{{ $style.RelPermalink }}" integrity="{{ $style.Data.Integrity }}">
+    {{ end }}
+  {{ end }}
 {{ end }}
 
 {{ define "main" }}
@@ -79,6 +85,7 @@
     </div>
 
     {{ partial "extensions/article-after.html" . }}
+    {{ partial "draft-review.html" . }}
     {{ if and $options.shownavigation $reading.enabled }}{{ partial "roadmap-navigation.html" (dict "page" . "model" $reading) }}{{ end }}
 
     {{- /* 本系列文章导航（文章属于某 series 时显示，否则不渲染） */ -}}
@@ -167,6 +174,12 @@
 {{ end }}
 
 {{ define "footer-scripts" }}
+  {{ if partial "draft-review-enabled.html" . }}
+    {{ with resources.Get "js/draft-review.js" }}
+      {{ $script := . | minify | fingerprint }}
+      <script src="{{ $script.RelPermalink }}" integrity="{{ $script.Data.Integrity }}" defer></script>
+    {{ end }}
+  {{ end }}
   {{ if .HasShortcode "html-embed" }}
     {{ with resources.Get "js/html-embed.js" }}
       {{ $script := . }}{{ if hugo.IsProduction }}{{ $script = $script | minify }}{{ end }}

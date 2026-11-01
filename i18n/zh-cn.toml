@@ -521,3 +521,98 @@ other = "图解配置无法读取，请检查配置文件。"
 
 [interactive_initial]
 other = "初始配置（不随交互变化）"
+
+# Local draft review
+
+[dr_previous]
+other = "上一页标注"
+
+[dr_next]
+other = "下一页标注"
+
+[dr_discard]
+other = "当前意见尚未保存，切换标注会丢弃输入。继续吗？"
+
+[dr_selectionHint]
+other = "请先选中同一段内的文字，再点击标注；跨段内容可分别添加段落标注。"
+
+[dr_title]
+other = "草稿标注"
+
+[dr_start]
+other = "审阅草稿"
+
+[dr_stop]
+other = "结束审阅"
+
+[dr_selection]
+other = "标注选中文字"
+
+[dr_paragraph]
+other = "标注这一段"
+
+[dr_close]
+other = "收起"
+
+[dr_comment]
+other = "修改意见"
+
+[dr_save]
+other = "保存标注"
+
+[dr_cancel]
+other = "取消"
+
+[dr_empty]
+other = "还没有标注。选中文字，或点击段落旁的加号。"
+
+[dr_saved]
+other = "已保存到本机，Agent 可回读。"
+
+[dr_pending]
+other = "正在保存或读取…"
+
+[dr_error]
+other = "未能保存或读取。请确认审阅服务仍在运行，保留输入后重试。"
+
+[dr_conflict]
+other = "其他窗口已更新标注。点击刷新标注，保留输入后重试。"
+
+[dr_locate]
+other = "定位原文"
+
+[dr_resolve]
+other = "标记已处理"
+
+[dr_reopen]
+other = "重新打开"
+
+[dr_edit]
+other = "编辑"
+
+[dr_archive]
+other = "归档"
+
+[dr_stale]
+other = "正文已变化，请结合引用重新核对。"
+
+[dr_open]
+other = "待处理"
+
+[dr_resolved]
+other = "已处理"
+
+[dr_hint]
+other = "仅本机草稿 · 标注自动写入本地文件，供 Agent 读取。"
+
+[dr_quote]
+other = "引用原文"
+
+[dr_unmatched]
+other = "需要重新定位"
+
+[dr_refresh]
+other = "刷新标注"
+
+[dr_changed]
+other = "预览与源文件版本不同，请刷新页面后继续标注。"

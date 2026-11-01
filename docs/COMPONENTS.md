@@ -25,6 +25,8 @@
 
 ## 正文组件总表
 
+本地草稿审阅：通过主题 `scripts/draft-review.py serve` 启动，仅显式草稿页加载段落／选文标注工具，意见保存为本地文件供Agent回读。无需shortcode，生产构建不加载。用法、限制与Agent命令见 [草稿审阅](DRAFT-REVIEW.md)，教程18提供演示入口。
+
 所有名字与 `layouts/shortcodes/` 一一对应。正文内用 `{{< ... >}}` 调用，成对组件的内部写 Markdown。不要把 `.hub-card`、`.runbook-part` 等内部 CSS 类当写作接口。
 
 | Shortcode | 参数、默认值和限制 | 何时使用 |

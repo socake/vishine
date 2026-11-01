@@ -36,7 +36,7 @@ Node依赖仅开发/构建需要，站点无需Node服务。主题与博客GitHu
 
 ## 设计依据
 
-继承 docs/DESIGN.md 的字体、paper/clean/dark token和阅读宽度，不另建视觉世界。文章内以参数、图形、解释顺序组织；小屏控制区换行，图形只在自身区域滚动。全屏使用浏览器Fullscreen API，失败显示提示。现有Mermaid与html-embed保持独立用途。
+继承 docs/DESIGN.md 的字体、paper/clean/dark token和阅读宽度，不另建视觉世界。文章内以参数、图形、解释顺序组织；小屏控制区换行，溢出的图形可局部滚动，纵向到达边界后继续滚动文章。全屏使用浏览器Fullscreen API，失败显示提示。现有Mermaid与html-embed保持独立用途。
 
 发布流水线在 Hugo 构建后扫描实际渲染的 JSON 配置，按同一协议检查参数覆盖结果；避免只检查主题示例而漏掉宿主新增文章。
 
@@ -71,3 +71,5 @@ Node依赖仅开发/构建需要，站点无需Node服务。主题与博客GitHu
 手机验收脚本`tests/mobile.browser.mjs`通过ego-browser受管Page运行。每次改变设备尺寸后重新启用TouchEmulation并断言pointer:coarse，避免仅缩小桌面视口就误报手机通过。CDP触点由实际元素矩形计算，并先检查命中元素，验证点按和边界滑动。新页面带本地测试查询参数以避免复用旧文档缓存，不清理用户缓存／登录信息。测试不等于实体iPhone、Android或Safari已验收。
 
 提交前边界回归：`tests/review-regressions.mjs` 接受受管 Page、结果目录和生产 manifest 中的 runtime 分块 URL，验证特殊分组名、多实例选择隔离与全屏退出焦点归属；配置边界见核心测试和 `scripts/check-interactive.py`。
+
+滚动回归：`tests/scroll.browser.mjs` 接受受管Page、结果目录及`{article, gpu}`预览URL。文章夹具依次包含紧凑grid、SVG图／表格及公式，GPU夹具用于密集grid。检查原生滚轮、PageDown、触控，以及大图内部滚动与边界衔接，不能只用CSS计算值宣称行为通过。

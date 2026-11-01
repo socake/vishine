@@ -528,3 +528,98 @@ other = "The lesson configuration could not be read. Check the configuration fil
 
 [interactive_initial]
 other = "Initial configuration (does not change with interaction)"
+
+# Local draft review
+
+[dr_previous]
+other = "Previous notes"
+
+[dr_next]
+other = "Next notes"
+
+[dr_discard]
+other = "This note has unsaved changes. Discard them and switch annotations?"
+
+[dr_selectionHint]
+other = "Select text within one paragraph first. Annotate multiple paragraphs separately."
+
+[dr_title]
+other = "Draft review"
+
+[dr_start]
+other = "Review draft"
+
+[dr_stop]
+other = "Stop review"
+
+[dr_selection]
+other = "Annotate selected text"
+
+[dr_paragraph]
+other = "Annotate paragraph"
+
+[dr_close]
+other = "Close"
+
+[dr_comment]
+other = "Revision note"
+
+[dr_save]
+other = "Save annotation"
+
+[dr_cancel]
+other = "Cancel"
+
+[dr_empty]
+other = "No annotations yet. Select text or use a paragraph button."
+
+[dr_saved]
+other = "Saved locally for your agent."
+
+[dr_pending]
+other = "Saving or loading…"
+
+[dr_error]
+other = "Could not save or load. Keep your note and check the review server."
+
+[dr_conflict]
+other = "Another window updated the review. Refresh annotations, then retry your note."
+
+[dr_locate]
+other = "Locate text"
+
+[dr_resolve]
+other = "Resolve"
+
+[dr_reopen]
+other = "Reopen"
+
+[dr_edit]
+other = "Edit"
+
+[dr_archive]
+other = "Archive"
+
+[dr_stale]
+other = "Source changed; recheck this quote."
+
+[dr_open]
+other = "Open"
+
+[dr_resolved]
+other = "Resolved"
+
+[dr_hint]
+other = "Local drafts only. Notes are stored in local files for your agent."
+
+[dr_quote]
+other = "Quoted text"
+
+[dr_unmatched]
+other = "Needs re-anchoring"
+
+[dr_refresh]
+other = "Refresh annotations"
+
+[dr_changed]
+other = "Preview and source differ. Reload the page before adding notes."

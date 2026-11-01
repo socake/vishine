@@ -25,3 +25,6 @@ node_modules/
 /.local/
 /assets/knowledge-dist/
 /packages/knowledge-engine/src/protocol/generated-validator.js
+
+# Python local review tools
+__pycache__/

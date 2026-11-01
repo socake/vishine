@@ -92,6 +92,8 @@ git diff --check
 
 ## 按需阅读
 
+- `docs/DRAFT-REVIEW.md`：本地草稿的段落／选文标注。用户要求按标注修订时，先用主题 `scripts/draft-review.py list --site <宿主> --article <content相对路径>` 读取open意见及原始引用，核对现有Markdown后修改并验证，再用resolve命令逐条写处理说明。未知定位或事实不清时保留open，不盲目替换，不自动发布。宿主无需添加模板／脚本，存储为独立本地数据。
+
 - `docs/COMPONENTS.md`：全部组件的选择、启用、参数与责任边界。
 - `docs/SPONSOR.md`：赞助卡片、二维码展示图与原图链接；更换图片时核对实际扫码结果。
 - `docs/CHANGELOG.md`：自动按月归档、文章排除、日期与手写更新日志迁移。

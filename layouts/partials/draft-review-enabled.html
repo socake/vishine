@@ -1,0 +1,1 @@
+{{- return (and hugo.IsServer .Draft .File (os.Getenv "HUGO_DRAFT_REVIEW_API") (os.Getenv "HUGO_DRAFT_REVIEW_TOKEN")) -}}
